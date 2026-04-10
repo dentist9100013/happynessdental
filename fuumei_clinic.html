@@ -1336,57 +1336,153 @@ body::before {
     font-size: 20px;
     flex-shrink: 0;
   }
-  .main { padding: 16px; }
-  .topbar { margin-bottom: 16px; }
-  .page-title { font-size: 20px; }
-  .page-title-icon { width: 34px; height: 34px; font-size: 16px; }
+  .main { padding: 14px; }
+
+  /* ── Topbar mobile ── */
+  .topbar {
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .page-title { font-size: 18px; gap: 8px; flex: 1; min-width: 0; }
+  .page-title-icon { width: 32px; height: 32px; font-size: 15px; flex-shrink: 0; }
+  .topbar-actions {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .date-chip { padding: 5px 10px; font-size: 11px; }
+  .btn { padding: 7px 12px; font-size: 12px; white-space: nowrap; }
+
+  /* ── Quick links: horizontal scroll ── */
+  .quick-links {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .quick-links::-webkit-scrollbar { display: none; }
+  .quick-link {
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+
+  /* ── Dashboard grid: single column, stat cards stacked ── */
   .dashboard-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .calendar-wrap {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .cal-day { min-height: 50px; padding: 4px 2px 3px; }
-  .day-num { font-size: 12px; }
-  .card { padding: 16px; border-radius: var(--r-md); }
-  .stat-value { font-size: 28px; }
-  .announce-page-list { gap: 10px; }
-  .announce-full { padding: 14px 16px; }
-  .mat-grid {
-    grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
-  .mat-card-img { height: 110px; }
-  .detail-modal { width: 95vw; max-height: 92vh; border-radius: var(--r-lg); }
-  .detail-modal-header { padding: 16px 18px 12px; }
-  .detail-modal-body { padding: 16px 18px 20px; }
-  .detail-modal-title { font-size: 16px; }
-  .mat-blog { width: 95vw; }
-  .mat-blog-hero { height: 180px; }
-  .mat-blog-content { padding: 20px; }
-  .modal { width: 92vw; padding: 20px; }
-  .event-modal { width: 92vw; }
-  .topbar-actions { gap: 6px; }
-  .btn { padding: 7px 12px; font-size: 12px; }
-  .date-chip { padding: 6px 10px; font-size: 12px; }
-  .cal-sidebar { gap: 12px; }
+  .span-2, .span-3 {
+    grid-column: span 1 !important;
+  }
+  .stat-value { font-size: 28px; }
+  .stat-label { font-size: 12px; }
+  .stat-trend { font-size: 11px; }
+
+  /* ── Cards ── */
+  .card { padding: 14px; border-radius: var(--r-md); }
+  .card-header { margin-bottom: 10px; }
+  .card-title { font-size: 14px; }
+  .card-icon { width: 28px; height: 28px; font-size: 14px; }
+
+  /* ── Dashboard announce items compact ── */
+  .announce-item { padding: 10px 12px; gap: 10px; }
+  .announce-title { font-size: 13px; }
+  .announce-meta { font-size: 11px; gap: 6px; flex-wrap: wrap; }
+  .announce-tag { font-size: 10px; padding: 2px 8px; }
+  .announce-dot { width: 6px; height: 6px; margin-top: 4px; }
+
+  /* ── Calendar mobile ── */
+  .calendar-wrap {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .cal-grid { padding: 14px; }
+  .cal-day { min-height: 44px; padding: 4px 2px 3px; }
+  .day-num { font-size: 12px; }
+  .day-event-label { font-size: 9px !important; }
+  .cal-month { font-size: 17px; }
+  .cal-nav-btn { width: 32px; height: 32px; font-size: 14px; }
+
+  /* Calendar sidebar: reorder - events first, form second */
+  .cal-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cal-sidebar .events-today { order: -1; }
+  .cal-sidebar .event-form { order: 1; }
+  .event-form { padding: 16px; }
   .form-title { font-size: 14px; }
-  .mat-tabs { gap: 6px; margin-bottom: 14px; }
-  .mat-tab { padding: 6px 12px; font-size: 12px; }
-  /* 隱藏桌面選單按鈕提示 */
+  .form-input, .form-select, .form-textarea { font-size: 14px; }
+
+  /* ── Announcements page mobile ── */
+  .announce-page-list { gap: 10px; }
+  .announce-full { padding: 12px 14px; }
+  .announce-full-title { font-size: 15px !important; }
+  .announce-full-meta { font-size: 11px; flex-wrap: wrap; }
+  #announce-search { width: 100% !important; }
+
+  /* ── Materials mobile ── */
+  .mat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mat-card-img { height: 100px; }
+  .mat-tabs { gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .mat-tab { padding: 6px 10px; font-size: 11px; }
+
+  /* ── Modals mobile ── */
+  .detail-modal { width: 95vw; max-height: 92vh; border-radius: var(--r-lg); }
+  .detail-modal-header { padding: 14px 16px 10px; }
+  .detail-modal-body { padding: 14px 16px 18px; }
+  .detail-modal-title { font-size: 15px; }
+  .mat-blog { width: 95vw; }
+  .mat-blog-hero { height: 160px; }
+  .mat-blog-content { padding: 16px; }
+  .modal { width: 94vw; padding: 18px; }
+  .event-modal { width: 94vw; }
+
+  /* ── AI Summary mobile ── */
+  .ai-summary-box { font-size: 13px; padding: 12px; }
+  .ai-topics { flex-wrap: wrap; gap: 6px; }
+  .ai-topic-chip { font-size: 11px; padding: 5px 10px; }
+
+  /* ── Timeline mobile ── */
+  .timeline { gap: 10px; }
+
+  /* ── Sidebar footer ── */
   .sidebar-footer { padding: 12px; }
 }
 
 @media (max-width: 480px) {
-  .mat-grid {
-    grid-template-columns: 1fr;
-  }
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  .topbar { flex-wrap: wrap; gap: 10px; }
+  .main { padding: 10px; }
+
+  /* Topbar */
+  .topbar { flex-wrap: wrap; gap: 6px; }
+  .topbar-actions { gap: 4px; }
+  .page-title { font-size: 16px; }
+  .date-chip { display: none; }
+
+  /* Announce items compact */
+  .announce-item { padding: 8px 10px; gap: 8px; }
+  .announce-title { font-size: 13px; line-height: 1.4; }
+  .announce-meta { font-size: 10px; gap: 4px; }
+  .announce-tag { font-size: 9px; padding: 2px 6px; }
+
+  /* Calendar extra compact */
+  .cal-day { min-height: 38px; padding: 3px 1px 2px; }
+  .day-num { font-size: 11px; }
+  .day-event-label { display: none !important; }
+  .day-dots { margin-top: 2px; }
+  .day-dot { width: 4px; height: 4px; }
+  .cal-grid { padding: 10px; }
+
+  /* Materials single column */
+  .mat-grid { grid-template-columns: 1fr; }
+
+  /* Announce search full width */
+  #announce-search { width: 100% !important; }
 }
 
 /* 桌面版隱藏手機選單按鈕 */
@@ -2767,7 +2863,8 @@ let announcements = [
     "pinned": true,
     "images": [
       "images/img_1775760515377.jpg",
-      "images/img_1775760515378.jpg"
+      "images/img_1775760515378.jpg",
+      "images/img_1775802390772.jpg"
     ]
   },
   {
@@ -3268,26 +3365,32 @@ let events = {
       "note": "改15:00開始看診"
     }
   ],
+  "2026-03-31": [
+    {
+      "name": "一樓suction機氣水分離裝置安裝",
+      "time": "12:00",
+      "type": "doctor",
+      "note": "中午昆霖來安裝，一般suction機暫時關閉，可改用停水用suction"
+    },
+    {
+      "name": "診所開會",
+      "time": "12:30",
+      "type": "meeting",
+      "note": ""
+    },
+    {
+      "name": "開會",
+      "time": "12:30",
+      "type": "meeting",
+      "note": ""
+    }
+  ],
   "2026-06-12": [
     {
       "name": "蕭醫師看診日異動",
       "time": "14:00",
       "type": "doctor",
       "note": "原6/13(六)改到6/12(五)下午"
-    }
-  ],
-  "2026-03-31": [
-    {
-      "name": "開會",
-      "time": "12:30",
-      "type": "meeting",
-      "note": ""
-    },
-    {
-      "name": "一樓suction機氣水分離裝置安裝",
-      "time": "12:00",
-      "type": "doctor",
-      "note": "中午昆霖來安裝，一般suction機暫時關閉，可改用停水用suction"
     }
   ],
   "2026-04-24": [
@@ -3595,25 +3698,49 @@ function renderTodayEvents(dateStr) {
   const d = dateStr || todayStr;
   const container = document.getElementById('events-today-list');
   if (!container) return;
-  const evts = events[d] || [];
   const colorMap = { meeting:'#6A5DCC', doctor:'#4A90D9', holiday:'#E25555', leave:'#E07F94', training:'#2E9E6B', maintenance:'#D98A1B', other:'#9A9590' };
-  const dateLabel = new Date(d).toLocaleDateString('zh-TW', { month:'long', day:'numeric' });
+  const typeLabel = { meeting:'🤝 會議', doctor:'👨‍⚕️ 醫師異動', holiday:'🎌 國定假日', leave:'🏖️ 休診/請假', training:'📚 教育訓練', maintenance:'🔧 設備/廠商', other:'📝 其他' };
 
-  if (evts.length === 0) {
-    container.innerHTML = `<div class="form-title" style="margin-bottom:12px">📌 ${dateLabel} 行程</div><div style="text-align:center;padding:24px;color:var(--ink-mute);font-size:13px;font-family:var(--font-display)">這天沒有行程 ✨</div>`;
-    return;
-  }
-  let html = `<div class="form-title" style="margin-bottom:12px">📌 ${dateLabel} 行程</div>`;
-  evts.forEach((e, idx) => {
-    html += `<div class="event-item" onclick="showEventDetail('${d}', ${idx})">
+  // Helper: render event items for a given date
+  function renderEvtList(date, evtArr) {
+    return evtArr.map((e, idx) => `<div class="event-item" onclick="showEventDetail('${date}', ${idx})">
       <div class="event-color-bar" style="background:${colorMap[e.type]||'var(--mint-dark)'}"></div>
       <div class="event-text">
         <div class="event-name">${e.name}</div>
         <div class="event-time">🕐 ${e.time}${e.note ? ' · ' + e.note : ''}</div>
       </div>
-      <button class="event-delete-btn" onclick="event.stopPropagation(); deleteEvent('${d}', ${idx})">🗑️</button>
+      <button class="event-delete-btn" onclick="event.stopPropagation(); deleteEvent('${date}', ${idx})">🗑️</button>
+    </div>`).join('');
+  }
+
+  const selectedEvts = events[d] || [];
+  const dateLabel = new Date(d + 'T00:00').toLocaleDateString('zh-TW', { month:'long', day:'numeric', weekday:'short' });
+
+  // Selected date section
+  let html = `<div class="form-title" style="margin-bottom:10px;font-size:16px">📌 ${dateLabel} 行程</div>`;
+  if (selectedEvts.length === 0) {
+    html += `<div style="text-align:center;padding:16px;color:var(--ink-mute);font-size:13px;font-family:var(--font-display)">這天沒有行程 ✨</div>`;
+  } else {
+    html += renderEvtList(d, selectedEvts);
+  }
+
+  // Upcoming events section: all dates after selected date
+  const allDates = Object.keys(events).sort();
+  const upcomingDates = allDates.filter(dt => dt > d && Array.isArray(events[dt]) && events[dt].length > 0);
+
+  if (upcomingDates.length > 0) {
+    html += `<div style="border-top:2px solid var(--border);margin:14px 0 10px;padding-top:14px">
+      <div class="form-title" style="margin-bottom:12px;font-size:15px">📅 後續行程</div>
     </div>`;
-  });
+    upcomingDates.slice(0, 15).forEach(dt => {
+      const label = new Date(dt + 'T00:00').toLocaleDateString('zh-TW', { month:'short', day:'numeric', weekday:'short' });
+      html += `<div style="font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--ink);margin:10px 0 6px;display:flex;align-items:center;gap:6px">
+        <span style="color:var(--mint-dark)">▸</span> ${label}
+      </div>`;
+      html += renderEvtList(dt, events[dt]);
+    });
+  }
+
   container.innerHTML = html;
 }
 
@@ -4166,19 +4293,12 @@ let materials = [
     "name": "3M Z350XT Flow",
     "cat": "restorative",
     "vendor": "德淵企業（3M）",
-    "img": "images/img_1775760515382.jpg",
-    "intro": "3M Filtek Z350XT 流動樹脂。適用於窩洞墊底、小型窩洞填補、裂溝封填等。衛署醫器輸字第022409號。",
+    "img": "images/img_1775802390773.jpg",
+    "intro": "3M Filtek Z350XT 流動樹脂，色號 A2。適用於窩洞墊底、小型窩洞填補、裂溝封填等。衛署醫器輸字第022409號。",
     "usage": "1. 酸蝕處理牙面後沖水吹乾<br>2. 塗布 Single Bond Universal 黏著劑並光照<br>3. 將 Z350XT Flow 注入窩洞，避免氣泡<br>4. 光照固化 20 秒（每層不超過 2mm）",
     "caution": "• 避免接觸未固化樹脂與皮膚<br>• 開封後注意蓋緊瓶蓋避免光照固化<br>• 保存於 2-25°C 陰涼處",
-    "images": [
-      "images/img_1775760515382.jpg"
-    ],
-    "links": [
-      {
-        "label": "相關收據",
-        "url": "https://www.dropbox.com/scl/fi/yh49j5wv15cyrm5s2utar/Fumei_1773831929941.jpg?rlkey=hllnhipxaln0evjxopdhga81z&dl=0"
-      }
-    ]
+    "link": "",
+    "dropbox": "https://www.dropbox.com/scl/fi/yh49j5wv15cyrm5s2utar/Fumei_1773831929941.jpg?rlkey=hllnhipxaln0evjxopdhga81z&dl=0"
   },
   {
     "id": 3,
@@ -4221,10 +4341,10 @@ let materials = [
     "name": "Tetric N-Bond (Vivadent)",
     "cat": "restorative",
     "vendor": "永豐牙科（Ivoclar Vivadent）",
-    "img": "images/img_1775760515384.jpg",
-    "intro": "光固化單劑型奈米優化黏著劑",
+    "img": "images/img_1775802390774.jpg",
+    "intro": "Ivoclar Vivadent 牙科黏著劑，適用於直接復形治療的黏著步驟。",
     "usage": "1. 酸蝕後沖水吹乾<br>2. 塗布 Tetric N-Bond 至牙面<br>3. 等待 10 秒讓溶劑揮發<br>4. 光照 10 秒固化",
-    "caution": "• 使用前回溫至室溫<br>• 避免混用不同品牌系統\n   <p>• 建議搭配 **N-Etch 磷酸蝕刻噴膠** 使用以達最佳效果。塗佈後需適度吹乾 (Air-thin) 至看到均勻反光層後再行照光。</p>",
+    "caution": "• 保存於 2-8°C 冰箱<br>• 使用前回溫至室溫<br>• 避免混用不同品牌系統",
     "link": "",
     "dropbox": "https://www.dropbox.com/scl/fi/lu3yltf31wjikq3sg2oaf/Fumei_1773842382828.jpg?rlkey=ss4nb9epeom3wojulg2tt9uy5&dl=0"
   },
@@ -4233,12 +4353,19 @@ let materials = [
     "name": "Denfil Etching 37%",
     "cat": "restorative",
     "vendor": "永豐牙科（Denfil）",
-    "img": "images/img_1775760515385.jpg",
+    "img": "images/img_1775802390775.jpg",
     "intro": "37% 磷酸酸蝕劑，用於樹脂充填前的琺瑯質/牙本質表面處理。",
     "usage": "1. 塗布於琺瑯質 15-30 秒<br>2. 牙本質限 15 秒<br>3. 充分沖水 15 秒<br>4. 輕吹乾（勿過度乾燥）",
     "caution": "• 37% 磷酸具腐蝕性，避免接觸軟組織<br>• 過度酸蝕會傷害牙本質<br>• 使用後確實沖水去除",
-    "link": "",
-    "dropbox": "https://www.dropbox.com/scl/fi/8n0nkdv304j29wa49kq14/Fumei_1773842850107.jpg?rlkey=mp6k2dufl9totlkou8c1x3e85&dl=0"
+    "images": [
+      "images/img_1775802390776.jpg"
+    ],
+    "links": [
+      {
+        "label": "Dropbox",
+        "url": "https://www.dropbox.com/scl/fi/8n0nkdv304j29wa49kq14/Fumei_1773842850107.jpg?rlkey=mp6k2dufl9totlkou8c1x3e85&dl=0"
+      }
+    ]
   },
   {
     "id": 8,
@@ -4269,7 +4396,7 @@ let materials = [
     "name": "3M Putty Soft 印模材",
     "cat": "restorative",
     "vendor": "德淵企業（3M）",
-    "img": "images/img_1775760515386.jpg",
+    "img": "https://www.dropbox.com/scl/fi/pdk17wqu4dw6dlpa5go83/Fumei_1773398900211.jpg?rlkey=tdiwolgjesekv95amhq2p3wog&raw=1",
     "intro": "3M 矽膠印模材（Putty），用於製作牙齒印模，取模精度高。",
     "usage": "1. 等量取出 Base 和 Catalyst<br>2. 混合至均勻（約 30 秒）<br>3. 放入印模托盤壓上牙齒<br>4. 等待固化（約 3-4 分鐘）後取下",
     "caution": "• 注意混合比例要等量<br>• 手套上的乳膠可能抑制固化<br>• 保存在陰涼處",
@@ -4281,24 +4408,32 @@ let materials = [
     "name": "Peso Reamer 32mm (#1-#4)",
     "cat": "endo",
     "vendor": "永豐牙科（Mani）",
-    "img": "https://www.treedental.com/media/catalog/product/cache/544ed28809aaec5a53850c842c6bd861/e/n/endo-rotary-files-TR-C304P.jpg",
+    "img": "images/img_1775802390777.png",
     "intro": "Mani Peso Reamer 32mm，#1-#4 號，用於根管口擴大及根管樁空間製備。",
     "usage": "1. 確認工作長度<br>2. 從小號依序使用至目標號數<br>3. 低速手機搭配使用<br>4. 每次退出清潔碎屑",
     "caution": "• 使用低速慢速旋轉<br>• 注意工作長度避免穿孔<br>• 單次使用後檢查是否變形",
-    "link": "",
-    "dropbox": "https://www.dropbox.com/scl/fi/lu3yltf31wjikq3sg2oaf/Fumei_1773842382828.jpg?rlkey=ss4nb9epeom3wojulg2tt9uy5&dl=0"
+    "images": [
+      "images/img_1775802390778.png"
+    ],
+    "links": [
+      {
+        "label": "Dropbox",
+        "url": "https://www.dropbox.com/scl/fi/lu3yltf31wjikq3sg2oaf/Fumei_1773842382828.jpg?rlkey=ss4nb9epeom3wojulg2tt9uy5&dl=0"
+      }
+    ]
   },
   {
     "id": 12,
     "name": "Peso Reamer 28mm (#1-#4)",
     "cat": "endo",
     "vendor": "永豐牙科（Mani）",
-    "img": "https://www.treedental.com/media/catalog/product/cache/544ed28809aaec5a53850c842c6bd861/e/n/endo-rotary-files-TR-C304P.jpg",
+    "img": "images/img_1775802390779.png",
     "intro": "Mani Peso Reamer 28mm 短柄版，適用於開口度較小或後牙區域的根管治療。",
     "usage": "同 32mm 版本使用方式，適合後牙區空間有限時",
     "caution": "• 短柄設計適合後牙使用<br>• 其餘注意同 32mm 版本",
-    "link": "",
-    "dropbox": ""
+    "images": [
+      "images/img_1775802390780.png"
+    ]
   },
   {
     "id": 13,
@@ -4329,12 +4464,23 @@ let materials = [
     "name": "Prosthetic KIT（奧齒泰）",
     "cat": "implant",
     "vendor": "奧齒泰有限公司",
-    "img": "https://www.dropbox.com/scl/fi/e15yp6dvhqodia7gvianv/Fumei_1773910419415.jpg?rlkey=bwxf0mguo17yq4czpkvabdns4&raw=1",
+    "img": "images/img_1775802390781.png",
     "intro": "Osstem 植牙贋復工具組，包含植牙假牙製作所需的各式螺絲起子、扭力板手等。",
     "usage": "1. 依植體系統選擇對應工具<br>2. 搭配扭力扳手使用<br>3. 遵循原廠建議扭力值",
     "caution": "• 專用工具勿混用他牌<br>• 使用後確實清潔滅菌<br>• 扭力值請依原廠規範",
-    "link": "",
-    "dropbox": "https://www.dropbox.com/scl/fi/e15yp6dvhqodia7gvianv/Fumei_1773910419415.jpg?rlkey=bwxf0mguo17yq4czpkvabdns4&dl=0"
+    "images": [
+      "images/img_1775802390782.png"
+    ],
+    "links": [
+      {
+        "label": "收據",
+        "url": "https://www.dropbox.com/scl/fi/e15yp6dvhqodia7gvianv/Fumei_1773910419415.jpg?rlkey=bwxf0mguo17yq4czpkvabdns4&dl=0"
+      },
+      {
+        "label": "內容物介紹",
+        "url": "https://www.dropbox.com/scl/fi/8wkn69qy3curob5hq28sc/Prosthetic-Kit-Contents.pdf?rlkey=c3k1nqcdlsku2sd2obmloe393&st=p29i12sp&dl=0"
+      }
+    ]
   },
   {
     "id": 16,
@@ -4352,13 +4498,20 @@ let materials = [
     "id": 17,
     "name": "Bio-MEM PTFE Membrane",
     "cat": "implant",
-    "vendor": "法蘭克福科技",
-    "img": "https://www.dropbox.com/scl/fi/7tm5550usr354f85xfqhh/Fumei_1774000062101.jpg?rlkey=6nkcqj3gdwfobpu2c1fu96760&raw=1",
+    "vendor": "法蘭克福科技(白色牙材)",
+    "img": "images/img_1775802390783.png",
     "intro": "PTFE 不可吸收再生膜（PM1424A），用於植牙骨引導再生術（GBR），阻擋軟組織長入骨缺損區。",
     "usage": "1. 依缺損區域修剪膜的大小<br>2. 覆蓋骨粉/骨缺損區<br>3. 膜須超出缺損邊緣 2-3mm<br>4. 以鈦釘或縫線固定",
     "caution": "• 不可吸收，需二次手術取出<br>• PTFE 材質不易感染<br>• 注意傷口張力避免膜暴露",
-    "link": "",
-    "dropbox": "https://www.dropbox.com/scl/fi/7tm5550usr354f85xfqhh/Fumei_1774000062101.jpg?rlkey=6nkcqj3gdwfobpu2c1fu96760&dl=0"
+    "images": [
+      "images/img_1775802390784.png"
+    ],
+    "links": [
+      {
+        "label": "Dropbox",
+        "url": "https://www.dropbox.com/scl/fi/7tm5550usr354f85xfqhh/Fumei_1774000062101.jpg?rlkey=6nkcqj3gdwfobpu2c1fu96760&dl=0"
+      }
+    ]
   },
   {
     "id": 18,
@@ -4381,8 +4534,23 @@ let materials = [
     "intro": "Kuraray PANAVIA V5 透明色樹脂水門汀，適用於全瓷冠/貼片/嵌體黏著，透光性佳。",
     "usage": "1. 搭配 Tooth Primer 處理牙面<br>2. 假牙內面塗布 Clearfil Ceramic Primer<br>3. 擠出 PANAVIA V5 PASTE<br>4. 就位後光照固化",
     "caution": "• CLEAR 色適合前牙美學區<br>• 搭配原廠 Primer 系統效果最佳<br>• 注意避光操作",
-    "link": "",
-    "dropbox": "https://www.dropbox.com/scl/fi/0ldl6u6gav2z102nvlhos/Fumei_1773978681282.jpg?rlkey=5kdxiqyqf4wbtss1rf6gawcwv&dl=0"
+    "images": [
+      "https://www.kuraraynoritake.com/world/product/cements/images/panavia_v5/main.jpg"
+    ],
+    "links": [
+      {
+        "label": "使用圖示",
+        "url": "https://www.dropbox.com/scl/fi/rsjtuz5o080fzwwkgos1d/image-workflow.jpg?rlkey=nhwpf2ofeao1f15gjacnttdu6&st=7e24viuc&dl=0"
+      },
+      {
+        "label": "使用英文說明書",
+        "url": "https://www.dropbox.com/scl/fi/jt6qdwmpna64gcqq9xj7q/Panavia-V5-brochure-updated-2023.pdf?rlkey=yp817fnivmbgg9a8dht0i8ppz&st=ctz5zr5h&dl=0"
+      },
+      {
+        "label": "中文說明書(無圖)",
+        "url": "https://www.dropbox.com/scl/fi/jib9wkd0thawmke1oarea/V5.pdf?rlkey=9o2ir8n13zkyv2s6aap1pjthp&st=s60q8wzm&dl=0"
+      }
+    ]
   },
   {
     "id": 20,
@@ -4557,12 +4725,13 @@ let materials = [
     "name": "麥迪康檢診手套 S",
     "cat": "supply",
     "vendor": "台灣醫康",
-    "img": "https://www.dropbox.com/scl/fi/g6drteyulb1068i6wdkxy/Fumei_1773910390713.jpg?rlkey=faj4x1mmz6zhplxdjb34fgv43&raw=1",
+    "img": "images/img_1775802390785.png",
     "intro": "Medicom 醫療檢診手套 S 號，乳膠/丁腈材質，拋棄式。",
     "usage": "治療前穿戴，每位病患更換",
     "caution": "• 注意乳膠過敏者改用丁腈款<br>• S 號適合手較小者",
-    "link": "",
-    "dropbox": ""
+    "images": [
+      "images/img_1775802390786.png"
+    ]
   },
   {
     "id": 35,
