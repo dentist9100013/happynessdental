@@ -2709,7 +2709,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260410';"
+      "const DATA_VERSION = '20260411';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -2768,7 +2768,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '" + ver + "';"
+      "const DATA_VERSION = '20260411';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -2841,15 +2841,24 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260410b';
+const DATA_VERSION = '20260411';
 
 // ─── DATA ───
 let announcements = [
   {
+    "id": 1775862469017,
+    "title": "📋 下週醫師約診空檔提醒",
+    "type": "info",
+    "body": "下週約診請注意醫師空檔時間，盡量幫醫師約診排滿：<br><br>• 4/13（一）午診 兒林醫師 — 空檔 45 分鐘<br>• 4/16（四）晚診 女黃醫師 — 空檔 30 分鐘<br><br>請櫃檯同仁留意安排。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
     "id": 1744339200001,
     "title": "📅 5月助理排班公告（Elena／Mina）",
     "type": "info",
-    "body": "以下為5月助理排班安排：\n\nElena：每週二早診、午診；5/28（四）午診。\n\nMina：每週二早診；每週六早診、午診；5/27（三）午診、晚診。\n\n另，Mina 於4月期間每週二早診與週六早診、午診先至福美學習，5月起正式兼職上班。",
+    "body": "以下為5月助理排班安排：\n\nElena：每週二早診\n<br>Mina：星期1-5:早。5/6.13.27（三）：午晚。5/2.9.23.30（六）：整天都可排",
     "author": "LINE 同步",
     "time": "04/09 09:14"
   },
