@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>福美牙醫 — 院內資訊系統</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -1553,6 +1556,7 @@ body::before {
       <button onclick="document.getElementById('import-file-input').click()" style="width:100%;margin-top:4px;padding:8px;border:1.5px solid var(--border);border-radius:var(--r-sm);background:transparent;color:var(--ink-soft);font-size:11px;font-family:var(--font-display);cursor:pointer" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">📂 匯入備份資料</button>
       <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importData(event)">
       <button onclick="resetAllData()" style="width:100%;margin-top:4px;padding:8px;border:1.5px solid var(--border);border-radius:var(--r-sm);background:transparent;color:var(--ink-mute);font-size:11px;font-family:var(--font-display);cursor:pointer;opacity:0.6" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">🔄 恢復初始資料</button>
+      <button onclick="forceReloadFromFile()" style="width:100%;margin-top:4px;padding:8px;border:1.5px solid #4A90D9;border-radius:var(--r-sm);background:#EEF5FF;color:#2567A4;font-size:11px;font-family:var(--font-display);cursor:pointer;font-weight:700" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'" title="清除此瀏覽器的快取，重新讀取檔案最新資料">🔃 強制重新讀取檔案</button>
     </div>
   </aside>
 
@@ -2558,6 +2562,17 @@ function resetAllData() {
   if (!confirm('確定要恢復所有資料為初始狀態嗎？\n這會清除所有手動修改的內容！')) return;
   Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k));
   location.reload();
+}
+
+function forceReloadFromFile() {
+  // Clear ALL localStorage for this page so the browser re-reads everything from the HTML file
+  try {
+    localStorage.clear();
+    sessionStorage.clear();
+  } catch(e) {}
+  // Force bypass HTTP cache with a timestamp query param (works for file:// and http://)
+  const url = location.href.split('?')[0];
+  location.replace(url + '?v=' + Date.now());
 }
 
 // ─── 匯出/匯入資料 ───
