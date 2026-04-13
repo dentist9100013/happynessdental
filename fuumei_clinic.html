@@ -2593,7 +2593,7 @@ function exportData() {
 // ─── 儲存變更到 HTML 檔案本身 ───
 let _dirHandle = null;
 let _fileHandle = null;
-let _imgCounter = Date.now();
+// _imgCounter removed - now using content hash for filenames
 
 function _serializeJS(varName, data, indent) {
   const json = JSON.stringify(data, null, indent || 2);
@@ -2611,24 +2611,42 @@ function _base64ToBlob(dataUrl) {
   const bin = atob(b64);
   const arr = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
-  return { blob: new Blob([arr], { type: mime }), mime };
+  return { blob: new Blob([arr], { type: mime }), mime, b64 };
 }
 
-function _genImgFilename(mime) {
-  const ext = mime === 'image/png' ? 'png' : mime === 'image/webp' ? 'webp' : mime === 'image/gif' ? 'gif' : 'jpg';
-  _imgCounter++;
-  return 'img_' + _imgCounter + '.' + ext;
+// Simple hash from base64 string (first 2000 chars + length) to detect duplicates
+function _hashBase64(b64str) {
+  const sample = b64str.substring(0, 2000) + '|' + b64str.length;
+  let h = 0;
+  for (let i = 0; i < sample.length; i++) {
+    h = ((h << 5) - h + sample.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h).toString(36);
 }
+
+function _genImgFilename(mime, hash) {
+  const ext = mime === 'image/png' ? 'png' : mime === 'image/webp' ? 'webp' : mime === 'image/gif' ? 'gif' : 'jpg';
+  return 'img_' + hash + '.' + ext;
+}
+
+// Track already-seen hashes to avoid writing the same image twice
+const _seenImageHashes = {};
 
 function _extractBase64FromData() {
   const pendingFiles = [];
 
   function replaceIfBase64(val) {
     if (!_isBase64(val)) return val;
-    const { blob, mime } = _base64ToBlob(val);
-    const filename = _genImgFilename(mime);
-    pendingFiles.push({ filename, blob });
-    return 'images/' + filename;
+    const { blob, mime, b64 } = _base64ToBlob(val);
+    const hash = _hashBase64(b64);
+    const filename = _genImgFilename(mime, hash);
+
+    // If we already processed this exact image content, just reuse the path
+    if (!_seenImageHashes[hash]) {
+      _seenImageHashes[hash] = filename;
+      pendingFiles.push({ filename, blob });
+    }
+    return 'images/' + _seenImageHashes[hash];
   }
 
   announcements.forEach(a => {
@@ -2706,10 +2724,10 @@ async function saveToFile() {
     );
 
     const today = new Date();
-    const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
+    const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260411';"
+      "const DATA_VERSION = '202604132322';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -2765,10 +2783,10 @@ function _saveToFileByDownload() {
     );
 
     const today = new Date();
-    const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
+    const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260411';"
+      "const DATA_VERSION = '" + ver + "';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -2858,7 +2876,7 @@ let announcements = [
     "id": 1744339200001,
     "title": "📅 5月助理排班公告（Elena／Mina）",
     "type": "info",
-    "body": "以下為5月助理排班安排：\n\nElena：每週二早診\n<br>Mina：星期1-5:早。5/6.13.27（三）：午晚。5/2.9.23.30（六）：整天都可排",
+    "body": "5月幫忙的助理上班時間：\n更新～5月幫忙的助理上班時間\n\n<br>👉Elena\n週二早、午\n\n<br>👉Mina\n星期1-5:早。\n5/6.13.27（三）：午晚。\n5/2.9.23.30（六）：整天都可排。",
     "author": "LINE 同步",
     "time": "04/09 09:14"
   },
@@ -3512,6 +3530,22 @@ let events = {
       "time": "00:00",
       "type": "meeting",
       "note": "可以申報92133C"
+    }
+  ],
+  "2026-04-14": [
+    {
+      "name": "診所開會",
+      "time": "12:30",
+      "type": "meeting",
+      "note": ""
+    }
+  ],
+  "2026-04-28": [
+    {
+      "name": "診所開會",
+      "time": "12:30",
+      "type": "meeting",
+      "note": ""
     }
   ]
 };
