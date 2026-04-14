@@ -2742,7 +2742,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202604132322';"
+      "const DATA_VERSION = '20260414';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -2801,7 +2801,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '" + ver + "';"
+      "const DATA_VERSION = '20260414';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -2874,10 +2874,37 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260411';
+const DATA_VERSION = '20260414';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1776121698793,
+    "title": "📅 5月助理排班更新",
+    "type": "info",
+    "body": "5月幫忙的助理上班時間更新：\n\n<br>👉 Elena：週二早、午\n\n<br>👉 Mina：\n・週一至週五：早診\n・5/6、5/13、5/27（三）：午晚\n・5/2、5/9、5/23、5/30（六）：整天都可排",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1776121698794,
+    "title": "🪥 居家美白庫存位置",
+    "type": "info",
+    "body": "居家美白庫存放在二樓的冰箱裡。（4/13 18:37）",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1776121698795,
+    "title": "🦷 根尖片照射頭鬆動已處理",
+    "type": "info",
+    "body": "根尖片的照射頭有點鬆，已用六角板手稍微鎖緊。板手放在旁邊備用，請留意設備狀況。（4/13 17:58）",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
   {
     "id": 1775862469017,
     "title": "📋 下週醫師約診空檔提醒",
@@ -2886,14 +2913,6 @@ let announcements = [
     "author": "LINE 同步",
     "time": "剛剛",
     "pinned": false
-  },
-  {
-    "id": 1744339200001,
-    "title": "📅 5月助理排班公告（Elena／Mina）",
-    "type": "info",
-    "body": "5月幫忙的助理上班時間：\n更新～5月幫忙的助理上班時間\n\n<br>👉Elena\n週二早、午\n\n<br>👉Mina\n星期1-5:早。\n5/6.13.27（三）：午晚。\n5/2.9.23.30（六）：整天都可排。",
-    "author": "LINE 同步",
-    "time": "04/09 09:14"
   },
   {
     "id": 1775754832524,
@@ -3561,6 +3580,14 @@ let events = {
       "time": "12:30",
       "type": "meeting",
       "note": ""
+    }
+  ],
+  "2026-05-06": [
+    {
+      "name": "顏醫師下午加手術",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/6（三）下午顏醫師有加手術"
     }
   ]
 };
