@@ -2743,7 +2743,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260414';"
+      "const DATA_VERSION = '20260416';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -2802,7 +2802,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260414';"
+      "const DATA_VERSION = '20260416';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -2875,10 +2875,100 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260414';
+const DATA_VERSION = '20260416';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1744773600001,
+    "title": "🔧 水雷射設備異常回報（待工程師檢測）",
+    "type": "urgent",
+    "body": "【2026-04-15 LINE 訊息】水雷射有時出現「預燃失敗」以及「出水量異常」，已通知工程師聯繫檢測。如診療中遇到相關問題，請先記錄並通知管理人員。",
+    "author": "LINE 同步",
+    "time": "04/15",
+    "pinned": false
+  },
+  {
+    "id": 1744773600002,
+    "title": "🛋️ Threeway 診療椅（1-5診）全數更新完畢",
+    "type": "info",
+    "body": "【2026-04-15 LINE 訊息】Threeway 目前五台舊的診療椅都已更新完畢，漏水問題應獲改善。若噴氣時仍有漏水，基本上為 tip 太舊，請直接淘汰更換。",
+    "author": "LINE 同步",
+    "time": "04/15",
+    "pinned": false
+  },
+  {
+    "id": 1744773600003,
+    "title": "📋 P3601 申報重要規範：必須先確認「讀雲端藥歷」",
+    "type": "urgent",
+    "body": "【2026-04-15 LINE 訊息】申報 P3601 最重要一點：一定要「讀雲端藥歷」，否則不能申報！\n\n【流程】：\n• 若一開始即知病患為 P3601 → 由櫃檯先讀雲端\n• 若診療中才發現需申報 → 醫師提醒助理或櫃檯讀雲端\n• 病歷上請貼 P3601 貼紙，方便櫃檯識別\n• 114年12月有申報 P3601 但未讀雲端的病人資料，請特別留意補正",
+    "author": "LINE 同步",
+    "time": "04/15",
+    "pinned": false
+  },
+  {
+    "id": 1744773600004,
+    "title": "🌟 助理管理幹部優良表現表揚（記1優）",
+    "type": "general",
+    "body": "【2026-04-15 LINE 訊息】診所擴大經營不易，表揚以下管理幹部優良表現，各記 1 優：\n\n• 林芷晴（管錢/特助）：記得顏醫師各習慣，讓人驚艷，記帳做得很好\n• Min（管人）：立即協助溝通與分配，特別應對臨時請假/離職狀況\n• 璟妤（副管）：能協助管人&錢的最佳後盾，穩住無大狀況",
+    "author": "LINE 同步",
+    "time": "04/15",
+    "pinned": false
+  },
+  {
+    "id": 1744773600005,
+    "title": "📅 Mina 5月排班目標：21診 + 中階/進階培訓",
+    "type": "info",
+    "body": "【2026-04-15 LINE 訊息】\n• Mina 5月要排 21 診\n• 4-5月期間，請協助讓 Mina 達成「中階+進階櫃檯的 1/2」目標\n• 可幫忙教學的人員：有考過的助理皆可協助\n• 可進行考核的人員：I、T、J、H、S",
+    "author": "LINE 同步",
+    "time": "04/15",
+    "pinned": false
+  },
+  {
+    "id": 1744773600006,
+    "title": "💬 管理部提醒：醫療人員態度規範",
+    "type": "general",
+    "body": "【2026-04-15 管理部訊息】有時候醫生介意的並不只是實質上的問題，而是態度。診所內人員應保持嚴謹以及專業的態度。",
+    "author": "LINE 同步",
+    "time": "04/15",
+    "pinned": false
+  },
+  {
+    "id": 1744773600007,
+    "title": "📋 護照考核加薪制度再提醒",
+    "type": "info",
+    "body": "【2026-04-15 管理部訊息】護照考核加薪一直都在進行中，助理需「主動」找「考過的助理」考核。\n\n• 盡量找幹部以上（櫃檯 I/J/T/S、跟診 I/J/H/S）或 Yuki（儲備久任）\n• 只要助理「有空即可找人考」\n• 幹部以上通常有稍多職務加給或紅利，偶可協助考幾題",
+    "author": "LINE 同步",
+    "time": "04/15",
+    "pinned": false
+  },
+  {
+    "id": 1776208089913,
+    "title": "📋 Try療程約診備註規定（管理部公告）",
+    "type": "info",
+    "body": "若有要Try的療程(不管是Try Cr/Temp)，跟診助理請記得下次約診要寫到「Try」的字眼，櫃檯助理約診備註請都要打「Try」的字眼，這樣才能針對關鍵字列印要找case清單。⚠️若被發現約診備註未打「Try」，會看是誰約診的，視情況記警告或記點。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776208089914,
+    "title": "🦷 印模後約診備註需標記技工所名稱",
+    "type": "info",
+    "body": "印模時，麻煩跟診助理要記得在下次try的前面加上⚠️「技工所的名稱」，方便後續確認模型是否送到。例如: 箐群 try crown。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776208089915,
+    "title": "🪥 診所 Zoo 吸管公用通知",
+    "type": "info",
+    "body": "診所目前有三條Zoo，白色那個是之前買的副廠，目前沒再用，整理時發現，已拿出來公用。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1776121698793,
     "title": "📅 5月助理排班更新",
