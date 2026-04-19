@@ -1524,7 +1524,10 @@ body::before {
       </div>
       <div class="nav-item" onclick="showSection('announcements', this)">
         <span class="nav-icon">📢</span> 公告欄
-        <span class="nav-badge">18</span>
+        <span class="nav-badge">58</span>
+      </div>
+      <div class="nav-item" onclick="showSection('archived-announcements', this); renderArchivedAnnouncements();">
+        <span class="nav-icon">📚</span> 舊公告
       </div>
 
       <div class="nav-item" onclick="showSection('clinic-info', this)">
@@ -1789,6 +1792,26 @@ body::before {
 
       <div id="announce-search-info" style="display:none;font-size:12px;color:var(--ink-mute);font-family:var(--font-display);font-weight:700;margin-bottom:10px"></div>
       <div class="announce-page-list" id="announce-list"></div>
+    </section>
+
+    <!-- ────────────── ARCHIVED ANNOUNCEMENTS ────────────── -->
+    <section id="section-archived-announcements" class="section">
+      <div class="topbar">
+        <div class="page-title">
+          <div class="page-title-icon">📚</div>
+          舊公告（歷史檔案）
+        </div>
+        <div class="topbar-actions">
+          <input type="text" class="form-input" id="archived-search" placeholder="🔍 搜尋舊公告..." oninput="renderArchivedAnnouncements()" style="width:240px;font-size:13px;padding:8px 14px;border-radius:var(--r-xl);border:2px solid var(--border);font-family:var(--font-display)">
+          <span style="font-size:11px;color:var(--ink-mute);font-family:var(--font-display);font-weight:700;padding:6px 12px;background:var(--cream);border-radius:20px">🔒 唯讀</span>
+        </div>
+      </div>
+      <div id="archived-search-info" style="display:none;font-size:12px;color:var(--ink-mute);font-family:var(--font-display);font-weight:700;margin-bottom:10px"></div>
+      <div id="archived-intro" style="background:var(--cream);border:1.5px dashed var(--border);border-radius:var(--r-md);padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--ink-mute);line-height:1.7">
+        <div style="font-weight:800;color:var(--ink);margin-bottom:6px;font-family:var(--font-display)">📚 歷史公告封存區</div>
+        這裡存放過去月份已歸檔的公告，相似主題已自動整合成彙整公告以利回顧。此區為<strong>唯讀模式</strong>，無法編輯或刪除。若需修改請至「公告欄」。
+      </div>
+      <div class="announce-page-list" id="archived-list"></div>
     </section>
 
     <!-- ────────────── AI WEEKLY ────────────── -->
@@ -2910,16 +2933,16 @@ let announcements = [
     "id": 1776467362898,
     "title": "👦🏻 邱柏智醫師（贗復專科）介紹",
     "type": "info",
-    "body": "【2026-04-17 LINE 訊息】歡迎邱柏智醫師（80年次）加入福美團隊！\n\n• 北醫贗復碩士（八月完訓畢）\n• 預計 5/20（三）午晚 開始上班\n• 八月研究所畢業、九月準備專科考試，預計十月後增加數診\n• 擅長 CD/RPD，其他一般牙科也可接\n• 阿根廷 University of Buenos Aires (UBA) 牙醫系畢業\n• 在台通過學歷甄試與牙醫執照，並於永和耕莘住院受訓 2 年（PGY）\n• 目前牙醫臨床 5–6 年\n• 可使用中文／台語／英文／西班牙文\n\n之後會在福美協助假牙的部分，請各位醫師同仁們多多指教！",
+    "body": "【2026-04-17 LINE 訊息】歡迎邱柏智醫師（80年次）加入福美團隊！<br><br><strong>📅 上班時間</strong><br>• 預計 5/20（三）午晚 開始上班<br>• 每週三 午、晚<br>• 八月研究所畢業、九月準備專科考試<br>• 預計十月後增加診次<br><br><strong>🎓 學經歷</strong><br>• 北醫贗復碩士（八月完訓畢）<br>• 阿根廷 University of Buenos Aires (UBA) 牙醫系畢業<br>• 在台通過學歷甄試與牙醫執照<br>• 永和耕莘住院受訓 2 年（PGY）<br>• 目前牙醫臨床 5–6 年<br><br><strong>🦷 專長</strong><br>• 主要：CD／RPD（全口、局部活動假牙）<br>• 其他一般牙科也可接<br><br><strong>🗣️ 語言能力</strong><br>中文／台語／英文／西班牙文<br><br>💬 之後會在福美協助假牙的部分，請各位醫師同仁們多多指教！",
     "author": "LINE 同步",
     "time": "剛剛",
     "pinned": false
   },
   {
     "id": 1776467362899,
-    "title": "👩🏻 王韻婷醫師（一般 GP）介紹",
+    "title": "👩🏻 王韻婷醫師（一般 GP）介紹與排班",
     "type": "info",
-    "body": "【2026-04-17 LINE 訊息】歡迎王韻婷醫師（79年次）加入福美團隊！\n\n• 北醫畢，一般 GP\n• 兒林醫師定檢小朋友可約她\n• 住東門附近，認同我們的理念，喜歡唱歌（星期四五在台北市診所支援）\n• 四月看診時間：4/28（二）晚\n• 五月看診時間：5/4（一）晚、5/5（二）晚、5/9（六）早午、5/11（一）晚\n• 醫師出國至 6/4\n• 六月後上班時間：星期一午晚、星期二晚、星期六早午\n\n如卡到多人上班可先劃休她。",
+    "body": "【2026-04-17 LINE 訊息｜已整合 4/28 加診訊息】歡迎王韻婷醫師（79年次）加入福美團隊！<br><br><strong>🎓 學經歷</strong><br>• 北醫畢，一般 GP 醫師<br>• 住東門附近，認同我們的理念<br>• 喜歡唱歌<br>• 星期四、五在台北市診所支援<br><br><strong>👶 適合轉診的病人</strong><br>兒林醫師定檢的小朋友可約她<br><br><strong>📅 四月看診時間</strong><br>• 4/28（二）晚 ← 加診場，請大家協助幫 Dr.王 約滿！<br><br><strong>📅 五月看診時間</strong><br>• 5/4（一）晚<br>• 5/5（二）晚<br>• 5/9（六）早、午<br>• 5/11（一）晚<br>• ⚠️ 醫師出國至 6/4<br><br><strong>📅 六月起常態班表</strong><br>• 星期一 午、晚<br>• 星期二 晚<br>• 星期六 早、午<br><br>📝 約診方式比照一般 GP 醫師；如卡到多人上班可先劃休她。",
     "author": "LINE 同步",
     "time": "剛剛",
     "pinned": false
@@ -2965,15 +2988,6 @@ let announcements = [
     "title": "📋 115年5月起點值制度更新",
     "type": "info",
     "body": "115年5月起制度調整：\n1. 兼職轉換正職點值由 3.53 調整為 3.55（感謝 Mina 認真審視內部制度）\n   ＊所有 3.53 相關項目一律改為 3.55\n2. 矯正櫃檯 Dr.李 加給改為 $100\n\n請管理部（林芷晴、璟妤）修正助理手冊及工版合約，並請 Min 確認。",
-    "author": "LINE 同步",
-    "time": "剛剛",
-    "pinned": false
-  },
-  {
-    "id": 1776380857775,
-    "title": "🦷 4/28（一）晚上王醫師加診",
-    "type": "info",
-    "body": "4/28（一）晚上，王醫師將前來看診。\n請大家一起協助幫 Dr. 王 約滿！\n王醫師比照一般 GP 醫師約診方式。",
     "author": "LINE 同步",
     "time": "剛剛",
     "pinned": false
@@ -3397,174 +3411,72 @@ let announcements = [
     "body": "李醫師排班16:00上班時，午晚班請記得設定30分鐘勿約（時段為17:15–18:15，由李醫師自行選擇其中30分鐘設定）。",
     "author": "LINE 同步",
     "time": "04/01 00:14"
+  }
+];
+
+let archivedAnnouncements = [
+  {
+    "id": 1711929600101,
+    "title": "🔧 三月份設備維護與更新彙整",
+    "type": "info",
+    "body": "【2026年3月｜設備相關彙整 5 則】<br><br><strong>🪑 1-3 診 Three Way 已更新（03/28）</strong><br>1-3 診的 three way 已更新，剩下 4 診和樓上 8 診，下次材料到再更新。舊診療椅 three way 水線管線卡垢較多，已請昆霖更換。<br><br><strong>💧 一樓 Suction 機氣水分離裝置安裝（03/30）</strong><br>3/31（二）中午昆霖將來安裝一樓 suction 機的氣水分離裝置，屆時一般 suction 機會暫時關閉。如有需要，請改用停水用 suction。<br><br><strong>🧼 水雷射清洗刷具已購入（03/25）</strong><br>Ivy 姊有買一個可以洗水雷射瓶子的刷子，放在消毒室呦！<br><br><strong>⚠️ 水雷射使用注意 — 線材 10–40 萬（03/11）</strong><br>• 水雷射要推到底下架子最前方，以免醫師使用時線被不當拉扯<br>• 後方要塞東西固定，否則前後滑動前面的線容易勾到壞掉<br>• 線很昂貴（10–40 萬），助理與醫師使用時請小心！<br><br><strong>🏥 2 樓 W&H 消毒鍋安裝完成（03/19）</strong><br>2 樓技工室的 W&H 消毒鍋安裝完成，不需加水、排水，消毒鍋會自動進水與排水。手術器械、手機、植牙 kit 麻煩大家多多使用。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/03",
+    "pinned": false
   },
   {
-    "id": 1711929600001,
-    "title": "🔧 3/31 一樓 Suction 機氣水分離裝置安裝通知",
+    "id": 1711929600102,
+    "title": "💰 三月份收費與約診規則彙整",
     "type": "info",
-    "body": "3/31（二）中午昆霖將來安裝一樓 suction 機的氣水分離裝置，屆時一般 suction 機會暫時關閉。如有需要，請改用停水用 suction。",
-    "author": "LINE 同步",
-    "time": "03/30 13:13"
+    "body": "【2026年3月｜收費與約診規則彙整 7 則】<br><br><strong>⚠️ 掛號費收費標準（03/28）</strong><br>請依病人身份收費：<br>• 一般白天（優）150 元<br>• 晚上／假日 200 元<br>• 員工親友 & 特殊 50 元<br>• 長優好病人 100 元<br>• 成美／廠商介紹 100 元<br>• 國鉅富社區 100 元<br>@Tina 麻煩加入櫃台講義。<br><br><strong>💸 匯款金額規定（03/28）</strong><br>金額必須五萬「以上」才能使用匯款，除非特殊情況，請特別說明清楚是五萬元以上。<br><br><strong>📅 約診規則：只開放 3 個月內（03/25）</strong><br>診所目前設定：約診只開放 3 個月內，超過 3 個月以上請病人再自行約診。系統有設定半年會通知病人需回診訊息。<br><br><strong>❗ DR 男黃 晚間約診規則（03/24）</strong><br>即日起 DR 男黃：<br>• 20:30 不接現場<br>• 20:15 後只約定檢<br>• 20:45 設勿約（接小孩）<br><br><strong>👩‍⚕️ 口袋名單約診 SOP（03/11）</strong><br>• 醫師有空檔時，需先以口袋名單約回看診，讓病人知道我們有積極性，盡快處理<br>• 顏醫師有空檔時，盡量以植牙、牙周、美學、雷射治療項目為主<br><br><strong>📞 Call 病患注意事項（03/21）</strong><br>Call 病患目的是表達我們有「認真」看診，收了定金會好好處理，有空會安排不拖延。<br><br><strong>👛 自費本（金本）已增加（03/17）</strong><br>自費本（金本）已增加 2 本。目前櫃檯、2 樓各有 1 本，中央櫃（pano 櫃）有 2 本。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/03",
+    "pinned": false
+  },
+  {
+    "id": 1711929600103,
+    "title": "🏥 三月份環境與整潔規範彙整",
+    "type": "general",
+    "body": "【2026年3月｜環境整潔相關 3 則】<br><br><strong>🥤 診間整潔：飲料與私人物品請收好（03/30）</strong><br>請全體同仁將飲料或私人物品收放在診間內病患看不到的地方，維持診間專業整潔形象。<br><br><strong>♻️ 垃圾分類請確實（03/28）</strong><br>• 一般紙類要放垃圾場門口外面紙箱那堆<br>• 兩個黃箱子只能放「液態」或「餐食」的紙容器<br>• 一般紙類與紙箱要丟外面<br>• 如果不確定麻煩不要亂丟，會造成社區困擾<br><br><strong>🍽️ 廚房使用與餐盤清洗（03/12）</strong><br>• 廚房的烘碗機、電池爐、微波爐都可使用<br>• 餐盤杯碗如果不太髒可在廁所洗<br>• 太油的湯水包起來丟垃圾桶，不要倒馬桶以免阻塞管路",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/03",
+    "pinned": false
+  },
+  {
+    "id": 1711929600104,
+    "title": "📝 三月份行政作業規範彙整",
+    "type": "info",
+    "body": "【2026年3月｜行政作業相關 3 則】<br><br><strong>📋 櫃檯每週二檢查醫師空檔（03/10）</strong><br>每週二早上的櫃檯助理多一項工作：「檢查當週醫師空檔並 po 群組告知」，讓大家能即時安排約診。<br><br><strong>📍 打卡鐘與行政事務位置（03/09）</strong><br>• 打卡鐘設在書櫃旁邊<br>• 每月行政事務與打掃的單子，在休息室的門上<br><br><strong>📝 植牙保固簽署流程（03/29）</strong><br>植牙保固是「全診所醫師」植牙完成都要簽。假牙裝戴完成日期／植牙醫師那格，可直接蓋醫師章（上有日期）。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/03",
+    "pinned": false
   },
   {
     "id": 1711929600002,
     "title": "📋 本週 TRY 排程表（03/30–04/03）",
     "type": "info",
-    "body": "03/30（一）10:30 黃柏鈞／蕭培倫 46try；03/31（二）10:00 洪秉琁／廖怡慧 #11.12.14.15.21 TRY、14:30 許宗英／許凱勝 15try、14:30 黃柏鈞／洪萬賀 TRY METAL+RPD、15:00 洪秉琁／馬崇人 #36 TRY、16:30 黃柏鈞／陳美鳳 #11 TRY；04/01（三）19:00 陳卓毅／許凱程 #14.16 INLAY TRY；04/02（四）17:00 洪秉琁／劉慶良 TRY；04/03（五）16:45 許宗英／陳奕君 re-try。請櫃檯印出貼於櫃台，負責人前一天確認模型是否送達。",
+    "body": "【2026-03-30 LINE 訊息】本週 TRY 排程表<br><br><strong>03/30（一）</strong><br>• 10:30 黃柏鈞／蕭培倫 46try<br><br><strong>03/31（二）</strong><br>• 10:00 洪秉琁／廖怡慧 #11.12.14.15.21 TRY<br>• 14:30 許宗英／許凱勝 15try<br>• 14:30 黃柏鈞／洪萬賀 TRY METAL+RPD<br>• 15:00 洪秉琁／馬崇人 #36 TRY<br>• 16:30 黃柏鈞／陳美鳳 #11 TRY<br><br><strong>04/01（三）</strong><br>• 19:00 陳卓毅／許凱程 #14.16 INLAY TRY<br><br><strong>04/02（四）</strong><br>• 17:00 洪秉琁／劉慶良 TRY<br><br><strong>04/03（五）</strong><br>• 16:45 許宗英／陳奕君 re-try<br><br>📝 請櫃檯印出貼於櫃台，負責人前一天確認模型是否送達。",
     "author": "LINE 同步",
-    "time": "03/30 08:32"
-  },
-  {
-    "id": 1711929600003,
-    "title": "🏥 診間整潔：飲料與私人物品請收好",
-    "type": "info",
-    "body": "請全體同仁將飲料或私人物品收放在診間內病患看不到的地方，維持診間專業整潔形象。",
-    "author": "LINE 同步",
-    "time": "03/30 17:14"
-  },
-  {
-    "id": 1,
-    "title": "⚠️ 掛號費收費標準提醒",
-    "type": "urgent",
-    "body": "掛號收費請注意「病人身份」：一般白天（優）150元、晚上/假日 200元、員工親友&特殊 50元、長優好病人 100元、成美/廠商介紹 100元、國鉅富社區 100元。@Tina 麻煩加入櫃台講義。",
-    "author": "管理部",
-    "time": "03/28 19:00"
-  },
-  {
-    "id": 2,
-    "title": "📋 約診規則：只開放3個月內",
-    "type": "info",
-    "body": "診所目前設定：約診只開放3個月內，超過3個月以上，請病人再自行約診。系統有設定半年會通知病人需回診訊息。",
-    "author": "管理部",
-    "time": "03/25 15:22"
-  },
-  {
-    "id": 3,
-    "title": "💰 匯款金額規定",
-    "type": "urgent",
-    "body": "金額必須五萬「以上」才能使用匯款，除非特殊情況，請特別說明清楚是五萬元以上。",
-    "author": "管理部",
-    "time": "03/28 19:59"
-  },
-  {
-    "id": 4,
-    "title": "🔧 1-3診 Three Way 已更新",
-    "type": "info",
-    "body": "1-3診的 three way 已更新，剩下4診和樓上8診，下次材料到再更新。舊的診療椅 three way 水線管線卡垢較多，已請昆霖更換。",
-    "author": "設備組",
-    "time": "03/28 13:07"
-  },
-  {
-    "id": 5,
-    "title": "♻️ 垃圾分類請確實",
-    "type": "general",
-    "body": "一般紙類要放垃圾場門口外面紙箱那堆。兩個黃箱子只能放盛「液態」或「餐食」的紙容器，一般紙類與紙箱要丟外面。如果不確定麻煩不要亂丟，會造成社區困擾。",
-    "author": "院長",
-    "time": "03/28 21:00"
-  },
-  {
-    "id": 6,
-    "title": "📝 植牙保固簽署流程",
-    "type": "info",
-    "body": "植牙保固是「全診所醫師」植牙完成都要簽。假牙裝戴完成日期/植牙醫師那格，可直接蓋醫師章（上有日期）。",
-    "author": "管理部",
-    "time": "03/29 00:16"
-  },
-  {
-    "id": 7,
-    "title": "🧹 水雷射清洗刷具已購入",
-    "type": "general",
-    "body": "Ivy 姊有買一個可以洗水雷射瓶子的刷子放在消毒室呦！",
-    "author": "Ivy",
-    "time": "03/25 15:27"
-  },
-  {
-    "id": 8,
-    "title": "⚠️ 水雷射使用注意（10-40萬）",
-    "type": "urgent",
-    "body": "水雷射要推到底下架子最前方，以免醫師使用時線不當拉扯到。後方要塞東西固定，否則前後滑動的話前面的線容易勾到壞掉。線很昂貴（10-40萬），請各位助理與醫師使用時小心！",
-    "author": "管理部",
-    "time": "03/11 18:50"
-  },
-  {
-    "id": 9,
-    "title": "🏥 W&H 消毒鍋安裝完成",
-    "type": "info",
-    "body": "2樓技工室的 W&H 消毒鍋安裝完成，不需加水、排水！消毒鍋會自動進水和排水。手術器械、手機、植牙kit 麻煩大家多多使用。",
-    "author": "管理部",
-    "time": "03/19 23:18"
-  },
-  {
-    "id": 10,
-    "title": "📋 櫃檯每週二檢查醫師空檔",
-    "type": "info",
-    "body": "每週二早上的櫃圈助理多一項工作：「檢查當週醫師空檔並 po 群組告知」，讓大家能即時安排約診。",
-    "author": "管理部",
-    "time": "03/10 13:40"
-  },
-  {
-    "id": 11,
-    "title": "📍 打卡鐘與行政事務",
-    "type": "general",
-    "body": "打卡鐘設在書櫃旁邊。每月行政事務與打掃的單子，在休息室的門上。",
-    "author": "管理部",
-    "time": "03/09 22:15"
-  },
-  {
-    "id": 12,
-    "title": "🍽️ 廚房使用與餐盤清洗",
-    "type": "general",
-    "body": "廚房的烘碗機、電池爐、微波爐都可使用。餐盤杯碗如果不太髒可在廁所洗，太油的湯水包起來丟垃圾桶，不要倒馬桶以免阻塞管路。",
-    "author": "管理部",
-    "time": "03/12 23:32"
-  },
-  {
-    "id": 13,
-    "title": "📞 Call病患注意事項",
-    "type": "info",
-    "body": "Call病患目的是表達我們有「認真」看診，收了定金會好好處理，有空會安排不拖延。",
-    "author": "管理部",
-    "time": "03/21 21:45"
+    "time": "2026/03/30",
+    "pinned": false
   },
   {
     "id": 14,
-    "title": "🌟 員工表揚：本週優秀同仁",
+    "title": "🌟 員工表揚：本週優秀同仁（03/18）",
     "type": "gold",
-    "body": "特別表揚本週表現優異的同仁：林芷晴、郭穎襄、Gigi、YCC，感謝大家用心服務！",
-    "author": "院長",
-    "time": "03/18 21:00"
+    "body": "【2026-03-18 LINE 訊息】特別表揚本週表現優異的同仁：<br><br><strong>🎉 林芷晴、郭穎襄、Gigi、YCC</strong><br><br>感謝大家用心服務！",
+    "author": "LINE 同步",
+    "time": "2026/03/18",
+    "pinned": false
   },
   {
     "id": 15,
-    "title": "📱 收據記錄 Bot 測試公告",
+    "title": "📱 收據記錄 Bot 測試公告（03/13）",
     "type": "info",
-    "body": "收據記錄 Bot 開始測試，未來將用於自動化收據記錄流程。",
-    "author": "管理部",
-    "time": "03/13 12:00"
-  },
-  {
-    "id": 16,
-    "title": "❗ DR男黃 晚間約診規則",
-    "type": "urgent",
-    "body": "即日起 DR男黃：20:30不接現場、20:15後只約定檢、20:45設勿約（接小孩）。",
-    "author": "管理部",
-    "time": "03/24 13:16"
-  },
-  {
-    "id": 17,
-    "title": "👛 自費本（金本）已增加",
-    "type": "general",
-    "body": "自費本（金本）已增加2本。目前櫃檯、2樓各有1本，中央櫃（pano櫃）有2本。",
-    "author": "管理部",
-    "time": "03/17 22:22"
-  },
-  {
-    "id": 18,
-    "title": "👩‍⚕️ 口袋名單約診SOP",
-    "type": "info",
-    "body": "醫師有空檔時，需先以口袋名單約回看診（讓病人知道我們有積極性，有盡快幫他們處理）。顏醫師有空檔時，盡量以植牙、牙周、美學、雷射治療項目為主。",
-    "author": "管理部",
-    "time": "03/11 15:12"
+    "body": "【2026-03-13 LINE 訊息】收據記錄 Bot 開始測試，未來將用於自動化收據記錄流程。",
+    "author": "LINE 同步",
+    "time": "2026/03/13",
+    "pinned": false
   }
 ];
 
@@ -4268,6 +4180,141 @@ function renderAnnouncements() {
     </div>`;
   }).join('');
 }
+
+function renderArchivedAnnouncements() {
+  const container = document.getElementById('archived-list');
+  if (!container) return;
+  if (!Array.isArray(archivedAnnouncements)) { console.warn('archivedAnnouncements 資料異常'); return; }
+
+  const tagMap = { urgent:'tag-urgent', info:'tag-info', general:'tag-general', gold:'tag-meeting' };
+  const tagLabelMap = { urgent:'⚠️ 緊急', info:'ℹ️ 資訊', general:'✅ 一般', gold:'🎉 活動' };
+  const bgMap = { urgent:'urgent', info:'info', general:'general', gold:'gold' };
+
+  // 搜尋過濾
+  const searchInput = document.getElementById('archived-search');
+  const searchInfo  = document.getElementById('archived-search-info');
+  const keyword = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+  let items = archivedAnnouncements.map((a, i) => ({a, i}));
+
+  if (keyword) {
+    items = items.filter(({a}) => {
+      const t = (a.title||'').toLowerCase();
+      const b = (a.body ||'').toLowerCase();
+      return t.includes(keyword) || b.includes(keyword);
+    });
+    if (searchInfo) {
+      searchInfo.style.display = 'block';
+      searchInfo.textContent = '🔍 搜尋「' + searchInput.value.trim() + '」— 找到 ' + items.length + ' 則舊公告';
+    }
+  } else {
+    if (searchInfo) searchInfo.style.display = 'none';
+  }
+
+  if (items.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--ink-mute);font-family:var(--font-display)"><div style="font-size:48px;margin-bottom:12px">📭</div><div style="font-size:15px;font-weight:700">' + (keyword ? '找不到符合的舊公告' : '尚無舊公告') + '</div></div>';
+    return;
+  }
+
+  // 依月份分組（time 欄位格式 "2026/03" 或 "2026/03/30"）
+  const groups = {};
+  items.forEach(({a, i}) => {
+    const t = a.time || '未知';
+    const m = t.match(/(\d{4})\/(\d{2})/);
+    const key = m ? (m[1] + '年' + parseInt(m[2], 10) + '月') : '其他';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push({a, i});
+  });
+
+  // 月份倒序排列（近期在上）
+  const sortedGroupKeys = Object.keys(groups).sort((x, y) => {
+    const xm = x.match(/(\d+)年(\d+)月/);
+    const ym = y.match(/(\d+)年(\d+)月/);
+    if (!xm || !ym) return 0;
+    return (parseInt(ym[1])*100 + parseInt(ym[2])) - (parseInt(xm[1])*100 + parseInt(xm[2]));
+  });
+
+  function highlightKw(text, kw) {
+    if (!kw) return text;
+    const esc = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp('(' + esc + ')', 'gi'), '<mark style="background:#FFF176;padding:0 2px;border-radius:3px">$1</mark>');
+  }
+
+  let html = '';
+  sortedGroupKeys.forEach(k => {
+    const arr = groups[k];
+    html += '<div style="margin-bottom:24px">';
+    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px 14px;background:var(--mint-light);border-radius:var(--r-md);border-left:4px solid var(--mint-dark)">';
+    html += '<span style="font-size:18px">🗓️</span>';
+    html += '<span style="font-size:15px;font-weight:800;color:var(--mint-dark);font-family:var(--font-display)">' + k + '</span>';
+    html += '<span style="font-size:11px;color:var(--ink-mute);font-family:var(--font-display);font-weight:700">（共 ' + arr.length + ' 則）</span>';
+    html += '</div>';
+
+    arr.forEach(({a, i}) => {
+      const displayTitle = highlightKw(a.title, keyword);
+      const displayBody  = highlightKw(a.body, keyword);
+      html += '<div class="announce-full ' + (bgMap[a.type]||'general') + '" onclick="showArchivedDetail(' + i + ')" style="opacity:0.95">';
+      html += '  <div class="announce-full-header">';
+      html += '    <div class="announce-full-title">' + displayTitle + '</div>';
+      html += '    <span class="announce-tag ' + (tagMap[a.type]||'tag-general') + '">' + (tagLabelMap[a.type]||'') + '</span>';
+      html += '  </div>';
+      html += '  <div class="announce-full-body" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">' + displayBody + '</div>';
+      html += '  <div class="announce-full-meta">';
+      html += '    <span>👤 ' + a.author + '</span>';
+      html += '    <span>🕐 ' + a.time + '</span>';
+      html += '    <span style="margin-left:auto;color:var(--mint-dark);font-weight:800">點擊查看詳情 →</span>';
+      html += '  </div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function showArchivedDetail(idx) {
+  const a = archivedAnnouncements[idx];
+  if (!a) return;
+
+  // 借用 announce-detail modal 的 DOM，但隱藏所有編輯/刪除/置頂按鈕
+  document.getElementById('ad-view-mode').style.display = 'block';
+  document.getElementById('ad-edit-mode').style.display = 'none';
+
+  const tagLabelMap = { urgent:'⚠️ 緊急', info:'ℹ️ 資訊', general:'✅ 一般', gold:'🎉 活動' };
+  const iconMap     = { urgent:'🚨', info:'ℹ️', general:'📢', gold:'🌟' };
+  const colorMap    = { urgent:'var(--pink-light)', info:'var(--sky-light)', general:'var(--mint-light)', gold:'var(--peach)' };
+
+  document.getElementById('ad-icon').textContent    = iconMap[a.type] || '📚';
+  document.getElementById('ad-icon').style.background = colorMap[a.type] || 'var(--mint-light)';
+  document.getElementById('ad-title').textContent   = '📚 ' + a.title;
+  document.getElementById('ad-sub').innerHTML = '<span style="font-weight:700;color:var(--mint-dark)">🔒 舊公告（唯讀）</span> · <span style="font-weight:700">' + (tagLabelMap[a.type]||'') + '</span> · 👤 ' + a.author + ' · 🕐 ' + a.time;
+  document.getElementById('ad-body').innerHTML = (typeof linkifyText === 'function') ? linkifyText(a.body) : a.body;
+
+  // 隱藏圖片區、連結區、以及所有操作按鈕
+  const imgArea = document.getElementById('ad-img-area');
+  if (imgArea) { imgArea.style.display = 'none'; imgArea.innerHTML = ''; }
+  const linksArea = document.getElementById('ad-links-area');
+  if (linksArea) { linksArea.style.display = 'none'; linksArea.innerHTML = ''; }
+
+  // 隱藏編輯/刪除/置頂按鈕（舊公告唯讀）
+  ['ad-pin-btn', 'ad-edit-btn', 'ad-delete-btn'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.style.display = 'none';
+  });
+
+  // 開啟 modal
+  const overlay = document.getElementById('announce-detail-overlay');
+  if (overlay) overlay.classList.add('open');
+}
+
+// 關閉舊公告 modal 時還原按鈕顯示（讓一般公告不受影響）
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.id === 'announce-detail-overlay') {
+    ['ad-pin-btn', 'ad-edit-btn', 'ad-delete-btn'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) btn.style.display = '';
+    });
+  }
+});
 
 function renderDashAnnouncements() {
   const container = document.getElementById('dash-announce-list');
