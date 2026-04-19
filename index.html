@@ -2743,7 +2743,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260416';"
+      "const DATA_VERSION = '20260419';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -2802,7 +2802,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260416';"
+      "const DATA_VERSION = '20260419';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -2875,10 +2875,118 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260416';
+const DATA_VERSION = '20260419';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1776553668118,
+    "title": "💰 自費項目部分調整",
+    "type": "info",
+    "body": "【2026-04-18 LINE 訊息】自費項目..有部分調整。請櫃檯及醫師留意最新費用，約診收費時請確認金額。詳情請洽管理部。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776467362896,
+    "title": "🦷 5月利醫師看診時間變更",
+    "type": "info",
+    "body": "【2026-04-17 LINE 訊息】Dr.利 5月之後看診時間調整：\n• 「單數」週六的早上看診\n• 有長療程再開週六下午\n• 週四不看診了！\n\n請櫃檯約診時留意，避免約到已取消的時段。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776467362897,
+    "title": "👶 兒牙林醫師 5/11（一）下午加診",
+    "type": "info",
+    "body": "【2026-04-17 LINE 訊息】兒牙林醫師 5/11（一）下午加診一場，請相關助理/櫃檯留意排班。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776467362898,
+    "title": "👦🏻 邱柏智醫師（贗復專科）介紹",
+    "type": "info",
+    "body": "【2026-04-17 LINE 訊息】歡迎邱柏智醫師（80年次）加入福美團隊！\n\n• 北醫贗復碩士（八月完訓畢）\n• 預計 5/20（三）午晚 開始上班\n• 八月研究所畢業、九月準備專科考試，預計十月後增加數診\n• 擅長 CD/RPD，其他一般牙科也可接\n• 阿根廷 University of Buenos Aires (UBA) 牙醫系畢業\n• 在台通過學歷甄試與牙醫執照，並於永和耕莘住院受訓 2 年（PGY）\n• 目前牙醫臨床 5–6 年\n• 可使用中文／台語／英文／西班牙文\n\n之後會在福美協助假牙的部分，請各位醫師同仁們多多指教！",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776467362899,
+    "title": "👩🏻 王韻婷醫師（一般 GP）介紹",
+    "type": "info",
+    "body": "【2026-04-17 LINE 訊息】歡迎王韻婷醫師（79年次）加入福美團隊！\n\n• 北醫畢，一般 GP\n• 兒林醫師定檢小朋友可約她\n• 住東門附近，認同我們的理念，喜歡唱歌（星期四五在台北市診所支援）\n• 四月看診時間：4/28（二）晚\n• 五月看診時間：5/4（一）晚、5/5（二）晚、5/9（六）早午、5/11（一）晚\n• 醫師出國至 6/4\n• 六月後上班時間：星期一午晚、星期二晚、星期六早午\n\n如卡到多人上班可先劃休她。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776467362900,
+    "title": "🪟 打掃人員打破玻璃（將補裝）",
+    "type": "info",
+    "body": "【2026-04-17 LINE 訊息】打掃人員在擦乾時不小心把玻璃打破了，打掃員表示下次會帶玻璃來補裝並固定。原玻璃據說沒有固定，只是稍微卡著。請相關人員留意安全。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776467362901,
+    "title": "☎️ 國際電話詐騙提醒（櫃檯注意）",
+    "type": "urgent",
+    "body": "【2026-04-17 LINE 訊息】櫃檯助理請注意！\n\n今日診所接到國際電話邀請參加「全球華人中秋晚會聯誼盛典」（地點北京），朱先生聯繫電話 18349232979（也是微信號碼）。\n\n【應對方式】若再接到類似來電，請對方提供：\n• 主辦單位名稱\n• 統編\n• 官方網站或是否有正式邀請函（PDF）\n\n勿直接答應或提供診所資訊。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776467362902,
+    "title": "📋 矯正完成同意書已電子化",
+    "type": "info",
+    "body": "【2026-04-17 LINE 訊息】矯正完成的同意書已電子化。\n\n⚠️ 提醒：請先確認李醫師是否已看過新版本。每新增一份同意書成本約 $3,000，若後續即使只改一個字也要 $3,000，如有錯誤請儘快反映修改。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776380857777,
+    "title": "👨‍⚕️👩‍⚕️ 5月新進醫師看診時間公告",
+    "type": "info",
+    "body": "5月新進醫師看診時間：\n\n👦🏻邱醫師「贋復專科醫師」\n每週三 午、晚（5/20開始）\n\n👩🏻王醫師「一般GP醫師」\n5/4（一）晚上\n5/5（二）晚上\n5/9（六）早、午\n5/11（一）晚上\n\n6月起：每週一 午、晚 / 每週二 晚 / 每週六 早、午",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776380857776,
+    "title": "📋 115年5月起點值制度更新",
+    "type": "info",
+    "body": "115年5月起制度調整：\n1. 兼職轉換正職點值由 3.53 調整為 3.55（感謝 Mina 認真審視內部制度）\n   ＊所有 3.53 相關項目一律改為 3.55\n2. 矯正櫃檯 Dr.李 加給改為 $100\n\n請管理部（林芷晴、璟妤）修正助理手冊及工版合約，並請 Min 確認。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776380857775,
+    "title": "🦷 4/28（一）晚上王醫師加診",
+    "type": "info",
+    "body": "4/28（一）晚上，王醫師將前來看診。\n請大家一起協助幫 Dr. 王 約滿！\n王醫師比照一般 GP 醫師約診方式。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776380857774,
+    "title": "🔬 蔡司顯微鏡保養通知",
+    "type": "info",
+    "body": "蔡司顯微鏡將於 4/17（五）中午進行保養，預計需時 1～1.5 小時，請相關人員留意設備使用安排。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1744773600001,
     "title": "🔧 水雷射設備異常回報（待工程師檢測）",
@@ -3559,6 +3667,12 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "5/4（一）下午顏醫師有加病人"
+    },
+    {
+      "name": "王醫師晚上看診",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "5/4（一）晚 王醫師看診（5月固定時段之一）"
     }
   ],
   "2026-04-07": [
@@ -3679,6 +3793,44 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "5/6（三）下午顏醫師有加手術"
+    }
+  ],
+  "2026-05-05": [
+    {
+      "name": "王醫師晚上看診",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "5/5（二）晚 王醫師看診"
+    }
+  ],
+  "2026-05-09": [
+    {
+      "name": "王醫師早午看診",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "5/9（六）早午 王醫師看診"
+    }
+  ],
+  "2026-05-11": [
+    {
+      "name": "王醫師晚上看診",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "5/11（一）晚 王醫師看診"
+    },
+    {
+      "name": "兒牙林醫師下午加診",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/11（一）下午 兒牙林醫師加診"
+    }
+  ],
+  "2026-05-20": [
+    {
+      "name": "邱醫師開始看診（每週三午晚）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "邱柏智醫師（贗復專科）5/20（三）開始每週三午晚看診，8月後可能變更"
     }
   ]
 };
