@@ -1181,6 +1181,121 @@ body::before {
   flex-shrink: 0;
 }
 
+/* ─── ROLE SWITCHER ─── */
+.role-switcher {
+  display: flex; gap: 8px;
+  background: var(--white); border: 2px solid var(--border);
+  border-radius: var(--r-md); padding: 6px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+.role-btn {
+  flex: 1; min-width: 110px;
+  padding: 10px 14px; border-radius: var(--r-sm);
+  font-family: var(--font-display); font-size: 13px; font-weight: 800;
+  color: var(--ink-mute); cursor: pointer;
+  border: 2px solid transparent; background: transparent;
+  transition: all .18s ease;
+}
+.role-btn:hover { background: var(--cream); }
+.role-btn.active {
+  background: var(--mint-light);
+  color: var(--mint-dark);
+  border-color: var(--mint);
+}
+.role-btn .role-badge {
+  display: inline-block; margin-left: 6px;
+  background: var(--pink); color: var(--white);
+  font-size: 10px; font-weight: 900;
+  padding: 2px 6px; border-radius: 10px;
+}
+
+/* ─── CHECKLIST POINT (task-trackable meeting-point) ─── */
+.checkpoint {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 14px; color: var(--ink-soft);
+  line-height: 1.6; margin-bottom: 8px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  padding: 4px 6px; border-radius: var(--r-sm);
+  transition: background .15s;
+}
+.checkpoint:hover { background: var(--cream); }
+.checkpoint input[type=checkbox] {
+  margin-top: 3px; width: 16px; height: 16px;
+  accent-color: var(--mint-dark);
+  cursor: pointer; flex-shrink: 0;
+}
+.checkpoint.done {
+  color: var(--ink-mute);
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.checkpoint-label { flex: 1; }
+.checkpoint-sub {
+  display: block; font-size: 12px; color: var(--ink-mute);
+  margin-top: 2px; font-style: italic;
+}
+
+/* ─── MEETING CARD VARIANTS ─── */
+.meeting-card.card-red { border-color: #E57373; background: #FFEBEE; }
+.meeting-card.card-yellow { border-color: var(--peach-dark); background: var(--peach-light); }
+.meeting-card.card-blue { border-color: var(--sky); background: var(--sky-light); }
+.meeting-card.card-green { border-color: var(--mint); background: var(--mint-light); }
+.meeting-card.card-gold { border-color: #FFB300; background: #FFF8E1; }
+.meeting-card.card-purple { border-color: var(--lavender); background: var(--lav-light); }
+.meeting-card.card-pink { border-color: var(--pink); background: var(--pink-light); }
+
+.meeting-card.wide-card { grid-column: 1 / -1; }
+
+/* ─── WARNING CALLOUT INSIDE CARD ─── */
+.warn-callout {
+  background: #FFF3E0; border-left: 4px solid #FF9800;
+  padding: 10px 12px; border-radius: var(--r-sm);
+  font-size: 13px; color: var(--ink);
+  margin: 8px 0; font-family: var(--font-body);
+}
+.warn-callout b { color: #E65100; }
+
+/* ─── KEY NUMBER BLOCK ─── */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px; margin-top: 6px;
+}
+.kpi-block {
+  background: var(--white); border: 2px solid var(--border);
+  border-radius: var(--r-md); padding: 12px 10px;
+  text-align: center;
+}
+.kpi-num {
+  font-family: var(--font-display); font-size: 24px; font-weight: 900;
+  color: var(--mint-dark);
+}
+.kpi-label {
+  font-size: 11px; font-weight: 700; color: var(--ink-mute);
+  font-family: var(--font-display); margin-top: 4px;
+}
+
+/* ─── SUGGESTION BOX ─── */
+.suggest-box {
+  background: var(--white); border: 2px dashed var(--lavender);
+  border-radius: var(--r-md); padding: 14px;
+  margin-top: 10px;
+}
+.suggest-box textarea {
+  width: 100%; min-height: 64px;
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  padding: 8px; font-family: var(--font-body); font-size: 13px;
+  resize: vertical; background: var(--cream);
+}
+.suggest-tag {
+  display: inline-block; background: var(--lav-light);
+  color: #5A4FC0; font-size: 11px; font-weight: 800;
+  padding: 3px 8px; border-radius: 10px;
+  margin: 2px 4px 2px 0; font-family: var(--font-display);
+}
+
 /* ─── TIMELINE ITEM CLICK ─── */
 .tl-item:hover { background: var(--cream); }
 
@@ -1595,45 +1710,6 @@ body::before {
       <!-- Stats -->
       <div class="dashboard-grid">
 
-        <!-- Stat: unread announces -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <div class="card-icon ci-pink">📢</div>
-              未讀公告
-            </div>
-          </div>
-          <div class="stat-value">18</div>
-          <div class="stat-label">則待閱讀</div>
-          <div class="stat-trend trend-new">🔔 含 6 則 SOP 規範公告</div>
-        </div>
-
-        <!-- Stat: this week events -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <div class="card-icon ci-mint">📅</div>
-              本週行程
-            </div>
-          </div>
-          <div class="stat-value" id="dash-cal-count">8</div>
-          <div class="stat-label">個行事曆事項</div>
-          <div class="stat-trend trend-up">🤝 會議 + 👨‍⚕️ 醫師異動</div>
-        </div>
-
-        <!-- Stat: LINE messages -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <div class="card-icon ci-sky">💬</div>
-              LINE 訊息
-            </div>
-          </div>
-          <div class="stat-value">146</div>
-          <div class="stat-label">LINE 訊息 (3/08-3/29)</div>
-          <div class="stat-trend trend-up">🤖 AI 已整理 3 週摘要</div>
-        </div>
-
         <!-- Urgent Announces — span 2 -->
         <div class="card span-2">
           <div class="card-header">
@@ -1951,118 +2027,296 @@ body::before {
       </div>
 
       <!-- Meeting info banner -->
-      <div class="ai-card" style="background:linear-gradient(135deg,var(--mint-light),var(--sky-light));border:2px solid var(--mint);margin-bottom:20px">
-        <div style="display:flex;align-items:center;gap:16px">
+      <div class="ai-card" style="background:linear-gradient(135deg,var(--mint-light),var(--sky-light));border:2px solid var(--mint);margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
           <div style="font-size:40px">📋</div>
-          <div>
+          <div style="flex:1;min-width:240px">
             <div style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--ink)">
-              最近一次幹部會議：2026年4月7日（二）
+              本週開會前摘要 · <span id="meetingDateDisplay">2026/04/20（一）</span>
             </div>
             <div style="font-size:13px;color:var(--ink-soft);margin-top:4px;font-family:var(--font-display)">
-              此摘要涵蓋 03/24 – 04/13 LINE 社群 128 則討論內容，由 AI 自動整理
+              以助理為中心整理 · 涵蓋 03/24 – 04/18 LINE 社群 362 則訊息
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--ink-soft);font-family:var(--font-display);text-align:right">
+            <div>✅ <span id="doneCount">0</span> / <span id="totalCount">0</span> 項已確認</div>
+            <div style="margin-top:4px">
+              <button class="btn btn-ghost" onclick="resetMeetingChecks()" style="font-size:11px;padding:4px 10px">🔄 重置勾選</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="meeting-grid">
+      <!-- Role switcher -->
+      <div class="role-switcher" id="roleSwitcher">
+        <button class="role-btn active" data-role="all" onclick="switchMeetingRole('all')">👥 全部顯示</button>
+        <button class="role-btn" data-role="front" onclick="switchMeetingRole('front')">📞 櫃檯助理</button>
+        <button class="role-btn" data-role="chair" onclick="switchMeetingRole('chair')">💊 跟診助理</button>
+        <button class="role-btn" data-role="shared" onclick="switchMeetingRole('shared')">🤝 共同事項</button>
+      </div>
 
-        <div class="meeting-card" style="border-color:var(--pink);background:var(--pink-light)">
+      <div class="meeting-grid" id="meetingGrid">
+
+        <!-- 1. 紅燈警示 -->
+        <div class="meeting-card card-red wide-card" data-role="shared">
           <div class="meeting-meta">
-            <div class="meeting-icon-circle" style="background:var(--pink)">🔥</div>
+            <div class="meeting-icon-circle" style="background:#E57373">🔴</div>
             <div class="meeting-info">
-              <div class="meeting-name">待決議事項</div>
-              <div class="meeting-date">需要開會拍板</div>
+              <div class="meeting-name">本週必須立刻做到（紅燈警示）</div>
+              <div class="meeting-date">違反會記點 / 影響考核 · 請逐項勾選確認</div>
             </div>
           </div>
-          <div class="meeting-section-title">急需決定</div>
-          <div class="meeting-point">顏醫師約診新規（30/45分）落實情況追蹤</div>
-          <div class="meeting-point">約診指南正式版確認與全員訓練</div>
-          <div class="meeting-point">男黃醫師 6 月/8 月看診時間異動公告</div>
-          <div class="meeting-section-title" style="margin-top:16px">可延後</div>
-          <div class="meeting-point">控場加給制度細則制定</div>
-          <div class="meeting-point">4診、8診 Three Way 後續更新安排</div>
+          <div class="warn-callout">
+            <b>⚠️ 重要提醒：</b>下列為顏醫師/王醫師近期強調的硬性規定，不是建議事項。若不清楚，立刻問主管，不要猜。
+          </div>
+          <div class="meeting-section-title">約診紅線</div>
+          <label class="checkpoint" data-key="red1">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              顏醫師評估 / 討論 = <b>一律 30 分鐘</b>（含 NP、轉診）；水雷射 Q 約 <b>45 分鐘</b>
+              <span class="checkpoint-sub">一個診安插點最多 2 個，不能再塞第 3 個</span>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="red2">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              DR 男黃晚間：<b>20:30 不接現場、20:15 只約定檢、20:45 禁約任何</b>
+              <span class="checkpoint-sub">4/17 起落實；違反將追蹤負責櫃檯</span>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="red3">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              正式假牙試戴、黏著 <b>必須醫師本人處理</b>，助理不得代為操作
+            </span>
+          </label>
+          <div class="meeting-section-title" style="margin-top:14px">行政紅線</div>
+          <label class="checkpoint" data-key="red4">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              健保代碼：週六門診 <b>92094C</b>、週日/國定假日 <b>92133C</b>
+              <span class="checkpoint-sub">115.04.01 起生效，key 錯會被核刪</span>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="red5">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              帳務分工：牙科收據 → <b>Hadassa</b>；日常雜費 → <b>櫃檯</b>，不要混
+            </span>
+          </label>
+          <label class="checkpoint" data-key="red6">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              相機必須自備 SD 卡，<b>不要共用</b>，避免照片混淆
+            </span>
+          </label>
         </div>
 
-        <div class="meeting-card" style="border-color:var(--mint);background:var(--mint-light)">
+        <!-- 2. 櫃檯助理專區 -->
+        <div class="meeting-card card-yellow" data-role="front">
           <div class="meeting-meta">
-            <div class="meeting-icon-circle" style="background:var(--mint)">✅</div>
+            <div class="meeting-icon-circle" style="background:var(--peach-dark)">📞</div>
             <div class="meeting-info">
-              <div class="meeting-name">已完成事項</div>
-              <div class="meeting-date">3/24 – 4/13 已落實</div>
+              <div class="meeting-name">約診實務重點</div>
+              <div class="meeting-date">櫃檯助理專區</div>
             </div>
           </div>
-          <div class="meeting-section-title">本期完成</div>
-          <div class="meeting-point">1 樓 suction 機氣水分離裝置安裝完成（3/31）</div>
-          <div class="meeting-point">植牙保固單內容更新（Astra 3+1 年/Hiossen 2+1 年）</div>
-          <div class="meeting-point">健保申報代碼更新（92094C→週六/92133C→假日）</div>
-          <div class="meeting-point">帳務分工 SOP 公告（牙科→Hadassa/日常→櫃檯）</div>
-          <div class="meeting-point">約診指南製作完成（4/10）</div>
-          <div class="meeting-point">臉掃機流程圖製作並張貼</div>
-          <div class="meeting-point">Mina 加入（定位：櫃檯儲備管理，6月轉正職）</div>
-          <div class="meeting-point">二樓新增 2 台監視器（PA 電腦旁）</div>
+          <div class="meeting-section-title">本週新規</div>
+          <label class="checkpoint" data-key="front1">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              熟讀 <b>4/10 版約診指南</b>；不確定就看指南，不要憑印象
+            </span>
+          </label>
+          <label class="checkpoint" data-key="front2">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              顏醫師加診日：<b>4/20、4/24、5/4、5/6</b> — 優先填滿這幾天
+            </span>
+          </label>
+          <label class="checkpoint" data-key="front3">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              男黃醫師 6 月起：<b>週二 → 週五下午</b>；8 月週二改 <b>18:00–20:30</b>
+              <span class="checkpoint-sub">舊病人改約時要先提醒時段變動</span>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="front4">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              現場等候病患 <b>不給確切等候時間</b>，統一話術：「會盡快為您安排」
+            </span>
+          </label>
+          <label class="checkpoint" data-key="front5">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              蕭醫師 4/25(六) 改 <b>15:00 看診</b>；6/13 移至 <b>6/12(五)下午</b>
+            </span>
+          </label>
+          <div class="warn-callout" style="margin-top:10px">
+            <b>💡 提醒：</b>約診新規變動頻繁，建議每天開機先看一次公告。
+          </div>
         </div>
 
-        <div class="meeting-card" style="border-color:var(--sky);background:var(--sky-light)">
+        <!-- 3. 跟診助理專區 -->
+        <div class="meeting-card card-blue" data-role="chair">
           <div class="meeting-meta">
-            <div class="meeting-icon-circle" style="background:var(--sky)">💡</div>
+            <div class="meeting-icon-circle" style="background:var(--sky)">💊</div>
             <div class="meeting-info">
-              <div class="meeting-name">改善建議</div>
-              <div class="meeting-date">同仁提出</div>
+              <div class="meeting-name">跟診與診間品質</div>
+              <div class="meeting-date">跟診助理專區</div>
             </div>
           </div>
-          <div class="meeting-section-title">流程改善</div>
-          <div class="meeting-point">約診複雜度降低：盡量固定幾位人員負責約診</div>
-          <div class="meeting-point">現場等候病患統一回應（不給確切時間、需等候）</div>
-          <div class="meeting-section-title" style="margin-top:16px">人員發展</div>
-          <div class="meeting-point">鼓勵兼職轉正職（穩定排班、各項福利明確）</div>
-          <div class="meeting-point">顏醫師每月吃飯交流（建議/期望主題收集）</div>
+          <div class="meeting-section-title">診間設備</div>
+          <label class="checkpoint" data-key="chair1">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              1 樓 suction 氣水分離已啟用（3/31）；<b>倒水前確認閥門位置</b>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="chair2">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              1-3 診 Three Way 水線已更新；<b>舊椅水線也更換完畢</b>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="chair3">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              根尖片照射頭已於 <b>4/13 修復</b>，使用前先確認穩定性
+            </span>
+          </label>
+          <label class="checkpoint" data-key="chair4">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              臉掃機流程圖已張貼於 2 樓，<b>照流程走</b>，不要跳步驟
+            </span>
+          </label>
+          <div class="meeting-section-title" style="margin-top:14px">跟診品質</div>
+          <label class="checkpoint" data-key="chair5">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              敏感病人 / VIP 分配：<b>優先派給資深助理</b>
+              <span class="checkpoint-sub">3/26 幹部會議決議</span>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="chair6">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              居家美白庫存放 <b>2 樓冰箱</b>，使用後立即補登
+            </span>
+          </label>
         </div>
 
-        <div class="meeting-card" style="border-color:var(--lavender);background:var(--lav-light)">
+        <!-- 4. 收費帳務 -->
+        <div class="meeting-card card-purple" data-role="shared">
           <div class="meeting-meta">
-            <div class="meeting-icon-circle" style="background:var(--lavender)">📊</div>
+            <div class="meeting-icon-circle" style="background:var(--lavender)">💰</div>
             <div class="meeting-info">
-              <div class="meeting-name">討論熱度排行</div>
-              <div class="meeting-date">3 週 128 則訊息分析</div>
+              <div class="meeting-name">收費與帳務</div>
+              <div class="meeting-date">收據 / 植牙保固 / 自費項目</div>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
-            <div>
-              <div style="display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;font-weight:700;margin-bottom:4px">
-                <span>SOP/規範制度</span><span style="color:var(--ink-mute)">22則</span>
-              </div>
-              <div class="ai-progress-bar"><div class="ai-progress-fill" style="width:95%"></div></div>
+          <label class="checkpoint" data-key="pay1">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              植牙保固更新：Astra® <b>3+1 年</b>、Hiossen® <b>2+1 年</b>
+              <span class="checkpoint-sub">全診所均需協助病人簽署</span>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="pay2">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              自費項目 4/18 已部分調整，收費前 <b>再確認最新價目表</b>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="pay3">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              帳務收據分工（紅燈已列），<b>跨線要口頭交接</b>
+            </span>
+          </label>
+        </div>
+
+        <!-- 5. 本週表揚 -->
+        <div class="meeting-card card-gold" data-role="shared">
+          <div class="meeting-meta">
+            <div class="meeting-icon-circle" style="background:#FFB300">🌟</div>
+            <div class="meeting-info">
+              <div class="meeting-name">本週表揚</div>
+              <div class="meeting-date">先給肯定，再談改進</div>
             </div>
-            <div>
-              <div style="display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;font-weight:700;margin-bottom:4px">
-                <span>看診排班異動</span><span style="color:var(--ink-mute)">20則</span>
-              </div>
-              <div class="ai-progress-bar"><div class="ai-progress-fill" style="width:85%;background:linear-gradient(90deg,var(--pink),var(--pink-dark))"></div></div>
+          </div>
+          <div class="meeting-point"><b>Mina</b> — 櫃檯儲備管理定位穩定，預計 6 月轉正職</div>
+          <div class="meeting-point"><b>Hadassa</b> — 牙科收據帳務分工上線後執行到位</div>
+          <div class="meeting-point"><b>控場助理團隊</b> — 控場加給制度即將上路，謝謝你們扛住流量</div>
+          <div class="meeting-point">感謝全體配合 <b>約診指南 4/10 改版</b>，陣痛期辛苦了</div>
+          <div class="warn-callout" style="background:var(--mint-light);border-left-color:var(--mint-dark)">
+            <b>💬 主管的話：</b>顏醫師每月會安排與助理吃飯交流，主題是「生活期望與診所建議」— 有想法別憋著，直接說。
+          </div>
+        </div>
+
+        <!-- 6. 雙向建議區 -->
+        <div class="meeting-card card-pink wide-card" data-role="shared">
+          <div class="meeting-meta">
+            <div class="meeting-icon-circle" style="background:var(--pink)">💬</div>
+            <div class="meeting-info">
+              <div class="meeting-name">助理可提出的問題／建議</div>
+              <div class="meeting-date">開會時帶著這張清單提問</div>
             </div>
-            <div>
-              <div style="display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;font-weight:700;margin-bottom:4px">
-                <span>設備更新維護</span><span style="color:var(--ink-mute)">10則</span>
-              </div>
-              <div class="ai-progress-bar"><div class="ai-progress-fill" style="width:50%;background:linear-gradient(90deg,var(--sky),#4A90D9)"></div></div>
+          </div>
+          <div class="meeting-section-title">常見待釐清</div>
+          <div class="meeting-point">控場加給 <b>細則</b>：什麼情況算「控場」？金額 & 發放週期？</div>
+          <div class="meeting-point">櫃檯／跟診 <b>職責邊界</b>：當櫃檯忙不過來，跟診要支援到什麼程度？</div>
+          <div class="meeting-point">新人上手 <b>里程碑</b>：第 1/2/3 個月應該會什麼？評核標準？</div>
+          <div class="meeting-point">約診規則 <b>變動頻率</b>：能否固定改版日（例如每月 1 號），避免臨時更新？</div>
+          <div class="suggest-box">
+            <div style="font-family:var(--font-display);font-weight:800;font-size:13px;margin-bottom:6px">
+              📝 我的建議 / 想問的事（會後可交給幹部）
             </div>
-            <div>
-              <div style="display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;font-weight:700;margin-bottom:4px">
-                <span>AI 工具/數位化</span><span style="color:var(--ink-mute)">8則</span>
-              </div>
-              <div class="ai-progress-bar"><div class="ai-progress-fill" style="width:40%;background:linear-gradient(90deg,var(--lavender),#6A5DCC)"></div></div>
+            <span class="suggest-tag">不理解規定</span>
+            <span class="suggest-tag">流程改善</span>
+            <span class="suggest-tag">設備問題</span>
+            <span class="suggest-tag">人力升遷</span>
+            <span class="suggest-tag">其他</span>
+            <textarea id="meetingSuggestBox" placeholder="例：顏醫師 30 分評估規則，如果病人主動要求延長是否可彈性處理？"></textarea>
+            <div style="margin-top:8px;text-align:right">
+              <button class="btn btn-mint" onclick="saveSuggestion()" style="font-size:12px">💾 暫存</button>
             </div>
-            <div>
-              <div style="display:flex;justify-content:space-between;font-family:var(--font-display);font-size:12px;font-weight:700;margin-bottom:4px">
-                <span>行政/財務</span><span style="color:var(--ink-mute)">8則</span>
-              </div>
-              <div class="ai-progress-bar"><div class="ai-progress-fill" style="width:38%;background:linear-gradient(90deg,var(--peach),var(--peach-dark))"></div></div>
+          </div>
+        </div>
+
+        <!-- 7. 本期重點數字 -->
+        <div class="meeting-card card-green wide-card" data-role="shared">
+          <div class="meeting-meta">
+            <div class="meeting-icon-circle" style="background:var(--mint)">📊</div>
+            <div class="meeting-info">
+              <div class="meeting-name">本期重點數字</div>
+              <div class="meeting-date">3/24 – 4/18 LINE 社群分析</div>
             </div>
+          </div>
+          <div class="kpi-grid">
+            <div class="kpi-block"><div class="kpi-num">362</div><div class="kpi-label">總訊息數</div></div>
+            <div class="kpi-block"><div class="kpi-num">69</div><div class="kpi-label">約診規則</div></div>
+            <div class="kpi-block"><div class="kpi-num">47</div><div class="kpi-label">SOP 更新</div></div>
+            <div class="kpi-block"><div class="kpi-num">30</div><div class="kpi-label">醫師排班</div></div>
+            <div class="kpi-block"><div class="kpi-num">29</div><div class="kpi-label">收費相關</div></div>
+            <div class="kpi-block"><div class="kpi-num">23</div><div class="kpi-label">植牙議題</div></div>
+            <div class="kpi-block" style="background:var(--peach-light);border-color:var(--peach-dark)">
+              <div class="kpi-num" style="color:var(--peach-dark)">14</div><div class="kpi-label">紅燈提醒</div>
+            </div>
+            <div class="kpi-block" style="background:var(--mint-light);border-color:var(--mint)">
+              <div class="kpi-num" style="color:var(--mint-dark)">9</div><div class="kpi-label">設備維修</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--ink-mute);margin-top:10px;font-family:var(--font-display)">
+            💡 熱度最高 → <b>約診規則</b>（連續 3 週第一）；建議本季投入心力將約診 SOP 文件化並穩定。
           </div>
         </div>
 
       </div>
     </section>
+
 
     <!-- ────────────── CLINIC INFO ────────────── -->
     <section id="section-clinic-info" class="section">
@@ -2766,7 +3020,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260419';"
+      "const DATA_VERSION = '20260420';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -2825,7 +3079,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260419';"
+      "const DATA_VERSION = '20260420';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -2898,10 +3152,100 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260419';
+const DATA_VERSION = '20260420';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1776726529926,
+    "title": "📋 排班名字順序規則說明",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息】排班時名字順序規則如下：\n正職助理 ➡️ 管理/幹部有規定 31 診助理 ➡️ 幹部有規定 21 診助理 ➡️ 少診但較給力助理 ➡️ 較不給力助理\n\n例如 5 月排班順序：GCZWIJHTSYMEKNL",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776726529927,
+    "title": "🦷 G-Premio 位置（六診、七診）",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息】診所目前有兩罐 G-Premio，分別放在「六診」及「七診」。如有使用請確實歸放位置，謝謝大家 🙏",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776726529928,
+    "title": "🚿 熱水設備位置（休息室廁所）",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息】目前全診所唯一有熱水的地方，設在「休息室最裡面大間的廁所」內。溫度設定在 43 度，也已加裝蓮蓬頭，有需要的同仁可以使用。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776726529929,
+    "title": "❄️ 休息室冷氣使用提醒",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息・管理部】休息室如有開冷氣，麻煩門窗都要關好，以免冷氣外流。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776726529930,
+    "title": "💰 自費項目調整（全口牙周病用藥、他家植體處理）",
+    "type": "urgent",
+    "body": "【2026-04-20 LINE 訊息】即日起自費項目調整：\n• 「全口牙周病用藥」和「類 GTR」調至 $8000\n• 「他家植體再生或移除」額外增加費用 $10000（原因：風險高且耗損器械，上週六洪醫師的鈦刷 / 水雷射 tip / 光動力 tip 全斷）\n\n請櫃檯約診收費時留意最新金額。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": true
+  },
+  {
+    "id": 1776726529931,
+    "title": "📅 5、6、8 月醫師看診時間修正",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息】約診時段修正如下：\n• 5 月 Dr.利 只「單週六早」\n• 6 月 Dr. 男黃 週二下午改「週五下午」\n• 8 月 Dr. 男黃 週二看診到 18:00-20:45（男黃醫師星期二現掛最晚 20:30，要接小孩）\n\n請櫃檯約診時留意此異動。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776726529932,
+    "title": "🧑‍⚕️ 新醫師到職/離職處理流程",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息】「有新醫師 / 醫師改時間 / 離職」請同步處理：\n• 北昕醫師設定：在職 / 離職\n• 官網：@林芷晴\n• LINE：牙醫小幫手\n• FB：可簡單宣傳\n• 醫師海報：美編 @Shan ⛄️\n• 名片：洪醫師\n（邱醫師希望 LINE 慢點設定，可能 8-9 月再請 @璟妤 或 @Gigi 處理）\n\n新醫師到職流程：診所支援報備（@郭穎襄）、名片/網宣/櫃子、醫師提供專科證書 / 執業執照當名牌使用（衣服名牌醫師可自備）。\n\n櫃子安排（因有醫師沒在用，可合併，依上班不太遇到時間分配）：\n• Dr.李 + Dr.邱柏智\n• Dr.蕭 併至 Dr.陳\n• Dr.王韻婷（診較多，自己一格）\n* 目前還不用買櫃子 *\n\n如有排到跟診新醫師請多幫忙。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776726529933,
+    "title": "💵 護照跟診加薪制度更新",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息・管理部】護照跟診加薪持續進行：\n「跟診新醫師通過」：\n• 兼職 +$1/hr，正職 +$4/診（如尚未超過護照加薪上限）\n• 蕭醫師（動作快、目前約滿、需此專科合作）：跟診通過兼職 +$2/hr，正職 +$7/診",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776726529934,
+    "title": "📦 洪醫師自購超音波 tip 到貨（放五診）",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息】洪醫師向「崴仕」自購超音波 tip，貨到付款 $4500，請櫃檯留意收件。貨到後請放「五診」。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776726529935,
+    "title": "🎨 Yuki 美編行政診時間彈性",
+    "type": "info",
+    "body": "【2026-04-20 LINE 訊息・管理部】Yuki 美編行政診時間不定，可讓 Yuki 自行調整，可以超過一個診也可不足一個診。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1776553668118,
     "title": "💰 自費項目部分調整",
@@ -3842,6 +4186,115 @@ function showSection(id, el) {
   if (sidebar) sidebar.classList.remove('mobile-open');
   if (overlay) overlay.classList.remove('show');
 }
+
+// ─── 開會前摘要：角色切換 + checkbox 追蹤 + 建議暫存 ───
+const MEETING_CHECK_KEY = 'fuumei_meeting_checks_v1';
+const MEETING_SUGGEST_KEY = 'fuumei_meeting_suggest_v1';
+const MEETING_ROLE_KEY = 'fuumei_meeting_role_v1';
+
+// 使用記憶體物件模擬儲存（不用 localStorage，符合 artifact 限制；頁面重整後會清空）
+const _meetingState = { checks: {}, suggest: '', role: 'all' };
+
+function switchMeetingRole(role) {
+  _meetingState.role = role;
+  // 更新按鈕 active 樣式
+  document.querySelectorAll('#roleSwitcher .role-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-role') === role);
+  });
+  // 過濾卡片顯示
+  document.querySelectorAll('#meetingGrid .meeting-card[data-role]').forEach(card => {
+    const cardRole = card.getAttribute('data-role');
+    let visible;
+    if (role === 'all') visible = true;
+    else if (role === 'shared') visible = (cardRole === 'shared');
+    else visible = (cardRole === role || cardRole === 'shared');
+    card.style.display = visible ? '' : 'none';
+  });
+  updateMeetingProgress();
+}
+
+function toggleCheckpoint(checkbox) {
+  const label = checkbox.closest('.checkpoint');
+  if (!label) return;
+  const key = label.getAttribute('data-key');
+  if (key) _meetingState.checks[key] = checkbox.checked;
+  label.classList.toggle('done', checkbox.checked);
+  updateMeetingProgress();
+}
+
+function updateMeetingProgress() {
+  const visibleCards = Array.from(document.querySelectorAll('#meetingGrid .meeting-card[data-role]'))
+    .filter(c => c.style.display !== 'none');
+  let total = 0, done = 0;
+  visibleCards.forEach(card => {
+    card.querySelectorAll('.checkpoint input[type=checkbox]').forEach(cb => {
+      total++;
+      if (cb.checked) done++;
+    });
+  });
+  const doneEl = document.getElementById('doneCount');
+  const totalEl = document.getElementById('totalCount');
+  if (doneEl) doneEl.textContent = done;
+  if (totalEl) totalEl.textContent = total;
+}
+
+function resetMeetingChecks() {
+  document.querySelectorAll('#meetingGrid .checkpoint input[type=checkbox]').forEach(cb => {
+    cb.checked = false;
+    const lbl = cb.closest('.checkpoint');
+    if (lbl) lbl.classList.remove('done');
+  });
+  _meetingState.checks = {};
+  updateMeetingProgress();
+  if (typeof showToast === 'function') showToast('🔄 已重置本週勾選');
+}
+
+function saveSuggestion() {
+  const box = document.getElementById('meetingSuggestBox');
+  if (!box) return;
+  _meetingState.suggest = box.value || '';
+  if (typeof showToast === 'function') {
+    showToast(_meetingState.suggest.trim()
+      ? '💾 建議已暫存（頁面不重整前保留）'
+      : '💡 先寫點東西再暫存吧');
+  }
+}
+
+// 初始化：設定顯示日期、載入預設角色過濾、計算進度
+function initMeetingPage() {
+  // 更新顯示日期為下一個週一
+  const dateEl = document.getElementById('meetingDateDisplay');
+  if (dateEl) {
+    const now = new Date();
+    const day = now.getDay();
+    const daysToMon = day === 1 ? 0 : (8 - day) % 7 || 7;
+    const mon = new Date(now);
+    mon.setDate(now.getDate() + daysToMon);
+    const y = mon.getFullYear(), m = String(mon.getMonth()+1).padStart(2,'0'), d = String(mon.getDate()).padStart(2,'0');
+    dateEl.textContent = `${y}/${m}/${d}（一）`;
+  }
+  switchMeetingRole(_meetingState.role || 'all');
+}
+
+// 當切到「開會前摘要」頁面時初始化
+(function wrapShowSectionForMeeting() {
+  const original = window.showSection;
+  window.showSection = function(id, el) {
+    original(id, el);
+    if (id === 'meeting') {
+      try { initMeetingPage(); } catch (e) { console.warn('initMeetingPage failed', e); }
+    }
+  };
+})();
+
+// 頁面首次載入：若預設就在 meeting 頁，也初始化一次
+document.addEventListener('DOMContentLoaded', () => {
+  const sec = document.getElementById('section-meeting');
+  if (sec && sec.classList.contains('active')) {
+    try { initMeetingPage(); } catch (e) {}
+  }
+});
+
 
 // ─── 動態插入手機版漢堡選單按鈕 ───
 (function initMobileMenu() {
