@@ -2368,7 +2368,7 @@ body::before {
         <!-- 醫師團隊 -->
         <div class="card span-3">
           <div class="card-header">
-            <div class="card-title"><div class="card-icon ci-sky">👩‍⚕️</div> 醫師團隊（共11位）</div>
+            <div class="card-title"><div class="card-icon ci-sky">👩‍⚕️</div> 醫師團隊（共13位）</div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:4px">
             <!-- 院長 -->
@@ -2426,6 +2426,20 @@ body::before {
             <div style="background:var(--mint-light);border-radius:var(--r-md);padding:14px;border:2px solid var(--mint)">
               <div style="font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--ink)">利采穎 醫師</div>
               <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;line-height:1.6">牙周專科・家庭牙科・牙周病治療</div>
+            </div>
+            <!-- 邱柏智（新加入）-->
+            <div style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);border-radius:var(--r-md);padding:14px;border:2px solid #FFD54F;position:relative">
+              <div style="position:absolute;top:8px;right:10px;font-size:9px;background:#FFB300;color:#fff;padding:2px 8px;border-radius:99px;font-weight:700">NEW 5/20起</div>
+              <div style="font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--ink)">邱柏智 醫師</div>
+              <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;line-height:1.6">北醫贗復碩士・阿根廷UBA牙醫系・全口/局部活動假牙（CD/RPD）・一般牙科</div>
+              <div style="font-size:10px;color:#8D6E00;margin-top:6px;line-height:1.5;background:#FFF8E1;padding:6px 8px;border-radius:8px">📅 每週三 午晚｜🗣️ 中/台/英/西語<br>🎓 永和耕莘PGY 2年・臨床5-6年</div>
+            </div>
+            <!-- 王韻婷（新加入）-->
+            <div style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);border-radius:var(--r-md);padding:14px;border:2px solid #FFD54F;position:relative">
+              <div style="position:absolute;top:8px;right:10px;font-size:9px;background:#FFB300;color:#fff;padding:2px 8px;border-radius:99px;font-weight:700">NEW</div>
+              <div style="font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--ink)">王韻婷 醫師</div>
+              <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;line-height:1.6">北醫牙醫學士・花蓮門諾住院醫師・Hisson植牙訓練・全方位矯正結訓・一般牙科</div>
+              <div style="font-size:10px;color:#8D6E00;margin-top:6px;line-height:1.5;background:#FFF8E1;padding:6px 8px;border-radius:8px">📅 六月起：週一午晚、週二晚、週六早午<br>👶 適合轉診：兒童定檢病人</div>
             </div>
           </div>
         </div>
@@ -3110,7 +3124,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260421';"
+      "const DATA_VERSION = '20260424';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3169,7 +3183,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260421';"
+      "const DATA_VERSION = '20260424';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3242,10 +3256,100 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260422';
+const DATA_VERSION = '20260424';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1776985748387,
+    "title": "🚨 蕭醫師拆線約診錯誤警告（記警告一隻）",
+    "type": "urgent",
+    "body": "【2026-04-23 LINE 訊息】@All 蕭醫師的拆線，不用佔一個時間，兩筆約錯。\n\n顏醫師說：三、四月有輪櫃台九診以上的助理，都記「警告一隻」。\n\n請各助理特別注意：蕭醫師拆線不需要單獨佔一個約診時段。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776985748386,
+    "title": "⚠️ 五大狀況檢討（蕭醫師資源善用、約診流程）",
+    "type": "urgent",
+    "body": "【2026-04-24 LINE 訊息】因有以下五大狀況需提醒：\n\n1. 沒善用資源：蕭醫師常很閒\n2. 蕭醫師來，我們要給雙和醫院費用\n3. 浪費行政端時間（這兩天因一個李醫師「自費」拔牙的病患找不到快點的時間，只好問新醫師花不少時間，承擔出問題風險）\n4. Google 負評也是拔智齒約不到\n5. 之前就講過 45 分鐘約三個 ROS 的問題，又發生\n\n請櫃檯加強善用蕭醫師時段，避免浪費資源。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": true
+  },
+  {
+    "id": 1776985748385,
+    "title": "📋 病歷處理注意事項（管理部）",
+    "type": "info",
+    "body": "《管理部訊息》病歷注意⚠️\n\n1. 約診時請注意看診日期\n2. 病歷加頁時，要注意看診日期的順序，再釘起來，避免看錯頁面，導致約錯療程及時間",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776985748384,
+    "title": "🧹 診間私人物品收納提醒（管理部）",
+    "type": "info",
+    "body": "《管理部訊息》\n在「診間」，希望「私人物品」儘量放在「病患看不到的地方」，環境整潔，整體質感、心情可能較好～感謝。\n\n另外，大家的私人物品能鎖起更好，降低萬一有不見要調監視器的麻煩。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776985748383,
+    "title": "🦷 5/8（五）顏醫師多增加一位病人",
+    "type": "info",
+    "body": "【2026-04-23 LINE 訊息】5/8（五）顏醫師多增加一位病人，請櫃檯注意排診。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776899343477,
+    "title": "📚 李醫師上課時間公告（6-9月）",
+    "type": "info",
+    "body": "李醫師上課時間（原日期有誤，以下為正確日期）：\n• 6/17(三)-6/21(日)\n• 7/15(三)-7/19(日)\n• 8/12(三)-8/16(日)\n• 9/9(三)-9/13(日)\n請櫃檯注意該期間排診安排。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776899343478,
+    "title": "🚪 2樓通道門鎖住時可走陽台",
+    "type": "info",
+    "body": "《管理部訊息》2樓診間與休息室通道的門若被鎖住了，可以從陽台繞過去。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776899343479,
+    "title": "📦 備品放梯間注意事項",
+    "type": "info",
+    "body": "@All 請大家放備品到梯間時，請注意放的位置！\n• 桌上勿放太重，避免倒塌風險\n• 插頭🔌位置請保留 1-2 個可露出使用",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776899343480,
+    "title": "✅ Scanbody 庫存已補齊",
+    "type": "info",
+    "body": "Scanbody 目前已補滿／補齊，可正常使用。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1776899343481,
+    "title": "⚠️ 約診／疼痛病患處理提醒（管理部）",
+    "type": "urgent",
+    "body": "《管理部訊息》櫃檯請注意⚠️\n1. 若不小心「約錯」或醫師看過數次的病患約不到時間，請務必積極處理，勿消極放任問題產生。\n2. 近期出現負評：2週前智齒痛想約拔的病患，櫃檯與病患誤會，結果只洗牙不爽。當下若可以，應趕快安排拔牙（可問蕭醫師或顏醫師）。\n3. 蕭醫師週六時段雖短，但可略調整疊約點，動作快且易有爽約。也可知會顏醫師，通常可稍加班處理。\n4. 病患痛且埋得深／30歲以上，儘速安插時：可考慮術前藥 1-3 天（問醫師）、談膠原蛋白（水雷射+畢卡索／光動力／二極體）降低術後不適。\n5. 正在分工調整，逐步篩選好病人；已進入療程的病患會好好照顧。\n\n❤️‍🔥 不岀錯就贏了！",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1776812872331,
     "title": "🧪 Kerr temp-bond 調拌紙使用提醒",
@@ -4130,6 +4234,12 @@ let events = {
       "time": "00:00",
       "type": "meeting",
       "note": "可以申報92133C"
+    },
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
     }
   ],
   "2026-09-25": [
@@ -4194,6 +4304,12 @@ let events = {
       "time": "12:30",
       "type": "meeting",
       "note": ""
+    },
+    {
+      "name": "李醫師加診（聽報告）",
+      "time": "16:30",
+      "type": "doctor",
+      "note": "4/28（二）16:30 李醫師加一位病人聽報告"
     }
   ],
   "2026-05-06": [
@@ -4232,6 +4348,12 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "5/11（一）下午 兒牙林醫師加診"
+    },
+    {
+      "name": "顏醫師全天加診",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "5/11（一）顏醫師原為下午加一位病人，後來打開變成一診了（全天）"
     }
   ],
   "2026-05-20": [
@@ -4240,6 +4362,174 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "邱柏智醫師（贗復專科）5/20（三）開始每週三午晚看診，8月後可能變更"
+    }
+  ],
+  "2026-04-27": [
+    {
+      "name": "星汎淨水 RO 濾心更換",
+      "time": "15:00",
+      "type": "maintenance",
+      "note": "4/27（一）下午 3、4 點，星汎淨水來更換 RO 濾水器濾心，共 12 支，費用 7,200 元"
+    }
+  ],
+  "2026-06-17": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
+    }
+  ],
+  "2026-06-18": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
+    }
+  ],
+  "2026-06-20": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
+    }
+  ],
+  "2026-06-21": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
+    }
+  ],
+  "2026-07-15": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-07-15 ~ 2026-07-19"
+    }
+  ],
+  "2026-07-16": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-07-15 ~ 2026-07-19"
+    }
+  ],
+  "2026-07-17": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-07-15 ~ 2026-07-19"
+    }
+  ],
+  "2026-07-18": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-07-15 ~ 2026-07-19"
+    }
+  ],
+  "2026-07-19": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-07-15 ~ 2026-07-19"
+    }
+  ],
+  "2026-08-12": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-08-12 ~ 2026-08-16"
+    }
+  ],
+  "2026-08-13": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-08-12 ~ 2026-08-16"
+    }
+  ],
+  "2026-08-14": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-08-12 ~ 2026-08-16"
+    }
+  ],
+  "2026-08-15": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-08-12 ~ 2026-08-16"
+    }
+  ],
+  "2026-08-16": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-08-12 ~ 2026-08-16"
+    }
+  ],
+  "2026-09-09": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-09-09 ~ 2026-09-13"
+    }
+  ],
+  "2026-09-10": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-09-09 ~ 2026-09-13"
+    }
+  ],
+  "2026-09-11": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-09-09 ~ 2026-09-13"
+    }
+  ],
+  "2026-09-12": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-09-09 ~ 2026-09-13"
+    }
+  ],
+  "2026-09-13": [
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-09-09 ~ 2026-09-13"
+    }
+  ],
+  "2026-05-08": [
+    {
+      "name": "顏醫師加診",
+      "time": "17:18",
+      "type": "doctor",
+      "note": "顏醫師多增加一位病人"
     }
   ]
 };
