@@ -22,6 +22,8 @@
   --sky-light:  #E2F1FE;
   --lavender:   #C8C0F0;
   --lav-light:  #EAE7FC;
+  --lav:        #C8C0F0;
+  --peach-light:#FFF0DB;
   --cream:      #FFFAF5;
   --white:      #FFFFFF;
   --ink:        #2D2A26;
@@ -1413,6 +1415,30 @@ body::before {
 }
 .quick-link:hover { border-color: var(--mint); background: var(--mint-light); color: var(--ink); transform: translateY(-2px); }
 
+/* ─── External Nav Links ─── */
+.nav-ext-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all .2s;
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 600;
+  color: var(--ink-mute);
+  margin-bottom: 2px;
+  border: 1.5px dashed var(--border);
+  text-decoration: none;
+  background: var(--cream);
+}
+.nav-ext-link:hover { background: var(--lav-light); border-color: var(--lavender); color: var(--ink); }
+.nav-ext-arrow {
+  margin-left: auto;
+  font-size: 11px; font-weight: 800;
+  color: var(--ink-mute);
+  opacity: 0.5;
+}
+.nav-ext-link:hover .nav-ext-arrow { opacity: 1; color: var(--lavender); }
+
 /* ─── MOBILE RESPONSIVE ─── */
 @media (max-width: 768px) {
   .app {
@@ -1569,11 +1595,25 @@ body::before {
   /* ── Timeline mobile ── */
   .timeline { gap: 10px; }
 
+  /* ── Clinic info: doctor grid responsive ── */
+  #section-clinic-info .card.span-3 > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* ── Internal manual cards responsive ── */
+  #section-manuals > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
   /* ── Sidebar footer ── */
   .sidebar-footer { padding: 12px; }
 }
 
 @media (max-width: 480px) {
+  /* Doctor grid single column on small phones */
+  #section-clinic-info .card.span-3 > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
   .main { padding: 10px; }
 
   /* Topbar */
@@ -1655,15 +1695,15 @@ body::before {
         <span class="nav-icon">📖</span> 內部手冊
       </div>
 
-      <!-- 外部工具連結 -->
-      <a href="https://imaginative-gumdrop-ea0163.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-item" style="text-decoration:none;color:inherit;margin-top:4px">
-        <span class="nav-icon">📅</span> 排班軟體
+      <div class="nav-section-label" style="margin-top:12px">實用工具</div>
+      <a href="https://imaginative-gumdrop-ea0163.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
+        <span class="nav-icon">🗓️</span> 排班軟體 <span class="nav-ext-arrow">↗</span>
       </a>
-      <a href="https://magical-lolly-6370e6.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-item" style="text-decoration:none;color:inherit">
-        <span class="nav-icon">💊</span> 用藥安全資訊
+      <a href="https://magical-lolly-6370e6.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
+        <span class="nav-icon">💊</span> 用藥安全資訊 <span class="nav-ext-arrow">↗</span>
       </a>
-      <a href="https://kaleidoscopic-cranachan-aa0034.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-item" style="text-decoration:none;color:inherit">
-        <span class="nav-icon">🦷</span> 牙齒外傷診斷
+      <a href="https://kaleidoscopic-cranachan-aa0034.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
+        <span class="nav-icon">🩻</span> 牙齒外傷診斷 <span class="nav-ext-arrow">↗</span>
       </a>
 
       <div class="nav-section-label" style="margin-top:12px">AI 智慧功能</div>
@@ -1713,12 +1753,12 @@ body::before {
 
       <!-- Quick links -->
       <div class="quick-links">
-        <a class="quick-link" onclick="showSection('calendar', document.querySelector('.nav-item:nth-child(2)'))">📅 行事曆</a>
+        <a class="quick-link" onclick="showSection('calendar', document.querySelectorAll('.nav-item')[1])">📅 行事曆</a>
         <a class="quick-link" onclick="showSection('announcements', document.querySelectorAll('.nav-item')[2])">📢 公告欄</a>
-        <a class="quick-link" onclick="showSection('ai-weekly', document.querySelectorAll('.nav-item')[5])">✨ 本週LINE摘要</a>
-        <a class="quick-link" onclick="showSection('meeting', document.querySelectorAll('.nav-item')[6])">📋 開會準備</a>
-        <a class="quick-link" onclick="showSection('clinic-info', document.querySelectorAll('.nav-item')[3])">🏥 診所資訊</a>
-        <a class="quick-link" onclick="showSection('materials', document.querySelectorAll('.nav-item')[4])">🦷 牙科材料庫</a>
+        <a class="quick-link" onclick="showSection('ai-weekly', document.querySelectorAll('.nav-item')[7])">✨ 本週LINE摘要</a>
+        <a class="quick-link" onclick="showSection('meeting', document.querySelectorAll('.nav-item')[8])">📋 開會準備</a>
+        <a class="quick-link" onclick="showSection('clinic-info', document.querySelectorAll('.nav-item')[4])">🏥 診所資訊</a>
+        <a class="quick-link" onclick="showSection('materials', document.querySelectorAll('.nav-item')[5])">🦷 牙科材料庫</a>
       </div>
 
       <!-- Stats -->
@@ -1731,7 +1771,7 @@ body::before {
               <div class="card-icon ci-pink">🔔</div>
               最新公告
             </div>
-            <button class="btn btn-ghost" onclick="showSection('announcements', document.querySelectorAll('.nav-item')[2])" style="font-size:12px;padding:6px 12px">全部查看</button>
+            <button class="btn btn-ghost" onclick="showSection('announcements', document.querySelectorAll('.nav-item')[2])" style="font-size:12px;padding:6px 12px">全部查看 →</button>
           </div>
           <div class="announce-list" id="dash-announce-list">
             <!-- filled by JS -->
@@ -1760,10 +1800,10 @@ body::before {
             </div>
             <div style="display:flex;gap:8px;align-items:center">
               <span class="ai-badge">AI 整理</span>
-              <button class="btn btn-ghost" onclick="showSection('ai-weekly', document.querySelectorAll('.nav-item')[4])" style="font-size:12px;padding:6px 12px">查看完整版</button>
+              <button class="btn btn-ghost" onclick="showSection('ai-weekly', document.querySelectorAll('.nav-item')[7])" style="font-size:12px;padding:6px 12px">查看完整版 →</button>
             </div>
           </div>
-          <div class="ai-summary-box" onclick="showSection('ai-weekly', document.querySelectorAll('.nav-item')[5])">
+          <div class="ai-summary-box" onclick="showSection('ai-weekly', document.querySelectorAll('.nav-item')[7])" style="cursor:pointer">
             三週社群主要討論：<span class="highlight">掛號費收費標準與病人身份分類</span>、<span class="highlight">水雷射使用安全（線材10-40萬）</span>、<span class="highlight">多項 SOP 規範上線</span>（口袋名單約診/週二空檔檢查/Call病患流程）。設備面完成 Three Way 更新與 W&H 消毒鍋安裝。共 8 項醫師看診異動需注意，幹部會議討論新人跟診品質。另表揚 4 位優秀同仁。
           </div>
           <div class="ai-topics">
@@ -3135,7 +3175,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202604262308';"
+      "const DATA_VERSION = '202604282308';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3194,7 +3234,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202604262308';"
+      "const DATA_VERSION = '202604282308';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3267,10 +3307,82 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202604262308';
+const DATA_VERSION = '202604282308';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1777417728693,
+    "title": "⌨️ 行政辦公室鍵盤接收器遺失 & 印表機異常",
+    "type": "urgent",
+    "body": "<strong>⚠️ 鍵盤接收器</strong><br>行政辦公室的電腦鍵盤接收器不見了，是誰拿走了嗎？ 還是有哪裡需要額外鍵盤滑鼠，再回報以便購買。<br><br><strong>🖨️ 印表機問題</strong><br>旁邊的印表機好像有點問題，沒法列印，會找時間處理。<br><br><strong>📢 提醒</strong><br>麻煩大家遇到診所有問題無法處理的時候，要記得提出，也可以告知，再看怎麼處理。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777417728692,
+    "title": "📄 排班邏輯建議書（請大家審閱）",
+    "type": "general",
+    "body": "<strong>📌 內容說明</strong><br>依照 Ivy 提供的資料整理的排班邏輯建議書，主要是給 AI 看的，所以可以先訂嚴格一點、複雜一點沒關係。<br><br><strong>📝 後續流程</strong><br>• 大家先看看有沒有要修改的<br>• 意見彙整後由顏醫師再過目<br>• 試著給 AI 排排看（不要報太大期望，通常需要修正好幾回）<br>• 條件、限制給確實，理論上應有初步效果<br><br><strong>📦 過渡期說明</strong><br>排班軟體會持續優化，過渡期可能紙本或線上併用，看大家的習慣。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777417728691,
+    "title": "🖥️ 排班軟體更新（2026-04-28）",
+    "type": "info",
+    "body": "<strong>⚠️ 本次更新重點</strong><br>• 增加學習診時的教學助理標示<br>• 新增大表格直接點選派班，比較接近之前的排班方式<br><br>網址已經在診所頁面更新，大家有空可以試試看：<br><a href=\"https://magenta-cactus-b7ddfb.netlify.app/\" target=\"_blank\">https://magenta-cactus-b7ddfb.netlify.app/</a>",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777417728690,
+    "title": "📣 初階諮詢通過標準（再次公告）",
+    "type": "info",
+    "body": "<strong>📋 通過條件</strong><br>1. 顏醫師自費講解通過<br>2. 李醫師至少成交一例 或 兒林醫師講解通過<br><br><strong>💰 通過後加給</strong><br>• 幹部以上：+$300/月<br>• 儲備：+$200/月<br><br><strong>✅ 目前已通過（1+2 皆達成）</strong><br>I／T／S／J／Y",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777331334861,
+    "title": "🚿 4/28（二）社區洗水塔提醒",
+    "type": "urgent",
+    "body": "<strong>⚠️ 4/28（二）社區洗水塔</strong><br>明天（4/28）社區洗水塔，理論上應該不影響診所運作，但仍請大家留意。<br><br><strong>📌 若停水請注意</strong><br>• 記得關掉一樓後面的 suction 機器<br>• 改用<strong>診療椅內建的 suction</strong><br><br>避免無水運轉造成設備損壞。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777331334860,
+    "title": "🤖 AI 自動排班計畫啟動（蒐集排班邏輯中）",
+    "type": "info",
+    "body": "<strong>📌 計畫概要</strong><br>排版軟體理論上可做到初步自動排班，只要給予規則和限制即可初步排出。後續會依照 4、5 月班表，請 AI 先分析，再跟排版助理了解排版邏輯，試著製作自動排班功能，以減輕大家的負擔。<br><br><strong>📝 排班規則收集方式</strong><br>規則不用想得太複雜，可用記事本的<strong>語音轉文字</strong>功能口語錄製即可。例如：<br><br>• Tina 上班時優先排櫃檯<br>• 顏醫師看診時優先安排 Hadassa／Josey／Ivy 跟診<br>• 兼職不能一天三診<br>• 全職可一天三診，但不要連續兩天三診<br>• 三診的隔天儘量不要排早上，讓人員有充分休息<br><br>類似這樣口語的規則就好，講得很雜亂沒關係，後續可交由 AI 整理分析。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777331334859,
+    "title": "📄 排班軟體變更彙總（2026-04-27 更新）",
+    "type": "info",
+    "body": "<strong>📌 內容</strong><br>排班軟體最新變更彙總文件已釋出（2026-04-27），可至 LINE 群組查看 PDF 連結。<br><br><strong>🔗 對應軟體</strong><br>新版排版軟體：<a href=\"https://imaginative-gumdrop-ea0163.netlify.app/\" target=\"_blank\">https://imaginative-gumdrop-ea0163.netlify.app/</a>（已放上診所 Chrome 首頁）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777331334858,
+    "title": "🌐 診所網址持續更新（左欄新增 3 項）",
+    "type": "info",
+    "body": "<strong>📌 更新內容</strong><br>院內網址持續更新（<a href=\"https://dentist9100013.github.io/happynessdental/\" target=\"_blank\">https://dentist9100013.github.io/happynessdental/</a>），左側欄位新增以下 3 項：<br><br>1. 用藥和全身性疾病知識網<br>2. 牙齒外傷診斷<br>3. 排版軟體<br><br>有空可點選查看，提供同仁臨床參考。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1777244935614,
     "title": "🖥️ 新版排版軟體上線（已放上 Chrome 首頁）",
@@ -4372,6 +4484,12 @@ let events = {
       "time": "上午",
       "type": "training",
       "note": "基礎櫃檯／Part I & II，先複習不用考"
+    },
+    {
+      "name": "社區洗水塔（注意停水）",
+      "time": "全天",
+      "type": "maintenance",
+      "note": "社區洗水塔，理論上不影響；若停水須關閉一樓後方 suction 機器，改用診療椅內建 suction"
     }
   ],
   "2026-05-06": [
@@ -6857,4 +6975,4 @@ function showManualOutline(which) {
 
 </script>
 </body>
-</html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+</html>
