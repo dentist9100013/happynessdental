@@ -3175,7 +3175,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202604282308';"
+      "const DATA_VERSION = '202605042307';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3234,7 +3234,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202604282308';"
+      "const DATA_VERSION = '202605042307';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3307,10 +3307,118 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202604282308';
+const DATA_VERSION = '202605042307';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1777732200002,
+    "title": "🛠️ 班表系統功能需求（特休／開會日期／JPG 匯出）",
+    "type": "info",
+    "body": "<strong>📋 提出的需求項目</strong><br>1. 助理使用特休幾診<br>2. 開會日期可以顯示在哪邊<br>3. 班表可以匯出 JPG 檔<br><br><strong>👨‍⚕️ 洪秉琁醫師回覆</strong><br>• 「可以，我再處理」<br>• 「我下禮拜再處理一下」<br><br>後續請等候洪醫師更新班表系統，預計下週起陸續上線。",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1777732200001,
+    "title": "🗓️ 5 月份開會日期：5/12、5/28",
+    "type": "info",
+    "body": "<strong>📅 5 月開會日期</strong><br>• 5/12（二）<br>• 5/28（四）<br><br>印出來的班表上有寫，但傳在群組的班表沒辦法 KEY 上去（.Y）。<br><br><strong>⚠️ 提醒</strong><br>請各位同仁將開會日期記入個人行事曆，並提早安排當日工作。",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1777679400005,
+    "title": "📝 遲到處理案例（記點/扣款說明）",
+    "type": "general",
+    "body": "<strong>📌 案例</strong><br>星期二有一 NP，Winnie 忘了跟 Dr. 李說，等 1 小時退掛<br><br><strong>📌 處理（先警告為主）</strong><br>• Winnie 先警告（後續視情況記點）<br>• Dr. 李等 35 分以上 -$100<br><br><strong>📋 後續</strong><br>• @Min 記得登記好要傳給 Dr. 李<br><br><strong>💡 原因簡述</strong><br>1. 無法不處理，有客訴風險<br>2. 醫師無法把所有責任推給助理（醫師可決定怎約，可跟助理溝通）<br>3. 助理真的很不濟的前提下，思考如何增加更多人願意做<br><br><strong>🦷 醫療品質負責的做法</strong><br>已接的病患（特別高自費者），真約不下、不超約（最多 1-2 個），是醫師增加看診時間，或病患分流（在有得到好照顧的前提下），或不接太多。",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1777679400004,
+    "title": "🔄 Mina 5 月櫃流班別異動",
+    "type": "general",
+    "body": "<strong>📅 班表異動</strong><br>• Mina 5/7、5/14 早上 → 改到 5/4、5/18 早上當櫃流<br><br>再麻煩當診櫃檯 G/Y 幫忙協助帶一下，謝謝！",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1777679400003,
+    "title": "📅 6 月、7 月 助理正職/班表異動",
+    "type": "info",
+    "body": "<strong>📌 6 月</strong><br>• Mina 當正職<br>• Sharon 可排 31 診<br><br><strong>📌 7 月</strong><br>• Sharon 改當正職<br><br><strong>📌 其他</strong><br>• Nora 6 月想要班多一些（若有需要可排 31 診）<br>• Elena 6/9 不能上班<br>• Kevin 6/12 過後，沒劃休都可排",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1777679400002,
+    "title": "💰 醫師等病患超過 35 分鐘扣 $100 規則",
+    "type": "info",
+    "body": "<strong>⚠️ 為免病患抱怨醫師讓病患等很久</strong><br><br>病患有約且 10 分鐘內到，「等超過 35 分鐘，醫師都沒看到」：<br><br><strong>📌 助理執行步驟</strong><br>• 協助登記 -$100<br>• 「拍照 LINE 醫師」<br><br><strong>📊 PS</strong><br>35 分鐘是經調查易客訴時間（為免爭議，通常是等 40 分鐘以上才真的扣醫師）",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1777679400001,
+    "title": "📣 遲到 15 分鐘以上病患處理規則（全診所統一）",
+    "type": "urgent",
+    "body": "<strong>⚠️ 即日起全診所統一處理（不限矯正）</strong><br><br><strong>📌 遲到 15 分鐘以上病患</strong><br>「除非候診區很空」，否則請「協助掛號的助理」統一跟病患說：<br><br>「因後面還有約診病患，如都準時到了可能會等 1-2hr 以上，或幫您改約」<br><br><strong>🔑 簡單翻譯</strong><br>• 「候診區不是空的沒人」<br>• 「病患不願意等一到兩小時」<br>• 「遲到 15 分鐘病患」直接改約<br><br><strong>🩺 醫師約滿情況</strong><br>1. 「醫師約滿，如後面已約病患準時到，可能會等 1-2hr，可接受再等」<br>2. 否「遲到 15 分鐘以上」可直接改約<br><br><strong>🩺 醫師有空檔情況</strong><br>「可直接幫遲到/現場病患約那時間」並「告知醫師」<br><strong>⚠️ 告知醫師非常重要！也請醫師雙向注意</strong><br><br><strong>📋 後續執行</strong><br>• @璟妤 協理加入護照初階櫃檯教學內容<br>• @林芷晴 協助加在助理手冊記點/警告規定，並更新助理群組<br>• @Min 監督以上",
+    "author": "LINE 同步",
+    "time": "昨天",
+    "pinned": false
+  },
+  {
+    "id": 1777590438540,
+    "title": "🦷 顏醫師 5/20、5/25 下午加診（植牙）",
+    "type": "info",
+    "body": "<strong>📅 顏醫師加診</strong><br>• 5/20（三）下午 2:00 加 1 位植牙病人<br>• 5/25（一）下午 2:00 加 1 位植牙病人<br><br>請相關同仁協助安排診間與器械準備。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777504130965,
+    "title": "🪧 診間告示牌已固定完成（感謝 Yuki）",
+    "type": "general",
+    "body": "診間告示牌目前都已固定上去。<br><br><strong>🙏 特別感謝</strong><br>感謝 Yuki 幫忙製作標示，6-7 診的標示設計不錯，量高度也算整齊。<br><br><strong>📝 待調整</strong><br>「二」的位置有點怪怪的，再麻煩 Yuki 稍微調整一下；如果只是掉漆，應該可以補。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777504130964,
+    "title": "🔧 消毒室震盪機異常聲響（已通報合泰）",
+    "type": "info",
+    "body": "4/29 今早消毒室的 <strong>震盪機</strong> 出現怪聲音<br>（目前運作仍正常）<br><br>已錄音給合泰，請廠商來檢查一下。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777504130963,
+    "title": "📸 5/4 七診攝影燈控制盒安裝（昆霖）",
+    "type": "info",
+    "body": "<strong>📅 安裝資訊</strong><br>• 日期：5/4（一）<br>• 廠商：昆霖<br>• 內容：七診攝影燈控制盒安裝<br><br><strong>👀 對接同仁請注意</strong><br>請對接的人 <strong>確認能夠正常使用</strong>，再讓工程師離開，謝謝。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1777504130962,
+    "title": "❄️ 診所冷氣連線異常修復 & iPad 控制 App 上線",
+    "type": "info",
+    "body": "<strong>📡 冷氣連線狀況</strong><br>• 4/29 上午 部分冷氣離線，已請廠商處理<br>• 4/29 中午 連線都已修好<br>• 4/29 下午 一樓三台隱藏式冷氣又斷線<br>• 廠商初步判斷可能是無線網路訊號不穩，將與冷氣廠商再確認<br><br><strong>📱 診所 iPad 新增冷氣 App</strong><br>可藉由 App 操控診所冷氣：<br>• 手機帳號：<strong>0931983033</strong><br>• 密碼：<strong>HA85210125</strong><br><br><strong>🏠 App 對應區域</strong><br>• <strong>Smarter Home</strong>：候診區、走廊、諮詢室之吊隱式空調<br>• <strong>SmartHome</strong>：其他壁掛式冷氣<br><br><strong>⚠️ 重要提醒</strong><br>5 診 4/28 晚上冷氣沒關，請大家離開時、特別是 <strong>晚班櫃檯</strong>，務必確認所有冷氣都關閉。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1777417728693,
     "title": "⌨️ 行政辦公室鍵盤接收器遺失 & 印表機異常",
@@ -4354,6 +4462,18 @@ let events = {
       "time": "18:00",
       "type": "doctor",
       "note": "5/4（一）晚 王醫師看診（5月固定時段之一）"
+    },
+    {
+      "name": "📸 七診攝影燈控制盒安裝（昆霖）",
+      "time": "全天",
+      "type": "maintenance",
+      "note": "請對接同仁確認可正常使用後再讓工程師離開"
+    },
+    {
+      "name": "Mina 早上當櫃流",
+      "time": "09:00",
+      "type": "other",
+      "note": "原 5/7 早上改到 5/4 早上當櫃流（櫃檯 G/Y 協助帶）"
     }
   ],
   "2026-04-07": [
@@ -4542,6 +4662,12 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "邱柏智醫師（贗復專科）5/20（三）開始每週三午晚看診，8月後可能變更"
+    },
+    {
+      "name": "顏醫師加診（植牙病人 1 位）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師 5/20（三）下午 2 點加 1 位植牙病人"
     }
   ],
   "2026-04-27": [
@@ -4820,6 +4946,52 @@ let events = {
       "time": "全天",
       "type": "doctor",
       "note": "2026 下半年排程（LINE 同步）"
+    }
+  ],
+  "2026-05-25": [
+    {
+      "name": "顏醫師加診（植牙病人 1 位）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師 5/25（一）下午 2 點加 1 位植牙病人"
+    }
+  ],
+  "2026-05-18": [
+    {
+      "name": "Mina 早上當櫃流",
+      "time": "09:00",
+      "type": "other",
+      "note": "原 5/14 早上改到 5/18 早上當櫃流（櫃檯 G/Y 協助帶）"
+    }
+  ],
+  "2026-06-09": [
+    {
+      "name": "Elena 請假（不能上班）",
+      "time": "全天",
+      "type": "leave",
+      "note": ""
+    },
+    {
+      "name": "顏醫師加診（1 位病人）",
+      "time": "18:15",
+      "type": "doctor",
+      "note": "6/9（二）18:15 顏醫師加一位病人"
+    }
+  ],
+  "2026-05-12": [
+    {
+      "name": "📋 5 月例行會議",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月份開會日期之一（LINE 公告）"
+    }
+  ],
+  "2026-05-28": [
+    {
+      "name": "📋 5 月例行會議",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月份開會日期之一（LINE 公告）"
     }
   ]
 };
