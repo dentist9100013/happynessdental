@@ -1696,7 +1696,7 @@ body::before {
       </div>
 
       <div class="nav-section-label" style="margin-top:12px">實用工具</div>
-      <a href="https://imaginative-gumdrop-ea0163.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
+      <a href="https://dentist9100013.github.io/happynessdental/happyness_v11.html" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
         <span class="nav-icon">🗓️</span> 排班軟體 <span class="nav-ext-arrow">↗</span>
       </a>
       <a href="https://magical-lolly-6370e6.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
@@ -3175,7 +3175,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605042307';"
+      "const DATA_VERSION = '202605062309';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3234,7 +3234,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605042307';"
+      "const DATA_VERSION = '202605062309';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3307,10 +3307,64 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202605042307';
+const DATA_VERSION = '202605062309';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1778108957182,
+    "title": "📅 5 月底前班表異動彙整",
+    "type": "info",
+    "body": "<strong>📋 班表異動</strong><br>• 5/20（三）中午：幹部會議<br>• 5/14（四）：H 早上行政<br>• 5/20（三）：H 下午改櫃流<br>• 5/29（五）：Y 早上蔡改 S 跟蔡<br><br><strong>❓ 詢問洪醫師</strong><br>Mina 的診次中有 G／Y／T／I…等字母，可改成 GO／YO／TO… 嗎？",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778108957181,
+    "title": "🛠️ 排班軟體更新（新版連結）",
+    "type": "info",
+    "body": "<strong>🔗 新版連結</strong><br>https://dentist9100013.github.io/happynessdental/happyness_v11.html<br><br><strong>📌 說明</strong><br>• 排班軟體已更新，之後再找時間說明<br>• 已加入開會時間<br>• 麻煩 Ivy 看一下班表有沒有需要修改的地方，沒有的話可以更新到助理醫師群組<br>• 診所網頁上的連結都已修改成最新版本",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778108957180,
+    "title": "🍽️ 5 月跟顏醫師吃飯時間",
+    "type": "info",
+    "body": "<strong>📅 吃飯日期與分組</strong><br>• 5/9（六）I M N<br>• 5/13（三）J T I H<br>• 5/16（六）G W H<br>• 5/23（六）Z M K Y<br>• 5/30（六）C J S<br><br><strong>🔺 主題</strong><br>1. 工作或生活上有遇到什麼困難或不滿意的地方？<br>2. 自己在工作中除了賺錢，還有獲得什麼呢？<br><br><strong>☕ 飲料費用（當天早上記得點）</strong><br>• 幹部以上 $85（I.H.J.T.S）<br>• 儲備 $75（Y.G.C.Z.M）<br>• 一般／非正式 $65（W.N.K）<br><br><strong>📌 福利說明</strong><br>• 正式助理：每月 13 診以上才有請飲料之福利<br>• 助理長：每月請 3 杯飲料 + 2~3 次吃飯時間<br>• 其他管理（會計／協管／特助）：每月請 2 杯飲料 + 1~3 次吃飯時間<br>• 幹部：每月 1~2 杯飲料 + 吃飯時間依診數<br>• 儲備管理：每月請 2 杯飲料 + 1~2 次吃飯時間<br>• 儲備幹部：每月請 1 杯飲料 + 1~2 次吃飯時間<br>• 一般：每月請 1 杯飲料 + 0~1 次吃飯時間<br>• 非正式：每月請 0~2 杯飲料 + 吃飯時間看狀況",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778108957179,
+    "title": "🪞 清水雷射專用鏡子使用規範",
+    "type": "urgent",
+    "body": "<strong>✔️ 使用規範</strong><br>上下診皆須使用「清水雷射專用鏡子」<br><br><strong>⚠️ 重點提醒</strong><br>下診最後一位使用者，務必確實完成清潔<br><br><strong>❗ 違規處理</strong><br>未清潔經查核屬實者，將記一支警告",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778108957178,
+    "title": "🍲 5/14（四）醫師聚餐",
+    "type": "info",
+    "body": "<strong>📅 時間</strong><br>5/14（四）12:00<br><br><strong>📍 地點</strong><br>岩藏鍋（福美診所旁）<br><br><strong>👥 參加醫師</strong><br>• Dr.顏<br>• Dr.洪<br>• Dr.邱<br>• Dr.蔡<br>• Dr.女黃<br>• Dr.許（+助理 Ivy）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778022520286,
+    "title": "⚠️ 櫃檯掛號 P3601 流程更新（5 位可申報醫師）",
+    "type": "urgent",
+    "body": "<strong>⚠️ 櫃檯掛號注意</strong><br><br>掛號時，讀過雲端有 P3601 條件之病人，可<strong>直接幫醫師 key 入該病人的北昕病歷裡</strong>，並列印雲端資料（若之前已印過則不需再印）。<br><br><strong>📋 病歷標示</strong><br>• 病歷上要貼上 P3601 的貼紙<br><br><strong>👨‍⚕️ 目前可 Key P3601 的 5 位醫師</strong><br>• Dr. 顏<br>• Dr. 洪<br>• Dr. 女黃<br>• Dr. 男黃<br>• Dr. 王<br><br><strong>💡 提醒</strong><br>櫃檯掛號時請先確認該病患是否符合 P3601 條件，並依上述流程處理，避免漏掉申報。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1777732200002,
     "title": "🛠️ 班表系統功能需求（特休／開會日期／JPG 匯出）",
@@ -3477,7 +3531,7 @@ let announcements = [
     "id": 1777331334859,
     "title": "📄 排班軟體變更彙總（2026-04-27 更新）",
     "type": "info",
-    "body": "<strong>📌 內容</strong><br>排班軟體最新變更彙總文件已釋出（2026-04-27），可至 LINE 群組查看 PDF 連結。<br><br><strong>🔗 對應軟體</strong><br>新版排版軟體：<a href=\"https://imaginative-gumdrop-ea0163.netlify.app/\" target=\"_blank\">https://imaginative-gumdrop-ea0163.netlify.app/</a>（已放上診所 Chrome 首頁）",
+    "body": "<strong>📌 內容</strong><br>排班軟體最新變更彙總文件已釋出（2026-04-27），可至 LINE 群組查看 PDF 連結。<br><br><strong>🔗 對應軟體</strong><br>新版排版軟體：<a href=\"https://dentist9100013.github.io/happynessdental/happyness_v11.html\" target=\"_blank\">https://dentist9100013.github.io/happynessdental/happyness_v11.html</a>（已放上診所 Chrome 首頁）",
     "author": "LINE 同步",
     "time": "剛剛",
     "pinned": false
@@ -3495,7 +3549,7 @@ let announcements = [
     "id": 1777244935614,
     "title": "🖥️ 新版排版軟體上線（已放上 Chrome 首頁）",
     "type": "info",
-    "body": "<strong>📌 更新內容</strong><br>排版軟體已依照需求更新，新連結已經放上診所的 Chrome 頁面。<br><br><strong>🔗 新連結</strong><br>https://imaginative-gumdrop-ea0163.netlify.app/<br><br>有空可點選查看，方便日後排班作業。",
+    "body": "<strong>📌 更新內容</strong><br>排版軟體已依照需求更新，新連結已經放上診所的 Chrome 頁面。<br><br><strong>🔗 新連結</strong><br>https://dentist9100013.github.io/happynessdental/happyness_v11.html<br><br>有空可點選查看，方便日後排班作業。",
     "author": "LINE 同步",
     "time": "剛剛",
     "pinned": false
@@ -4634,6 +4688,12 @@ let events = {
       "time": "09:00",
       "type": "doctor",
       "note": "5/9（六）早午 王醫師看診"
+    },
+    {
+      "name": "🍽️ 顏醫師吃飯時間（I M N）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
     }
   ],
   "2026-05-11": [
@@ -4668,6 +4728,18 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "顏醫師 5/20（三）下午 2 點加 1 位植牙病人"
+    },
+    {
+      "name": "📋 幹部會議",
+      "time": "12:00",
+      "type": "meeting",
+      "note": "5/20（三）中午"
+    },
+    {
+      "name": "H 下午改櫃流",
+      "time": "14:00",
+      "type": "other",
+      "note": "班表異動"
     }
   ],
   "2026-04-27": [
@@ -4992,6 +5064,76 @@ let events = {
       "time": "全天",
       "type": "meeting",
       "note": "5 月份開會日期之一（LINE 公告）"
+    }
+  ],
+  "2026-06-08": [
+    {
+      "name": "顏醫師加手術",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "6/8（一）下午 14:00 顏醫師加一台手術"
+    }
+  ],
+  "2026-05-14": [
+    {
+      "name": "🍲 醫師聚餐（岩藏鍋）",
+      "time": "12:00",
+      "type": "meeting",
+      "note": "Dr.顏／Dr.洪／Dr.邱／Dr.蔡／Dr.女黃／Dr.許（+助理 Ivy）"
+    },
+    {
+      "name": "H 早上行政",
+      "time": "09:00",
+      "type": "other",
+      "note": "班表異動"
+    }
+  ],
+  "2026-05-13": [
+    {
+      "name": "🍽️ 顏醫師吃飯時間（J T I H）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
+    }
+  ],
+  "2026-05-16": [
+    {
+      "name": "🍽️ 顏醫師吃飯時間（G W H）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
+    }
+  ],
+  "2026-05-23": [
+    {
+      "name": "🍽️ 顏醫師吃飯時間（Z M K Y）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
+    }
+  ],
+  "2026-05-30": [
+    {
+      "name": "🍽️ 顏醫師吃飯時間（C J S）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
+    }
+  ],
+  "2026-05-29": [
+    {
+      "name": "Y 早上：蔡改 S 跟蔡",
+      "time": "09:00",
+      "type": "other",
+      "note": "班表異動"
+    }
+  ],
+  "2026-06-03": [
+    {
+      "name": "顏醫師加診（1 位病人）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師 6/3（三）下午加一位病人"
     }
   ]
 };
