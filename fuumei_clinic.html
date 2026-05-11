@@ -1679,7 +1679,7 @@ body::before {
       </div>
       <div class="nav-item" onclick="showSection('announcements', this)">
         <span class="nav-icon">📢</span> 公告欄
-        <span class="nav-badge">58</span>
+        <span class="nav-badge">122</span>
       </div>
       <div class="nav-item" onclick="showSection('archived-announcements', this); renderArchivedAnnouncements();">
         <span class="nav-icon">📚</span> 舊公告
@@ -3175,7 +3175,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605082308';"
+      "const DATA_VERSION = '202605092308';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3234,7 +3234,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605082308';"
+      "const DATA_VERSION = '202605092308';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3307,10 +3307,46 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202605082308';
+const DATA_VERSION = '202605092308';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1778368108323,
+    "title": "🐀 鼠患防治：休息室食物不要放過夜",
+    "type": "urgent",
+    "body": "<strong>⚠️ 鼠患風聲鶴唳，請大家配合防治</strong><br><br>診所基本維持乾淨不會有老鼠窩點，但難保外面老鼠或蟑螂跑進來覓食。<br><br><strong>🍱 食物管理規範</strong><br>• 休息室食物<strong>不要放在桌上放過夜</strong><br>• 最好放進冰箱或有蓋子的塑膠箱內<br>• 避免被蟑螂老鼠爬過而污染<br>• 晚上流動將垃圾收集後，<strong>不要再將食物丟到垃圾桶放過夜</strong><br><br><strong>🛡️ 已採取措施</strong><br>• 請 Kevin 在診所角落點上一點絕<br>• 診間和廁所下水道用稀釋的漂白水沖洗，避免蟑螂入侵<br>• 診所原本即有安裝超音波驅鼠器<br><br><strong>⚠️ 最重要：食物不要放過夜，麻煩大家留意！</strong>",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": true
+  },
+  {
+    "id": 1778368108322,
+    "title": "🏅 Kevin 記 1 優（工作態度認真）",
+    "type": "general",
+    "body": "<strong>🏅 Kevin 記 1 優</strong><br><br>顏醫師說：工讀生 <strong>Kevin 做事情認真</strong>，會注意到一些細節，態度良好。<br><br>助理也回饋：<br>• 會主動查看班表，關心隔天是否有流動、器械夠不夠用<br>• 主動把器械洗好再下班<br><br>感謝 Kevin 的用心付出！",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778368108321,
+    "title": "🗓️ Mina 6 月劃假：6/3、6/6、6/10、6/17、6/24",
+    "type": "info",
+    "body": "<strong>🗓️ Mina 6 月劃假</strong><br><br>Mina 6 月需休假日：<br>• 6/3（三）<br>• 6/6（六）<br>• 6/10（三）<br>• 6/17（三）<br>• 6/24（三）<br><br>請排班同仁納入 6 月班表規劃。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778368108320,
+    "title": "📅 蕭醫師看診異動：6/27 改 6/6",
+    "type": "info",
+    "body": "<strong>📅 口外專 蕭醫師看診異動</strong><br><br>• 原訂 <strong>6/27（六）</strong>因有事/上課，<strong>無法看診</strong><br>• 改為 <strong>6/6（六）</strong>看診<br><br>請相關約診同仁協助通知病人並調整約診。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1778276760000,
     "title": "👨‍⚕️ 新醫師約診提醒（王/陳/邱醫師）",
@@ -3339,63 +3375,6 @@ let announcements = [
     "pinned": false
   },
   {
-    "id": 1776985748386,
-    "title": "⚠️ 五大狀況檢討（蕭醫師資源善用、約診流程）",
-    "type": "urgent",
-    "body": "<strong>【2026-04-24 LINE 訊息】</strong>因有以下五大狀況需提醒：<br><br>1. 沒善用資源：蕭醫師常很閒<br><br>2. 蕭醫師來，我們要給雙和醫院費用<br><br>3. 浪費行政端時間（這兩天因一個李醫師「自費」拔牙的病患找不到快點的時間，只好問新醫師花不少時間，承擔出問題風險）<br><br>4. Google 負評也是拔智齒約不到<br><br>5. 之前就講過 45 分鐘約三個 ROS 的問題，又發生<br><br>請櫃檯加強善用蕭醫師時段，避免浪費資源。",
-    "author": "LINE 同步",
-    "time": "剛剛",
-    "pinned": true
-  },
-  {
-    "id": 1776467362899,
-    "title": "👩🏻 王韻婷醫師（一般 GP）介紹與排班",
-    "type": "info",
-    "body": "【2026-04-17 LINE 訊息｜已整合 4/28 加診訊息】歡迎王韻婷醫師（79年次）加入福美團隊！<br><br><strong>🎓 學經歷</strong><br>• 北醫畢，一般 GP 醫師<br>• 住東門附近，認同我們的理念<br>• 喜歡唱歌<br>• 星期四、五在台北市診所支援<br><br><strong>👶 適合轉診的病人</strong><br>兒林醫師定檢的小朋友可約她<br><br><strong>📅 四月看診時間</strong><br>• 4/28（二）晚 ← 加診場，請大家協助幫 Dr.王 約滿！<br><br><strong>📅 五月看診時間</strong><br>• 5/4（一）晚<br>• 5/5（二）晚<br>• 5/9（六）早、午<br>• 5/11（一）晚<br>• ⚠️ 醫師出國至 6/4<br><br><strong>📅 六月起常態班表</strong><br>• 星期一 午、晚<br>• 星期二 晚<br>• 星期六 早、午<br><br>📝 約診方式比照一般 GP 醫師；如卡到多人上班可先劃休她。",
-    "author": "LINE 同步",
-    "time": "剛剛",
-    "pinned": true
-  },
-  {
-    "id": 1776467362898,
-    "title": "👦🏻 邱柏智醫師（贗復專科）介紹",
-    "type": "info",
-    "body": "【2026-04-17 LINE 訊息】歡迎邱柏智醫師（80年次）加入福美團隊！<br><br><strong>📅 上班時間</strong><br>• 預計 5/20（三）午晚 開始上班<br>• 每週三 午、晚<br>• 八月研究所畢業、九月準備專科考試<br>• 預計十月後增加診次<br><br><strong>🎓 學經歷</strong><br>• 北醫贗復碩士（八月完訓畢）<br>• 阿根廷 University of Buenos Aires (UBA) 牙醫系畢業<br>• 在台通過學歷甄試與牙醫執照<br>• 永和耕莘住院受訓 2 年（PGY）<br>• 目前牙醫臨床 5–6 年<br><br><strong>🦷 專長</strong><br>• 主要：CD／RPD（全口、局部活動假牙）<br>• 其他一般牙科也可接<br><br><strong>🗣️ 語言能力</strong><br>中文／台語／英文／西班牙文<br><br>💬 之後會在福美協助假牙的部分，請各位醫師同仁們多多指教！",
-    "author": "LINE 同步",
-    "time": "剛剛",
-    "pinned": true
-  },
-  {
-    "id": 1775754832524,
-    "title": "【115年度牙醫健保支付標準修正與假日申報重要公告】",
-    "type": "info",
-    "body": "各位醫師您好，自 115年4月1日 起，多項牙醫健保支付標準將調整生效，重點如下：<br><br>點數調升：全面調升感控診察費（+16點）、恆牙根管治療及急症處置等項目點數。<br><br>假日代碼異動：4月起新增「92133C」適用於週日及國定假日；原「92094C」改為限單純週六申報。<br><br>合理門診量排除：公告115年度共計 73天 假日，不列入每月55萬點之合理門診點數計算。<br><br>詳細點數調整清單、申報規範與適用日期表，敬請參閱下方附圖說明。",
-    "author": "院長",
-    "time": "剛剛",
-    "pinned": true,
-    "images": [
-      "images/img_1775760515377.jpg",
-      "images/img_1775760515378.jpg",
-      "images/img_1775802390772.jpg"
-    ]
-  },
-  {
-    "id": 1775740039144,
-    "title": "福美牙醫診所約診指南",
-    "type": "general",
-    "body": "（無詳細說明）",
-    "author": "院長",
-    "time": "剛剛",
-    "img": "images/img_1775760515379.jpg",
-    "pinned": true,
-    "links": [
-      {
-        "label": "PDF檔",
-        "url": "https://www.dropbox.com/scl/fi/saaltamgcprt7h1kynldn/2026.04.09.pdf?rlkey=1aojmx01fljweq7kldsme135k&st=7a6jcda6&dl=0"
-      }
-    ]
-  },
-  {
     "id": 1778108957187,
     "title": "🔍 尋找蔡醫師的 bur",
     "type": "general",
@@ -3418,15 +3397,6 @@ let announcements = [
     "title": "🧪 手術包烘乾規範（避免生鏽）",
     "type": "info",
     "body": "<strong>⏰ 烘乾時間</strong><br>• 手術包要多烘 1～2 天再拿出來歸位<br>• 否則會生鏽<br><br><strong>💡 補充建議</strong><br>可善用 2 樓的 B 級消鍋，消完直接烘乾",
-    "author": "LINE 同步",
-    "time": "剛剛",
-    "pinned": false
-  },
-  {
-    "id": 1778108957184,
-    "title": "⚠️ 客訴案例：林雅蓁矯正病人（李醫師）",
-    "type": "urgent",
-    "body": "<strong>📋 病人背景</strong><br>• 矯正費已繳 20 多萬<br>• 最先在蘆美學矯正→台北→轉至福美<br>• 矯正完成後，因蛀牙及李醫師建議回植牙醫師處理牙冠（覺得偏小），先做暫時性維持器<br>• 4/27（一）19:30 約診回診做正式維持器<br><br><strong>😠 客訴內容（10 點）</strong><br>1. 李醫師看診潦草、快速<br>2. 動作粗魯<br>3. 沒關心病人牙齒狀況<br>4. 回診花太多時間在等待<br>5. 之前曾口頭說會優惠骨釘，後來又說沒這件事<br>6. 跟李醫師反應後，看診速度有改善，感受好些<br>7. 矯正期間李醫師告知線很髒要換線，後又說換線需費用（病人覺得是醫師主動要求，為何要付費？）<br>8. 李醫師鼓勵病人多做一副維持器（已繳上下 8000 元含臨時維持器的費用，為何要做第 3 副？）<br>9. 病人覺得是變相加價、不想給骨釘優惠<br>10. 朋友的孩子也是李醫師病人，非常抗拒不想回診<br><br><strong>📅 4/27 回診情況</strong><br>• 約 19:30，等到 20:00 才看診<br>• 看診時李醫師沒關心矯正完成後的感受，直接快速洗牙約 3 分鐘<br>• 之後離開請助理口內掃描<br>• 病人覺得助理經驗不足、掃描很久、牙肉很痛，中途一直求救<br>• 掃描完成後又等李醫師拍照，直到 20:30 才離開<br>• 回家後牙肉痛了 1 星期<br><br><strong>💡 後續建議</strong><br>@Min Ivy 建議將這些有狀況的內容集中放一個相簿管理",
     "author": "LINE 同步",
     "time": "剛剛",
     "pinned": false
@@ -3720,6 +3690,15 @@ let announcements = [
     "pinned": false
   },
   {
+    "id": 1776985748386,
+    "title": "⚠️ 五大狀況檢討（蕭醫師資源善用、約診流程）",
+    "type": "urgent",
+    "body": "<strong>【2026-04-24 LINE 訊息】</strong>因有以下五大狀況需提醒：<br><br>1. 沒善用資源：蕭醫師常很閒<br><br>2. 蕭醫師來，我們要給雙和醫院費用<br><br>3. 浪費行政端時間（這兩天因一個李醫師「自費」拔牙的病患找不到快點的時間，只好問新醫師花不少時間，承擔出問題風險）<br><br>4. Google 負評也是拔智齒約不到<br><br>5. 之前就講過 45 分鐘約三個 ROS 的問題，又發生<br><br>請櫃檯加強善用蕭醫師時段，避免浪費資源。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": true
+  },
+  {
     "id": 1776985748385,
     "title": "📋 病歷處理注意事項（管理部）",
     "type": "info",
@@ -3981,6 +3960,24 @@ let announcements = [
     "pinned": false
   },
   {
+    "id": 1776467362899,
+    "title": "👩🏻 王韻婷醫師（一般 GP）介紹與排班",
+    "type": "info",
+    "body": "【2026-04-17 LINE 訊息｜已整合 4/28 加診訊息】歡迎王韻婷醫師（79年次）加入福美團隊！<br><br><strong>🎓 學經歷</strong><br>• 北醫畢，一般 GP 醫師<br>• 住東門附近，認同我們的理念<br>• 喜歡唱歌<br>• 星期四、五在台北市診所支援<br><br><strong>👶 適合轉診的病人</strong><br>兒林醫師定檢的小朋友可約她<br><br><strong>📅 四月看診時間</strong><br>• 4/28（二）晚 ← 加診場，請大家協助幫 Dr.王 約滿！<br><br><strong>📅 五月看診時間</strong><br>• 5/4（一）晚<br>• 5/5（二）晚<br>• 5/9（六）早、午<br>• 5/11（一）晚<br>• ⚠️ 醫師出國至 6/4<br><br><strong>📅 六月起常態班表</strong><br>• 星期一 午、晚<br>• 星期二 晚<br>• 星期六 早、午<br><br>📝 約診方式比照一般 GP 醫師；如卡到多人上班可先劃休她。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": true
+  },
+  {
+    "id": 1776467362898,
+    "title": "👦🏻 邱柏智醫師（贗復專科）介紹",
+    "type": "info",
+    "body": "【2026-04-17 LINE 訊息】歡迎邱柏智醫師（80年次）加入福美團隊！<br><br><strong>📅 上班時間</strong><br>• 預計 5/20（三）午晚 開始上班<br>• 每週三 午、晚<br>• 八月研究所畢業、九月準備專科考試<br>• 預計十月後增加診次<br><br><strong>🎓 學經歷</strong><br>• 北醫贗復碩士（八月完訓畢）<br>• 阿根廷 University of Buenos Aires (UBA) 牙醫系畢業<br>• 在台通過學歷甄試與牙醫執照<br>• 永和耕莘住院受訓 2 年（PGY）<br>• 目前牙醫臨床 5–6 年<br><br><strong>🦷 專長</strong><br>• 主要：CD／RPD（全口、局部活動假牙）<br>• 其他一般牙科也可接<br><br><strong>🗣️ 語言能力</strong><br>中文／台語／英文／西班牙文<br><br>💬 之後會在福美協助假牙的部分，請各位醫師同仁們多多指教！",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": true
+  },
+  {
     "id": 1776467362897,
     "title": "👶 兒牙林醫師 5/11（一）下午加診",
     "type": "info",
@@ -4058,7 +4055,7 @@ let announcements = [
     "type": "info",
     "body": "根尖片的照射頭有點鬆，已用六角板手稍微鎖緊。板手放在旁邊備用，請留意設備狀況。（4/13 17:58）",
     "author": "LINE 同步",
-    "time": "昨天",
+    "time": "剛剛",
     "pinned": false
   },
   {
@@ -4067,7 +4064,7 @@ let announcements = [
     "type": "info",
     "body": "居家美白庫存放在二樓的冰箱裡。（4/13 18:37）",
     "author": "LINE 同步",
-    "time": "昨天",
+    "time": "剛剛",
     "pinned": false
   },
   {
@@ -4076,7 +4073,7 @@ let announcements = [
     "type": "info",
     "body": "5月幫忙的助理上班時間更新：<br><br>👉 Elena：週二早、午<br><br>👉 Mina：<br>・週一至週五：早診<br>・5/6、5/13、5/27（三）：午晚<br>・5/2、5/9、5/23、5/30（六）：整天都可排",
     "author": "LINE 同步",
-    "time": "昨天",
+    "time": "剛剛",
     "pinned": false
   },
   {
@@ -4089,19 +4086,50 @@ let announcements = [
     "pinned": false
   },
   {
+    "id": 1775754832524,
+    "title": "【115年度牙醫健保支付標準修正與假日申報重要公告】",
+    "type": "info",
+    "body": "各位醫師您好，自 115年4月1日 起，多項牙醫健保支付標準將調整生效，重點如下：<br><br>點數調升：全面調升感控診察費（+16點）、恆牙根管治療及急症處置等項目點數。<br><br>假日代碼異動：4月起新增「92133C」適用於週日及國定假日；原「92094C」改為限單純週六申報。<br><br>合理門診量排除：公告115年度共計 73天 假日，不列入每月55萬點之合理門診點數計算。<br><br>詳細點數調整清單、申報規範與適用日期表，敬請參閱下方附圖說明。",
+    "author": "院長",
+    "time": "剛剛",
+    "pinned": true,
+    "images": [
+      "images/img_1775760515377.jpg",
+      "images/img_1775760515378.jpg",
+      "images/img_1775802390772.jpg"
+    ]
+  },
+  {
+    "id": 1775740039144,
+    "title": "福美牙醫診所約診指南",
+    "type": "general",
+    "body": "（無詳細說明）",
+    "author": "院長",
+    "time": "剛剛",
+    "img": "images/img_1775760515379.jpg",
+    "pinned": true,
+    "links": [
+      {
+        "label": "PDF檔",
+        "url": "https://www.dropbox.com/scl/fi/saaltamgcprt7h1kynldn/2026.04.09.pdf?rlkey=1aojmx01fljweq7kldsme135k&st=7a6jcda6&dl=0"
+      }
+    ]
+  },
+  {
     "id": 1775639280001,
     "title": "🖥️ 臉掃機 IP 設定異常處理方式",
     "type": "info",
     "body": "臉掃機電腦與設備發生連線異常，原因為 IP 設定跑掉變成自動取得。請依設備旁圖示說明，將 IP 重新設定為手動模式即可恢復連線。如再次發生相同問題，請依相同方式處理。",
     "author": "LINE 同步",
-    "time": "04/08 17:08",
+    "time": "剛剛",
     "links": [
       {
         "label": "詳細步驟說明",
         "url": "https://www.dropbox.com/scl/fi/rcksfi9hd54iyzq42vkhc/IP.pdf?rlkey=qp8to8qp4eejeft8n5otkzhjb&st=dgqap6gb&dl=0"
       }
     ],
-    "img": "images/img_1775760515380.jpg"
+    "img": "images/img_1775760515380.jpg",
+    "pinned": false
   },
   {
     "id": 1775637720001,
@@ -4109,7 +4137,8 @@ let announcements = [
     "type": "info",
     "body": "4月24日（五）顏醫師將加開下午診，請相關人員協助排班安排，並注意診間準備事宜。",
     "author": "LINE 同步",
-    "time": "04/08 16:42"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775637600001,
@@ -4117,7 +4146,8 @@ let announcements = [
     "type": "info",
     "body": "5月4日（一）下午顏醫師有加病人，請櫃檯留意約診安排，並確認診間人力配置。",
     "author": "LINE 同步",
-    "time": "04/08 16:40"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775567100001,
@@ -4125,7 +4155,8 @@ let announcements = [
     "type": "info",
     "body": "近期發現約診錯誤頻率偏高（如原定15分鐘誤排為30分鐘、喘息點不應約診仍有排入等），顯示內部訓練尚需加強。請全體櫃檯人員務必確認約診時間與規則，遇有問題應即時反應並處理，勿放任錯誤累積，以免影響診所整體運作品質。",
     "author": "LINE 同步",
-    "time": "04/08 00:45"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775559060001,
@@ -4133,7 +4164,8 @@ let announcements = [
     "type": "urgent",
     "body": "提醒全體櫃檯助理及櫃圈助理：若多次未遵守約診規範（例如：超過2至3個安插點、約錯療程時間等），將直接記警告⚠️。請務必確實執行約診流程，嚴格遵守各項規範，避免重複犯錯。",
     "author": "LINE 同步",
-    "time": "04/07 22:31"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775511540001,
@@ -4141,7 +4173,8 @@ let announcements = [
     "type": "info",
     "body": "管理部已將本月診所LINE群組重要訊息整理上傳至Canva，請同仁利用空檔自行閱讀，以掌握近期各項規範與通知內容。",
     "author": "LINE 同步",
-    "time": "04/07 09:19"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775502600001,
@@ -4149,7 +4182,8 @@ let announcements = [
     "type": "general",
     "body": "提醒全體同仁：今日（4/7）中午召開會議，請相關人員準時出席。",
     "author": "LINE 同步",
-    "time": "04/07 06:50"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775502540001,
@@ -4157,7 +4191,8 @@ let announcements = [
     "type": "general",
     "body": "需更改制服褲子尺寸的同仁，請將量好的數據於明天（4/8）晚上前繳交，逾期不候。",
     "author": "LINE 同步",
-    "time": "04/07 06:49"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775465760001,
@@ -4165,7 +4200,8 @@ let announcements = [
     "type": "info",
     "body": "診所持續鼓勵同仁轉為「正職」，正職享有穩定基本診數、國定假日有薪假、較多特休天數、晚班假日加給、人次／乾股紅利、全勤及三節獎金等福利，均優於兼職。此外，具備「幹部以上」特質（能扛責、把事做好）的同仁，將優先安排期望班數排足。",
     "author": "LINE 同步",
-    "time": "04/06 20:36"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775461860001,
@@ -4173,7 +4209,8 @@ let announcements = [
     "type": "info",
     "body": "新進助理 Mina（88年次，具7年牙助經驗）已於 4/7 到職。Mina 過去曾擔任類助理長職務，將以櫃檯為主要工作，定位為「櫃檯儲備管理」。因掛號系統與前診所不同，預計 6–7 月評估轉正職。",
     "author": "LINE 同步",
-    "time": "04/06 19:31"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775202600001,
@@ -4181,7 +4218,8 @@ let announcements = [
     "type": "info",
     "body": "顏醫師水雷射Q屬高自費療程，約診時間請安排「45分鐘」。另外，每一個診的安插點最多2個，不得已才可安排第3個。請櫃檯約診人員務必遵守。",
     "author": "LINE 同步",
-    "time": "04/03 11:00"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775201400001,
@@ -4189,7 +4227,8 @@ let announcements = [
     "type": "info",
     "body": "即日起帳務處理分為兩類：(1) 牙科材料及廠商收據／請款單，請放入 Hadassa 資料夾，由 Hadassa 統一拍照建檔。(2) 一般日常雜費（便當、飲料、文具、衛生紙、蝦皮網購診所用品等），無正式收據者由櫃檯人員負責登記。(3) 分類不確定時，請直接放入 Hadassa 資料夾即可。",
     "author": "LINE 同步",
-    "time": "04/03 10:39"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775199600001,
@@ -4197,7 +4236,8 @@ let announcements = [
     "type": "urgent",
     "body": "健保局自115年4月1日起變更申報代碼：92094C 改為「週六門診」專用申報代碼；週日及國定假日請改用 92133C。請全體相關人員立即更新作業方式，避免申報錯誤。",
     "author": "LINE 同步",
-    "time": "04/03 10:08"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775150582001,
@@ -4205,7 +4245,8 @@ let announcements = [
     "type": "general",
     "body": "需更改制服褲子尺寸的助理，請依照指定影片中的量法自行測量後，登記尺寸並傳回給管理部。",
     "author": "LINE 同步",
-    "time": "04/03 01:23"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775148347001,
@@ -4213,7 +4254,8 @@ let announcements = [
     "type": "urgent",
     "body": "顏醫師的評估及討論性質之約診，一律需安排「30分鐘」時段，請櫃檯約診時務必遵守，勿安排不足時間之時段。",
     "author": "LINE 同步",
-    "time": "04/03 00:45"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775145067001,
@@ -4221,7 +4263,8 @@ let announcements = [
     "type": "info",
     "body": "4月15日（三）顏醫師將加開下午診，請相關人員協助排班安排，並注意診間準備事宜。",
     "author": "LINE 同步",
-    "time": "04/02 23:51"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775130997001,
@@ -4229,7 +4272,8 @@ let announcements = [
     "type": "info",
     "body": "4月20日（一）顏醫師將加開下午診，請相關人員協助排班安排，並注意診間準備事宜。",
     "author": "LINE 同步",
-    "time": "04/02 19:56"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775124972001,
@@ -4237,7 +4281,8 @@ let announcements = [
     "type": "info",
     "body": "(1) 診所已於1樓及2樓拍PA電腦旁各新增1台監視器，共2台。(2) 顏、女黃、李、兒林四位醫師中，若同時有2位同時完診，須安排1位控場人員。可擔任控場人員代號：I、J、H、T、E。(3) 控場工作列入加給（標準與教學相同）。控場定義：負責掌控診所全場流暢度。",
     "author": "LINE 同步",
-    "time": "04/02 18:16"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775108216001,
@@ -4245,7 +4290,8 @@ let announcements = [
     "type": "info",
     "body": "提醒全體助理：小朋友就診時，請依規定安排拍攝 BW（Bite-Wing 翼翼片），以利醫師評估蛀牙狀況。",
     "author": "LINE 同步",
-    "time": "04/02 13:36"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775107452001,
@@ -4253,7 +4299,8 @@ let announcements = [
     "type": "info",
     "body": "4月13日（一）13:30，兒林醫師將到診。請林芷晴負責為林醫師進行相關流程講解說明，柔慈在旁一同學習。YCC 如時間允許亦可一起複習，時間不允許則不強求。",
     "author": "LINE 同步",
-    "time": "04/02 13:24"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775107113001,
@@ -4261,7 +4308,8 @@ let announcements = [
     "type": "general",
     "body": "因應兒林醫師反映2樓收納空間不足，管理部除另購置一個新櫃子外，請全體同仁善用已標示藍色圈選之現有櫃子空間，合理分配收納，保持診間整潔。",
     "author": "LINE 同步",
-    "time": "04/02 13:18"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775103248001,
@@ -4269,7 +4317,8 @@ let announcements = [
     "type": "info",
     "body": "診所測試網頁與線上測試班表已加入辦公室電腦 Chrome 瀏覽器首頁，有空可點選查看。提醒：主要班表仍以紙本內容為準。",
     "author": "LINE 同步",
-    "time": "04/02 12:14"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1775096495001,
@@ -4277,7 +4326,8 @@ let announcements = [
     "type": "urgent",
     "body": "提醒4月3日（五）及4月6日（一）有上班之醫師與助理：此兩天為紅字假日，可申報健保代碼 92094，請相關人員確認並完成申報作業。",
     "author": "LINE 同步",
-    "time": "04/02 10:21"
+    "time": "剛剛",
+    "pinned": false
   },
   {
     "id": 1744773600007,
@@ -4409,6 +4459,69 @@ let announcements = [
 ];
 
 let archivedAnnouncements = [
+  {
+    "id": 1714521600101,
+    "title": "👨‍⚕️ 四月份醫師異動與新醫師加入彙整",
+    "type": "info",
+    "body": "【2026年4月｜醫師異動相關 15 則】<br><br><strong>👩🏻 王韻婷醫師加入（04/17）</strong><br>北醫畢 GP 醫師（79年次），喜歡唱歌，住東門附近。兒林醫師定檢的小朋友可轉約她。四月底加診 4/28（二）晚；五月：5/4（一）晚、5/5（二）晚、5/9（六）早午、5/11（一）晚，之後出國至 6/4。六月起常態：週一午晚、週二晚、週六早午。<br><br><strong>👦🏻 邱柏智醫師加入（04/17）</strong><br>北醫贗復碩士（80年次），阿根廷 UBA 牙醫系畢業，永和耕莘 PGY 2 年，臨床 5-6 年。專長 CD/RPD（全口、局部活動假牙），中/台/英/西語。預計 5/20（三）午晚開始，每週三午晚。八月研究所畢業，十月後增加診次。<br><br><strong>📅 蕭醫師 2026 下半年看診時間（04/25）</strong><br>蕭醫師下半年看診時間公告，4/25（六）改 15:00 看診，6/13 移至 6/12（五）下午。<br><br><strong>📅 5、6、8 月醫師看診修正（04/20）</strong><br>5 月 Dr.利只單週六早；6 月 Dr.男黃週二下午改週五下午；8 月 Dr.男黃週二看診到 18:00-20:45。<br><br><strong>🦷 顏醫師多次加診</strong><br>4/9、4/13、4/15、4/20、4/24、5/4、5/6 加診，5/20 及 5/25 下午加診（植牙）。<br><br><strong>🧑‍⚕️ 新醫師到職/離職處理流程（04/20）</strong><br>新醫師到職需同步處理：北昕設定、官網、LINE牙醫小幫手、FB宣傳、海報、名片、櫃子安排等。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/04",
+    "pinned": false
+  },
+  {
+    "id": 1714521600102,
+    "title": "💰 四月份收費與約診規則彙整",
+    "type": "info",
+    "body": "【2026年4月｜收費與約診相關 12 則】<br><br><strong>⚠️ 五大狀況檢討（04/24）</strong><br>1. 沒善用蕭醫師資源（常很閒）2. 蕭醫師來診所要付雙和費用 3. 浪費行政時間找自費拔牙時段 4. Google 負評拔智齒約不到 5. 45 分鐘約三個 ROS 問題又發生。請櫃檯加強善用蕭醫師時段。<br><br><strong>💰 自費項目調整（04/20）</strong><br>全口牙周病用藥和類 GTR 調至 $8,000；他家植體再生或移除額外 +$10,000（風險高且耗損器械）。<br><br><strong>⚠️ 約診／疼痛病患處理提醒（04/23）</strong><br>疼痛病患處理規則統一公告。<br><br><strong>📣 遲到 15 分鐘以上病患處理規則（05/02）</strong><br>全診所統一規則公告。<br><br><strong>💵 醫師等病患超過 35 分鐘扣 $100（05/02）</strong><br>統一規則。<br><br><strong>📣 初階諮詢通過標準（再次公告）（04/29）</strong><br>初階諮詢通過標準再次公告。<br><br><strong>⚠️ 櫃檯掛號 P3601 流程更新（05/05）</strong><br>5 位可申報醫師流程更新。<br><br><strong>🚨 蕭醫師拆線約診錯誤警告（04/25）</strong><br>記警告一隻。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/04",
+    "pinned": false
+  },
+  {
+    "id": 1714521600103,
+    "title": "🔧 四月份設備維護與 IT 更新彙整",
+    "type": "info",
+    "body": "【2026年4月｜設備與 IT 相關 10 則】<br><br><strong>📸 5/4 七診攝影燈控制盒安裝（04/30）</strong><br>昆霖安裝七診攝影燈控制盒。<br><br><strong>❄️ 診所冷氣連線異常修復 & iPad 控制 App 上線（04/30）</strong><br>冷氣連線異常已修復，iPad 控制 App 上線。<br><br><strong>⌨️ 行政辦公室鍵盤接收器遺失 & 印表機異常（04/29）</strong><br>鍵盤接收器遺失及印表機異常問題。<br><br><strong>🔧 消毒室震盪機異常聲響（04/30）</strong><br>已通報合泰處理。<br><br><strong>🪧 診間告示牌已固定完成（04/30）</strong><br>感謝 Yuki 協助。<br><br><strong>🌐 診所網路速度升級（04/26）</strong><br>網路速度已升級。<br><br><strong>🌐 診所網址持續更新（04/28）</strong><br>左欄新增 3 項連結。<br><br><strong>🖥️ 排班軟體更新（04/28~04/29）</strong><br>新版排班軟體已放上 Chrome 首頁，變更彙總更新。<br><br><strong>🤖 AI 自動排班計畫啟動（04/28）</strong><br>蒐集排班邏輯中。<br><br><strong>📄 排班邏輯建議書（04/29）</strong><br>請大家審閱排班邏輯建議書。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/04",
+    "pinned": false
+  },
+  {
+    "id": 1714521600104,
+    "title": "📝 四月份行政與人事規範彙整",
+    "type": "info",
+    "body": "【2026年4月｜行政人事相關 14 則】<br><br><strong>📝 遲到處理案例（05/02）</strong><br>記點/扣款說明案例公告。<br><br><strong>🔄 Mina 5 月櫃流班別異動（05/02）</strong><br>Mina 五月班別異動。<br><br><strong>📅 6 月、7 月助理正職/班表異動（05/02）</strong><br>助理正職與班表異動公告。<br><br><strong>💵 護照跟診加薪制度更新（04/20）</strong><br>兼職 +$1/hr，正職 +$4/診；蕭醫師跟診通過兼職 +$2/hr，正職 +$7/診。<br><br><strong>📋 排班名字順序規則（04/20）</strong><br>正職→管理幹部→31 診→21 診→少診較給力→較不給力。5 月順序：GCZWIJHTSYMEKNL。<br><br><strong>📋 矯正完成同意書已電子化（04/17）</strong><br>每新增一份成本約 $3,000，有錯誤請儘快反映。<br><br><strong>📋 病歷處理注意事項（04/24）</strong><br>管理部公告病歷處理規範。<br><br><strong>🎨 Yuki 美編行政診時間彈性（04/21）</strong><br>Yuki 時間安排彈性調整。<br><br><strong>📅 5 月份開會日期（05/03）</strong><br>5/12 及 5/28。<br><br><strong>🛠️ 班表系統功能需求（05/03）</strong><br>特休/開會日期/JPG 匯出功能需求。<br><br><strong>📚 李醫師上課時間公告（04/23）</strong><br>6-9 月上課時間。<br><br><strong>🦷 李醫師週二下午可往前加病人（04/22）</strong><br>李醫師週二下午時段可加診。<br><br><strong>👶 兒林醫師約診規則（04/22）</strong><br>一律先評估。<br><br><strong>📅 病人回診時間安排規範（04/22）</strong><br>回診時間安排統一規範。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/04",
+    "pinned": false
+  },
+  {
+    "id": 1714521600105,
+    "title": "🏥 四月份環境與庫存管理彙整",
+    "type": "general",
+    "body": "【2026年4月｜環境庫存相關 10 則】<br><br><strong>🧹 診間私人物品收納提醒（04/24）</strong><br>管理部提醒私人物品收納。<br><br><strong>✅ Scanbody 庫存已補齊（04/23）</strong><br>庫存已補齊。<br><br><strong>📦 備品放梯間注意事項（04/23）</strong><br>備品放置注意。<br><br><strong>🚪 2 樓通道門鎖住時可走陽台（04/23）</strong><br>通道門鎖住時替代路線。<br><br><strong>🧱 樓梯間小房間放置物品提醒（04/22）</strong><br>物品放置規範。<br><br><strong>📦 圍巾／手套／紗布庫存位置（04/22）</strong><br>庫存位置說明。<br><br><strong>📦 洪醫師自購超音波 tip 到貨（04/20）</strong><br>放五診，貨到付款 $4,500。<br><br><strong>❄️ 休息室冷氣使用提醒（04/20）</strong><br>開冷氣門窗要關好。<br><br><strong>🚿 熱水設備位置（04/20）</strong><br>休息室最裡面大間廁所，43 度，已加裝蓮蓬頭。<br><br><strong>🦷 G-Premio 位置（04/20）</strong><br>六診及七診各一罐。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/04",
+    "pinned": false
+  },
+  {
+    "id": 1714521600106,
+    "title": "⚠️ 四月份顏醫師跟診注意事項彙整",
+    "type": "urgent",
+    "body": "【2026年4月｜顏醫師相關 5 則】<br><br><strong>⚠️ 顏醫師跟診 3 大雷點（04/22）</strong><br>顏醫師跟診注意事項，三大雷點提醒。<br><br><strong>🦷 顏醫師轉介 OD case 處理原則（04/27）</strong><br>OD case 轉介處理原則公告。<br><br><strong>📦 其他醫師送模 LINE 群組規則（04/25）</strong><br>顏醫師規定其他醫師送模需依照 LINE 群組規則。<br><br><strong>🧪 Kerr temp-bond 調拌紙使用提醒（04/21）</strong><br>正確使用方式提醒。<br><br><strong>🔍 尋找蔡醫師的 bur（05/07）</strong><br>協尋蔡醫師的 bur。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/04",
+    "pinned": false
+  },
+  {
+    "id": 1714521600107,
+    "title": "🪞 四月份器械使用與清潔規範彙整",
+    "type": "info",
+    "body": "【2026年4月｜器械規範相關 4 則】<br><br><strong>🪞 水雷射鏡子清潔提醒（05/07）</strong><br>將寫入助理手冊的清潔規範。<br><br><strong>🧪 手術包烘乾規範（05/07）</strong><br>避免生鏽的烘乾規範。<br><br><strong>🪞 清水雷射專用鏡子使用規範（05/07）</strong><br>專用鏡子使用方式說明。<br><br><strong>⏰ 打卡注意：穿好制服再打卡（05/08）</strong><br>打卡意味著準備好工作，要穿好制服再打卡。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/04",
+    "pinned": false
+  },
   {
     "id": 1711929600101,
     "title": "🔧 三月份設備維護與更新彙整",
@@ -4817,12 +4930,6 @@ let events = {
       "note": "顏醫師 5/20（三）下午 2 點加 1 位植牙病人"
     },
     {
-      "name": "📋 幹部會議",
-      "time": "12:00",
-      "type": "meeting",
-      "note": "5/20（三）中午"
-    },
-    {
       "name": "H 下午改櫃流",
       "time": "14:00",
       "type": "other",
@@ -4843,6 +4950,12 @@ let events = {
       "time": "09:00",
       "type": "training",
       "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
+    },
+    {
+      "name": "Mina 請假",
+      "time": "全天",
+      "type": "leave",
+      "note": "Mina 6 月劃假（LINE 同步）"
     }
   ],
   "2026-06-18": [
@@ -5239,6 +5352,12 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "顏醫師 6/3（三）下午加一位病人"
+    },
+    {
+      "name": "Mina 請假",
+      "time": "全天",
+      "type": "leave",
+      "note": "Mina 6 月劃假（LINE 同步）"
     }
   ],
   "2026-05-15": [
@@ -5247,6 +5366,44 @@ let events = {
       "time": "18:00",
       "type": "doctor",
       "note": "5/15（五）晚診 陳醫師空檔 105 分，請協助約診"
+    }
+  ],
+  "2026-06-27": [
+    {
+      "name": "蕭醫師停診（改至 6/6）",
+      "time": "全天",
+      "type": "doctor",
+      "note": "原 6/27（六）蕭醫師有事/上課無法看診，改至 6/6（六）"
+    }
+  ],
+  "2026-06-06": [
+    {
+      "name": "蕭醫師加診（原 6/27 異動）",
+      "time": "全天",
+      "type": "doctor",
+      "note": "原 6/27（六）改至此日看診"
+    },
+    {
+      "name": "Mina 請假",
+      "time": "全天",
+      "type": "leave",
+      "note": "Mina 6 月劃假（LINE 同步）"
+    }
+  ],
+  "2026-06-10": [
+    {
+      "name": "Mina 請假",
+      "time": "全天",
+      "type": "leave",
+      "note": "Mina 6 月劃假（LINE 同步）"
+    }
+  ],
+  "2026-06-24": [
+    {
+      "name": "Mina 請假",
+      "time": "全天",
+      "type": "leave",
+      "note": "Mina 6 月劃假（LINE 同步）"
     }
   ]
 };
@@ -5545,6 +5702,88 @@ function addEvent() {
   document.getElementById('evt-note').value = '';
   saveAll();
   showToast('✅ 行程已新增！');
+}
+
+// ─── EVENT DETAIL / DELETE / EDIT ───
+let _currentEventDate = null;
+let _currentEventIdx = null;
+
+function showEventDetail(date, idx) {
+  const evtArr = events[date];
+  if (!evtArr || !evtArr[idx]) return;
+  const e = evtArr[idx];
+  _currentEventDate = date;
+  _currentEventIdx = idx;
+  const typeLabel = { meeting:'🤝 會議', doctor:'👨‍⚕️ 醫師異動', holiday:'🎌 國定假日', leave:'🏖️ 休診/請假', training:'📚 教育訓練', maintenance:'🔧 設備/廠商', other:'📝 其他' };
+  const dateLabel = new Date(date + 'T00:00').toLocaleDateString('zh-TW', { year:'numeric', month:'long', day:'numeric', weekday:'short' });
+  document.getElementById('ed-title').textContent = e.name;
+  document.getElementById('ed-sub').textContent = dateLabel + ' · ' + (typeLabel[e.type] || e.type);
+  document.getElementById('ed-name').textContent = e.name;
+  document.getElementById('ed-time').innerHTML = '🕐 ' + (e.time || '全天') + '<br>📂 ' + (typeLabel[e.type] || e.type);
+  document.getElementById('ed-note').textContent = e.note || '（無備註）';
+  document.getElementById('ed-view-mode').style.display = '';
+  document.getElementById('ed-edit-mode').style.display = 'none';
+  document.getElementById('event-detail-overlay').classList.add('open');
+}
+
+function deleteEvent(date, idx) {
+  if (!confirm('確定要刪除這筆行程嗎？')) return;
+  if (events[date]) {
+    events[date].splice(idx, 1);
+    if (events[date].length === 0) delete events[date];
+  }
+  renderCalendar();
+  renderTodayEvents(date);
+  renderDashUpcoming();
+  saveAll();
+  showToast('🗑️ 行程已刪除');
+}
+
+function deleteEventFromModal() {
+  if (_currentEventDate == null || _currentEventIdx == null) return;
+  if (!confirm('確定要刪除這筆行程嗎？')) return;
+  if (events[_currentEventDate]) {
+    events[_currentEventDate].splice(_currentEventIdx, 1);
+    if (events[_currentEventDate].length === 0) delete events[_currentEventDate];
+  }
+  document.getElementById('event-detail-overlay').classList.remove('open');
+  renderCalendar();
+  renderTodayEvents(_currentEventDate);
+  renderDashUpcoming();
+  saveAll();
+  showToast('🗑️ 行程已刪除');
+}
+
+function editEventMode() {
+  if (_currentEventDate == null || _currentEventIdx == null) return;
+  const e = events[_currentEventDate][_currentEventIdx];
+  document.getElementById('ed-edit-name').value = e.name;
+  document.getElementById('ed-edit-time').value = (e.time && e.time !== '全天') ? e.time : '';
+  document.getElementById('ed-edit-type').value = e.type || 'other';
+  document.getElementById('ed-edit-note').value = e.note || '';
+  document.getElementById('ed-view-mode').style.display = 'none';
+  document.getElementById('ed-edit-mode').style.display = '';
+}
+
+function cancelEditEvent() {
+  document.getElementById('ed-view-mode').style.display = '';
+  document.getElementById('ed-edit-mode').style.display = 'none';
+}
+
+function saveEventFromModal() {
+  if (_currentEventDate == null || _currentEventIdx == null) return;
+  const e = events[_currentEventDate][_currentEventIdx];
+  e.name = document.getElementById('ed-edit-name').value.trim() || e.name;
+  const t = document.getElementById('ed-edit-time').value;
+  e.time = t || '全天';
+  e.type = document.getElementById('ed-edit-type').value;
+  e.note = document.getElementById('ed-edit-note').value.trim();
+  document.getElementById('event-detail-overlay').classList.remove('open');
+  renderCalendar();
+  renderTodayEvents(_currentEventDate);
+  renderDashUpcoming();
+  saveAll();
+  showToast('✅ 行程已更新');
 }
 
 function renderTodayEvents(dateStr) {
@@ -5854,14 +6093,21 @@ function renderArchivedAnnouncements() {
   }
 
   let html = '';
-  sortedGroupKeys.forEach(k => {
+  const groupId = 'arch-grp-';
+  sortedGroupKeys.forEach((k, gi) => {
     const arr = groups[k];
-    html += '<div style="margin-bottom:24px">';
-    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px 14px;background:var(--mint-light);border-radius:var(--r-md);border-left:4px solid var(--mint-dark)">';
+    const gid = groupId + gi;
+    // 搜尋時預設全展開，否則預設收合
+    const defaultOpen = !!keyword;
+    html += '<div style="margin-bottom:16px">';
+    html += '<div onclick="toggleArchGroup(\'' + gid + '\')" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--mint-light);border-radius:var(--r-md);border-left:4px solid var(--mint-dark);cursor:pointer;user-select:none;transition:background .15s" onmouseover="this.style.background=\'var(--mint)\';this.style.color=\'#fff\'" onmouseout="this.style.background=\'var(--mint-light)\';this.style.color=\'\'">';
+    html += '<span class="arch-arrow" id="' + gid + '-arrow" style="font-size:14px;transition:transform .2s;display:inline-block;transform:rotate(' + (defaultOpen ? '90' : '0') + 'deg)">▶</span>';
     html += '<span style="font-size:18px">🗓️</span>';
     html += '<span style="font-size:15px;font-weight:800;color:var(--mint-dark);font-family:var(--font-display)">' + k + '</span>';
-    html += '<span style="font-size:11px;color:var(--ink-mute);font-family:var(--font-display);font-weight:700">（共 ' + arr.length + ' 則）</span>';
+    html += '<span style="font-size:12px;color:var(--ink-mute);font-family:var(--font-display);font-weight:700">（共 ' + arr.length + ' 則）</span>';
+    html += '<span style="margin-left:auto;font-size:11px;color:var(--ink-mute);font-family:var(--font-display);font-weight:600" id="' + gid + '-hint">' + (defaultOpen ? '點擊收合 ▲' : '點擊展開 ▼') + '</span>';
     html += '</div>';
+    html += '<div id="' + gid + '" style="' + (defaultOpen ? '' : 'display:none;') + 'margin-top:10px;display:' + (defaultOpen ? 'flex' : 'none') + ';flex-direction:column;gap:10px">';
 
     arr.forEach(({a, i}) => {
       const displayTitle = highlightKw(a.title, keyword);
@@ -5879,9 +6125,20 @@ function renderArchivedAnnouncements() {
       html += '  </div>';
       html += '</div>';
     });
-    html += '</div>';
+    html += '</div></div>';
   });
   container.innerHTML = html;
+}
+
+function toggleArchGroup(gid) {
+  const el = document.getElementById(gid);
+  const arrow = document.getElementById(gid + '-arrow');
+  const hint = document.getElementById(gid + '-hint');
+  if (!el) return;
+  const isHidden = el.style.display === 'none';
+  el.style.display = isHidden ? 'flex' : 'none';
+  if (arrow) arrow.style.transform = isHidden ? 'rotate(90deg)' : 'rotate(0deg)';
+  if (hint) hint.textContent = isHidden ? '點擊收合 ▲' : '點擊展開 ▼';
 }
 
 function showArchivedDetail(idx) {
@@ -6906,23 +7163,23 @@ function filterMaterials() {
   const searchText = document.getElementById('mat-search').value.toLowerCase();
   const container = document.getElementById('mat-container');
   if(!container) return;
-  
+
   let filtered = materials;
-  
+
   if(currentMatCat && currentMatCat !== 'all') {
     filtered = filtered.filter(m => m.cat === currentMatCat);
   }
-  
+
   if(searchText) {
-    filtered = filtered.filter(m => 
+    filtered = filtered.filter(m =>
       m.name.toLowerCase().includes(searchText) ||
       (m.vendor && m.vendor.toLowerCase().includes(searchText))
     );
   }
-  
+
   const countEl = document.getElementById('mat-count');
   if(countEl) countEl.textContent = `共 ${filtered.length} 項`;
-  
+
   renderMaterialsWithList(filtered);
 }
 
@@ -6930,15 +7187,15 @@ function filterMaterials() {
 function renderMaterials() {
   const container = document.getElementById('mat-container');
   if(!container) return;
-  
+
   let filtered = materials;
   if(currentMatCat && currentMatCat !== 'all') {
     filtered = filtered.filter(m => m.cat === currentMatCat);
   }
-  
+
   const countEl = document.getElementById('mat-count');
   if(countEl) countEl.textContent = `共 ${filtered.length} 項`;
-  
+
   renderMaterialsWithList(filtered);
 }
 
@@ -6998,10 +7255,10 @@ function openMatBlog(idx) {
   if(idx < 0 || idx >= materials.length) return;
   _editingMatIdx = idx;
   const mat = materials[idx];
-  
+
   const modal = document.getElementById('mat-blog-overlay');
   if(!modal) return;
-  
+
   const catInfo  = matCategories[mat.cat] || {};
   const catLabel = catInfo.label || mat.cat || '';
   const catIcon  = catInfo.icon  || '🦷';
@@ -7198,15 +7455,15 @@ function saveEditMat() {
 function deleteMat() {
   if(_editingMatIdx < 0) return;
   if(!confirm('確認要刪除此項材料嗎？')) return;
-  
+
   materials.splice(_editingMatIdx, 1);
   _editingMatIdx = -1;
   saveAll();
   showToast('材料已刪除');
-  
+
   const modal = document.getElementById('mat-blog-overlay');
   if(modal) modal.style.display = 'none';
-  
+
   renderMaterials();
 }
 
@@ -7256,10 +7513,10 @@ function addMaterial() {
 // ─── HANDLE IMAGE UPLOAD ───
 function handleImgUpload(input, targetId, previewId) {
   if(!input.files || input.files.length === 0) return;
-  
+
   const file = input.files[0];
   const reader = new FileReader();
-  
+
   reader.onload = function(e) {
     const base64 = e.target.result;
     document.getElementById(targetId).value = base64;
@@ -7268,28 +7525,28 @@ function handleImgUpload(input, targetId, previewId) {
       if(preview) preview.style.backgroundImage = `url('${base64}')`;
     }
   };
-  
+
   reader.readAsDataURL(file);
 }
 
 // ─── BATCH EMBED EXTERNAL IMAGES ───
 function batchEmbedImages() {
   if(!confirm('此操作將轉換所有外部圖片為內嵌格式，可能需要數分鐘。繼續？')) return;
-  
+
   let count = 0;
   materials.forEach(mat => {
     if(mat.img && mat.img.startsWith('http')) {
       count++;
     }
   });
-  
+
   if(count === 0) {
     showToast('沒有需要轉換的圖片');
     return;
   }
-  
+
   showToast(`開始轉換 ${count} 張圖片...`);
-  
+
   let processed = 0;
   materials.forEach((mat, idx) => {
     if(mat.img && mat.img.startsWith('http')) {
