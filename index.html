@@ -3175,7 +3175,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605092308';"
+      "const DATA_VERSION = '202605132308';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3234,7 +3234,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605092308';"
+      "const DATA_VERSION = '202605132308';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3307,10 +3307,91 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202605092308';
+const DATA_VERSION = '202605132308';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1778713702906,
+    "title": "⚠️ 上班請佩戴名牌",
+    "type": "urgent",
+    "body": "<strong>⚠️ 請注意：上班要佩戴名牌</strong><br><strong>⚠️ 請注意：上班要佩戴名牌</strong><br><strong>⚠️ 請注意：上班要佩戴名牌</strong>",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778713702905,
+    "title": "🔧 顏醫師 Curette 補充提醒",
+    "type": "info",
+    "body": "顏醫師的 curette 如果有少或斷的，麻煩<strong>直接補新的</strong>並貼上<strong>顏醫師姓名貼紙</strong>（放在七診最下層抽屜）。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778713702904,
+    "title": "🧾 印花稅票庫存（大面額）",
+    "type": "info",
+    "body": "<strong>🧾 已購買印花稅票大面額</strong><br>• 200 元 × 30 張<br>• 100 元 × 20 張<br>• 50 元 × 40 張",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778713702903,
+    "title": "👨‍⚕️ 顏醫師看診比例提醒",
+    "type": "info",
+    "body": "<strong>📣 提醒：顏醫師目前看診比例</strong><br><br><strong>🦷 8–9 成</strong><br>• 植牙／牙周／雷射／美學／全口重建<br><br><strong>🪥 1–2 成（一般 GP）</strong><br>• 有些病患害怕想固定<br>• 特別在我這做過高自費療程<br>• 長期老病患<br>• 親友員工等照顧<br><br><strong>💡 PS</strong><br>團隊合作概念，但不強硬轉。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778713702902,
+    "title": "📋 術前注意事項新增第 2 點（骨質疏鬆）",
+    "type": "urgent",
+    "body": "To @All 醫師和助理們～<br><br><strong>📋 更新內容</strong><br>術前注意事項有<strong>新增第 2 點</strong>（主要針對有「<strong>骨質疏鬆</strong>」的病患）。<br><br><strong>✅ 目前狀態</strong><br>診所所有注意事項紙本都已更新！",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": true
+  },
+  {
+    "id": 1778713702901,
+    "title": "🏅 Hadassa／Ivy 記 1 好",
+    "type": "general",
+    "body": "<strong>🏅 Hadassa 記 1 好</strong><br>• 主動協助醫師<br>• 並找出病人有吃心血管疾病用藥<br><br><strong>🏅 Ivy 記 1 好</strong><br>• 協助尋找護理師來幫忙抽血",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778713702900,
+    "title": "🗓️ Tina 姐 6 月上班時段",
+    "type": "info",
+    "body": "<strong>📅 Tina 姐 6 月可上班時段</strong><br>• （一）晚<br>• （二）早<br>• （三）早、午<br><br>（顏醫師確認）🙏",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778713702899,
+    "title": "💰 管理部新增「任務提升獎金」",
+    "type": "info",
+    "body": "<strong>📣 公告</strong><br>管理部新增「任務提升獎金」<br><br><strong>🎯 近期任務</strong><br>• Mina 待到 115.7 月後<br>• 8 月有排班上班<br><br><strong>💡 理由</strong><br>櫃檯有可協助管理的希望里程碑，也謝謝協助顏醫師診運行順利。<br><br><strong>🎁 獎勵</strong><br>管理部 115.7 月後，每個月三人都有「任務提升獎金」（類似 Tina 的特殊紅利，但是 0.03%）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1778713702898,
+    "title": "🧾 收據改用 LINE 照相記錄（福美會計機器人）",
+    "type": "info",
+    "body": "<strong>📸 新流程試行</strong><br>病人收據記錄目前也可以用 LINE 照相記錄，系統會幫忙計算印花稅要貼多少，大家可以先試試看有沒有什麼問題。<br><br><strong>📝 使用方式</strong><br>• 在診所的 LINE 上找到「福美會計機器人」<br>• 把寫好確定的收據清楚地照相上傳<br>• 系統會將資料記錄在 Google Sheet 內<br><br><strong>⚠️ 注意事項</strong><br>• 目前紙本的印花稅仍要記錄<br>• 之後若運行順利，收據改成照相傳 LINE，紙本就不用記錄了<br><br>下次開會再詳細說明～",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1778368108323,
     "title": "🐀 鼠患防治：休息室食物不要放過夜",
