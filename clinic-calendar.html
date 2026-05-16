@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>診所班表</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f8f9;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --primary: #0d9488;
+  --primary-dark: #0f766e;
+  --primary-soft: #ccfbf1;
+  --rest: #ef4444;
+  --rest-soft: #fee2e2;
+  --rest-text: #991b1b;
+  --extra: #f59e0b;
+  --extra-soft: #fef3c7;
+  --extra-text: #92400e;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
+  --radius: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: 'Noto Sans TC', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 16px;
+  text-wrap: pretty;
+}
+.app { max-width: 1600px; margin: 0 auto; padding: 24px 20px 60px; }
+body.is-assistant .app { max-width: 1800px; }
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+h1::before {
+  content: "";
+  width: 6px;
+  height: 22px;
+  background: var(--primary);
+  border-radius: 3px;
+}
+.picker-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.picker-row label { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+select {
+  font-family: inherit;
+  font-size: 15px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  min-width: 200px;
+}
+select:hover { border-color: var(--primary); }
+select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+
+/* 身分切換按鈕 */
+.role-switch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 3px;
+}
+.role-btn {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+.role-btn.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 1px 4px rgba(13,148,136,0.3);
+}
+.role-btn:not(.active):hover { background: var(--primary-soft); color: var(--primary); }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.month-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.month-nav .nav-arrow {
+  font-family: inherit;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text);
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.month-nav .nav-arrow:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+.month-label { font-size: 17px; font-weight: 600; min-width: 130px; text-align: center; }
+
+/* 全月休假 / 清除我的當月 / 管理員 按鈕共用基底 */
+.toolbar-action-btn {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  display: none;
+  align-items: center;
+  gap: 5px;
+  border: 1.5px solid transparent;
+}
+.toolbar-action-btn.visible { display: inline-flex; }
+
+/* 全月休假（紅） */
+.btn-full-month-rest {
+  border-color: var(--rest-soft);
+  background: var(--rest-soft);
+  color: var(--rest-text);
+}
+.btn-full-month-rest:hover { background: var(--rest); color: white; border-color: var(--rest); }
+
+/* 清除我的當月（灰） */
+.btn-clear-my-month {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+}
+.btn-clear-my-month:hover { background: var(--bg); color: var(--text); border-color: #9ca3af; }
+
+/* 只看我（綠色切換） */
+.btn-only-me {
+  border-color: var(--primary);
+  background: var(--surface);
+  color: var(--primary);
+}
+.btn-only-me:hover { background: var(--primary-soft); }
+.btn-only-me.on { background: var(--primary); color: white; border-color: var(--primary-dark); }
+
+/* 管理員（深灰，永遠顯示） */
+.btn-admin {
+  border-color: #374151;
+  background: #1f2937;
+  color: #f9fafb;
+  display: inline-flex !important;
+}
+.btn-admin:hover { background: #111827; }
+
+/* 助理模式：休假欄改兩欄 chip grid */
+.day .zone.rest-zone.asst-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: visible;
+}
+.asst-chip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px 4px;
+  overflow: visible;
+}
+
+/* Admin Modal */
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s;
+  padding: 20px;
+}
+.admin-modal-backdrop.show { opacity: 1; pointer-events: all; }
+.admin-modal {
+  background: var(--surface);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.95);
+  transition: transform 0.18s;
+  overflow: hidden;
+}
+.admin-modal-backdrop.show .admin-modal { transform: scale(1); }
+.admin-modal-header {
+  background: #1f2937;
+  color: white;
+  padding: 16px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-modal-body { padding: 22px; }
+.admin-modal-body label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  margin-top: 14px;
+}
+.admin-modal-body label:first-child { margin-top: 0; }
+.admin-input {
+  font-family: inherit;
+  font-size: 15px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.admin-input:focus { border-color: #374151; box-shadow: 0 0 0 3px rgba(55,65,81,0.12); }
+.admin-role-select {
+  font-family: inherit;
+  font-size: 15px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  background: var(--surface);
+  cursor: pointer;
+}
+.admin-error {
+  font-size: 12px;
+  color: var(--rest);
+  margin-top: 6px;
+  min-height: 16px;
+  font-weight: 600;
+}
+.admin-modal-footer {
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.legend { display: flex; gap: 14px; font-size: 13px; color: var(--text-muted); flex-wrap: wrap; }
+.legend span { display: flex; align-items: center; gap: 6px; }
+.legend i {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.legend .l-rest { background: var(--rest); }
+.legend .l-extra { background: var(--extra); }
+
+.calendar-wrap {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow-md);
+}
+.calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.weekday {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 8px 0;
+  letter-spacing: 0.08em;
+}
+.weekday.sun { color: var(--rest); }
+.weekday.sat { color: var(--primary); }
+
+.day {
+  min-height: 130px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  background: var(--surface);
+  transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+  user-select: none;
+  overflow: visible;   /* 允許助理兩欄超出時自動撐高 */
+  display: flex;
+  flex-direction: column;
+}
+/* 助理模式：日期格子允許自由撐高 */
+body.is-assistant .day { overflow: visible; height: auto; }
+.day .zones {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 0 3px 3px;
+  min-height: 0;
+}
+/* 助理模式：只有休假一欄，全寬 */
+.day .zones.single-zone {
+  grid-template-columns: 1fr;
+}
+.day:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.day.empty {
+  background: transparent;
+  border: 1px dashed transparent;
+  cursor: default;
+  min-height: 0;
+}
+.day.empty:hover { transform: none; box-shadow: none; border-color: transparent; }
+
+.day .num {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 5px 8px 2px;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.day .num .holiday-name {
+  font-size: 10px;
+  color: var(--rest);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.day.is-holiday .num span:first-child { color: var(--rest); }
+.day.is-holiday { background: linear-gradient(180deg, #fff5f5 0%, var(--surface) 28%); }
+.day .num .you {
+  font-size: 9px;
+  font-weight: 700;
+  background: var(--primary);
+  color: white;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+}
+.day.today .num { color: var(--primary); }
+.day.today { border-color: var(--primary); border-width: 2px; }
+
+.day .zone {
+  padding: 3px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 5px;
+}
+body.is-assistant .day .zone { overflow: visible; }
+.day .zone.empty-zone { background: transparent; }
+.day .zone-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 1px 4px;
+  border-radius: 3px;
+  align-self: flex-start;
+  margin-bottom: 2px;
+}
+.day .zone-label.rest-label { background: var(--rest); color: white; }
+.day .zone-label.extra-label { background: var(--extra); color: white; }
+.day.has-rest .zone.rest-zone { background: var(--rest-soft); }
+.day.has-extra .zone.extra-zone { background: var(--extra-soft); }
+
+.doctor-chip {
+  font-size: 10.5px;
+  line-height: 1.3;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 500;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 助理模式：名字不截斷，單行顯示 */
+body.is-assistant .doctor-chip {
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+  font-size: 11px;
+}
+
+/* ===== 當月休假彙整表 ===== */
+.summary-section {
+  margin-top: 28px;
+  display: block;
+}
+
+.summary-section h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  flex-wrap: wrap;
+}
+.summary-view-toggle {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1.5px solid var(--primary);
+  background: var(--surface);
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: none;
+  white-space: nowrap;
+}
+.summary-view-toggle:hover { background: var(--primary-soft); }
+.summary-view-toggle.active { background: var(--primary); color: white; }
+.summary-section h2::before {
+  content: "";
+  width: 5px;
+  height: 18px;
+  background: var(--rest);
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.summary-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--surface);
+}
+.summary-table th {
+  background: #f1f5f9;
+  font-weight: 700;
+  padding: 9px 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.summary-table th.name-col {
+  text-align: left;
+  min-width: 90px;
+  color: var(--text);
+}
+.summary-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+  text-align: center;
+  white-space: nowrap;
+}
+.summary-table td.name-cell {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text);
+}
+.summary-table tr:last-child td { border-bottom: none; }
+.summary-table tr:hover td { background: #fafafa; }
+
+/* 休假標記 */
+.rest-badge {
+  display: inline-block;
+  background: var(--rest-soft);
+  color: var(--rest-text);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 1px 2px;
+}
+.rest-badge.full { background: var(--rest); color: white; }
+
+.summary-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 24px;
+  font-size: 13px;
+}
+.doctor-chip.rest { color: var(--rest-text); }
+.doctor-chip.extra { color: var(--extra-text); }
+.doctor-chip.is-me { font-weight: 700; }
+.doctor-chip.is-me .name { text-decoration: underline; text-underline-offset: 2px; }
+.doctor-chip .slot {
+  font-size: 9px;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-left: 3px;
+}
+.day .zone .more-tag {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  padding: 1px 5px;
+  font-weight: 600;
+}
+
+/* 遮罩 */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: var(--radius);
+  z-index: 10;
+}
+.overlay-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 24px 32px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+.overlay-card .icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 10px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+}
+.overlay-card h3 { font-size: 17px; margin-bottom: 4px; }
+.overlay-card p { font-size: 13px; color: var(--text-muted); }
+
+.status-bar {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.status-bar .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d5db;
+  display: inline-block;
+}
+.status-bar .dot.connected {
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.15);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  transition: all 0.25s;
+  pointer-events: none;
+  z-index: 200;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s;
+  padding: 20px;
+}
+.modal-backdrop.show { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--surface);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.95);
+  transition: transform 0.18s;
+}
+.modal-backdrop.show .modal { transform: scale(1); }
+
+.modal-header {
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-header .date {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+.modal-header .meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.modal-body { padding: 18px 24px; }
+.modal-section { margin-bottom: 18px; }
+.modal-section h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* 快速按鈕 */
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+/* 助理模式：快速按鈕只有休假 + 清除 */
+.quick-actions.assistant-mode {
+  grid-template-columns: 1fr;
+}
+.quick-btn {
+  font-family: inherit;
+  font-size: 13px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.12s;
+}
+.quick-btn.full-rest { color: var(--rest-text); border-color: var(--rest-soft); background: var(--rest-soft); }
+.quick-btn.full-rest:hover { background: var(--rest); color: white; border-color: var(--rest); }
+.quick-btn.full-extra { color: var(--extra-text); border-color: var(--extra-soft); background: var(--extra-soft); }
+.quick-btn.full-extra:hover { background: var(--extra); color: white; border-color: var(--extra); }
+.quick-btn.clear { grid-column: span 2; color: var(--text-muted); }
+.quick-btn.clear.full-width { grid-column: span 1; }
+.quick-btn.clear:hover { background: var(--bg); color: var(--text); }
+
+/* 時段表格 */
+.slot-grid {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 1fr;
+  gap: 6px;
+  align-items: center;
+}
+.slot-grid .head {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 6px 0;
+}
+.slot-grid .row-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+}
+.slot-grid .cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slot-toggle {
+  width: 100%;
+  font-family: inherit;
+  font-size: 12.5px;
+  padding: 8px 4px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.12s;
+}
+.slot-toggle:hover { border-color: var(--primary); }
+.slot-toggle.active.rest {
+  background: var(--rest);
+  border-color: var(--rest);
+  color: white;
+}
+.slot-toggle.active.extra {
+  background: var(--extra);
+  border-color: var(--extra);
+  color: white;
+}
+
+/* 其他人員預覽 */
+.others-list {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  max-height: 100px;
+  overflow-y: auto;
+}
+.others-list .row { padding: 2px 0; }
+.others-list .row strong { color: var(--text); font-weight: 600; }
+.others-list.empty { color: var(--text-muted); font-style: italic; }
+
+.modal-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.btn {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.12s;
+}
+.btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+.btn.primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+.btn.ghost { background: transparent; color: var(--text-muted); }
+.btn.ghost:hover { background: var(--bg); color: var(--text); }
+
+@media (max-width: 600px) {
+  h1 { font-size: 19px; }
+  .day { min-height: 100px; }
+  .day .num { font-size: 12px; padding: 3px 5px 0; }
+  .day .zone { padding: 2px 4px; }
+  .doctor-chip { font-size: 9.5px; padding: 0 3px; }
+  .doctor-chip .slot { font-size: 8px; margin-left: 2px; }
+  .day .zone-label { font-size: 8px; }
+  .day .more-tag { font-size: 8.5px; padding: 0 3px; }
+  .toolbar { padding: 10px 12px; flex-wrap: wrap; gap: 10px; }
+  .legend { font-size: 12px; }
+  .modal-header .date { font-size: 17px; }
+  .role-btn { font-size: 12px; padding: 5px 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <h1 id="pageTitle">診所班表</h1>
+    <div class="picker-row">
+      <!-- 身分切換 -->
+      <div class="role-switch">
+        <button class="role-btn active" id="roleDoctorBtn">醫師</button>
+        <button class="role-btn" id="roleAssistantBtn">助理</button>
+      </div>
+      <!-- 人員選單 -->
+      <label for="personSelect">登入身分</label>
+      <select id="personSelect">
+        <option value="" disabled selected>— 請選擇醫師 —</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="month-nav">
+      <button class="nav-arrow" id="prevMonth" aria-label="上個月">‹</button>
+      <div class="month-label" id="monthLabel">—</div>
+      <button class="nav-arrow" id="nextMonth" aria-label="下個月">›</button>
+      <button class="toolbar-action-btn btn-full-month-rest" id="btnFullMonthRest" title="將本月所有日期設為全天休假">全月休假</button>
+      <button class="toolbar-action-btn btn-clear-my-month" id="btnClearMyMonth" title="清除自己本月所有休假">清除當月</button>
+      <button class="toolbar-action-btn btn-only-me" id="btnOnlyMe" title="行事曆只顯示我的休假">只看我</button>
+      <button class="toolbar-action-btn btn-admin" id="btnAdmin" title="管理員：清除當月所有資料">🔐 管理員</button>
+    </div>
+    <div class="legend" id="legendEl">
+      <span><i class="l-rest"></i>休診</span>
+      <span><i class="l-extra"></i>加診</span>
+      <span><i style="background: linear-gradient(180deg, #fff5f5 0%, var(--surface) 100%); border:1px solid #fecaca;"></i>國定假日</span>
+      <span style="color: var(--text-muted)">時段：早 / 午 / 晚 / 全</span>
+    </div>
+  </div>
+
+  <div class="calendar-wrap">
+    <div class="calendar" id="calendar">
+      <div class="weekday sun">日</div>
+      <div class="weekday">一</div>
+      <div class="weekday">二</div>
+      <div class="weekday">三</div>
+      <div class="weekday">四</div>
+      <div class="weekday">五</div>
+      <div class="weekday sat">六</div>
+    </div>
+    <div class="overlay" id="overlay">
+      <div class="overlay-card">
+        <div class="icon">!</div>
+        <h3 id="overlayTitle">請先選擇醫師身分</h3>
+        <p id="overlayDesc">選擇上方下拉選單，才能開始編輯班表</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="dot" id="connDot"></span>
+    <span id="connLabel">連線中…</span>
+    <span style="margin-left: auto;">點擊日期開啟設定視窗</span>
+  </div>
+
+  <!-- 當月彙整表 -->
+  <div class="summary-section" id="summarySection">
+    <h2><span id="summaryTitle">當月休假彙整</span>
+      <button class="summary-view-toggle" id="summaryViewToggle" style="display:none;">只看我</button>
+    </h2>
+    <div class="summary-table-wrap">
+      <div id="summaryContent"><div class="summary-empty">載入中…</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: 設定休假/休診/加診 -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-labelledby="modalDate">
+    <div class="modal-header">
+      <div class="date" id="modalDate">—</div>
+      <div class="meta" id="modalMeta">—</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <h4>快速設定</h4>
+        <div class="quick-actions" id="quickActions">
+          <button class="quick-btn full-rest" id="qFullRest">全天休診</button>
+          <button class="quick-btn full-extra" id="qFullExtra">全天加診</button>
+          <button class="quick-btn clear" id="qClear">清除我的設定</button>
+        </div>
+      </div>
+
+      <div class="modal-section" id="slotSection">
+        <h4 id="slotSectionTitle">分時段設定（點切換：正常 → 休診 → 加診）</h4>
+        <div class="slot-grid">
+          <div class="head"></div>
+          <div class="head">早上</div>
+          <div class="head">下午</div>
+          <div class="head">晚上</div>
+
+          <div class="row-label">狀態</div>
+          <div class="cell"><button class="slot-toggle" data-slot="am">正常</button></div>
+          <div class="cell"><button class="slot-toggle" data-slot="pm">正常</button></div>
+          <div class="cell"><button class="slot-toggle" data-slot="ev">正常</button></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h4 id="othersLabel">當天其他醫師</h4>
+        <div class="others-list" id="othersList"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn ghost" id="modalCancel">取消</button>
+      <button class="btn primary" id="modalSave">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Modal -->
+<div class="admin-modal-backdrop" id="adminModalBackdrop">
+  <div class="admin-modal">
+    <div class="admin-modal-header">🔐 管理員 — 清除當月資料</div>
+    <div class="admin-modal-body">
+      <label>密碼</label>
+      <input class="admin-input" type="password" id="adminPwdInput" placeholder="請輸入密碼" autocomplete="off">
+      <div class="admin-error" id="adminPwdError"></div>
+      <label>要清除哪一方？</label>
+      <select class="admin-role-select" id="adminRoleSelect">
+        <option value="doctor">醫師班表</option>
+        <option value="assistant">助理班表</option>
+      </select>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="btn ghost" id="adminCancel">取消</button>
+      <button class="btn" style="background:#dc2626;color:white;border-color:#dc2626;" id="adminConfirm">清除當月資料</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getFirestore, collection, doc,
+  setDoc, addDoc, onSnapshot, deleteField,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+// ============ 設定區 ============
+const firebaseConfig = {
+  apiKey: "AIzaSyDKnnKEXYT5gmEPUTFrXC-llztauFxCZLI",
+  authDomain: "dr-clinic-calendar.firebaseapp.com",
+  projectId: "dr-clinic-calendar",
+  storageBucket: "dr-clinic-calendar.firebasestorage.app",
+  messagingSenderId: "1086980653117",
+  appId: "1:1086980653117:web:8332b82d9d913a11ccaa54"
+};
+
+// 醫師名單
+const DOCTORS = [
+  "顏嘉珍醫師",
+  "洪秉琁醫師",
+  "李渘崴醫師",
+  "許宗英醫師",
+  "蔡學亞醫師",
+  "林昭秀醫師",
+  "黃柏鈞醫師",
+  "黃凱筠醫師",
+  "利采穎醫師",
+  "蕭子皓醫師",
+  "陳卓毅醫師",
+  "邱柏智醫師",
+  "王韻婷醫師"
+];
+
+// 助理名單（英文 + 中文）
+const ASSISTANTS = [
+  { en: "Gigi", zh: "雷玉琦" },
+  { en: "Chicken", zh: "陳韻倢" },
+  { en: "Winnie", zh: "沈韻文" },
+  { en: "Zoe", zh: "邱柔慈" },
+  { en: "Ivy", zh: "黃思敏" },
+  { en: "Josey", zh: "林璟妤" },
+  { en: "Hadassa", zh: "林芷晴" },
+  { en: "Tina", zh: "楊雅惠" },
+  { en: "Yuki", zh: "吳玉善" },
+  { en: "Sharon", zh: "郭穎襄" },
+  { en: "Elena", zh: "陳詩雅" },
+  { en: "Mina", zh: "李晏瑜" },
+  { en: "Kevin", zh: "柯偉立" },
+  { en: "Nora", zh: "馬寶妍" }
+];
+
+// 通知 Webhook URL（Google Apps Script 部署網址）
+const NOTIFY_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbymcPZaSe0uaY8iMvvXfm1kQKTmG22URA2g41TGLctvUadDd-cayocWj9Gr0yoxHj43AQ/exec";
+
+// 台灣國定假日
+const HOLIDAYS = {
+  // ===== 2026 =====
+  "2026-01-01": "元旦",
+  "2026-02-16": "除夕",
+  "2026-02-17": "春節初一",
+  "2026-02-18": "春節初二",
+  "2026-02-19": "春節初三",
+  "2026-02-20": "春節彈性",
+  "2026-02-27": "和平紀念彈性",
+  "2026-02-28": "和平紀念日",
+  "2026-04-03": "兒童節彈性",
+  "2026-04-04": "兒童節",
+  "2026-04-06": "清明節",
+  "2026-05-01": "勞動節",
+  "2026-06-19": "端午節",
+  "2026-09-25": "中秋節",
+  "2026-10-09": "國慶彈性",
+  "2026-10-10": "國慶日",
+  // ===== 2027 =====
+  "2027-01-01": "元旦",
+  "2027-02-05": "除夕",
+  "2027-02-06": "春節初一",
+  "2027-02-07": "春節初二",
+  "2027-02-08": "春節初三",
+  "2027-02-09": "春節初四",
+  "2027-02-10": "春節初五",
+  "2027-02-26": "和平紀念彈性",
+  "2027-02-28": "和平紀念日",
+  "2027-04-02": "兒童節",
+  "2027-04-05": "清明節",
+  "2027-04-30": "勞動節彈性",
+  "2027-05-01": "勞動節",
+  "2027-06-09": "端午節",
+  "2027-09-15": "中秋節",
+  "2027-10-08": "國慶彈性",
+  "2027-10-10": "國慶日"
+};
+
+// 時段定義
+const SLOTS = ["am", "pm", "ev"];
+const SLOT_LABEL = { am: "早", pm: "午", ev: "晚" };
+const SLOT_FULL_LABEL = { am: "早上", pm: "下午", ev: "晚上" };
+const STATUS_CYCLE_DOCTOR = ["", "rest", "extra"];      // 醫師：正常→休診→加診
+const STATUS_CYCLE_ASSISTANT = ["", "rest"];            // 助理：正常→休假
+const STATUS_LABEL = { "": "正常", rest: "休診", extra: "加診" };
+const STATUS_LABEL_ASST = { "": "正常", rest: "休假" };
+// =====================================================
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// 醫師與助理分別用不同的 Firestore collection
+const SCHEDULE_COL_DOCTOR = collection(db, "schedule");
+const SCHEDULE_COL_ASSISTANT = collection(db, "schedule_assistant");
+const HISTORY_COL = collection(db, "history");
+
+// ----- 狀態 -----
+let currentRole = "doctor";       // "doctor" | "assistant"
+let currentPerson = "";           // 目前選擇的人名（醫師全名 or 助理顯示名）
+let currentDate = new Date();
+let scheduleData = {};
+let unsubscribe = null;
+let modalDateStr = null;
+let modalDraft = { am: "", pm: "", ev: "" };
+
+// ----- DOM -----
+const personSelect = document.getElementById("personSelect");
+const monthLabel = document.getElementById("monthLabel");
+const calendarEl = document.getElementById("calendar");
+const overlay = document.getElementById("overlay");
+const overlayTitle = document.getElementById("overlayTitle");
+const overlayDesc = document.getElementById("overlayDesc");
+const connDot = document.getElementById("connDot");
+const connLabel = document.getElementById("connLabel");
+const toast = document.getElementById("toast");
+const modalBackdrop = document.getElementById("modalBackdrop");
+const modalDate = document.getElementById("modalDate");
+const modalMeta = document.getElementById("modalMeta");
+const othersList = document.getElementById("othersList");
+const pageTitle = document.getElementById("pageTitle");
+const legendEl = document.getElementById("legendEl");
+const roleDoctorBtn = document.getElementById("roleDoctorBtn");
+const roleAssistantBtn = document.getElementById("roleAssistantBtn");
+const quickActions = document.getElementById("quickActions");
+const qFullRest = document.getElementById("qFullRest");
+const qFullExtra = document.getElementById("qFullExtra");
+const qClear = document.getElementById("qClear");
+const slotSectionTitle = document.getElementById("slotSectionTitle");
+const othersLabel = document.getElementById("othersLabel");
+const btnFullMonthRest = document.getElementById("btnFullMonthRest");
+const btnClearMyMonth = document.getElementById("btnClearMyMonth");
+const btnOnlyMe = document.getElementById("btnOnlyMe");
+const btnAdmin = document.getElementById("btnAdmin");
+const summaryViewToggle = document.getElementById("summaryViewToggle");
+
+// 行事曆「只看我」篩選狀態
+let calendarMyOnly = false;
+
+btnOnlyMe.addEventListener("click", () => {
+  calendarMyOnly = !calendarMyOnly;
+  btnOnlyMe.textContent = calendarMyOnly ? "顯示全部" : "只看我";
+  btnOnlyMe.classList.toggle("on", calendarMyOnly);
+  renderCalendar();
+});
+
+// 彙整表篩選狀態：false = 全部，true = 只看我
+let summaryMyOnly = false;
+
+summaryViewToggle.addEventListener("click", () => {
+  summaryMyOnly = !summaryMyOnly;
+  summaryViewToggle.textContent = summaryMyOnly ? "顯示全部" : "只看我";
+  summaryViewToggle.classList.toggle("active", summaryMyOnly);
+  renderSummary();
+});
+const adminModalBackdrop = document.getElementById("adminModalBackdrop");
+const adminPwdInput = document.getElementById("adminPwdInput");
+const adminPwdError = document.getElementById("adminPwdError");
+const adminRoleSelect = document.getElementById("adminRoleSelect");
+
+// 助理英文名查詢表（顯示名 → 英文）
+const ASST_EN_MAP = {};
+ASSISTANTS.forEach(a => { ASST_EN_MAP[assistantDisplayName(a)] = a.en; });
+function asstShortName(displayName) {
+  return ASST_EN_MAP[displayName] || displayName.split(" ")[0];
+}
+
+// ----- 助理顯示名稱（英文 + 中文括號）-----
+function assistantDisplayName(a) {
+  return `${a.en} ${a.zh}`;
+}
+
+// ----- 填充下拉選單 -----
+function populateSelect(role) {
+  personSelect.innerHTML = "";
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  placeholder.textContent = role === "doctor" ? "— 請選擇醫師 —" : "— 請選擇助理 —";
+  personSelect.appendChild(placeholder);
+
+  if (role === "doctor") {
+    DOCTORS.forEach(name => {
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      personSelect.appendChild(opt);
+    });
+  } else {
+    ASSISTANTS.forEach(a => {
+      const opt = document.createElement("option");
+      opt.value = assistantDisplayName(a);
+      opt.textContent = `${a.en}（${a.zh}）`;
+      personSelect.appendChild(opt);
+    });
+  }
+}
+
+// ----- 身分切換 -----
+function switchRole(role) {
+  currentRole = role;
+  currentPerson = "";
+  scheduleData = {};
+  if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+
+  if (role === "doctor") {
+    roleDoctorBtn.classList.add("active");
+    roleAssistantBtn.classList.remove("active");
+    pageTitle.textContent = "診所醫師班表";
+    overlayTitle.textContent = "請先選擇醫師身分";
+    overlayDesc.textContent = "選擇上方下拉選單，才能開始編輯班表";
+    legendEl.innerHTML = `
+      <span><i class="l-rest"></i>休診</span>
+      <span><i class="l-extra"></i>加診</span>
+      <span><i style="background: linear-gradient(180deg, #fff5f5 0%, var(--surface) 100%); border:1px solid #fecaca;"></i>國定假日</span>
+      <span style="color: var(--text-muted)">時段：早 / 午 / 晚 / 全</span>
+    `;
+    othersLabel.textContent = "當天其他醫師";
+    btnFullMonthRest.classList.remove("visible");
+    btnClearMyMonth.classList.remove("visible");
+    btnOnlyMe.classList.remove("visible");
+  } else {
+    roleDoctorBtn.classList.remove("active");
+    roleAssistantBtn.classList.add("active");
+    pageTitle.textContent = "診所助理班表";
+    overlayTitle.textContent = "請先選擇助理身分";
+    overlayDesc.textContent = "選擇上方下拉選單，才能開始編輯班表";
+    legendEl.innerHTML = `
+      <span><i class="l-rest"></i>休假</span>
+      <span><i style="background: linear-gradient(180deg, #fff5f5 0%, var(--surface) 100%); border:1px solid #fecaca;"></i>國定假日</span>
+      <span style="color: var(--text-muted)">時段：早 / 午 / 晚 / 全</span>
+    `;
+    othersLabel.textContent = "當天其他助理";
+    btnFullMonthRest.classList.add("visible");
+    btnClearMyMonth.classList.add("visible");
+    btnOnlyMe.classList.add("visible");
+  }
+
+  // 重設篩選狀態
+  summaryMyOnly = false;
+  summaryViewToggle.textContent = "只看我";
+  summaryViewToggle.classList.remove("active");
+  calendarMyOnly = false;
+  btnOnlyMe.textContent = "只看我";
+  btnOnlyMe.classList.remove("on");
+
+  // body class 讓 CSS 知道目前是助理模式
+  if (role === "assistant") {
+    document.body.classList.add("is-assistant");
+  } else {
+    document.body.classList.remove("is-assistant");
+  }
+
+  populateSelect(role);
+  overlay.style.display = "flex";
+  renderCalendar();   // 立刻渲染框架（scheduleData 已清空，格子正常，遮罩蓋住等選人）
+  startSync();        // Firebase 連線後再更新資料
+}
+
+// 身分切換按鈕事件
+roleDoctorBtn.addEventListener("click", () => { if (currentRole !== "doctor") switchRole("doctor"); });
+roleAssistantBtn.addEventListener("click", () => { if (currentRole !== "assistant") switchRole("assistant"); });
+
+// ----- 人員選擇 -----
+personSelect.addEventListener("change", e => {
+  currentPerson = e.target.value;
+  if (currentPerson) {
+    overlay.style.display = "none";
+    showToast(`已切換為 ${currentPerson}`);
+    renderCalendar();
+  }
+});
+
+// ----- 月份切換 -----
+document.getElementById("prevMonth").addEventListener("click", () => {
+  currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+  renderCalendar();
+});
+document.getElementById("nextMonth").addEventListener("click", () => {
+  currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+  renderCalendar();
+});
+
+// ----- 全月休假（助理專用）-----
+btnFullMonthRest.addEventListener("click", async () => {
+  if (currentRole !== "assistant") return;
+  if (!currentPerson) {
+    showToast("請先選擇助理身分");
+    return;
+  }
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthStr = `${year} 年 ${month + 1} 月`;
+
+  const confirmed = confirm(`將「${currentPerson}」整個 ${monthStr} 的所有日期設為全天休假，確定嗎？`);
+  if (!confirmed) return;
+
+  showToast("寫入中，請稍候…");
+  btnFullMonthRest.disabled = true;
+
+  const colRef = SCHEDULE_COL_ASSISTANT;
+  const allRest = { am: "rest", pm: "rest", ev: "rest" };
+
+  try {
+    const writes = [];
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = fmtDate(new Date(year, month, d));
+      const docRef = doc(colRef, dateStr);
+      writes.push(
+        setDoc(docRef, {
+          entries: { [currentPerson]: allRest },
+          ts: serverTimestamp()
+        }, { merge: true })
+      );
+    }
+    await Promise.all(writes);
+
+    // 寫一筆歷史紀錄代表整月操作
+    await addDoc(HISTORY_COL, {
+      date: `${year}-${String(month + 1).padStart(2, "0")}-全月`,
+      person: currentPerson,
+      role: "assistant",
+      action: "全月休假",
+      ts: serverTimestamp()
+    });
+
+    showToast(`${currentPerson}：${monthStr} 全月休假已設定`);
+  } catch (err) {
+    console.error(err);
+    showToast("設定失敗：" + err.message);
+  } finally {
+    btnFullMonthRest.disabled = false;
+  }
+});
+
+// ----- 清除我的當月（助理專用）-----
+btnClearMyMonth.addEventListener("click", async () => {
+  if (currentRole !== "assistant") return;
+  if (!currentPerson) { showToast("請先選擇助理身分"); return; }
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthStr = `${year} 年 ${month + 1} 月`;
+  const confirmed = confirm(`清除「${currentPerson}」${monthStr} 的所有休假設定，確定嗎？`);
+  if (!confirmed) return;
+
+  showToast("清除中，請稍候…");
+  btnClearMyMonth.disabled = true;
+  const colRef = SCHEDULE_COL_ASSISTANT;
+  try {
+    const writes = [];
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = fmtDate(new Date(year, month, d));
+      const docRef = doc(colRef, dateStr);
+      writes.push(setDoc(docRef, { entries: { [currentPerson]: deleteField() }, ts: serverTimestamp() }, { merge: true }));
+    }
+    await Promise.all(writes);
+    showToast(`${currentPerson}：${monthStr} 休假已全部清除`);
+  } catch (err) {
+    console.error(err);
+    showToast("清除失敗：" + err.message);
+  } finally {
+    btnClearMyMonth.disabled = false;
+  }
+});
+
+// ----- 管理員 Modal -----
+const ADMIN_PASSWORD = "1234";
+
+btnAdmin.addEventListener("click", () => {
+  adminPwdInput.value = "";
+  adminPwdError.textContent = "";
+  adminRoleSelect.value = currentRole === "assistant" ? "assistant" : "doctor";
+  adminModalBackdrop.classList.add("show");
+  setTimeout(() => adminPwdInput.focus(), 100);
+});
+
+document.getElementById("adminCancel").addEventListener("click", closeAdminModal);
+adminModalBackdrop.addEventListener("click", e => { if (e.target === adminModalBackdrop) closeAdminModal(); });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && adminModalBackdrop.classList.contains("show")) closeAdminModal();
+});
+function closeAdminModal() {
+  adminModalBackdrop.classList.remove("show");
+}
+
+document.getElementById("adminConfirm").addEventListener("click", async () => {
+  const pwd = adminPwdInput.value;
+  if (pwd !== ADMIN_PASSWORD) {
+    adminPwdError.textContent = "密碼錯誤，請再試一次";
+    adminPwdInput.focus();
+    return;
+  }
+  adminPwdError.textContent = "";
+
+  const targetRole = adminRoleSelect.value;
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthStr = `${year} 年 ${month + 1} 月`;
+  const roleLabel = targetRole === "doctor" ? "醫師" : "助理";
+
+  const confirmed = confirm(`確定要清除「${roleLabel}班表」${monthStr} 的全部資料？此操作無法還原！`);
+  if (!confirmed) return;
+
+  closeAdminModal();
+  showToast(`清除 ${roleLabel} ${monthStr} 中…`);
+
+  const colRef = targetRole === "assistant" ? SCHEDULE_COL_ASSISTANT : SCHEDULE_COL_DOCTOR;
+  try {
+    // 讀出當月所有文件，整筆刪除 entries
+    const { getDocs, query, where } = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js");
+    const writes = [];
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = fmtDate(new Date(year, month, d));
+      const docRef = doc(colRef, dateStr);
+      // 用空 entries 覆蓋（完整清空該文件的 entries）
+      writes.push(setDoc(docRef, { entries: {}, ts: serverTimestamp() }));
+    }
+    await Promise.all(writes);
+    await addDoc(HISTORY_COL, {
+      date: `${year}-${String(month + 1).padStart(2, "0")}-全月`,
+      role: targetRole,
+      action: "管理員清除全月",
+      ts: serverTimestamp()
+    });
+    showToast(`✅ ${roleLabel} ${monthStr} 資料已全部清除`);
+  } catch (err) {
+    console.error(err);
+    showToast("清除失敗：" + err.message);
+  }
+});
+
+// ----- 工具函式 -----
+function fmtDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+function isSameDate(a, b) {
+  return a.getFullYear() === b.getFullYear()
+      && a.getMonth() === b.getMonth()
+      && a.getDate() === b.getDate();
+}
+function getPersonEntry(dateStr, personName) {
+  const e = scheduleData[dateStr]?.entries?.[personName];
+  if (!e) return null;
+  if (typeof e === "string") return { am: e, pm: e, ev: e };
+  return { am: e.am || "", pm: e.pm || "", ev: e.ev || "" };
+}
+function slotsToShort(slots) {
+  if (slots.length === 3) return "全";
+  return slots.map(s => SLOT_LABEL[s]).join("");
+}
+function shortName(fullName) {
+  return fullName.replace(/醫師$/, "");
+}
+
+// ----- 渲染月曆 -----
+function renderCalendar() {
+  const isAssistant = currentRole === "assistant";
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  monthLabel.textContent = `${year} 年 ${month + 1} 月`;
+
+  // 有選人就確保遮罩隱藏
+  if (currentPerson) overlay.style.display = "none";
+
+  Array.from(calendarEl.querySelectorAll(".day")).forEach(el => el.remove());
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+
+  for (let i = 0; i < firstDay; i++) {
+    const ph = document.createElement("div");
+    ph.className = "day empty";
+    calendarEl.appendChild(ph);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateObj = new Date(year, month, d);
+    const dateStr = fmtDate(dateObj);
+    const cell = document.createElement("div");
+    cell.className = "day";
+    cell.dataset.date = dateStr;
+    if (isSameDate(dateObj, today)) cell.classList.add("today");
+
+    const holidayName = HOLIDAYS[dateStr];
+    if (holidayName) cell.classList.add("is-holiday");
+
+    const entries = scheduleData[dateStr]?.entries || {};
+    const restList = [];
+    const extraList = [];
+    Object.entries(entries).forEach(([name, raw]) => {
+      // 助理「只看我」模式：跳過不是自己的人
+      if (isAssistant && calendarMyOnly && name !== currentPerson) return;
+      const e = (typeof raw === "string") ? { am: raw, pm: raw, ev: raw } : raw;
+      const restSlots = SLOTS.filter(s => e[s] === "rest");
+      const extraSlots = SLOTS.filter(s => e[s] === "extra");
+      if (restSlots.length > 0) restList.push({ name, slots: restSlots });
+      if (extraSlots.length > 0) extraList.push({ name, slots: extraSlots });
+    });
+
+    if (restList.length > 0) cell.classList.add("has-rest");
+    if (extraList.length > 0) cell.classList.add("has-extra");
+
+    // 日期數字 + 假日 + 我的徽章
+    const numEl = document.createElement("div");
+    numEl.className = "num";
+    const numTxt = document.createElement("span");
+    numTxt.textContent = d;
+    numEl.appendChild(numTxt);
+
+    if (holidayName) {
+      const hol = document.createElement("span");
+      hol.className = "holiday-name";
+      hol.textContent = holidayName;
+      hol.title = `國定假日：${holidayName}`;
+      numEl.appendChild(hol);
+    }
+
+    if (currentPerson) {
+      const myEntry = entries[currentPerson];
+      const myE = (typeof myEntry === "string") ? { am: myEntry, pm: myEntry, ev: myEntry } : myEntry;
+      if (myE) {
+        const hasRest = SLOTS.some(s => myE[s] === "rest");
+        const hasExtra = SLOTS.some(s => myE[s] === "extra");
+        if (hasRest || hasExtra) {
+          const meTag = document.createElement("span");
+          meTag.className = "you";
+          let txt = "";
+          if (isAssistant) {
+            if (hasRest) txt = "我休";
+          } else {
+            if (hasRest) txt = "我休";
+            if (hasExtra) txt = (txt ? "我休加" : "我加");
+          }
+          meTag.textContent = txt;
+          numEl.appendChild(meTag);
+        }
+      }
+    }
+    cell.appendChild(numEl);
+
+    // 左右欄（助理模式只顯示休假區，佔全寬）
+    const zones = document.createElement("div");
+    zones.className = isAssistant ? "zones single-zone" : "zones";
+
+    // 休診/休假欄
+    const restZone = document.createElement("div");
+    restZone.className = "zone rest-zone";
+    if (restList.length === 0) restZone.classList.add("empty-zone");
+    if (restList.length > 0) {
+      const lbl = document.createElement("div");
+      lbl.className = "zone-label rest-label";
+      lbl.textContent = isAssistant ? "休假" : "休診";
+      restZone.appendChild(lbl);
+    }
+
+    const MAX_VISIBLE = 3;
+
+    if (isAssistant) {
+      // 助理：全部顯示，兩欄 grid
+      const chipGrid = document.createElement("div");
+      chipGrid.className = "asst-chip-grid";
+      restList.forEach(({ name, slots }) => {
+        const chip = document.createElement("div");
+        chip.className = "doctor-chip rest";
+        if (name === currentPerson) chip.classList.add("is-me");
+        const enName = asstShortName(name);
+        chip.innerHTML = `<span class="name">${enName}</span><span class="slot">${slotsToShort(slots)}</span>`;
+        chip.title = `${name}（${slots.map(s => SLOT_FULL_LABEL[s]).join("、")}休假）`;
+        chipGrid.appendChild(chip);
+      });
+      restZone.appendChild(chipGrid);
+    } else {
+      // 醫師：原本邏輯，最多顯示 3 個
+      const restToShow = restList.slice(0, MAX_VISIBLE);
+      const restRest = restList.length - restToShow.length;
+      restToShow.forEach(({ name, slots }) => {
+        const chip = document.createElement("div");
+        chip.className = "doctor-chip rest";
+        if (name === currentPerson) chip.classList.add("is-me");
+        chip.innerHTML = `<span class="name">${shortName(name)}</span><span class="slot">${slotsToShort(slots)}</span>`;
+        chip.title = `${name}（${slots.map(s => SLOT_FULL_LABEL[s]).join("、")}休診）`;
+        restZone.appendChild(chip);
+      });
+      if (restRest > 0) {
+        const more = document.createElement("div");
+        more.className = "more-tag";
+        more.textContent = `+${restRest} 人`;
+        more.title = restList.slice(MAX_VISIBLE).map(({name, slots}) => `${name}（${slotsToShort(slots)}）`).join("、");
+        restZone.appendChild(more);
+      }
+    }
+    zones.appendChild(restZone);
+
+    // 加診欄（僅醫師模式）
+    if (!isAssistant) {
+      const extraZone = document.createElement("div");
+      extraZone.className = "zone extra-zone";
+      if (extraList.length === 0) extraZone.classList.add("empty-zone");
+      if (extraList.length > 0) {
+        const lbl = document.createElement("div");
+        lbl.className = "zone-label extra-label";
+        lbl.textContent = "加診";
+        extraZone.appendChild(lbl);
+      }
+      const extraToShow = extraList.slice(0, MAX_VISIBLE);
+      const extraRest = extraList.length - extraToShow.length;
+      extraToShow.forEach(({ name, slots }) => {
+        const chip = document.createElement("div");
+        chip.className = "doctor-chip extra";
+        if (name === currentPerson) chip.classList.add("is-me");
+        chip.innerHTML = `<span class="name">${shortName(name)}</span><span class="slot">${slotsToShort(slots)}</span>`;
+        chip.title = `${name}（${slots.map(s => SLOT_FULL_LABEL[s]).join("、")}加診）`;
+        extraZone.appendChild(chip);
+      });
+      if (extraRest > 0) {
+        const more = document.createElement("div");
+        more.className = "more-tag";
+        more.textContent = `+${extraRest} 人`;
+        more.title = extraList.slice(MAX_VISIBLE).map(({name, slots}) => `${name}（${slotsToShort(slots)}）`).join("、");
+        extraZone.appendChild(more);
+      }
+      zones.appendChild(extraZone);
+    }
+
+    cell.appendChild(zones);
+    cell.addEventListener("click", () => openModal(dateStr));
+    calendarEl.appendChild(cell);
+  }
+
+  renderSummary();
+}
+
+// ----- 當月彙整表 -----
+function renderSummary() {
+  const isAssistant = currentRole === "assistant";
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const summaryContent = document.getElementById("summaryContent");
+  const summaryTitle = document.getElementById("summaryTitle");
+
+  const restWord = isAssistant ? "休假" : "休診";
+  summaryTitle.textContent = `${year} 年 ${month + 1} 月　${isAssistant ? "助理" : "醫師"}${restWord}彙整`;
+
+  // 只有助理模式且已選身分才顯示「只看我」按鈕
+  summaryViewToggle.style.display = (isAssistant && currentPerson) ? "inline-block" : "none";
+
+  // 收集每人的休假日資訊
+  // personMap: { name -> { restDays: [{day, slots}], extraDays: [{day, slots}] } }
+  const personMap = {};
+
+  const nameList = isAssistant
+    ? ASSISTANTS.map(a => assistantDisplayName(a))
+    : DOCTORS;
+
+  // 先把所有人初始化（確保無資料的人也在表格裡）
+  nameList.forEach(n => { personMap[n] = { restDays: [], extraDays: [] }; });
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = fmtDate(new Date(year, month, d));
+    const entries = scheduleData[dateStr]?.entries || {};
+    Object.entries(entries).forEach(([name, raw]) => {
+      if (!personMap[name]) return; // 不在名單的忽略
+      const e = (typeof raw === "string") ? { am: raw, pm: raw, ev: raw } : raw;
+      const restSlots = SLOTS.filter(s => e[s] === "rest");
+      const extraSlots = SLOTS.filter(s => e[s] === "extra");
+      if (restSlots.length > 0) personMap[name].restDays.push({ day: d, slots: restSlots });
+      if (extraSlots.length > 0) personMap[name].extraDays.push({ day: d, slots: extraSlots });
+    });
+  }
+
+  // 篩選顯示名單：助理模式可切換「只看我」
+  const displayList = (isAssistant && summaryMyOnly && currentPerson)
+    ? nameList.filter(n => n === currentPerson)
+    : nameList;
+
+  // 找出有任何資料的人
+  const hasData = displayList.some(n =>
+    personMap[n]?.restDays.length > 0 || personMap[n]?.extraDays.length > 0
+  );
+
+  if (!hasData) {
+    const noDataMsg = (isAssistant && summaryMyOnly)
+      ? "本月尚無你的休假資料"
+      : `本月尚無${restWord}資料`;
+    summaryContent.innerHTML = `<div class="summary-empty">${noDataMsg}</div>`;
+    return;
+  }
+
+  // 建立表格：人名 | 休假天數 | 休假日期（帶時段標記）| [加診，醫師專用]
+  let html = `<table class="summary-table">
+    <thead><tr>
+      <th class="name-col">${isAssistant ? "助理" : "醫師"}</th>
+      <th>${restWord}天數</th>
+      <th style="text-align:left; min-width:320px;">${restWord}日期</th>
+      ${!isAssistant ? '<th>加診天數</th><th style="text-align:left; min-width:200px;">加診日期</th>' : ""}
+    </tr></thead>
+    <tbody>`;
+
+  displayList.forEach(name => {
+    const { restDays, extraDays } = personMap[name] || { restDays: [], extraDays: [] };
+    if (restDays.length === 0 && extraDays.length === 0) return; // 沒資料就跳過
+
+    const displayName = isAssistant ? asstShortName(name) : shortName(name);
+
+    const weekdayMap = ["日", "一", "二", "三", "四", "五", "六"];
+
+    const restBadges = restDays.map(({ day, slots }) => {
+      const isFull = slots.length === 3;
+      const slotText = isFull ? "" : `(${slots.map(s => SLOT_LABEL[s]).join("")})`;
+      const wd = weekdayMap[new Date(year, month, day).getDay()];
+      return `<span class="rest-badge${isFull ? " full" : ""}">${day}日(${wd})${slotText}</span>`;
+    }).join("");
+
+    const extraBadges = extraDays.map(({ day, slots }) => {
+      const isFull = slots.length === 3;
+      const slotText = isFull ? "" : `(${slots.map(s => SLOT_LABEL[s]).join("")})`;
+      const wd = weekdayMap[new Date(year, month, day).getDay()];
+      return `<span class="rest-badge" style="background:var(--extra-soft);color:var(--extra-text);">${day}日(${wd})${slotText}</span>`;
+    }).join("");
+
+    const isMe = name === currentPerson;
+    html += `<tr${isMe ? ' style="background:#f0fdfa;"' : ""}>
+      <td class="name-cell">${displayName}${isMe ? ' <span style="font-size:10px;background:var(--primary);color:white;padding:1px 5px;border-radius:3px;font-weight:700;">我</span>' : ""}</td>
+      <td><strong style="color:var(--rest-text)">${restDays.length}</strong> 天</td>
+      <td style="text-align:left;">${restBadges || "—"}</td>
+      ${!isAssistant ? `<td><strong style="color:var(--extra-text)">${extraDays.length}</strong> 天</td><td style="text-align:left;">${extraBadges || "—"}</td>` : ""}
+    </tr>`;
+  });
+
+  html += "</tbody></table>";
+  summaryContent.innerHTML = html;
+}
+
+// ----- Modal 開啟 -----
+function openModal(dateStr) {
+  if (!currentPerson) {
+    showToast(currentRole === "doctor" ? "請先選擇醫師身分" : "請先選擇助理身分");
+    return;
+  }
+  const isAssistant = currentRole === "assistant";
+  modalDateStr = dateStr;
+  const my = getPersonEntry(dateStr, currentPerson) || { am: "", pm: "", ev: "" };
+  modalDraft = { ...my };
+
+  // 標題
+  const [y, m, dv] = dateStr.split("-");
+  const dateObj = new Date(+y, +m - 1, +dv);
+  const weekdayMap = ["日", "一", "二", "三", "四", "五", "六"];
+  const holidayName = HOLIDAYS[dateStr];
+  const holidaySuffix = holidayName ? ` · ${holidayName}` : "";
+  modalDate.textContent = `${+m} 月 ${+dv} 日（週${weekdayMap[dateObj.getDay()]}${holidaySuffix}）`;
+  modalMeta.textContent = `身分：${currentPerson}`;
+
+  // 快速按鈕區：助理模式只顯示全天休假 + 清除
+  if (isAssistant) {
+    quickActions.classList.add("assistant-mode");
+    qFullRest.textContent = "全天休假";
+    qFullExtra.style.display = "none";
+    qClear.classList.add("full-width");
+    qClear.classList.remove("clear");
+    qClear.style.gridColumn = "";
+    slotSectionTitle.textContent = "分時段設定（點切換：正常 → 休假）";
+  } else {
+    quickActions.classList.remove("assistant-mode");
+    qFullRest.textContent = "全天休診";
+    qFullExtra.style.display = "";
+    qClear.classList.remove("full-width");
+    qClear.classList.add("clear");
+    qClear.style.gridColumn = "";
+    slotSectionTitle.textContent = "分時段設定（點切換：正常 → 休診 → 加診）";
+  }
+
+  refreshSlotButtons();
+  refreshOthersList(dateStr);
+  modalBackdrop.classList.add("show");
+}
+
+function refreshSlotButtons() {
+  const isAssistant = currentRole === "assistant";
+  document.querySelectorAll(".slot-toggle").forEach(btn => {
+    const slot = btn.dataset.slot;
+    const status = modalDraft[slot] || "";
+    btn.classList.remove("active", "rest", "extra");
+    if (status === "rest") {
+      btn.classList.add("active", "rest");
+      btn.textContent = isAssistant ? "休假" : "休診";
+    } else if (status === "extra" && !isAssistant) {
+      btn.classList.add("active", "extra");
+      btn.textContent = "加診";
+    } else {
+      btn.textContent = "正常";
+    }
+  });
+}
+
+function refreshOthersList(dateStr) {
+  const isAssistant = currentRole === "assistant";
+  const entries = scheduleData[dateStr]?.entries || {};
+  const lines = [];
+  Object.entries(entries).forEach(([name, raw]) => {
+    if (name === currentPerson) return;
+    const e = (typeof raw === "string") ? { am: raw, pm: raw, ev: raw } : raw;
+    const restSlots = SLOTS.filter(s => e[s] === "rest").map(s => SLOT_FULL_LABEL[s]);
+    const extraSlots = SLOTS.filter(s => e[s] === "extra").map(s => SLOT_FULL_LABEL[s]);
+    if (restSlots.length === 0 && extraSlots.length === 0) return;
+    let parts = [];
+    const restWord = isAssistant ? "休假" : "休診";
+    if (restSlots.length === 3) parts.push(`全天${restWord}`);
+    else if (restSlots.length > 0) parts.push(restSlots.join("、") + restWord);
+    if (!isAssistant) {
+      if (extraSlots.length === 3) parts.push("全天加診");
+      else if (extraSlots.length > 0) parts.push(extraSlots.join("、") + "加診");
+    }
+    lines.push(`<div class="row"><strong>${name}</strong>　${parts.join("，")}</div>`);
+  });
+  if (lines.length === 0) {
+    othersList.classList.add("empty");
+    othersList.innerHTML = isAssistant ? "目前無其他助理設定" : "目前無其他醫師設定";
+  } else {
+    othersList.classList.remove("empty");
+    othersList.innerHTML = lines.join("");
+  }
+}
+
+// 時段按鈕循環
+document.querySelectorAll(".slot-toggle").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const slot = btn.dataset.slot;
+    const cycle = currentRole === "assistant" ? STATUS_CYCLE_ASSISTANT : STATUS_CYCLE_DOCTOR;
+    const cur = modalDraft[slot] || "";
+    const idx = cycle.indexOf(cur);
+    modalDraft[slot] = cycle[(idx + 1) % cycle.length];
+    refreshSlotButtons();
+  });
+});
+
+// 快速按鈕
+qFullRest.addEventListener("click", () => {
+  modalDraft = { am: "rest", pm: "rest", ev: "rest" };
+  refreshSlotButtons();
+});
+qFullExtra.addEventListener("click", () => {
+  modalDraft = { am: "extra", pm: "extra", ev: "extra" };
+  refreshSlotButtons();
+});
+qClear.addEventListener("click", () => {
+  modalDraft = { am: "", pm: "", ev: "" };
+  refreshSlotButtons();
+});
+
+// 取消 / 關閉
+document.getElementById("modalCancel").addEventListener("click", closeModal);
+modalBackdrop.addEventListener("click", e => {
+  if (e.target === modalBackdrop) closeModal();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && modalBackdrop.classList.contains("show")) closeModal();
+});
+function closeModal() {
+  modalBackdrop.classList.remove("show");
+  modalDateStr = null;
+}
+
+// 儲存
+document.getElementById("modalSave").addEventListener("click", saveModal);
+
+async function saveModal() {
+  if (!modalDateStr) return;
+  const dateStr = modalDateStr;
+  const before = getPersonEntry(dateStr, currentPerson) || { am: "", pm: "", ev: "" };
+  const after = { ...modalDraft };
+
+  const changed = SLOTS.some(s => (before[s] || "") !== (after[s] || ""));
+  if (!changed) {
+    showToast("沒有變更");
+    closeModal();
+    return;
+  }
+
+  const allEmpty = SLOTS.every(s => !after[s]);
+  const colRef = currentRole === "assistant" ? SCHEDULE_COL_ASSISTANT : SCHEDULE_COL_DOCTOR;
+  const docRef = doc(colRef, dateStr);
+
+  try {
+    if (allEmpty) {
+      await setDoc(docRef, {
+        entries: { [currentPerson]: deleteField() },
+        ts: serverTimestamp()
+      }, { merge: true });
+    } else {
+      await setDoc(docRef, {
+        entries: { [currentPerson]: after },
+        ts: serverTimestamp()
+      }, { merge: true });
+    }
+
+    await addDoc(HISTORY_COL, {
+      date: dateStr,
+      person: currentPerson,
+      role: currentRole,
+      from: before,
+      to: after,
+      ts: serverTimestamp()
+    });
+
+    if (NOTIFY_WEBHOOK_URL) {
+      const summary = formatChange(before, after);
+      fetch(NOTIFY_WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date: dateStr,
+          person: currentPerson,
+          role: currentRole,
+          from: before,
+          to: after,
+          summary,
+          time: new Date().toISOString()
+        })
+      }).catch(err => console.warn("通知失敗", err));
+    }
+
+    showToast(`${currentPerson}：${dateStr} 已更新`);
+    closeModal();
+  } catch (err) {
+    console.error(err);
+    showToast("儲存失敗：" + err.message);
+  }
+}
+
+function formatChange(before, after) {
+  const isAssistant = currentRole === "assistant";
+  const label = isAssistant ? STATUS_LABEL_ASST : STATUS_LABEL;
+  const lines = [];
+  SLOTS.forEach(s => {
+    const b = before[s] || "";
+    const a = after[s] || "";
+    if (b !== a) {
+      lines.push(`${SLOT_FULL_LABEL[s]}：${label[b] || b} → ${label[a] || a}`);
+    }
+  });
+  return lines.join("；");
+}
+
+// ----- 即時同步 -----
+function startSync() {
+  if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+  const colRef = currentRole === "assistant" ? SCHEDULE_COL_ASSISTANT : SCHEDULE_COL_DOCTOR;
+  const syncRole = currentRole;   // 記住本次訂閱當下的角色
+  unsubscribe = onSnapshot(colRef, snap => {
+    // 如果角色已切換，此回呼屬於舊訂閱，忽略
+    if (syncRole !== currentRole) return;
+    scheduleData = {};
+    snap.forEach(d => { scheduleData[d.id] = d.data(); });
+    renderCalendar();
+    setConnected(true);
+    if (modalDateStr) refreshOthersList(modalDateStr);
+  }, err => {
+    if (syncRole !== currentRole) return;
+    console.error("同步錯誤", err);
+    setConnected(false);
+    connLabel.textContent = "連線錯誤：" + err.message;
+  });
+}
+
+function setConnected(ok) {
+  if (ok) {
+    connDot.classList.add("connected");
+    connLabel.textContent = "已連線（即時同步中）";
+  } else {
+    connDot.classList.remove("connected");
+  }
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+}
+
+// 初始化
+populateSelect("doctor");
+renderCalendar();   // 立刻顯示日曆框架
+startSync();        // Firebase 連線後更新資料
+</script>
+
+</body>
+</html>
