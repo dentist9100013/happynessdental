@@ -1699,6 +1699,9 @@ body::before {
       <a href="https://dentist9100013.github.io/happynessdental/happyness_v11.html" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
         <span class="nav-icon">🗓️</span> 排班軟體 <span class="nav-ext-arrow">↗</span>
       </a>
+      <a href="https://dentist9100013.github.io/happynessdental/clinic-calendar.html" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
+        <span class="nav-icon">📆</span> 劃休軟體 <span class="nav-ext-arrow">↗</span>
+      </a>
       <a href="https://darling-toffee-b3ad69.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-ext-link">
         <span class="nav-icon">💊</span> 用藥安全資訊 <span class="nav-ext-arrow">↗</span>
       </a>
@@ -3175,7 +3178,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605132308';"
+      "const DATA_VERSION = '202605162308';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3234,7 +3237,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605132308';"
+      "const DATA_VERSION = '202605162308';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3307,10 +3310,37 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202605132308';
+const DATA_VERSION = '202605162308';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1747440000000,
+    "title": "🔧 充電設備維修完成",
+    "type": "info",
+    "body": "之前無法充電的設備，更換充電電池後目前已恢復正常運作。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1747389600000,
+    "title": "🎁 診所回饋好病人活動",
+    "type": "info",
+    "body": "福美牙醫回饋小禮物活動正式啟動！<br><br>「診所回饋好病人活動」請各診間配合執行，主動關心符合條件的病患，給予回饋小禮物。<br><br>詳情請參閱醫師群組公告。",
+    "author": "LINE 同步",
+    "time": "2026-05-15",
+    "pinned": false
+  },
+  {
+    "id": 1747390800000,
+    "title": "🚗 停車問題公告",
+    "type": "info",
+    "body": "醫師群組發布診所停車相關公告，請各位醫師留意。詳情請參閱醫師群組訊息。",
+    "author": "LINE 同步",
+    "time": "2026-05-15",
+    "pinned": false
+  },
   {
     "id": 1778713702906,
     "title": "⚠️ 上班請佩戴名牌",
@@ -5015,6 +5045,12 @@ let events = {
       "time": "14:00",
       "type": "other",
       "note": "班表異動"
+    },
+    {
+      "name": "邱醫師午診空檔 15 分",
+      "time": "12:00",
+      "type": "doctor",
+      "note": "5/20（三）邱醫師午診空檔 15 分、晚診空檔 145 分，請協助約診"
     }
   ],
   "2026-04-27": [
@@ -5315,6 +5351,12 @@ let events = {
       "time": "09:00",
       "type": "other",
       "note": "原 5/14 早上改到 5/18 早上當櫃流（櫃檯 G/Y 協助帶）"
+    },
+    {
+      "name": "🔧 機械式管路漏水維修（昆霖）",
+      "time": "全天",
+      "type": "maintenance",
+      "note": "5/16 發現管路漏水，昆霖安排星期一前來處理"
     }
   ],
   "2026-06-09": [
@@ -5401,6 +5443,12 @@ let events = {
       "time": "18:00",
       "type": "doctor",
       "note": "5/16（六）晚診 女黃醫師空檔 15 分，請協助約診"
+    },
+    {
+      "name": "許醫師早診空檔 60 分",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "5/16（六）早診 許醫師空檔 60 分，請協助約診"
     }
   ],
   "2026-05-23": [
@@ -5409,6 +5457,12 @@ let events = {
       "time": "全天",
       "type": "meeting",
       "note": "5 月跟顏醫師吃飯時間"
+    },
+    {
+      "name": "蕭醫師午診空檔 60 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/23（六）午診 蕭醫師空檔 60 分，請協助約診"
     }
   ],
   "2026-05-30": [
@@ -5485,6 +5539,14 @@ let events = {
       "time": "全天",
       "type": "leave",
       "note": "Mina 6 月劃假（LINE 同步）"
+    }
+  ],
+  "2026-05-22": [
+    {
+      "name": "陳醫師晚診空檔 165 分",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "5/22（五）晚診 陳醫師空檔 165 分，請協助約診"
     }
   ]
 };
