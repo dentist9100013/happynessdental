@@ -844,6 +844,7 @@ body.is-assistant .doctor-chip {
       <button class="nav-arrow" id="nextMonth" aria-label="下個月">›</button>
       <button class="toolbar-action-btn btn-full-month-rest" id="btnFullMonthRest" title="將本月所有日期設為全天休假">全月休假</button>
       <button class="toolbar-action-btn btn-clear-my-month" id="btnClearMyMonth" title="清除自己本月所有休假">清除當月</button>
+      <button class="toolbar-action-btn btn-clear-my-month" id="btnExportAssistantLeave" title="匯出本月助理休假 JSON">匯出休假JSON</button>
       <button class="toolbar-action-btn btn-only-me" id="btnOnlyMe" title="行事曆只顯示我的休假">只看我</button>
       <button class="toolbar-action-btn btn-admin" id="btnAdmin" title="管理員：清除當月所有資料">🔐 管理員</button>
     </div>
@@ -1106,6 +1107,7 @@ const slotSectionTitle = document.getElementById("slotSectionTitle");
 const othersLabel = document.getElementById("othersLabel");
 const btnFullMonthRest = document.getElementById("btnFullMonthRest");
 const btnClearMyMonth = document.getElementById("btnClearMyMonth");
+const btnExportAssistantLeave = document.getElementById("btnExportAssistantLeave");
 const btnOnlyMe = document.getElementById("btnOnlyMe");
 const btnAdmin = document.getElementById("btnAdmin");
 const summaryViewToggle = document.getElementById("summaryViewToggle");
@@ -1195,6 +1197,7 @@ function switchRole(role) {
     othersLabel.textContent = "當天其他醫師";
     btnFullMonthRest.classList.remove("visible");
     btnClearMyMonth.classList.remove("visible");
+    btnExportAssistantLeave.classList.remove("visible");
     btnOnlyMe.classList.remove("visible");
   } else {
     roleDoctorBtn.classList.remove("active");
@@ -1210,6 +1213,7 @@ function switchRole(role) {
     othersLabel.textContent = "當天其他助理";
     btnFullMonthRest.classList.add("visible");
     btnClearMyMonth.classList.add("visible");
+    btnExportAssistantLeave.classList.add("visible");
     btnOnlyMe.classList.add("visible");
   }
 
@@ -1340,6 +1344,99 @@ btnClearMyMonth.addEventListener("click", async () => {
   } finally {
     btnClearMyMonth.disabled = false;
   }
+});
+
+const HAPPINESS_ASSISTANT_ID_BY_EN = {
+  gigi: "gigi",
+  chicken: "chicken",
+  winnie: "winnine",
+  zoe: "zoe",
+  ivy: "ivy",
+  josey: "josey",
+  hadassa: "hadassa",
+  tina: "tina",
+  yuki: "yuki",
+  sharon: "sharon",
+  elena: "elena",
+  mina: "mina",
+  kevin: "kevin",
+  nora: "nora"
+};
+
+function getHappynessAssistantId(displayName) {
+  const en = asstShortName(displayName).toLowerCase();
+  return HAPPINESS_ASSISTANT_ID_BY_EN[en] || en;
+}
+
+function buildAssistantLeaveTransferJSON() {
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const astLeave = {};
+  const assistants = ASSISTANTS.map(a => ({
+    en: a.en,
+    zh: a.zh,
+    displayName: assistantDisplayName(a),
+    happynessId: getHappynessAssistantId(assistantDisplayName(a))
+  }));
+
+  let recordCount = 0;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = fmtDate(new Date(year, month, d));
+    const entries = scheduleData[dateStr]?.entries || {};
+    assistants.forEach(a => {
+      const raw = entries[a.displayName];
+      const entry = (typeof raw === "string") ? { am: raw, pm: raw, ev: raw } : raw;
+      if (!entry) return;
+
+      const leaveSlots = SLOTS.map(s => entry[s] === "rest" ? 1 : 0);
+      if (!leaveSlots.some(Boolean)) return;
+
+      if (!astLeave[a.happynessId]) astLeave[a.happynessId] = {};
+      astLeave[a.happynessId][`${year}-${month}-${d}`] = leaveSlots;
+      recordCount++;
+    });
+  }
+
+  return {
+    version: "clinic-assistant-leave-v1",
+    source: "clinic-calendar.html",
+    target: "happyness_v11.html",
+    mode: "overwrite-month-assistant-leave",
+    year,
+    month: month + 1,
+    monthIndex: month,
+    exportedAt: new Date().toISOString(),
+    assistants,
+    astLeave,
+    recordCount
+  };
+}
+
+function downloadJSON(data, filename) {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+btnExportAssistantLeave.addEventListener("click", () => {
+  if (currentRole !== "assistant") return;
+  const data = buildAssistantLeaveTransferJSON();
+  if (!data.recordCount) {
+    showToast("本月沒有可匯出的助理休假資料");
+    return;
+  }
+
+  const mm = String(data.month).padStart(2, "0");
+  downloadJSON(data, `clinic-assistant-leave_${data.year}-${mm}.json`);
+  showToast(`已匯出 ${data.recordCount} 筆助理休假資料`);
 });
 
 // ----- 管理員 Modal -----
