@@ -933,18 +933,189 @@ body.is-assistant .doctor-chip {
 .btn:active { box-shadow: var(--shadow-in-sm); }
 
 @media (max-width: 600px) {
-  h1 { font-size: 19px; }
-  .day { min-height: 100px; }
-  .day .num { font-size: 12px; padding: 3px 5px 0; }
-  .day .zone { padding: 2px 4px; }
-  .doctor-chip { font-size: 9.5px; padding: 0 3px; }
-  .doctor-chip .slot { font-size: 8px; margin-left: 2px; }
-  .day .zone-label { font-size: 8px; }
-  .day .more-tag { font-size: 8.5px; padding: 0 3px; }
-  .toolbar { padding: 10px 12px; flex-wrap: wrap; gap: 10px; }
-  .legend { font-size: 12px; }
+  :root {
+    --shadow-sm: 3px 3px 7px var(--shadow-dark), -3px -3px 7px var(--shadow-light);
+    --shadow-md: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+    --shadow-lg: 9px 9px 18px var(--shadow-dark), -9px -9px 18px var(--shadow-light);
+  }
+  html, body { overflow-x: hidden; }
+  .app {
+    width: 100%;
+    max-width: none;
+    padding: 10px 8px 36px;
+  }
+  body.is-assistant .app { max-width: none; }
+  header {
+    align-items: flex-start;
+    padding: 14px 12px;
+    border-radius: 0 0 22px 22px;
+    margin: -10px -8px 14px;
+    gap: 10px;
+  }
+  h1 {
+    width: 100%;
+    font-size: 17px;
+    gap: 7px;
+  }
+  h1::before { width: 7px; height: 24px; }
+  .picker-row {
+    width: 100%;
+    gap: 8px;
+  }
+  .picker-row label { font-size: 12px; }
+  .role-switch { padding: 4px; gap: 4px; }
+  .role-btn { font-size: 11px; padding: 6px 12px; }
+  select {
+    flex: 1 1 100%;
+    min-width: 0;
+    width: 100%;
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+  .toolbar {
+    padding: 12px 10px;
+    border-radius: 22px;
+    gap: 9px;
+    margin-bottom: 14px;
+  }
+  .month-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .month-nav .nav-arrow {
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+  }
+  .month-label {
+    flex: 1 1 190px;
+    min-width: 150px;
+    font-size: 16px;
+  }
+  .toolbar-action-btn {
+    justify-content: center;
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+  .month-nav .toolbar-action-btn { min-width: 0; }
+  .legend {
+    width: 100%;
+    gap: 8px 10px;
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+  .legend i { width: 10px; height: 10px; }
+  .calendar-wrap {
+    margin: 0 -4px;
+    padding: 8px 5px;
+    border-radius: 18px;
+  }
+  .calendar {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+  }
+  .weekday {
+    font-size: 10px;
+    padding: 5px 0;
+  }
+  .day {
+    min-width: 0;
+    min-height: 86px;
+    border-radius: 12px;
+  }
+  body.is-assistant .day { min-height: 86px; }
+  .day .num {
+    font-size: 10.5px;
+    padding: 5px 5px 2px;
+    gap: 2px;
+  }
+  .day .num .holiday-name {
+    max-width: 100%;
+    font-size: 7.5px;
+    line-height: 1.2;
+  }
+  .day .zones {
+    gap: 3px;
+    padding: 0 4px 4px;
+  }
+  .day .zone {
+    padding: 3px 3px;
+    border-radius: 8px;
+  }
+  .doctor-chip {
+    font-size: 7px;
+    line-height: 1.18;
+    padding: 1px 3px;
+    border-radius: 8px;
+  }
+  body.is-assistant .doctor-chip { font-size: 7px; }
+  .doctor-chip .slot {
+    display: block;
+    font-size: 6px;
+    margin-left: 0;
+    opacity: 0.85;
+  }
+  .asst-chip-grid {
+    grid-template-columns: 1fr;
+    gap: 1px;
+  }
+  .day .zone-label {
+    font-size: 6.5px;
+    padding: 1px 4px;
+    margin-bottom: 1px;
+  }
+  .day .more-tag { font-size: 7px; padding: 0 3px; }
+  .holiday-art {
+    right: 4px;
+    bottom: 4px;
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+    opacity: 0.86;
+  }
+  .holiday-art::after {
+    width: 21px;
+    height: 21px;
+    font-size: 11px;
+  }
+  .holiday-art.has-image {
+    width: 34px;
+    height: 34px;
+    padding: 2px;
+    opacity: 0.9;
+  }
+  .status-bar {
+    font-size: 10px;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .status-bar span:last-child {
+    flex-basis: 100%;
+    margin-left: 0 !important;
+  }
+  .summary-section { margin-top: 18px; }
+  .summary-section h2 {
+    font-size: 13px;
+    gap: 6px;
+  }
+  .summary-table-wrap {
+    margin: 0 -2px;
+    border-radius: 16px;
+  }
+  .summary-table { font-size: 10.5px; }
+  .summary-table th,
+  .summary-table td {
+    padding: 6px 5px;
+  }
+  .rest-badge {
+    font-size: 9px;
+    padding: 1px 5px;
+  }
   .modal-header .date { font-size: 17px; }
-  .role-btn { font-size: 12px; padding: 5px 12px; }
 }
 </style>
 </head>
@@ -1791,6 +1962,10 @@ function renderCalendar() {
         img.src = art.image;
         img.alt = "";
         img.loading = "lazy";
+        img.addEventListener("error", () => {
+          artEl.classList.remove("has-image");
+          img.remove();
+        });
         artEl.appendChild(img);
       }
       cell.appendChild(artEl);
