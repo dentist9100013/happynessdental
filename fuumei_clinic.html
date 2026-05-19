@@ -1599,6 +1599,21 @@ body::before {
   #section-clinic-info .card.span-3 > div[style*="grid-template-columns"] {
     grid-template-columns: 1fr 1fr !important;
   }
+  /* 院長專屬區：平板照片+資訊兩欄、看診時間整列在下 */
+  #director-grid {
+    grid-template-columns: 180px 1fr !important;
+  }
+  #director-grid > div:last-child {
+    grid-column: 1 / -1;
+  }
+  /* 醫師詳細介紹：平板兩欄變單欄 */
+  #doctor-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* 醫師卡內部雙欄：平板保持雙欄但比例調整 */
+  .doc-card-inner {
+    grid-template-columns: 1fr 1fr !important;
+  }
 
   /* ── Internal manual cards responsive ── */
   #section-manuals > div[style*="grid-template-columns"] {
@@ -1613,6 +1628,26 @@ body::before {
   /* Doctor grid single column on small phones */
   #section-clinic-info .card.span-3 > div[style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
+  }
+  /* 院長專屬區：手機單欄 */
+  #director-grid {
+    grid-template-columns: 1fr !important;
+  }
+  #director-grid > div:first-child > div:first-child {
+    width: 160px !important;
+    height: 200px !important;
+  }
+  /* 醫師詳細介紹卡：手機單欄堆疊（看診時間移至下方） */
+  .doc-card-inner {
+    grid-template-columns: 1fr !important;
+  }
+  /* 縮小卡內照片 */
+  .doc-card-inner > div:first-child > div[style*="grid-template-columns:110px"] {
+    grid-template-columns: 90px 1fr !important;
+  }
+  .doc-card-inner > div:first-child > div[style*="grid-template-columns:110px"] > div:first-child {
+    width: 90px !important;
+    height: 115px !important;
   }
   .main { padding: 10px; }
 
@@ -2400,9 +2435,23 @@ body::before {
           <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:13px">
             <div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px">📍</span> <b>地址：</b>新北市新莊區福德二街59號.61號1樓</div>
             <div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px">📞</span> <b>電話：</b>02-8521-0125</div>
-            <div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px">🕐</span> <b>看診：</b>週一至週六 早 9:30-12:00 ／ 午 14:00-17:15 ／ 晚 18:15-21:00</div>
             <div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px">🚫</span> <b>休診：</b>週日 / 國定假日</div>
           </div>
+          <!-- 門診時間總表 -->
+          <div style="margin-top:14px">
+            <div style="font-size:12px;font-weight:700;color:var(--ink);font-family:var(--font-display);margin-bottom:6px;display:flex;align-items:center;gap:6px"><span style="font-size:14px">🕐</span> 門診時間</div>
+            <table style="width:100%;border-collapse:separate;border-spacing:3px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+              <colgroup><col style="width:18%"><col style="width:calc(82%/7)"><col style="width:calc(82%/7)"><col style="width:calc(82%/7)"><col style="width:calc(82%/7)"><col style="width:calc(82%/7)"><col style="width:calc(82%/7)"><col style="width:calc(82%/7)"></colgroup>
+              <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:6px 2px;border-radius:6px;font-weight:700">時段</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:6px;font-weight:700">一</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:6px;font-weight:700">二</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:6px;font-weight:700">三</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:6px;font-weight:700">四</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:6px;font-weight:700">五</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:6px;font-weight:700">六</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:6px;font-weight:700">日</th></tr></thead>
+              <tbody>
+                <tr><td style="background:var(--mint-light);padding:8px 2px;border-radius:6px;font-weight:700">早<br><span style="font-size:9px;font-weight:500;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#FAFAFA;padding:8px 2px;border-radius:6px;color:var(--ink-mute)">—</td></tr>
+                <tr><td style="background:var(--peach-light);padding:8px 2px;border-radius:6px;font-weight:700">午<br><span style="font-size:9px;font-weight:500;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#FAFAFA;padding:8px 2px;border-radius:6px;color:var(--ink-mute)">—</td></tr>
+                <tr><td style="background:var(--lav-light);padding:8px 2px;border-radius:6px;font-weight:700">晚<br><span style="font-size:9px;font-weight:500;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#fff;padding:8px 2px;border-radius:6px;color:#16a34a;font-weight:800;font-size:13px">✓</td><td style="background:#FAFAFA;padding:8px 2px;border-radius:6px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:8px 2px;border-radius:6px;color:var(--ink-mute)">—</td></tr>
+              </tbody>
+            </table>
+            <div style="font-size:10px;color:var(--ink-mute);margin-top:6px;line-height:1.5">↑ 以上門診時間僅供參考，每月略異動，詳見臉書粉絲專頁 <b>『福美牙醫診所』</b></div>
+          </div>
+
         </div>
 
         <!-- 媒體榮譽 -->
@@ -2417,6 +2466,431 @@ body::before {
             <div style="margin-bottom:6px">🎙️ 復興廣播專訪</div>
             <div>🐴 2026馬到成功新春特別節目</div>
           </div>
+        </div>
+
+        <!-- ✨ 院長專屬介紹卡 ✨ -->
+        <div class="card span-3" style="background:linear-gradient(135deg,#FFFFFF 0%,#F4FBF6 50%,#F7F2FA 100%);border:2px solid var(--mint);position:relative;overflow:hidden">
+          <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(168,218,186,0.35),transparent 70%);border-radius:50%;pointer-events:none"></div>
+          <div style="position:absolute;bottom:-30px;left:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(200,192,240,0.30),transparent 70%);border-radius:50%;pointer-events:none"></div>
+          <div class="card-header" style="position:relative;z-index:1">
+            <div class="card-title"><div class="card-icon ci-mint">👩‍⚕️</div> 院長介紹 <span style="font-size:11px;background:var(--mint);color:#fff;padding:3px 10px;border-radius:99px;font-weight:700;margin-left:8px">女院長</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:200px 1.4fr 1.2fr;gap:24px;margin-top:8px;position:relative;z-index:1" id="director-grid">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+              <div style="width:180px;height:236px;border-radius:16px;background:linear-gradient(135deg,#1e3a8a,#3b5fa3);border:4px solid #fff;box-shadow:0 8px 24px rgba(46,117,182,0.18);overflow:hidden">
+                <img src="images/dr-yen.jpg" alt="顏嘉珍醫師" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block">
+              </div>
+              <div style="text-align:center">
+                <div style="font-family:var(--font-display);font-size:22px;font-weight:900;color:var(--ink);letter-spacing:2px">顏嘉珍 醫師</div>
+                <div style="font-size:12px;color:#2a8c5a;font-weight:700;margin-top:2px">女院長 ｜ 牙周病專科</div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:200px">
+                <span style="font-size:10px;background:var(--mint-light);padding:3px 8px;border-radius:99px;font-weight:700;color:var(--ink)">牙周病專科</span>
+                <span style="font-size:10px;background:var(--sky-light);padding:3px 8px;border-radius:99px;font-weight:700;color:var(--ink)">數位植牙</span>
+                <span style="font-size:10px;background:var(--peach-light);padding:3px 8px;border-radius:99px;font-weight:700;color:var(--ink)">口腔雷射</span>
+                <span style="font-size:10px;background:var(--lav-light);padding:3px 8px;border-radius:99px;font-weight:700;color:var(--ink)">美學貼片</span>
+                <span style="font-size:10px;background:var(--pink-light);padding:3px 8px;border-radius:99px;font-weight:700;color:var(--ink)">All-on-4</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="background:#fff;border-radius:14px;padding:14px 16px;border-left:4px solid var(--sky);box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+                <div style="font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="font-size:16px">🎓</span> 學歷</div>
+                <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.85;color:var(--ink-soft)">
+                  <li>臺北醫學大學臨床牙醫研究所 <b>牙周病學碩士</b></li>
+                  <li>中國醫藥大學 <b>牙醫學士</b></li>
+                </ul>
+              </div>
+              <div style="background:#fff;border-radius:14px;padding:14px 16px;border-left:4px solid var(--mint);box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+                <div style="font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="font-size:16px">🏅</span> 專科醫師認證</div>
+                <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.85;color:var(--ink-soft)">
+                  <li>衛生福利部 <b>牙周病科專科醫師</b></li>
+                  <li>中華民國植牙醫學會 <b>專科醫師</b></li>
+                  <li>中華民國口腔雷射醫學會 <b>專科醫師</b></li>
+                  <li>美國紐約大學 <b>人工植牙專科進修認證</b></li>
+                </ul>
+              </div>
+              <div style="background:#fff;border-radius:14px;padding:14px 16px;border-left:4px solid var(--peach);box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+                <div style="font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="font-size:16px">📚</span> 進階課程認證</div>
+                <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.85;color:var(--ink-soft)">
+                  <li><b>Cerec Asia</b> 數位課程認證</li>
+                  <li><b>T.P.I</b> 牙齒美容貼片課程認證</li>
+                  <li><b>Suncore All-on-4</b> 課程結業</li>
+                </ul>
+              </div>
+              <div style="background:#fff;border-radius:14px;padding:14px 16px;border-left:4px solid var(--lav);box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+                <div style="font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="font-size:16px">👨‍🏫</span> 教學經歷與榮譽</div>
+                <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.85;color:var(--ink-soft)">
+                  <li>教育部定講師、中國醫藥大學 <b>兼任講師</b></li>
+                  <li>臺北醫學大學雙和醫院 <b>兼任主治醫師</b></li>
+                  <li>臺灣牙周病醫學會雜誌 <b>執行編輯</b></li>
+                  <li>2012 年度 臺北醫學大學附設醫院 <b>論文競賽外科組第一名</b></li>
+                </ul>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04);border:1px solid #ECEEF2">
+                <div style="font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:10px"><span style="font-size:16px">🕐</span> 顏醫師看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:3px;font-size:11.5px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:20%"><col style="width:calc(80%/7)"><col style="width:calc(80%/7)"><col style="width:calc(80%/7)"><col style="width:calc(80%/7)"><col style="width:calc(80%/7)"><col style="width:calc(80%/7)"><col style="width:calc(80%/7)"></colgroup>
+                  <thead><tr><th style="background:#F3F4F6;padding:6px 2px;border-radius:7px;font-weight:800;color:var(--ink-soft);font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:7px;font-weight:800;color:var(--ink-soft)">一</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:7px;font-weight:800;color:var(--ink-soft)">二</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:7px;font-weight:800;color:var(--ink-soft)">三</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:7px;font-weight:800;color:var(--ink-soft)">四</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:7px;font-weight:800;color:var(--ink-soft)">五</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:7px;font-weight:800;color:var(--ink-soft)">六</th><th style="background:#F3F4F6;padding:6px 2px;border-radius:7px;font-weight:800;color:var(--ink-soft)">日</th></tr></thead>
+                  <tbody>
+                    <tr><td style="background:var(--mint-light);padding:9px 2px;border-radius:7px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:9px;color:var(--ink-soft)">09:30<br>–12:00</span></td><td style="background:#FAFAFA;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:900;font-size:15px;border:1px solid #FECACA">V</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:900;font-size:15px;border:1px solid #FECACA">V</td><td style="background:#FAFAFA;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:700;font-size:10px;border:1px dashed #FECACA;line-height:1.1">特約</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:900;font-size:15px;border:1px solid #FECACA">V</td><td style="background:#F9F9F9;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td></tr>
+                    <tr><td style="background:var(--peach-light);padding:9px 2px;border-radius:7px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:9px;color:var(--ink-soft)">14:00<br>–17:15</span></td><td style="background:#FAFAFA;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:900;font-size:15px;border:1px solid #FECACA">V</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:700;font-size:10px;border:1px dashed #FECACA;line-height:1.1">特約</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:900;font-size:15px;border:1px solid #FECACA">V</td><td style="background:#FAFAFA;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:700;font-size:10px;border:1px dashed #FECACA;line-height:1.1">特約</td><td style="background:#F9F9F9;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td></tr>
+                    <tr><td style="background:var(--lav-light);padding:9px 2px;border-radius:7px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:9px;color:var(--ink-soft)">18:15<br>–21:00</span></td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:900;font-size:15px;border:1px solid #FECACA">V</td><td style="background:#FAFAFA;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:9px 2px;border-radius:7px;color:#dc2626;font-weight:900;font-size:15px;border:1px solid #FECACA">V</td><td style="background:#FAFAFA;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td><td style="background:#F9F9F9;padding:9px 2px;border-radius:7px;color:var(--ink-mute)">—</td></tr>
+                  </tbody>
+                </table>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:10.5px;color:var(--ink-soft);align-items:center;justify-content:center"><span style="display:inline-flex;align-items:center;gap:4px"><span style="color:#dc2626;font-weight:900;font-size:13px">V</span> 正常看診</span><span style="display:inline-flex;align-items:center;gap:4px"><span style="color:#dc2626;font-weight:700;font-size:10px;border:1px dashed #FECACA;padding:1px 5px;border-radius:4px">特約</span> 需預約</span><span style="display:inline-flex;align-items:center;gap:4px"><span style="color:var(--ink-mute)">—</span> 休診</span></div>
+                <div style="font-size:10px;color:var(--ink-mute);margin-top:8px;line-height:1.5;border-top:1px dashed #ECEEF2;padding-top:8px">↑ 以上門診時間僅供參考，每月略異動，<br>詳見臉書粉絲專頁 <b>『福美牙醫診所』</b></div>
+              </div>
+              <div style="background:linear-gradient(135deg,var(--mint-light),#E7F6EE);border-radius:14px;padding:14px 16px;border:1px dashed var(--mint)">
+                <div style="font-family:var(--font-display);font-size:12px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:6px"><span style="font-size:14px">💚</span> 治療理念</div>
+                <div style="font-size:12px;line-height:1.7;color:var(--ink-soft)">以「<b>專業、療癒</b>」為治療理念，致力於牙周病、植牙與全口重建的整合治療，並結合美學貼片與口腔雷射，提供病患<b>安心、舒適</b>的就診經驗。</div>
+              </div>
+              <div style="background:#FFF8E1;border-radius:14px;padding:12px 14px;border:1px solid #FFE082">
+                <div style="font-size:11.5px;line-height:1.7;color:#8D6E00"><b>💡 同仁提醒：</b>顏醫師約診規則 — 評估／討論一律 <b>30 分鐘</b>（含 NP、轉診）；水雷射 Q 約 <b>45 分鐘</b>；一個診安插點最多 <b>2 個</b>。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📇 醫師詳細介紹 -->
+        <div class="card span-3">
+          <div class="card-header">
+            <div class="card-title"><div class="card-icon ci-pink">📇</div> 醫師詳細介紹</div>
+            <div style="font-size:11px;color:var(--ink-mute);font-family:var(--font-display)">資料來源：醫師名片</div>
+          </div>
+          <div id="doctor-cards-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px">
+            <!-- 洪秉琁 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--sky);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--sky);color:#1e3a8a;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">男院長 ｜ 顯微根管專科</div>
+              <!-- 雙欄：左=照片+資訊+學歷、右=看診時間 -->
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <!-- 左欄 -->
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#1e3a8a,#3b5fa3);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><img src="images/dr-hung.jpg" alt="洪秉琁醫師" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">洪秉琁 醫師</div>
+                      <div style="font-size:11px;color:#1e3a8a;font-weight:700;margin-top:3px">男院長 ｜ 顯微根管專科</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--pink-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">顯微根管</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">活髓治療</span><span style="font-size:10px;background:var(--peach-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">齒內美白</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--sky)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>台灣大學臨床牙醫學研究所 <b>牙髓病學碩士</b></li><li>台灣大學各次專科 <b>臨床住院訓練醫師</b></li><li>台灣大學附設醫院 <b>牙髓病科專科訓練</b></li><li>中華民國牙髓病醫學會 <b>會員醫師</b></li><li>中國醫藥大學 <b>牙醫學士</b></li></ul>
+                  </div>
+                </div>
+                <!-- 右欄 -->
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--sky);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 林昭秀 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--pink);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--pink);color:#7a1f3d;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">兒童牙科專科</div>
+              <!-- 雙欄：左=照片+資訊+學歷、右=看診時間 -->
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <!-- 左欄 -->
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#1e3a8a,#3b5fa3);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><img src="images/dr-lin.jpg" alt="林昭秀醫師" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">林昭秀 醫師</div>
+                      <div style="font-size:11px;color:#7a1f3d;font-weight:700;margin-top:3px">兒童牙科專科</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--pink-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">兒童專科</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">早期矯正</span><span style="font-size:10px;background:var(--lav-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">隱適美</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--pink)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>台灣大學臨床醫學研究所 <b>兒童牙科學碩士</b></li><li>中華民國衛福部部定 <b>兒童牙科專科醫師</b></li><li>台大醫院 <b>兒童牙科專科訓練</b></li><li>國泰醫院兒童牙科 <b>兼任主治醫師</b></li><li>全方位矯正教室 <b>結訓醫師</b></li><li>MRC 美優適矯正課程 <b>結訓醫師</b></li><li>Invisalign <b>隱適美矯正認證醫師</b></li><li>台北醫學大學 <b>牙醫學士</b></li></ul>
+                  </div>
+                </div>
+                <!-- 右欄 -->
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--pink);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:700;font-size:10px">隔週</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 李渘崴 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--lav);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--lav);color:#3d2870;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">齒顎矯正專科</div>
+              <!-- 雙欄：左=照片+資訊+學歷、右=看診時間 -->
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <!-- 左欄 -->
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#1e3a8a,#3b5fa3);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><img src="images/dr-li.jpg" alt="李渘崴醫師" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">李渘崴 醫師</div>
+                      <div style="font-size:11px;color:#3d2870;font-weight:700;margin-top:3px">齒顎矯正專科</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--lav-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">齒顎矯正</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">隱適美</span><span style="font-size:10px;background:var(--peach-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">戴蒙</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--lav)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>臺北醫學大學臨床組 <b>齒顎矯正學碩士</b></li><li>美國牙醫師國家考試 <b>NBDE 合格</b></li><li>美國齒顎矯正學會 <b>AAO 國際會員</b></li><li>世界矯正聯盟 <b>WFO 專科會員</b></li><li>中華民國衛福部部定 <b>齒顎矯正專科醫師</b></li><li>前北醫附設醫院 <b>齒顎矯正科專科醫師</b></li><li>韓國延世大學 <b>顏面美學受訓研究</b></li><li>美國 Tweed foundation <b>研究員</b></li><li>美國加州大學舊金山分校 <b>UCSF 進修</b></li><li><b>Damon 戴蒙</b>、<b>Invisalign 隱適美</b>、<b>LH 矯正</b>專科認證</li><li>中國醫藥大學 <b>牙醫學系學士</b></li></ul>
+                  </div>
+                </div>
+                <!-- 右欄 -->
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--lav);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 蕭子皓 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--peach);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--peach);color:#7a4a0d;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">口腔顎面外科專科</div>
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#F8F8F8,#ECECEC);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink-mute)"><div style="font-size:46px">🦷</div><div style="font-size:9px;margin-top:6px;text-align:center;line-height:1.4">名片無照片</div></div></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">蕭子皓 醫師</div>
+                      <div style="font-size:11px;color:#7a4a0d;font-weight:700;margin-top:3px">口腔顎面外科專科</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--peach-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">口腔顎面外科</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">水平智齒拔除</span><span style="font-size:10px;background:var(--pink-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">膠原蛋白應用</span><span style="font-size:10px;background:var(--sky-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">口腔病理診斷</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--peach)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>前 <b>台北馬偕紀念醫院</b> 口腔顎面外科主治醫師</li><li><b>雙和醫院</b> 口腔顎面外科主治醫師</li><li>中華民國 <b>口腔顎面外科專科醫師</b></li><li>臺北醫學大學 <b>牙醫學士</b></li></ul>
+                  </div>
+                </div>
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--peach);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 蔡學亞 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--mint);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--mint);color:#0f5f3d;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">家醫 ｜ 人工植牙</div>
+              <!-- 雙欄：左=照片+資訊+學歷、右=看診時間 -->
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <!-- 左欄 -->
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#F8F8F8,#ECECEC);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink-mute)"><div style="font-size:46px">🦷</div><div style="font-size:9px;margin-top:6px;text-align:center;line-height:1.4">名片無照片</div></div></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">蔡學亞 醫師</div>
+                      <div style="font-size:11px;color:#0f5f3d;font-weight:700;margin-top:3px">家醫 ｜ 人工植牙</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">人工植牙</span><span style="font-size:10px;background:var(--sky-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">3D齒雕</span><span style="font-size:10px;background:var(--peach-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">一般牙科</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--mint)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>國立陽明大學 <b>牙醫學士</b></li><li>前 <b>台北榮民總醫院</b> 醫師</li><li>台灣數位植牙美學學會 <b>專科醫師</b></li><li>專業 <b>3D 齒雕</b>課程結業</li><li>林靜毅醫師 <b>植牙手術班</b>結業</li></ul>
+                  </div>
+                </div>
+                <!-- 右欄 -->
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--mint);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 許宗英 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--peach);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--peach);color:#7a4a0d;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">家醫 ｜ 雷射美白</div>
+              <!-- 雙欄：左=照片+資訊+學歷、右=看診時間 -->
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <!-- 左欄 -->
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#F8F8F8,#ECECEC);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink-mute)"><div style="font-size:46px">🦷</div><div style="font-size:9px;margin-top:6px;text-align:center;line-height:1.4">名片無照片</div></div></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">許宗英 醫師</div>
+                      <div style="font-size:11px;color:#7a4a0d;font-weight:700;margin-top:3px">家醫 ｜ 雷射美白</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--peach-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">冷光美白</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">口腔雷射</span><span style="font-size:10px;background:var(--pink-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">牙周</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--peach)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>台北醫學大學 <b>牙醫學士</b></li><li>前高雄海軍總醫院 <b>牙科主治醫師</b></li><li>前聖功醫院 <b>牙科主治醫師</b></li><li>中華民國口腔雷射醫學會 <b>會員</b></li><li><b>牙醫冷光雷射美白</b>醫師</li><li><b>Tider 牙周病</b>課程訓練</li></ul>
+                  </div>
+                </div>
+                <!-- 右欄 -->
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--peach);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 黃柏鈞 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--sky);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--sky);color:#1e3a8a;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">家醫 ｜ 隱適美矯正</div>
+              <!-- 雙欄：左=照片+資訊+學歷、右=看診時間 -->
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <!-- 左欄 -->
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#1e3a8a,#3b5fa3);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><img src="images/dr-huang.jpg" alt="黃柏鈞醫師" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">黃柏鈞 醫師</div>
+                      <div style="font-size:11px;color:#1e3a8a;font-weight:700;margin-top:3px">家醫 ｜ 隱適美矯正</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--sky-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">隱適美</span><span style="font-size:10px;background:var(--pink-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">兒童牙科</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">植牙美容</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--sky)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>中國醫藥大學 <b>牙醫學士</b></li><li>前 <b>中國醫藥大學附設醫院</b> 牙科部醫師</li><li>前 <b>萬芳醫院</b> 牙科部醫師</li><li>前 <b>台北慈濟醫院</b> 口腔外科代訓醫師</li><li>Invisalign <b>隱適美矯正認證醫師</b></li><li>中華民國兒童牙科學會 <b>會員</b></li><li>亞太植牙美容醫學會 <b>會員</b></li></ul>
+                  </div>
+                </div>
+                <!-- 右欄 -->
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--sky);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 黃凱筠 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--lav);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--lav);color:#3d2870;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">隱形矯正 ｜ 兒童早期</div>
+              <!-- 雙欄：左=照片+資訊+學歷、右=看診時間 -->
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <!-- 左欄 -->
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#1e3a8a,#3b5fa3);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><img src="images/dr-huangk.jpg" alt="黃凱筠醫師" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">黃凱筠 醫師</div>
+                      <div style="font-size:11px;color:#3d2870;font-weight:700;margin-top:3px">隱形矯正 ｜ 兒童早期</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--lav-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">隱形矯正</span><span style="font-size:10px;background:var(--pink-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">兒童早期矯正</span><span style="font-size:10px;background:var(--sky-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">睡眠呼吸中止</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">雷射微創</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--lav)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>中國醫藥大學 <b>牙醫學士</b></li><li>中國醫藥大學附設醫院 <b>牙科醫師</b></li><li>中華民國 <b>隱形矯正學會</b>會員</li><li>台灣 <b>口腔矯正醫學會</b>會員</li><li>中華民國 <b>兒童牙科醫學會</b>會員</li><li>微光私塾 <b>牙周雷射微創治療</b>課程結訓</li><li><b>隱形矯正認證</b>：Invisalign、ClearCorrect、TrioClear、Smartee、Ya!Smile</li><li><b>兒童早期矯正</b>：MRC、EFLine、PreOrtho、Invisalign First</li><li><b>睡眠呼吸中止症</b>：OSA 牙套 / 止鼾牙套</li></ul>
+                  </div>
+                </div>
+                <!-- 右欄 -->
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--lav);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:700;font-size:10px">特約</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 王韻婷 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--peach);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--peach);color:#7a4a0d;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">一般 ｜ 植牙 ｜ 矯正</div>
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#F8F8F8,#ECECEC);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink-mute)"><div style="font-size:46px">🦷</div><div style="font-size:9px;margin-top:6px;text-align:center;line-height:1.4">名片無照片</div></div></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">王韻婷 醫師</div>
+                      <div style="font-size:11px;color:#7a4a0d;font-weight:700;margin-top:3px">一般 ｜ 植牙 ｜ 矯正</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--peach-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">一般牙科</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">Hiossen 植牙</span><span style="font-size:10px;background:var(--lav-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">全方位矯正</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--peach)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>臺北醫學大學 <b>牙醫學士</b></li><li>花蓮門諾醫院 <b>臨床訓練住院醫師</b></li><li><b>Hiossen®</b> 植牙課程與手術班訓練</li><li><b>全方位矯正教室</b>結訓醫師</li></ul>
+                  </div>
+                </div>
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--peach);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 陳卓毅 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--mint);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--mint);color:#0f5f3d;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">家庭牙醫科專科</div>
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#F8F8F8,#ECECEC);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink-mute)"><div style="font-size:46px">🦷</div><div style="font-size:9px;margin-top:6px;text-align:center;line-height:1.4">名片無照片</div></div></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">陳卓毅 醫師</div>
+                      <div style="font-size:11px;color:#0f5f3d;font-weight:700;margin-top:3px">家庭牙醫科專科</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">家庭牙醫科</span><span style="font-size:10px;background:var(--lav-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">隱適美</span><span style="font-size:10px;background:var(--sky-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">一般治療</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--mint)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>中華民國衛福部部定 <b>家庭牙醫科專科醫師</b></li><li>國立陽明大學 <b>牙醫學士</b></li><li>前 <b>台北榮總</b>牙醫師</li><li>隱適美 <b>Invisalign 數位隱形牙套認證醫師</b></li></ul>
+                  </div>
+                </div>
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--mint);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <!-- 邱柏智 醫師 -->
+            <div class="doc-detail-card" style="background:linear-gradient(135deg,#FFFFFF 0%,#F8FBFE 100%);border:2px solid var(--sky);border-radius:var(--r-md);padding:16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:10px;right:12px;font-size:10px;background:var(--sky);color:#1e3a8a;padding:3px 10px;border-radius:99px;font-weight:800;z-index:2">贗復補綴專科 ｜ 植牙</div>
+              <div class="doc-card-inner" style="display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start">
+                <div>
+                  <div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:start">
+                    <div style="width:110px;height:138px;border-radius:12px;background:linear-gradient(135deg,#1e3a8a,#3b5fa3);border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden"><img src="images/dr-chiu.jpg" alt="邱柏智醫師" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block"></div>
+                    <div>
+                      <div style="font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--ink);line-height:1.3">邱柏智 醫師</div>
+                      <div style="font-size:11px;color:#1e3a8a;font-weight:700;margin-top:3px">贗復補綴專科 ｜ 植牙</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span style="font-size:10px;background:var(--sky-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">贗復補綴</span><span style="font-size:10px;background:var(--mint-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">ITI 植牙</span><span style="font-size:10px;background:var(--pink-light);padding:2px 7px;border-radius:99px;font-weight:700;color:var(--ink)">活動假牙</span></div>
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;background:#fff;border-radius:10px;padding:10px 12px;border-left:3px solid var(--sky)">
+                    <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px"><span style="margin-right:4px">🎓</span>學經歷</div>
+                    <ul style="margin:0;padding-left:16px;font-size:11.5px;line-height:1.75;color:var(--ink-soft)"><li>臺北醫學大學臨床研究所 <b>贗復補綴學碩士</b></li><li>臺北醫學大學附設醫院 <b>贗復補綴專科訓練醫師</b></li><li><b>ITI 國際植牙學會</b>會員醫師</li><li>中華民國植牙醫學會 <b>會員醫師</b></li><li>新北市耕莘醫院 <b>牙科住院訓練醫師</b></li><li>中華民國牙醫師國家考試合格</li><li>臺北市立聯合醫院 <b>牙科臨床實習醫師</b></li><li>教育部國外牙醫學歷甄試<b>第一、第二階段</b>考試合格</li><li>阿根廷布宜諾斯艾利斯大學<br>　(University of Buenos Aires, UBA) <b>牙醫學士</b></li></ul>
+                  </div>
+                </div>
+              <div style="background:#fff;border-radius:10px;padding:12px;border-left:3px solid var(--sky);height:100%">
+                <div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:4px"><span style="font-size:14px">🕐</span> 看診時間</div>
+                <table style="width:100%;border-collapse:separate;border-spacing:2px;font-size:11px;text-align:center;font-family:var(--font-display);table-layout:fixed">
+                  <colgroup><col style="width:22%"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"><col style="width:calc(78%/7)"></colgroup>
+                  <thead><tr style="color:var(--ink-soft)"><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700;font-size:10.5px">時段</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">一</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">二</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">三</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">四</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">五</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">六</th><th style="background:#F3F4F6;padding:5px 1px;border-radius:5px;font-weight:700">日</th></tr></thead>
+                  <tbody><tr><td style="background:var(--mint-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">早<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">09:30–12:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--peach-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">午<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">14:00–17:15</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr><tr><td style="background:var(--lav-light);padding:7px 2px;border-radius:5px;font-weight:800;font-size:10.5px;line-height:1.2">晚<br><span style="font-weight:500;font-size:8.5px;color:var(--ink-soft)">18:15–21:00</span></td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#fff;padding:7px 1px;border-radius:5px;color:#dc2626;font-weight:900;font-size:13px">V</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td><td style="background:#FAFAFA;padding:7px 1px;border-radius:5px;color:var(--ink-mute)">—</td></tr></tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;text-align:center;border-top:1px dashed #ECEEF2;padding-top:10px">💡 上方資料整理自醫師名片內容。完整醫師團隊（共 13 位）請見下方總覽。</div>
         </div>
 
         <!-- 醫師團隊 -->
@@ -5985,23 +6459,30 @@ function renderDashUpcoming() {
   if (!container) return;
   const colorMap = { meeting:'#6A5DCC', doctor:'#4A90D9', holiday:'#E25555', leave:'#E07F94', training:'#2E9E6B', maintenance:'#D98A1B', other:'#9A9590' };
   const typeLabel = { meeting:'🤝 會議', doctor:'👨‍⚕️ 醫師異動', holiday:'🎌 國定假日', leave:'🏖️ 休診/請假', training:'📚 教育訓練', maintenance:'🔧 設備/廠商', other:'📝 其他' };
-  // Collect upcoming events (today and future)
+  // Collect FUTURE events first (today and future) — prioritised
   const allDates = Object.keys(events).sort();
-  const upcoming = [];
+  const future = [];
   allDates.forEach(d => {
     if (d >= todayStr && Array.isArray(events[d])) {
-      events[d].forEach(e => upcoming.push({ ...e, date: d }));
+      events[d].forEach(e => future.push({ ...e, date: d }));
     }
   });
-  // Also show recent past (last 7 days)
+  future.sort((a,b) => a.date.localeCompare(b.date));
+  // Collect RECENT PAST (last 7 days) — only used to fill remaining slots
   const weekAgo = new Date(today); weekAgo.setDate(weekAgo.getDate() - 7);
   const weekAgoStr = `${weekAgo.getFullYear()}-${String(weekAgo.getMonth()+1).padStart(2,'0')}-${String(weekAgo.getDate()).padStart(2,'0')}`;
+  const past = [];
   allDates.forEach(d => {
     if (d >= weekAgoStr && d < todayStr && Array.isArray(events[d])) {
-      events[d].forEach(e => upcoming.push({ ...e, date: d, past: true }));
+      events[d].forEach(e => past.push({ ...e, date: d, past: true }));
     }
   });
-  upcoming.sort((a,b) => a.date.localeCompare(b.date));
+  past.sort((a,b) => b.date.localeCompare(a.date)); // 最近的過去事件先
+  // 合併：未來事件優先填滿；最多 2 個過去事件補位（顯示最近的）
+  const MAX_ITEMS = 8;
+  const PAST_QUOTA = Math.min(2, Math.max(0, MAX_ITEMS - future.length));
+  const pastToShow = past.slice(0, PAST_QUOTA).reverse(); // 反轉回時間順序
+  const upcoming = [...pastToShow, ...future];
   // Update count
   const countEl = document.getElementById('dash-cal-count');
   if (countEl) countEl.textContent = Object.keys(events).reduce((s,d) => s + (Array.isArray(events[d]) ? events[d].length : 0), 0);
