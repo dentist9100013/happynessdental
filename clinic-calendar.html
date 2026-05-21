@@ -2417,10 +2417,18 @@ function renderSummary() {
       const wd = weekdayMap[new Date(year, month, day).getDay()];
       const label = `${day}日(${wd})${slotText}`;
       const isExtra = type === "extra";
-      const badgeStyle = isExtra
-        ? ` style="background:var(--extra-soft);color:var(--extra-text);border-radius:var(--radius-pill) 0 0 var(--radius-pill);"`
-        : (isFull ? ` class="rest-badge full" style="border-radius:var(--radius-pill) 0 0 var(--radius-pill);"` : "");
       const badgeClass = isExtra ? "rest-badge" : `rest-badge${isFull ? " full" : ""}`;
+      const badgeStyleAttr = isExtra
+        ? ` style="background:var(--extra-soft);color:var(--extra-text);"`
+        : "";
+      // 助理模式：只顯示簡單 badge，不加確認欄位
+      if (isAssistant) {
+        return `<span class="${badgeClass}"${badgeStyleAttr}>${label}</span>`;
+      }
+      // 醫師模式：帶北昕確認欄位
+      const badgeStyleConfirm = isExtra
+        ? ` style="background:var(--extra-soft);color:var(--extra-text);border-radius:var(--radius-pill) 0 0 var(--radius-pill);"`
+        : ` style="border-radius:var(--radius-pill) 0 0 var(--radius-pill);"`;
       const storKey = `bxin_${year}_${month+1}_${name}_${day}_${type}`;
       const stored = (() => { try { return JSON.parse(localStorage.getItem(storKey) || "null"); } catch(e) { return null; } })();
       const checked = stored?.checked ? "checked" : "";
@@ -2428,7 +2436,7 @@ function renderSummary() {
       const cfDate = stored?.cfDate ? escHtml(stored.cfDate) : "";
       const isConfirmed = stored?.checked ? " is-confirmed" : "";
       return `<span class="badge-confirm-wrap" data-storkey="${storKey}">` +
-        `<span class="${badgeClass}"${isExtra ? ` style="background:var(--extra-soft);color:var(--extra-text);border-radius:var(--radius-pill) 0 0 var(--radius-pill);"` : `style="border-radius:var(--radius-pill) 0 0 var(--radius-pill);"`}>${label}</span>` +
+        `<span class="${badgeClass}"${badgeStyleConfirm}>${label}</span>` +
         `<label class="confirm-box${isConfirmed}" title="北昕軟體已設定">` +
           `<input type="checkbox" class="bxin-check" data-storkey="${storKey}" ${checked}>北昕已設定` +
         `</label>` +
