@@ -3652,7 +3652,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605162308';"
+      "const DATA_VERSION = '202605200706';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3711,7 +3711,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605162308';"
+      "const DATA_VERSION = '202605200706';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3784,10 +3784,82 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202605162308';
+const DATA_VERSION = '202605200706';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1779260760001,
+    "title": "🦷 流動性樹脂（flow）改放消毒室",
+    "type": "info",
+    "body": "助理們請注意：<strong>流動性樹脂（flow）改放於消毒室</strong>，使用時請至消毒室取用。<br><br>（資料來源：2026-05-18 13:54 管理部 All 群組）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779260760002,
+    "title": "♻️ 廢牙冠回收桶位置 & 防詐騙提醒",
+    "type": "urgent",
+    "body": "<strong>📍 廢牙冠回收桶位置</strong><br>消毒室 <strong>水槽下方</strong> 有放置「廢牙冠回收桶」<br>之後拆下的廢棄牙冠請統一丟進 <strong>黃色罐子</strong> 裡<br><br><strong>⚠️ 防詐騙：唯一聯繫管道是 LINE</strong><br>• 廢牙冠回收廠商 <strong>不會打電話到診所</strong><br>• 若 <strong>未收到 LINE 通知</strong>，不管是「電話」還是「現場要求」收廢牙冠，<strong>一律不要理會，也不要交付廢牙冠</strong><br><br>（資料來源：2026-05-18 19:20 管理部 All 群組）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779260760003,
+    "title": "📋 顏醫師討論／評估病人 → 先開「Dr.顏案例整理 PPT」",
+    "type": "info",
+    "body": "<strong>📌 操作提醒</strong><br>顏醫師討論／評估的病人，都要先幫忙「<strong>打開 Dr.顏案例整理 PPT</strong>」<br><br><strong>📁 PPT 路徑</strong><br>Webdisk ➡️ Dr.顏 ➡️ <strong>202602Dr.顏植牙牙周重建案例整理 ppt</strong><br><br>（資料來源：2026-05-18 15:03 管理部 All 群組）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779260760004,
+    "title": "📋 5/20、5/27、5/29、5/30 醫師約診空檔（請盡量約滿）",
+    "type": "info",
+    "body": "<strong>📌 本週／下週請注意醫師空檔時間，盡量幫醫師約滿</strong><br><br><strong>📅 5/20（三）</strong><br>• 早診 — 洪醫師 空檔 <strong>15 分</strong><br>• 晚診 — 陳醫師 空檔 <strong>30 分</strong><br><br><strong>📅 5/27（三）</strong><br>• 午診 — 邱醫師 空檔 <strong>270 分</strong><br>• 晚診 — 邱醫師 空檔 <strong>240 分</strong><br>• 晚診 — 陳醫師 空檔 <strong>195 分</strong><br><br><strong>📅 5/29（五）</strong><br>• 晚診 — 陳醫師 空檔 <strong>240 分</strong><br><br><strong>📅 5/30（六）</strong><br>• 午診 — 李醫師 空檔 <strong>30 分</strong><br><br>（資料來源：2026-05-19 14:36 管理部 All 群組）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779260760006,
+    "title": "📸 七診攝影燈／OBS Studio 已可使用（F5 拍照）",
+    "type": "info",
+    "body": "<strong>🎉 七診攝影設備上線</strong><br><br><strong>📋 使用步驟</strong><br>1. 點選「<strong>OBS Studio</strong>」進入拍攝程式<br>2. 要拍照時按「<strong>F5</strong>」就會自動拍照<br><br><strong>📁 照片儲存位置</strong><br>• 自動儲存於 Webdisk 的「<strong>攝影燈照片OBS</strong>」資料夾<br><br><strong>📝 備註</strong><br>• 目前 F5 為拍攝鍵，<strong>之後若要修改可再調整</strong><br><br>（資料來源：2026-05-19 19:29／19:30 管理部 All 群組）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779260760007,
+    "title": "❄️ 4 診冷氣維修中（廠商檢查／可能內部清潔）",
+    "type": "info",
+    "body": "<strong>🔧 處理情形</strong><br>• 4 診冷氣 <strong>不冷</strong> 的問題，已請廠商來處理<br>• 可能需要 <strong>內部清潔</strong><br>• 後續會請廠商一併 <strong>檢查其他冷氣</strong>，看是否需要一起保養清潔<br><br>（資料來源：2026-05-19 13:13 診所管理部公告）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779260760008,
+    "title": "🌟 員工表揚（5/19）：Min／林芷晴／晏瑜",
+    "type": "info",
+    "body": "<strong>📌 記一優</strong><br>• @Min — 找不到抽血人員，用盡各種管道（包含問病患）最終 <strong>成功找到</strong><br><br><strong>📌 記一好</strong><br>• @林芷晴 — 執行徹底（例：問出某臨時評估 CLP 病患突有疾病，病歷首頁未寫，<strong>主動雲端查詢並問顏醫師</strong>）<br>• @晏瑜 — 學習管理認真（例：下班仍仔細看負責的診所 Google、<strong>主動發現術後關心本有人未打電話</strong>）<br><br>（資料來源：2026-05-19 13:30 診所管理部公告）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779260760010,
+    "title": "⚠️ 6 月起劃休／特休新規定（會記點/警告）",
+    "type": "urgent",
+    "body": "<strong>⚠️ 非常重要‼️違反會記點/警告</strong><br><br><strong>1. 劃休不符規定</strong><br>• 6 月起，除「2 個月前說的長假（使用特休）」外，一律 <strong>不准超劃休</strong>（每月至少給規定班少 1 診）<br>• 要使用特休須跟診所討論「當月狀況」（非超劃後自動以特休補）<br>• 每月 15 號後初步人員開始排班，<strong>不開放助理下月劃休</strong>，如還需請跟「最終排班人員」討論<br>• 🗒️ 只要「劃休」或「用特休」（經最終排班人員同意），班表上皆需 <strong>註記</strong>，勿只口頭‼️<br><br><strong>2. 使用特休應少排班</strong><br>• 但若診所人力需要，可能仍排滿班<br>• 此情況下 正職班 + 特休 補到 42–44 診，則特休不需使用<br><br>（資料來源：2026-05-19 管理部 LINE 公告，21:55 / 22:07）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1747440000000,
     "title": "🔧 充電設備維修完成",
@@ -6021,6 +6093,14 @@ let events = {
       "time": "18:00",
       "type": "doctor",
       "note": "5/22（五）晚診 陳醫師空檔 165 分，請協助約診"
+    }
+  ],
+  "2026-06-05": [
+    {
+      "name": "顏醫師早上加病人",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "6/5（五）早上顏醫師加病人（LINE 同步 2026-05-19 07:46）"
     }
   ]
 };
