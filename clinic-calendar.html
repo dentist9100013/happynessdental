@@ -650,6 +650,87 @@ body.is-assistant .doctor-chip {
 }
 .rest-badge.full { background: var(--rest); color: white; box-shadow: var(--shadow-sm); }
 
+/* 北昕確認區塊 */
+.badge-confirm-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  margin: 2px 4px 2px 0;
+  vertical-align: middle;
+}
+.badge-confirm-wrap .rest-badge {
+  margin: 0;
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+}
+.confirm-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  box-shadow: var(--shadow-in-sm);
+  border-left: 1px solid rgba(0,0,0,0.06);
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.confirm-box:hover { background: var(--surface-tinted); }
+.confirm-box input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+  accent-color: #16a34a;
+  margin: 0;
+}
+.confirm-box.is-confirmed {
+  background: #dcfce7;
+  color: #14532d;
+  font-weight: 600;
+}
+.confirm-fields {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  box-shadow: var(--shadow-in-sm);
+  border-left: 1px solid rgba(0,0,0,0.06);
+  padding: 1px 6px;
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+}
+.confirm-fields input[type="text"] {
+  font-family: inherit;
+  font-size: 11px;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: var(--text);
+  min-width: 0;
+}
+.confirm-fields input[type="text"]::placeholder { color: var(--text-muted); opacity: 0.7; }
+.confirm-fields .cf-name { width: 52px; }
+.confirm-fields .cf-date { width: 72px; }
+.confirm-fields .cf-sep {
+  color: var(--text-muted);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.pending-badge {
+  display: inline-block;
+  background: var(--bg);
+  color: var(--text-muted);
+  border-radius: var(--radius-pill);
+  padding: 2px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.6;
+  box-shadow: var(--shadow-in-sm);
+}
+
 .summary-empty {
   text-align: center;
   color: var(--text-muted);
@@ -712,6 +793,131 @@ body.is-assistant .doctor-chip {
 }
 .overlay-card h3 { font-size: 17px; margin-bottom: 4px; }
 .overlay-card p { font-size: 13px; color: var(--text-muted); }
+
+/* 排班規定區塊（助理專用） */
+.rules-section {
+  display: none;
+  margin-top: 32px;
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 28px 32px 32px;
+}
+body.is-assistant .rules-section { display: block; }
+
+.rules-section h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rules-section h2::before {
+  content: "📋";
+  font-size: 18px;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.rule-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 18px 20px 20px;
+}
+
+.rule-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.rule-card-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+.rule-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.rule-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.rule-card li {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text);
+  padding-left: 14px;
+  position: relative;
+}
+.rule-card li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-size: 11px;
+  top: 2px;
+}
+.rule-card li.sub {
+  padding-left: 24px;
+  color: var(--text-muted);
+}
+.rule-card li.sub::before {
+  content: "–";
+  color: var(--text-muted);
+}
+.rule-card .tag-warn {
+  display: inline;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 2px;
+}
+.rule-card .tag-note {
+  display: inline;
+  background: #fef9c3;
+  color: #713f12;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 2px;
+}
+.rule-card .tag-ok {
+  display: inline;
+  background: #dcfce7;
+  color: #14532d;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 2px;
+}
 
 .status-bar {
   margin-top: 14px;
@@ -1115,6 +1321,10 @@ body.is-assistant .doctor-chip {
     font-size: 9px;
     padding: 1px 5px;
   }
+  .pending-badge {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
   .modal-header .date { font-size: 17px; }
 }
 </style>
@@ -1191,6 +1401,69 @@ body.is-assistant .doctor-chip {
       <div id="summaryContent"><div class="summary-empty">載入中…</div></div>
     </div>
   </div>
+
+  <!-- 排班規定（助理專用） -->
+  <div class="rules-section">
+    <h2>排班規定與說明</h2>
+    <div class="rules-grid">
+
+      <!-- 規定 1 -->
+      <div class="rule-card">
+        <div class="rule-card-header">
+          <div class="rule-card-num">1</div>
+          <div class="rule-card-title">劃休規定<span class="tag-warn">6月起實施</span></div>
+        </div>
+        <ul>
+          <li>除非 2 個月前已預告的長假（使用特休），否則一律<strong>不准超劃休</strong>（每月至少比規定班少 1 診）</li>
+          <li>要使用特休，需跟診所討論當月狀況<span class="tag-note">非超劃後自動以特休補</span></li>
+          <li>每月 <strong>15 號後</strong>，初步人員開始排班，不開放助理劃下月休假<br>
+            如還需調整，請找<strong>最終排班人員</strong>討論（非初步排班人員）</li>
+          <li>只要有劃休或使用特休（最終排班人員已同意），<strong>班表上皆需註記</strong>，勿僅口頭告知</li>
+        </ul>
+      </div>
+
+      <!-- 規定 2 -->
+      <div class="rule-card">
+        <div class="rule-card-header">
+          <div class="rule-card-num">2</div>
+          <div class="rule-card-title">特休使用說明</div>
+        </div>
+        <ul>
+          <li>使用特休理應減排班，但診所有時仍需人力，可能仍排滿班</li>
+          <li class="sub">若如此，特休不需使用（正職班＋特休補至 42–44 診即可）</li>
+          <li>若整體經常需動用特休，管理層應評估是否補充新進人員<span class="tag-note">人力評估指標</span></li>
+        </ul>
+      </div>
+
+      <!-- 規定 3 -->
+      <div class="rule-card" style="grid-column: 1 / -1;">
+        <div class="rule-card-header">
+          <div class="rule-card-num">3</div>
+          <div class="rule-card-title">排班邏輯與診次規定</div>
+        </div>
+        <ul>
+          <li><strong>正職人員</strong>：43–45 診／月　<strong>兼職管理</strong>：31–35 診／月　<strong>幹部／儲備</strong>：至少 21 診以上<br>
+            依個別能力及給班狀況排班</li>
+          <li>正職人員與儲備以上兼職有最低診次要求，請符合劃休規定，<strong>違規將記警告／點</strong><span class="tag-warn">警告</span></li>
+          <li>兼職人員依法規：1 天最多上班 8 hr、1 週不超過 40 hr、7 天休 1 天<br>
+            <span class="tag-note">故診所兼職 1 週最多 11 診</span>　建議先排 9–10 診／週</li>
+          <li>兼職鼓勵 21–36 診／月，不鼓勵超出或太少
+            <ul style="margin-top:5px; padding-left:0;">
+              <li class="sub">診次太少易不熟練；勞健保雇主應付額約員工 3 倍，除非能力佳或支援特別時段</li>
+            </ul>
+          </li>
+          <li>正職採「<strong>四週變形工時</strong>」：可於 4 週內重新分配正常工時，單日正常工時可達 10 hr
+            <ul style="margin-top:5px; padding-left:0;">
+              <li class="sub">診所 1 個月最多 47 診（正常排 43–45 診，最低 42 診）</li>
+            </ul>
+          </li>
+          <li>穩健經營原則：應優先安排最有利人員上班<span class="tag-ok">同等能力下，優先正職及未超時加班人員</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <!-- Modal: 設定休假/休診/加診 -->
@@ -2112,7 +2385,7 @@ function renderSummary() {
     personMap[n]?.restDays.length > 0 || personMap[n]?.extraDays.length > 0
   );
 
-  if (!hasData) {
+  if (!hasData && !isAssistant) {
     const noDataMsg = (isAssistant && summaryMyOnly)
       ? "本月尚無你的休假資料"
       : `本月尚無${restWord}資料`;
@@ -2132,37 +2405,89 @@ function renderSummary() {
 
   displayList.forEach(name => {
     const { restDays, extraDays } = personMap[name] || { restDays: [], extraDays: [] };
-    if (restDays.length === 0 && extraDays.length === 0) return; // 沒資料就跳過
+    if (!isAssistant && restDays.length === 0 && extraDays.length === 0) return; // 醫師沒有資料就跳過，助理全部列出
 
     const displayName = isAssistant ? asstShortName(name) : shortName(name);
 
     const weekdayMap = ["日", "一", "二", "三", "四", "五", "六"];
 
-    const restBadges = restDays.map(({ day, slots }) => {
+    const makeBadgeHtml = (day, slots, type) => {
       const isFull = slots.length === 3;
       const slotText = isFull ? "" : `(${slots.map(s => SLOT_LABEL[s]).join("")})`;
       const wd = weekdayMap[new Date(year, month, day).getDay()];
-      return `<span class="rest-badge${isFull ? " full" : ""}">${day}日(${wd})${slotText}</span>`;
-    }).join("");
+      const label = `${day}日(${wd})${slotText}`;
+      const isExtra = type === "extra";
+      const badgeStyle = isExtra
+        ? ` style="background:var(--extra-soft);color:var(--extra-text);border-radius:var(--radius-pill) 0 0 var(--radius-pill);"`
+        : (isFull ? ` class="rest-badge full" style="border-radius:var(--radius-pill) 0 0 var(--radius-pill);"` : "");
+      const badgeClass = isExtra ? "rest-badge" : `rest-badge${isFull ? " full" : ""}`;
+      const storKey = `bxin_${year}_${month+1}_${name}_${day}_${type}`;
+      const stored = (() => { try { return JSON.parse(localStorage.getItem(storKey) || "null"); } catch(e) { return null; } })();
+      const checked = stored?.checked ? "checked" : "";
+      const cfName = stored?.cfName ? escHtml(stored.cfName) : "";
+      const cfDate = stored?.cfDate ? escHtml(stored.cfDate) : "";
+      const isConfirmed = stored?.checked ? " is-confirmed" : "";
+      return `<span class="badge-confirm-wrap" data-storkey="${storKey}">` +
+        `<span class="${badgeClass}"${isExtra ? ` style="background:var(--extra-soft);color:var(--extra-text);border-radius:var(--radius-pill) 0 0 var(--radius-pill);"` : `style="border-radius:var(--radius-pill) 0 0 var(--radius-pill);"`}>${label}</span>` +
+        `<label class="confirm-box${isConfirmed}" title="北昕軟體已設定">` +
+          `<input type="checkbox" class="bxin-check" data-storkey="${storKey}" ${checked}>北昕已設定` +
+        `</label>` +
+        `<span class="confirm-fields">` +
+          `<input type="text" class="cf-name bxin-field" data-storkey="${storKey}" data-field="cfName" placeholder="填寫人" value="${cfName}" title="填寫人姓名">` +
+          `<span class="cf-sep">/</span>` +
+          `<input type="text" class="cf-date bxin-field" data-storkey="${storKey}" data-field="cfDate" placeholder="設定日期" value="${cfDate}" title="設定日期">` +
+        `</span>` +
+      `</span>`;
+    };
 
-    const extraBadges = extraDays.map(({ day, slots }) => {
-      const isFull = slots.length === 3;
-      const slotText = isFull ? "" : `(${slots.map(s => SLOT_LABEL[s]).join("")})`;
-      const wd = weekdayMap[new Date(year, month, day).getDay()];
-      return `<span class="rest-badge" style="background:var(--extra-soft);color:var(--extra-text);">${day}日(${wd})${slotText}</span>`;
-    }).join("");
+    const restBadges = restDays.map(({ day, slots }) => makeBadgeHtml(day, slots, "rest")).join("");
+    const extraBadges = extraDays.map(({ day, slots }) => makeBadgeHtml(day, slots, "extra")).join("");
 
     const isMe = name === currentPerson;
     html += `<tr${isMe ? ' style="background:#f0fdfa;"' : ""}>
       <td class="name-cell">${displayName}${isMe ? ' <span style="font-size:10px;background:var(--primary);color:white;padding:1px 5px;border-radius:3px;font-weight:700;">我</span>' : ""}</td>
       <td><strong style="color:var(--rest-text)">${restDays.length}</strong> 天</td>
-      <td style="text-align:left;">${restBadges || "—"}</td>
+      <td style="text-align:left;">${restBadges || (isAssistant ? '<span class="pending-badge">尚未填寫</span>' : "—")}</td>
       ${!isAssistant ? `<td><strong style="color:var(--extra-text)">${extraDays.length}</strong> 天</td><td style="text-align:left;">${extraBadges || "—"}</td>` : ""}
     </tr>`;
   });
 
   html += "</tbody></table>";
   summaryContent.innerHTML = html;
+
+  // 綁定「北昕已設定」checkbox 事件
+  summaryContent.querySelectorAll(".bxin-check").forEach(cb => {
+    cb.addEventListener("change", () => {
+      const key = cb.dataset.storkey;
+      const stored = getBxinData(key);
+      stored.checked = cb.checked;
+      saveBxinData(key, stored);
+      const label = cb.closest(".confirm-box");
+      if (label) label.classList.toggle("is-confirmed", cb.checked);
+    });
+  });
+
+  // 綁定填寫人/日期 input 事件
+  summaryContent.querySelectorAll(".bxin-field").forEach(inp => {
+    inp.addEventListener("input", () => {
+      const key = inp.dataset.storkey;
+      const field = inp.dataset.field;
+      const stored = getBxinData(key);
+      stored[field] = inp.value;
+      saveBxinData(key, stored);
+    });
+  });
+}
+
+// ----- 北昕確認資料 helpers -----
+function escHtml(str) {
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function getBxinData(key) {
+  try { return JSON.parse(localStorage.getItem(key) || "{}"); } catch(e) { return {}; }
+}
+function saveBxinData(key, data) {
+  try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) {}
 }
 
 // ----- Modal 開啟 -----
