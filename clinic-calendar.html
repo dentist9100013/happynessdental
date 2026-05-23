@@ -1645,13 +1645,16 @@ const db = getFirestore(app);
 const SCHEDULE_COL_DOCTOR = collection(db, "schedule");
 const SCHEDULE_COL_ASSISTANT = collection(db, "schedule_assistant");
 const HISTORY_COL = collection(db, "history");
+const BXIN_COL = collection(db, "bxin_confirm");
 
 // ----- 狀態 -----
 let currentRole = "doctor";       // "doctor" | "assistant"
 let currentPerson = "";           // 目前選擇的人名（醫師全名 or 助理顯示名）
 let currentDate = new Date();
 let scheduleData = {};
+let bxinData = {};                // 北昕確認資料快取（從 Firestore 即時同步）
 let unsubscribe = null;
+let unsubscribeBxin = null;       // bxin_confirm 的 onSnapshot 取消訂閱函式
 let modalDateStr = null;
 let modalDraft = { am: "", pm: "", ev: "" };
 
@@ -2430,11 +2433,11 @@ function renderSummary() {
         ? ` style="background:var(--extra-soft);color:var(--extra-text);border-radius:var(--radius-pill) 0 0 var(--radius-pill);"`
         : ` style="border-radius:var(--radius-pill) 0 0 var(--radius-pill);"`;
       const storKey = `bxin_${year}_${month+1}_${name}_${day}_${type}`;
-      const stored = (() => { try { return JSON.parse(localStorage.getItem(storKey) || "null"); } catch(e) { return null; } })();
-      const checked = stored?.checked ? "checked" : "";
-      const cfName = stored?.cfName ? escHtml(stored.cfName) : "";
-      const cfDate = stored?.cfDate ? escHtml(stored.cfDate) : "";
-      const isConfirmed = stored?.checked ? " is-confirmed" : "";
+      const stored = bxinData[storKey] || {};
+      const checked = stored.checked ? "checked" : "";
+      const cfName = stored.cfName ? escHtml(stored.cfName) : "";
+      const cfDate = stored.cfDate ? escHtml(stored.cfDate) : "";
+      const isConfirmed = stored.checked ? " is-confirmed" : "";
       return `<span class="badge-confirm-wrap" data-storkey="${storKey}">` +
         `<span class="${badgeClass}"${badgeStyleConfirm}>${label}</span>` +
         `<label class="confirm-box${isConfirmed}" title="北昕軟體已設定">` +
@@ -2467,35 +2470,39 @@ function renderSummary() {
   summaryContent.querySelectorAll(".bxin-check").forEach(cb => {
     cb.addEventListener("change", () => {
       const key = cb.dataset.storkey;
-      const stored = getBxinData(key);
-      stored.checked = cb.checked;
-      saveBxinData(key, stored);
+      const current = bxinData[key] || {};
+      const updated = { ...current, checked: cb.checked, updatedAt: serverTimestamp() };
+      bxinData[key] = { ...current, checked: cb.checked }; // 即時更新本地快取（樂觀更新）
+      setDoc(doc(BXIN_COL, key), updated, { merge: true }).catch(e => console.error("儲存北昕確認失敗", e));
       const label = cb.closest(".confirm-box");
       if (label) label.classList.toggle("is-confirmed", cb.checked);
     });
   });
 
-  // 綁定填寫人/日期 input 事件
+  // 綁定填寫人/日期 input 事件（debounce 500ms，避免每個字都寫 Firebase）
   summaryContent.querySelectorAll(".bxin-field").forEach(inp => {
+    let debTimer = null;
     inp.addEventListener("input", () => {
       const key = inp.dataset.storkey;
       const field = inp.dataset.field;
-      const stored = getBxinData(key);
-      stored[field] = inp.value;
-      saveBxinData(key, stored);
+      const current = bxinData[key] || {};
+      bxinData[key] = { ...current, [field]: inp.value }; // 即時更新本地快取
+      clearTimeout(debTimer);
+      debTimer = setTimeout(() => {
+        const snapshot = { ...(bxinData[key] || {}), updatedAt: serverTimestamp() };
+        setDoc(doc(BXIN_COL, key), snapshot, { merge: true }).catch(e => console.error("儲存北昕欄位失敗", e));
+      }, 500);
     });
   });
 }
 
 // ----- 北昕確認資料 helpers -----
+// 注意：北昕確認資料現在存在 Firestore bxin_confirm collection，
+// 由 startSync() 中的 onSnapshot 即時同步到全域 bxinData 物件。
+// 讀取：直接用 bxinData[key]
+// 寫入：用 setDoc(doc(BXIN_COL, key), data, { merge: true })
 function escHtml(str) {
   return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-function getBxinData(key) {
-  try { return JSON.parse(localStorage.getItem(key) || "{}"); } catch(e) { return {}; }
-}
-function saveBxinData(key, data) {
-  try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) {}
 }
 
 // ----- Modal 開啟 -----
@@ -2728,6 +2735,17 @@ function startSync() {
     console.error("同步錯誤", err);
     setConnected(false);
     connLabel.textContent = "連線錯誤：" + err.message;
+  });
+
+  // 訂閱北昕確認資料（全 collection 即時同步）
+  if (unsubscribeBxin) { unsubscribeBxin(); unsubscribeBxin = null; }
+  unsubscribeBxin = onSnapshot(BXIN_COL, snap => {
+    bxinData = {};
+    snap.forEach(d => { bxinData[d.id] = d.data(); });
+    // 重新 render 以套用最新確認狀態（避免與 scheduleData render 衝突，加 guard）
+    if (Object.keys(scheduleData).length > 0) renderSummary();
+  }, err => {
+    console.warn("北昕確認資料同步錯誤", err);
   });
 }
 
