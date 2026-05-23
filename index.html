@@ -3652,7 +3652,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605200706';"
+      "const DATA_VERSION = '202605231702';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3711,7 +3711,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605200706';"
+      "const DATA_VERSION = '202605231702';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3784,10 +3784,67 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202605200706';
+const DATA_VERSION = '202605231702';
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1779555720155,
+    "title": "🧹 星期五早上請注意清潔人員打掃情形",
+    "type": "info",
+    "body": "<strong>🧹 清潔人員注意事項</strong><br>星期五早上請注意⚠️ 清潔人員是否每週 9:00–12:00 都有到 & 打掃。<br><br><strong>🧴 清潔劑味道調整</strong><br>請跟打掃人員說清潔劑漂白水味道太重，看能怎麼調整（使用精油清新清潔劑較好，診所內應該有）。<br><br><strong>👥 負責人員</strong><br>• Tina 目前仍是主負責（6 月班較少再看換誰）<br>• 要告知合作清潔公司款項申請：林芷晴<br>• 打掃區域內容也由 Tina 負責<br>• Min、璟妤 協助注意，感謝大家！",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779555720154,
+    "title": "🗓️ 5 月份福美牙醫醫師班表",
+    "type": "info",
+    "body": "5 月份福美牙醫醫師班表，請各位醫師與助理查看。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false,
+    "links": [
+      {
+        "label": "2026.05醫師班表",
+        "url": "https://www.dropbox.com/scl/fi/c03c814pitdt9g9o92ioz/_2026-_-_1.jpg?rlkey=jnev5syrcz282ryi2088ryqz2&st=o90iqjzc&dl=0"
+      }
+    ]
+  },
+  {
+    "id": 1779555720153,
+    "title": "🗓️ 6 月份福美牙醫醫師班表（更新）",
+    "type": "info",
+    "body": "6 月份福美牙醫醫師班表已更新，請各位醫師與助理至班表查看最新版本。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false,
+    "links": [
+      {
+        "label": "2026.06醫師班表",
+        "url": "https://www.dropbox.com/scl/fi/al3a4fq7f9paufgy19u32/_6-_-new.png?rlkey=vsbt4sl2w314ywp7wrumn0yx3&st=ic0bwvxn&dl=0"
+      }
+    ]
+  },
+  {
+    "id": 1779555720152,
+    "title": "📋 本週/下週醫師約診空檔提醒（5/23–5/30）",
+    "type": "info",
+    "body": "<strong>📅 醫師空檔（請盡量幫醫師約滿）</strong><br><br><strong>5/23（六）午診</strong><br>• 顏醫師 空檔「15 分」<br>• 蕭醫師 空檔「30 分」<br><br><strong>5/27（三）</strong><br>• 邱醫師 午診 空檔「15 分」<br>• 陳醫師 晚診 空檔「15 分」<br><br><strong>5/30（六）</strong><br>• 李醫師 午診 空檔「60 分」<br><br><strong>⚠️ 提醒</strong><br>本週、下週約診再麻煩注意醫師空檔時間，盡量幫醫師約診排滿～",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779555720151,
+    "title": "🔎 黃武哲伯伯自費紅單協尋",
+    "type": "general",
+    "body": "<strong>📌 協尋內容</strong><br>家屬要查詢 113~114 年是否有開過自費收據，但病歷裡沒看到紅單。<br><br><strong>✅ 已查過</strong><br>• Ivy 找過 114/1/20 當天看診所有病歷<br>• 男生 11 月份病歷<br>• 報稅收據簽收本<br>都沒有找到名字<br><br><strong>🙏 麻煩協助</strong><br>坐櫃檯的助理們（Shan、璟妤、Tina、柯、柔慈、Gigi）麻煩幫忙再找一下黃武哲伯伯的自費紅單。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1779260760001,
     "title": "🦷 流動性樹脂（flow）改放消毒室",
@@ -6009,6 +6066,12 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "5/23（六）午診 蕭醫師空檔 60 分，請協助約診"
+    },
+    {
+      "name": "顏醫師午診空檔 15 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/23（六）午診 顏醫師空檔 15 分，請協助約診"
     }
   ],
   "2026-05-30": [
@@ -6017,6 +6080,12 @@ let events = {
       "time": "全天",
       "type": "meeting",
       "note": "5 月跟顏醫師吃飯時間"
+    },
+    {
+      "name": "李醫師午診空檔 60 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/30（六）午診 李醫師空檔 60 分，請協助約診"
     }
   ],
   "2026-05-29": [
@@ -6101,6 +6170,26 @@ let events = {
       "time": "09:00",
       "type": "doctor",
       "note": "6/5（五）早上顏醫師加病人（LINE 同步 2026-05-19 07:46）"
+    },
+    {
+      "name": "顏醫師下午改兩個手術",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "6/5（五）下午顏醫師改為兩個手術，一個診約滿（LINE 2026-05-22 14:16）"
+    }
+  ],
+  "2026-05-27": [
+    {
+      "name": "邱醫師午診空檔 15 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/27（三）午診 邱醫師空檔 15 分，請協助約診"
+    },
+    {
+      "name": "陳醫師晚診空檔 15 分",
+      "time": "19:00",
+      "type": "doctor",
+      "note": "5/27（三）晚診 陳醫師空檔 15 分，請協助約診"
     }
   ]
 };
