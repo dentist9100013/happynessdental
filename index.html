@@ -1997,12 +1997,22 @@ body::before {
 
       <div class="ai-section">
 
+        <!-- LINE weekly summary (rendered by JS) -->
+        <div class="ai-card" id="line-weekly-card">
+          <div class="ai-card-header">
+            <div class="ai-title">🧾 LINE 週報摘要（最近三週）<span class="ai-badge">管理版</span></div>
+            <div id="lineWeeklyMeta" style="font-size:12px;color:var(--ink-mute);font-family:var(--font-display);font-weight:600"></div>
+          </div>
+          <div id="lineWeeklyQuality" class="warn-callout" style="margin:10px 0 12px;display:none"></div>
+          <div id="lineWeeklyList"></div>
+        </div>
+
         <!-- Progress card -->
         <div class="ai-card">
           <div class="ai-card-header">
             <div class="ai-title">🤖 本週自動摘要 <span class="ai-badge">已完成</span></div>
             <div style="font-size:12px;color:var(--ink-mute);font-family:var(--font-display);font-weight:600">
-              整理自 2026/03/24 – 04/13 · 共 128 則訊息（21 天）
+              （歷史樣本）整理自 2026/03/24 – 04/13 · 共 128 則訊息（21 天）
             </div>
           </div>
 
@@ -2124,10 +2134,10 @@ body::before {
           <div style="font-size:40px">📋</div>
           <div style="flex:1;min-width:240px">
             <div style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--ink)">
-              本週開會前摘要 · <span id="meetingDateDisplay">2026/04/20（一）</span>
+              本週開會前摘要 · <span id="meetingDateDisplay">2026/05/25（一）</span>
             </div>
             <div style="font-size:13px;color:var(--ink-soft);margin-top:4px;font-family:var(--font-display)">
-              以助理為中心整理 · 涵蓋 03/24 – 04/18 LINE 社群 362 則訊息
+              以助理為中心整理 · 涵蓋 03/25 – 05/23（最近兩個月彙整）
             </div>
           </div>
           <div style="font-size:12px;color:var(--ink-soft);font-family:var(--font-display);text-align:right">
@@ -2384,7 +2394,7 @@ body::before {
             <div class="meeting-icon-circle" style="background:var(--mint)">📊</div>
             <div class="meeting-info">
               <div class="meeting-name">本期重點數字</div>
-              <div class="meeting-date">3/24 – 4/18 LINE 社群分析</div>
+              <div class="meeting-date">03/25 – 05/23 LINE 社群彙整</div>
             </div>
           </div>
           <div class="kpi-grid">
@@ -3189,6 +3199,21 @@ body::before {
   </div>
 </div>
 
+<!-- ─── LINE WEEKLY DETAIL MODAL ─── -->
+<div class="detail-overlay" id="line-detail-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="detail-modal" style="max-width:760px">
+    <div class="detail-modal-header">
+      <div class="detail-modal-icon" id="ld-icon" style="background:var(--sky-light)">🧾</div>
+      <div>
+        <div class="detail-modal-title" id="ld-title"></div>
+        <div class="detail-modal-sub" id="ld-sub"></div>
+      </div>
+      <button class="detail-modal-close" onclick="document.getElementById('line-detail-overlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="detail-modal-body" id="ld-body"></div>
+  </div>
+</div>
+
 <!-- ─── CALENDAR LIST MODAL ─── -->
 <div class="cal-list-overlay" id="cal-list-overlay" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="detail-modal" style="width:720px">
@@ -3784,10 +3809,139 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202605231702';
+const DATA_VERSION = '202605252309';
+
+// ─── LINE 週報摘要資料（每週更新）───
+// 僅使用資料來源：
+// - 09_LINE訊息摘要系統/2026-*.md
+// - 09_LINE訊息摘要系統/每日歸檔/*.md
+// - 本檔案內既有 announcements / archivedAnnouncements
+const LINE_WEEKLY_SUMMARY_DATA = {
+  updatedAt: '2026-05-25',
+  weekly: {
+    range: { start: '2026/05/03', end: '2026/05/23' },
+    rangeText: '2026/05/03 – 2026/05/23',
+    qualityNote: '資料完整度：05/03–05/12 多日檔案標示「需人工檢查」；缺少 05/10、05/11 每日歸檔；其餘日期可用。建議：遇到爭議或需追溯原句時，回到原始 LINE/每日歸檔交叉確認。',
+    weeks: [
+      {
+        id: 'w2026-05-17_05-23',
+        title: '2026/05/17–05/23（近一週）',
+        sources: [
+          '每日歸檔_2026-05-17.md',
+          '每日歸檔_2026-05-18.md',
+          '每日歸檔_2026-05-19.md',
+          '每日歸檔_2026-05-20.md',
+          '每日歸檔_2026-05-21.md',
+          '每日歸檔_2026-05-22.md',
+          '每日歸檔_2026-05-23.md'
+        ],
+        completeness: { status: 'good', note: '每日歸檔 7/7 皆存在；未標示需人工檢查。' },
+        highlights: [
+          '系統維運：LINE 摘要資料庫（SQLite）疑似損毀/不一致，已採用 JSONL 重建、備份與完整性檢查流程，避免資料遺失。',
+          '排班/行程：6 月醫師班表（6/5、6/15、6/17–6/18 等）陸續更新，請以最新公告/行事曆為準。',
+          '行政/教育：清潔人員打掃與清潔劑味道調整需追蹤；另有制度/規範提醒與資料彙整事項。'
+        ],
+        actions: [
+          '資訊維運：確認 `clinic_messages.db` 完整性與備份機制（含 journal/JSONL 來源），避免再次發生資料庫損毀。',
+          '櫃檯/排班：核對 6 月班表變動（含加診/時間調整），並同步更新行事曆與公告。',
+          '行政：清潔打掃品質、清潔劑使用與責任分工，完成對外聯繫與內部追蹤。'
+        ],
+        background: [
+          '近期出現資料庫錯誤與 journal 殘留跡象，需以可回溯來源（JSONL）做重建與核對。',
+          '班表變動集中，容易造成資訊不同步。'
+        ]
+      },
+      {
+        id: 'w2026-05-10_05-16',
+        title: '2026/05/10–05/16（近二週前）',
+        sources: [
+          '每日歸檔_2026-05-12_需人工檢查.md',
+          '每日歸檔_2026-05-13.md',
+          '每日歸檔_2026-05-13_需人工檢查.md',
+          '每日歸檔_2026-05-14.md',
+          '每日歸檔_2026-05-15.md',
+          '每日歸檔_2026-05-16.md'
+        ],
+        completeness: { status: 'partial', note: '含「需人工檢查」檔；且缺少 05/10、05/11 每日歸檔。' },
+        highlights: [
+          '系統維運：資料來源整理與回補（含多日批次更新/重建），並記錄處理清單與落地路徑，降低後續查核成本。',
+          '排班/溝通：多項班表/加診/異動訊息集中釋出；建議以「最新公告 + 行事曆」作單一真實來源。',
+          '作業提醒：有關規範、提醒與教育訓練事項需持續追蹤。'
+        ],
+        actions: [
+          '資訊維運：補齊缺漏日資料（05/10–05/11）或標記原因；確認摘要產出流程不再受工作環境限制影響。',
+          '櫃檯/排班：對外資訊（公告/行事曆/口頭通知）一致化，避免多版本造成混亂。',
+          '管理端：將「重要規範」整理成可查詢 SOP（不含聊天內容），並在需要處標註生效日。'
+        ],
+        background: [
+          '部分資料產出受環境/路徑/連線資料夾限制影響，導致需人工檢查與缺漏日。',
+          '班表訊息密集期容易發生不同步。'
+        ]
+      },
+      {
+        id: 'w2026-05-03_05-09',
+        title: '2026/05/03–05/09（近三週前）',
+        sources: [
+          '每日歸檔_2026-05-03_無訊息.md',
+          '每日歸檔_2026-05-04_需人工檢查.md',
+          '每日歸檔_2026-05-05_需人工檢查.md',
+          '每日歸檔_2026-05-06_需人工檢查.md',
+          '每日歸檔_2026-05-07_需人工檢查.md',
+          '每日歸檔_2026-05-08_需人工檢查.md',
+          '每日歸檔_2026-05-09_需人工檢查.md'
+        ],
+        completeness: { status: 'low', note: '多數日期標示「需人工檢查」；且內容偏向技術處理紀錄。' },
+        highlights: [
+          '系統維運：多日批次處理與排程確認（含 Windows 指令範例與日更新流程），以確保摘要資料可產出。',
+          '資料管理：確認連線資料夾/路徑與權限（connected folders）設定，避免工具無法讀寫。',
+          '內容面：05/03 標示「無訊息」，其餘多為資料處理或待人工校對。'
+        ],
+        actions: [
+          '資訊維運：持續把「可復現的處理步驟」收斂成固定腳本與檢查清單。',
+          '管理端：若需對外公告/對內規範引用，優先使用已完成檢查的日期或再次核對原始來源。'
+        ],
+        background: [
+          '週內多日以技術維運與資料回補為主，內容摘要可信度依賴人工檢查。'
+        ]
+      }
+    ]
+  },
+  meeting: {
+    range: { start: '2026/03/25', end: '2026/05/23' },
+    rangeText: '2026/03/25 – 2026/05/23',
+    qualityNote: '開會前摘要（最近兩個月）以「月摘要 + 每日歸檔」彙整；04/25–05/12 期間多日標示需人工檢查，請視需要回看原始訊息。'
+  }
+};
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1779750561536,
+    "title": "🔧 hiossen 植牙器械待洪先生取回",
+    "type": "general",
+    "body": "<strong>📦 器械狀態</strong><br>跟 hiossen 洪先生借的一組植牙器械已使用完畢，目前 <strong>放在櫃檯</strong>。<br><br><strong>📞 取件安排</strong><br>已請洪先生抽空過來拿，再麻煩 <strong>櫃檯協助轉交</strong>，謝謝！<br><br>（資料來源：2026-05-25 11:44 管理部 All 群組）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779750561535,
+    "title": "📅 Dr.顏約診規則調整（每週二、三）",
+    "type": "info",
+    "body": "<strong>🎯 調整目的</strong><br>顏醫師想降低加班，但又能讓高自費好病人約得到時間，故增加 <strong>2 個早上特約</strong>。<br><br><strong>📅 每週二</strong><br>• 下午已設特約的診<br>• 早上連同設特約<br><br><strong>📅 每週三</strong><br>• 改 <strong>16:30 設其他特殊</strong><br>• Dr 顏需接小孩，<strong>16:50 前要離開</strong><br><br>（資料來源：2026-05-25 15:07 管理部 All 群組）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779750561534,
+    "title": "⚠️ 立唯 case 約診請預留 5–7 天製作時間",
+    "type": "urgent",
+    "body": "<strong>📌 約診規則</strong><br>送立唯的 case 一定要有至少 <strong>5–7 天</strong> 的製作時間（<strong>不含假日</strong>）。<br><br><strong>👥 請特別注意</strong><br>• 櫃檯助理<br>• 幫忙約診的助理<br><br><strong>✅ 建議約診方式</strong><br>• 約「當天 +5–7 天」<br>• 或直接約「2 週」<br><br><strong>⚠️ 避免狀況</strong><br>免得模回不來、一直要跟病人改約。<br><br>（資料來源：2026-05-25 09:54 管理部 All 群組）",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1779555720155,
     "title": "🧹 星期五早上請注意清潔人員打掃情形",
@@ -5946,6 +6100,18 @@ let events = {
       "time": "14:00",
       "type": "doctor",
       "note": "顏醫師 5/25（一）下午 2 點加 1 位植牙病人"
+    },
+    {
+      "name": "Dr.顏約診規則調整生效",
+      "time": "15:07",
+      "type": "doctor",
+      "note": "週二早上增設特約、週三 16:30 設其他特殊（16:50 前需離開）"
+    },
+    {
+      "name": "立唯 case 約診規則提醒",
+      "time": "09:54",
+      "type": "other",
+      "note": "立唯 case 須預留 5–7 天製作時間（不含假日）"
     }
   ],
   "2026-05-18": [
@@ -6398,6 +6564,121 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// ─── LINE 週報摘要（最近三週）：render + detail modal ───
+function _escapeHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function openLineSummaryDetail(id) {
+  const week = (LINE_WEEKLY_SUMMARY_DATA?.weekly?.weeks || []).find(w => w.id === id);
+  if (!week) return;
+  const overlay = document.getElementById('line-detail-overlay');
+  const titleEl = document.getElementById('ld-title');
+  const subEl = document.getElementById('ld-sub');
+  const bodyEl = document.getElementById('ld-body');
+  if (!overlay || !titleEl || !subEl || !bodyEl) return;
+
+  titleEl.textContent = week.title || 'LINE 週報摘要';
+  subEl.textContent = `資料來源：${(week.sources || []).join('、')}`;
+
+  const list = (items) => (items || []).map(x => `<li>${_escapeHtml(x)}</li>`).join('');
+  bodyEl.innerHTML = `
+    <div style="font-size:13px;line-height:1.85;color:var(--ink-soft)">
+      <div style="font-family:var(--font-display);font-weight:900;color:var(--ink);margin-bottom:8px">資料完整度</div>
+      <div style="background:var(--cream);border:1.5px dashed var(--border);border-radius:var(--r-md);padding:10px 12px;margin-bottom:14px">${_escapeHtml(week.completeness?.note || '')}</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-md);padding:12px">
+          <div style="font-family:var(--font-display);font-weight:900;color:var(--ink);margin-bottom:6px">重點</div>
+          <ul style="margin:0 0 0 18px;padding:0">${list(week.highlights)}</ul>
+        </div>
+        <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-md);padding:12px">
+          <div style="font-family:var(--font-display);font-weight:900;color:var(--ink);margin-bottom:6px">執行清單</div>
+          <ul style="margin:0 0 0 18px;padding:0">${list(week.actions)}</ul>
+        </div>
+      </div>
+
+      <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-md);padding:12px;margin-top:12px">
+        <div style="font-family:var(--font-display);font-weight:900;color:var(--ink);margin-bottom:6px">背景原因</div>
+        <ul style="margin:0 0 0 18px;padding:0">${list(week.background)}</ul>
+      </div>
+    </div>
+  `;
+  overlay.classList.add('open');
+}
+
+function renderLineWeeklySummary() {
+  const card = document.getElementById('line-weekly-card');
+  const meta = document.getElementById('lineWeeklyMeta');
+  const quality = document.getElementById('lineWeeklyQuality');
+  const list = document.getElementById('lineWeeklyList');
+  if (!card || !meta || !quality || !list || !LINE_WEEKLY_SUMMARY_DATA) return;
+
+  const r = LINE_WEEKLY_SUMMARY_DATA.weekly?.range;
+  meta.textContent = `整理範圍：${r?.start || ''} – ${r?.end || ''} · 更新：${LINE_WEEKLY_SUMMARY_DATA.updatedAt || ''}`;
+
+  const q = LINE_WEEKLY_SUMMARY_DATA.weekly?.qualityNote;
+  if (q) {
+    quality.style.display = 'block';
+    quality.innerHTML = `<b>⚠️ 資料完整度</b> ${_escapeHtml(q)}`;
+  } else {
+    quality.style.display = 'none';
+    quality.textContent = '';
+  }
+
+  const weeks = LINE_WEEKLY_SUMMARY_DATA.weekly?.weeks || [];
+  list.innerHTML = weeks.map(w => `
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-md);padding:14px;margin-bottom:12px">
+      <div style="display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap">
+        <div>
+          <div style="font-family:var(--font-display);font-size:14px;font-weight:900;color:var(--ink)">${_escapeHtml(w.title || '')}</div>
+          <div style="font-size:12px;color:var(--ink-mute);margin-top:2px">資料來源：${_escapeHtml((w.sources || []).join('、'))}</div>
+        </div>
+        <button class="btn btn-ghost" type="button" data-line-detail-id="${_escapeHtml(w.id)}" style="font-size:12px;padding:6px 10px">查看詳細 →</button>
+      </div>
+      <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--cream);border:1.5px dashed var(--border);border-radius:var(--r-md);padding:10px 12px">
+          <div style="font-size:12px;font-weight:900;color:var(--ink);font-family:var(--font-display);margin-bottom:6px">重點</div>
+          <ul style="margin:0 0 0 18px;padding:0;font-size:13px;line-height:1.75;color:var(--ink-soft)">${(w.highlights||[]).slice(0,3).map(x=>`<li>${_escapeHtml(x)}</li>`).join('')}</ul>
+        </div>
+        <div style="background:var(--mint-light);border:1.5px solid var(--mint);border-radius:var(--r-md);padding:10px 12px">
+          <div style="font-size:12px;font-weight:900;color:var(--mint-dark);font-family:var(--font-display);margin-bottom:6px">執行清單</div>
+          <ul style="margin:0 0 0 18px;padding:0;font-size:13px;line-height:1.75;color:var(--ink-soft)">${(w.actions||[]).slice(0,3).map(x=>`<li>${_escapeHtml(x)}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // 綁定「查看詳細」按鈕（禁止 innerHTML inline onclick）
+  list.querySelectorAll('[data-line-detail-id]').forEach(btn => {
+    btn.addEventListener('click', () => openLineSummaryDetail(btn.dataset.lineDetailId));
+  });
+}
+
+// 當切到「LINE 週報摘要」頁面時渲染
+(function wrapShowSectionForLineWeekly() {
+  const original = window.showSection;
+  window.showSection = function(id, el) {
+    original(id, el);
+    if (id === 'ai-weekly') {
+      try { renderLineWeeklySummary(); } catch (e) { console.warn('renderLineWeeklySummary failed', e); }
+    }
+  };
+})();
+
+// 頁面首次載入：若預設就在 ai-weekly 頁，也渲染一次
+document.addEventListener('DOMContentLoaded', () => {
+  const sec = document.getElementById('section-ai-weekly');
+  if (sec && sec.classList.contains('active')) {
+    try { renderLineWeeklySummary(); } catch (e) {}
+  }
+});
+
 
 // ─── 動態插入手機版漢堡選單按鈕 ───
 (function initMobileMenu() {
@@ -6711,9 +6992,15 @@ function linkifyText(text) {
     else if (lower.includes('drive.google.com')) label = '📁 Google Drive';
     else if (lower.includes('canva.com')) label = '🎨 Canva 連結';
     else if (lower.includes('youtube.com') || lower.includes('youtu.be')) label = '▶️ YouTube';
-    return '<a href="' + url + '" target="_blank" rel="noopener" style="color:var(--mint-dark);font-weight:700;text-decoration:underline;word-break:break-all" onclick="event.stopPropagation()">' + label + '</a>';
+    return '<a href="' + url + '" data-stop-prop="1" target="_blank" rel="noopener" style="color:var(--mint-dark);font-weight:700;text-decoration:underline;word-break:break-all">' + label + '</a>';
   });
 }
+
+// 禁止 linkifyText 產生的連結向上冒泡（避免父層卡片 click 被觸發）
+document.addEventListener('click', (e) => {
+  const a = e.target && e.target.closest ? e.target.closest('a[data-stop-prop="1"]') : null;
+  if (a) e.stopPropagation();
+}, true);
 
 // ─── 多連結 UI 輔助函式 ───
 function addAnnLinkRow(containerId, label, url) {
@@ -6726,8 +7013,10 @@ function addAnnLinkRow(containerId, label, url) {
       style="flex:0 0 120px;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:12px;font-family:var(--font-display)">
     <input type="text" placeholder="https://..." value="${url||''}"
       style="flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:12px;font-family:var(--font-body)">
-    <button type="button" onclick="this.parentElement.remove()"
+    <button type="button"
       style="flex-shrink:0;width:28px;height:28px;border:1.5px solid var(--border);border-radius:50%;background:var(--white);color:var(--ink-mute);font-size:14px;cursor:pointer;line-height:1">✕</button>`;
+  const rmBtn = row.querySelector('button');
+  if (rmBtn) rmBtn.addEventListener('click', () => row.remove());
   container.appendChild(row);
 }
 
