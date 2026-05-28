@@ -3677,7 +3677,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605231702';"
+      "const DATA_VERSION = '202605272309';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3736,7 +3736,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '202605231702';"
+      "const DATA_VERSION = '202605272309';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3809,7 +3809,7 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '202605252309';
+const DATA_VERSION = '202605272309';
 
 // ─── LINE 週報摘要資料（每週更新）───
 // 僅使用資料來源：
@@ -3915,6 +3915,42 @@ const LINE_WEEKLY_SUMMARY_DATA = {
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1779951960004,
+    "title": "📋 約診規則提醒：VIP／高自費病患優先約診",
+    "type": "urgent",
+    "body": "<strong>🎯 目的</strong><br>降低好病患（特別高自費者）覺得不好約的情形。<br><br><strong>📋 約診規則</strong><br>1. 一週內沒約滿的特約要打開<br>2. 有空檔時，優先打給口袋名單<br>3. VIP 病患 &amp; 五種療程（特別指定洪醫師）病患請盡量幫忙約（一個診最多 2–3 個安插點）<br><br><strong>🦷 五種療程</strong><br>• 植牙<br>• 牙周<br>• 雷射<br>• 美學<br>• 全口重建<br><br><strong>📝 其他</strong><br>• 希望療程快點的高自費病患請列口袋名單<br>• 除了自費療程可約特約，還有「洪醫師有看過的病患」該位置不舒服者<br><br><strong>⚠️ 開會會抽問此規則，請務必熟記！</strong>",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779951960003,
+    "title": "👩‍⚕️ 6月兼職助理：Naomi 鄭凱荺",
+    "type": "info",
+    "body": "<strong>👩‍⚕️ 6 月兼職助理</strong><br>• 姓名：Naomi 鄭凱荺<br>• 有經驗<br>• 排跟女黃醫師<br><br>請各位同仁協助新夥伴熟悉流程。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779951960002,
+    "title": "📞 診所電話錄音設備已修復（使用方式）",
+    "type": "info",
+    "body": "<strong>📞 電話錄音設備</strong><br>診所電話錄音設備已修好一陣子，但之前未通知到所有同仁。<br><br><strong>🔑 使用方式</strong><br>1. 開啟 Chrome 瀏覽器<br>2. 進入電話錄音網站頁面<br>3. 帳號：<strong>admin</strong>，密碼：<strong>123456</strong><br>4. 登入後點選左邊欄位：<strong>錄音管理 → 月份查詢</strong><br><br>即可查詢電話語音紀錄。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1779951960001,
+    "title": "📅 顏醫師近期加診／加手術彙整（6–7月）",
+    "type": "info",
+    "body": "<strong>📅 顏醫師加診／手術時間</strong><br>• 6/11（四）早上 11:00 — ARP 手術<br>• 6/18（四）早診 — 加手術<br>• 6/26（五）午診 — 加手術<br>• 6/29（一）下午 — 加病人<br>• 7/10（五）下午 14:00 — 加一位病人<br><br><strong>⚠️ 注意</strong><br>請櫃檯約診注意上述時段，預留手術所需時間與器械準備。",
+    "author": "LINE 同步",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1779750561536,
     "title": "🔧 hiossen 植牙器械待洪先生取回",
@@ -5838,6 +5874,12 @@ let events = {
       "time": "09:00",
       "type": "training",
       "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
+    },
+    {
+      "name": "顏醫師加手術（早診）",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "顏醫師早診加手術"
     }
   ],
   "2026-06-20": [
@@ -6356,6 +6398,38 @@ let events = {
       "time": "19:00",
       "type": "doctor",
       "note": "5/27（三）晚診 陳醫師空檔 15 分，請協助約診"
+    }
+  ],
+  "2026-06-11": [
+    {
+      "name": "顏醫師 ARP 手術（11:00）",
+      "time": "11:00",
+      "type": "doctor",
+      "note": "顏醫師加一台 ARP 手術"
+    }
+  ],
+  "2026-06-26": [
+    {
+      "name": "顏醫師加手術（午診）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師午診加手術"
+    }
+  ],
+  "2026-06-29": [
+    {
+      "name": "顏醫師加病人（下午）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師下午加病人"
+    }
+  ],
+  "2026-07-10": [
+    {
+      "name": "顏醫師加病人（14:00）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師下午 14:00 加一位病人"
     }
   ]
 };
