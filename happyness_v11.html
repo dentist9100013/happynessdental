@@ -3662,7 +3662,17 @@ function buildMoGridHTML(){
     }else if(role==='sub'){
       var parts=k.split('-');var drId=parts[4];
       var dr=drs.find(function(x){return x.id===drId;});
-      v=(dr?dr.name.charAt(0):'?')+(drId==='lin'?'<span style=\"font-size:14px;font-weight:700;color:#c44;line-height:1;">△</span>':'2');bg='#fffce8';
+      var sn=dr?dr.name.charAt(0):'?';
+      if(drId==='lin'){
+        // 林昭秀 輔(兼流)：林 在上、紅色△ 在下（列印格子窄，垂直堆疊避免△被裁切）
+        v='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:0.85;">'
+          +'<span style="font-size:'+(fpt*0.95)+'pt;">'+sn+'</span>'
+          +'<span style="font-size:'+(fpt*0.95)+'pt;font-weight:700;color:#c44;line-height:0.85;">△</span>'
+          +'</div>';
+      }else{
+        v=sn+'2';
+      }
+      bg='#fffce8';
     }else if(role==='counter'){v='<span style="font-size:8.5pt;font-weight:700;color:#c44;">△</span>';bg='#ffeaea';}
     else if(role==='flow1'||role==='flow2'){v='<span style="font-size:8pt;font-weight:700;color:#0a6;">○</span>';bg='#eafaea';}
     else{
