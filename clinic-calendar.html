@@ -332,6 +332,129 @@ select:focus { box-shadow: var(--shadow-in), 0 0 0 3px rgba(217,119,6,0.18); }
   background: #991b1b !important;
   box-shadow: var(--shadow-md);
 }
+
+/* ===== 管理員分頁 ===== */
+.admin-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 14px 22px 0;
+}
+.admin-tab {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  flex: 1;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--text-muted);
+  box-shadow: var(--shadow-in-sm);
+  transition: box-shadow 0.16s, color 0.16s, background 0.16s;
+}
+.admin-tab.active {
+  color: var(--primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+.admin-panel { display: none; }
+.admin-panel.active { display: block; }
+
+/* ===== 名單管理 ===== */
+.admin-modal.wide { max-width: 460px; }
+.staff-role-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 4px 0 14px;
+}
+.staff-role-tab {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  flex: 1;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--text-muted);
+  box-shadow: var(--shadow-in-sm);
+  transition: box-shadow 0.16s, color 0.16s;
+}
+.staff-role-tab.active { color: var(--primary-dark); box-shadow: var(--shadow-sm); }
+.staff-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 2px 4px 2px 0;
+}
+.staff-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.staff-input {
+  font-family: inherit;
+  font-size: 14px;
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: var(--radius-sm, 12px);
+  outline: none;
+  background: var(--bg);
+  box-shadow: var(--shadow-in-sm);
+  transition: box-shadow 0.15s;
+}
+.staff-input:focus { box-shadow: var(--shadow-in), 0 0 0 3px rgba(217,119,6,0.16); }
+.staff-input.en { flex: 0 0 116px; }
+.staff-del {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--rest);
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s, background 0.15s, color 0.15s;
+}
+.staff-del:hover { background: var(--rest); color: #fff; box-shadow: var(--shadow-md); }
+.staff-del:active { box-shadow: var(--shadow-in-sm); }
+.staff-add {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--primary-dark);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s;
+}
+.staff-add:hover { box-shadow: var(--shadow-md); }
+.staff-add:active { box-shadow: var(--shadow-in-sm); }
+.staff-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+#staffSave {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+#staffSave:hover { background: var(--primary-dark) !important; box-shadow: var(--shadow-md); }
 .summary-table tr[style*="background:#f0fdfa"] td {
   background: var(--surface-tinted) !important;
 }
@@ -1512,21 +1635,41 @@ body.is-assistant .rules-section { display: block; }
 
 <!-- Admin Modal -->
 <div class="admin-modal-backdrop" id="adminModalBackdrop">
-  <div class="admin-modal">
-    <div class="admin-modal-header">🔐 管理員 — 清除當月資料</div>
+  <div class="admin-modal wide">
+    <div class="admin-modal-header">🔐 管理員</div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" id="adminTabClear" type="button">清除當月資料</button>
+      <button class="admin-tab" id="adminTabStaff" type="button">名單管理</button>
+    </div>
     <div class="admin-modal-body">
       <label>密碼</label>
       <input class="admin-input" type="password" id="adminPwdInput" placeholder="請輸入密碼" autocomplete="off">
       <div class="admin-error" id="adminPwdError"></div>
-      <label>要清除哪一方？</label>
-      <select class="admin-role-select" id="adminRoleSelect">
-        <option value="doctor">醫師班表</option>
-        <option value="assistant">助理班表</option>
-      </select>
+
+      <!-- 清除當月資料 -->
+      <div class="admin-panel active" id="adminPanelClear">
+        <label>要清除哪一方？</label>
+        <select class="admin-role-select" id="adminRoleSelect">
+          <option value="doctor">醫師班表</option>
+          <option value="assistant">助理班表</option>
+        </select>
+      </div>
+
+      <!-- 名單管理（新增 / 修改 / 刪除）-->
+      <div class="admin-panel" id="adminPanelStaff">
+        <div class="staff-role-tabs">
+          <button class="staff-role-tab active" id="staffTabDoctor" type="button">醫師名單</button>
+          <button class="staff-role-tab" id="staffTabAssistant" type="button">助理名單</button>
+        </div>
+        <div class="staff-list" id="staffList"></div>
+        <button class="staff-add" id="staffAdd" type="button">＋ 新增一位</button>
+        <p class="staff-note">＊修改後請按「儲存名單」才會生效並同步給所有人。班表資料以名字為索引，改名不會自動搬移既有班表。</p>
+      </div>
     </div>
     <div class="admin-modal-footer">
       <button class="btn ghost" id="adminCancel">取消</button>
-      <button class="btn" style="background:#dc2626;color:white;border-color:#dc2626;" id="adminConfirm">清除當月資料</button>
+      <button class="btn" id="adminConfirm">清除當月資料</button>
+      <button class="btn" id="staffSave" style="display:none;">💾 儲存名單</button>
     </div>
   </div>
 </div>
@@ -1551,8 +1694,8 @@ const firebaseConfig = {
   appId: "1:1086980653117:web:8332b82d9d913a11ccaa54"
 };
 
-// 醫師名單
-const DOCTORS = [
+// 醫師名單（預設值；實際以 Firestore config/doctors 為準，可在「管理員 → 名單管理」修改）
+const DEFAULT_DOCTORS = [
   "顏嘉珍醫師",
   "洪秉琁醫師",
   "李渘崴醫師",
@@ -1567,9 +1710,10 @@ const DOCTORS = [
   "邱柏智醫師",
   "王韻婷醫師"
 ];
+let DOCTORS = DEFAULT_DOCTORS.slice();
 
-// 助理名單（英文 + 中文）
-const ASSISTANTS = [
+// 助理名單（英文 + 中文）（預設值；實際以 Firestore config/assistants 為準）
+const DEFAULT_ASSISTANTS = [
   { en: "Gigi", zh: "雷玉琦" },
   { en: "Chicken", zh: "陳韻倢" },
   { en: "Winnie", zh: "沈韻文" },
@@ -1585,6 +1729,7 @@ const ASSISTANTS = [
   { en: "Kevin", zh: "柯偉立" },
   { en: "Nora", zh: "馬寶妍" }
 ];
+let ASSISTANTS = DEFAULT_ASSISTANTS.map(a => ({ ...a }));
 
 // 通知 Webhook URL（Google Apps Script 部署網址）
 const NOTIFY_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbymcPZaSe0uaY8iMvvXfm1kQKTmG22URA2g41TGLctvUadDd-cayocWj9Gr0yoxHj43AQ/exec";
@@ -1646,6 +1791,7 @@ const SCHEDULE_COL_DOCTOR = collection(db, "schedule");
 const SCHEDULE_COL_ASSISTANT = collection(db, "schedule_assistant");
 const HISTORY_COL = collection(db, "history");
 const BXIN_COL = collection(db, "bxin_confirm");
+const CONFIG_COL = collection(db, "config");   // 名單設定（doctors / assistants）
 
 // ----- 狀態 -----
 let currentRole = "doctor";       // "doctor" | "assistant"
@@ -1714,8 +1860,12 @@ const adminPwdError = document.getElementById("adminPwdError");
 const adminRoleSelect = document.getElementById("adminRoleSelect");
 
 // 助理英文名查詢表（顯示名 → 英文）
-const ASST_EN_MAP = {};
-ASSISTANTS.forEach(a => { ASST_EN_MAP[assistantDisplayName(a)] = a.en; });
+let ASST_EN_MAP = {};
+function rebuildAsstMap() {
+  ASST_EN_MAP = {};
+  ASSISTANTS.forEach(a => { ASST_EN_MAP[assistantDisplayName(a)] = a.en; });
+}
+rebuildAsstMap();
 function asstShortName(displayName) {
   return ASST_EN_MAP[displayName] || displayName.split(" ")[0];
 }
@@ -2017,12 +2167,13 @@ btnExportAssistantLeave.addEventListener("click", () => {
 });
 
 // ----- 管理員 Modal -----
-const ADMIN_PASSWORD = "1234";
+const ADMIN_PASSWORD = "Ha85210125";
 
 btnAdmin.addEventListener("click", () => {
   adminPwdInput.value = "";
   adminPwdError.textContent = "";
   adminRoleSelect.value = currentRole === "assistant" ? "assistant" : "doctor";
+  openAdminTab("clear");   // 每次開啟預設停在「清除當月資料」分頁
   adminModalBackdrop.classList.add("show");
   setTimeout(() => adminPwdInput.focus(), 100);
 });
@@ -2766,10 +2917,217 @@ function showToast(msg) {
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
 }
 
+// ====================================================
+// 名單管理（醫師 / 助理）— 儲存於 Firestore config collection
+// ====================================================
+const adminTabClear = document.getElementById("adminTabClear");
+const adminTabStaff = document.getElementById("adminTabStaff");
+const adminPanelClear = document.getElementById("adminPanelClear");
+const adminPanelStaff = document.getElementById("adminPanelStaff");
+const adminConfirmBtn = document.getElementById("adminConfirm");
+const staffSaveBtn = document.getElementById("staffSave");
+const staffTabDoctor = document.getElementById("staffTabDoctor");
+const staffTabAssistant = document.getElementById("staffTabAssistant");
+const staffListEl = document.getElementById("staffList");
+const staffAddBtn = document.getElementById("staffAdd");
+
+let staffEditRole = "doctor";   // 名單管理目前編輯的角色
+let staffDoctorDraft = [];      // 醫師草稿（字串陣列）
+let staffAsstDraft = [];        // 助理草稿（{en, zh} 陣列）
+
+function escapeAttr(s) {
+  return String(s)
+    .replace(/&/g, "&amp;").replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// ----- config 即時同步（名單以雲端為準）-----
+function startConfigSync() {
+  onSnapshot(doc(CONFIG_COL, "doctors"), snap => {
+    if (!snap.exists()) {
+      // 首次使用：用程式內預設值初始化雲端名單
+      setDoc(doc(CONFIG_COL, "doctors"), { list: DEFAULT_DOCTORS, ts: serverTimestamp() })
+        .catch(err => console.warn("初始化醫師名單失敗", err));
+      return;
+    }
+    const list = snap.data().list;
+    if (Array.isArray(list) && list.length) {
+      DOCTORS = list.map(n => String(n));
+      onStaffListChanged("doctor");
+    }
+  }, err => console.warn("醫師名單同步錯誤", err));
+
+  onSnapshot(doc(CONFIG_COL, "assistants"), snap => {
+    if (!snap.exists()) {
+      setDoc(doc(CONFIG_COL, "assistants"), { list: DEFAULT_ASSISTANTS, ts: serverTimestamp() })
+        .catch(err => console.warn("初始化助理名單失敗", err));
+      return;
+    }
+    const list = snap.data().list;
+    if (Array.isArray(list) && list.length) {
+      ASSISTANTS = list.map(a => ({ en: String(a.en || ""), zh: String(a.zh || "") }));
+      rebuildAsstMap();
+      onStaffListChanged("assistant");
+    }
+  }, err => console.warn("助理名單同步錯誤", err));
+}
+
+// 名單更新後刷新相關 UI
+function onStaffListChanged(role) {
+  if (role === currentRole) {
+    refreshPersonSelect();
+    renderCalendar();
+    if (Object.keys(scheduleData).length > 0) renderSummary();
+  }
+}
+
+// 保留目前選擇，重新填充下拉選單
+function refreshPersonSelect() {
+  populateSelect(currentRole);
+  if (currentPerson) {
+    const exists = Array.from(personSelect.options).some(o => o.value === currentPerson);
+    if (exists) {
+      personSelect.value = currentPerson;
+    } else {
+      // 目前選擇的人已被刪除 → 回到「請選擇」狀態
+      currentPerson = "";
+      overlay.style.display = "flex";
+    }
+  }
+}
+
+// ----- 分頁切換（清除資料 / 名單管理）-----
+function openAdminTab(tab) {
+  const isStaff = tab === "staff";
+  adminTabClear.classList.toggle("active", !isStaff);
+  adminTabStaff.classList.toggle("active", isStaff);
+  adminPanelClear.classList.toggle("active", !isStaff);
+  adminPanelStaff.classList.toggle("active", isStaff);
+  adminConfirmBtn.style.display = isStaff ? "none" : "";
+  staffSaveBtn.style.display = isStaff ? "" : "none";
+  if (isStaff) loadStaffDrafts();
+}
+adminTabClear.addEventListener("click", () => openAdminTab("clear"));
+adminTabStaff.addEventListener("click", () => openAdminTab("staff"));
+
+// ----- 載入草稿（從目前雲端名單複製一份）-----
+function loadStaffDrafts() {
+  staffDoctorDraft = DOCTORS.map(n => n);
+  staffAsstDraft = ASSISTANTS.map(a => ({ en: a.en, zh: a.zh }));
+  renderStaffList();
+}
+
+function setStaffRole(role) {
+  staffEditRole = role;
+  staffTabDoctor.classList.toggle("active", role === "doctor");
+  staffTabAssistant.classList.toggle("active", role === "assistant");
+  renderStaffList();
+}
+staffTabDoctor.addEventListener("click", () => setStaffRole("doctor"));
+staffTabAssistant.addEventListener("click", () => setStaffRole("assistant"));
+
+function renderStaffList() {
+  let html = "";
+  if (staffEditRole === "doctor") {
+    staffDoctorDraft.forEach((name, i) => {
+      html += `<div class="staff-row">
+        <input class="staff-input" data-field="name" data-index="${i}" type="text" value="${escapeAttr(name)}" placeholder="醫師全名">
+        <button class="staff-del" data-del="${i}" type="button" title="刪除">✕</button>
+      </div>`;
+    });
+  } else {
+    staffAsstDraft.forEach((a, i) => {
+      html += `<div class="staff-row">
+        <input class="staff-input en" data-field="en" data-index="${i}" type="text" value="${escapeAttr(a.en)}" placeholder="英文名">
+        <input class="staff-input" data-field="zh" data-index="${i}" type="text" value="${escapeAttr(a.zh)}" placeholder="中文名">
+        <button class="staff-del" data-del="${i}" type="button" title="刪除">✕</button>
+      </div>`;
+    });
+  }
+  staffListEl.innerHTML = html;
+}
+
+// 事件委派：輸入時更新草稿（避免 innerHTML 內嵌 onclick）
+staffListEl.addEventListener("input", e => {
+  const inp = e.target.closest("[data-field]");
+  if (!inp) return;
+  const i = Number(inp.dataset.index);
+  const field = inp.dataset.field;
+  if (staffEditRole === "doctor") {
+    if (field === "name") staffDoctorDraft[i] = inp.value;
+  } else if (staffAsstDraft[i]) {
+    staffAsstDraft[i][field] = inp.value;
+  }
+});
+
+// 事件委派：刪除一列
+staffListEl.addEventListener("click", e => {
+  const del = e.target.closest("[data-del]");
+  if (!del) return;
+  const i = Number(del.dataset.del);
+  if (staffEditRole === "doctor") staffDoctorDraft.splice(i, 1);
+  else staffAsstDraft.splice(i, 1);
+  renderStaffList();
+});
+
+// 新增一列
+staffAddBtn.addEventListener("click", () => {
+  if (staffEditRole === "doctor") staffDoctorDraft.push("");
+  else staffAsstDraft.push({ en: "", zh: "" });
+  renderStaffList();
+  const rows = staffListEl.querySelectorAll(".staff-row");
+  rows[rows.length - 1]?.querySelector(".staff-input")?.focus();
+});
+
+// 儲存名單（需通過管理員密碼）
+staffSaveBtn.addEventListener("click", async () => {
+  if (adminPwdInput.value !== ADMIN_PASSWORD) {
+    adminPwdError.textContent = "密碼錯誤，請再試一次";
+    adminPwdInput.focus();
+    return;
+  }
+  adminPwdError.textContent = "";
+
+  let docId, list, label;
+  if (staffEditRole === "doctor") {
+    list = staffDoctorDraft.map(n => n.trim()).filter(Boolean);
+    if (!list.length) { showToast("醫師名單不可全空"); return; }
+    if (new Set(list).size !== list.length) { showToast("醫師名單有重複，請修正"); return; }
+    docId = "doctors"; label = "醫師";
+  } else {
+    list = staffAsstDraft
+      .map(a => ({ en: a.en.trim(), zh: a.zh.trim() }))
+      .filter(a => a.en || a.zh);
+    if (!list.length) { showToast("助理名單不可全空"); return; }
+    const displays = list.map(a => `${a.en} ${a.zh}`);
+    if (new Set(displays).size !== displays.length) { showToast("助理名單有重複，請修正"); return; }
+    docId = "assistants"; label = "助理";
+  }
+
+  staffSaveBtn.disabled = true;
+  showToast("儲存中，請稍候…");
+  try {
+    await setDoc(doc(CONFIG_COL, docId), { list, ts: serverTimestamp() });
+    await addDoc(HISTORY_COL, {
+      date: fmtDate(new Date()),
+      role: staffEditRole,
+      action: `更新${label}名單（共 ${list.length} 位）`,
+      ts: serverTimestamp()
+    });
+    showToast(`✅ ${label}名單已更新並同步`);
+  } catch (err) {
+    console.error(err);
+    showToast("儲存失敗：" + err.message);
+  } finally {
+    staffSaveBtn.disabled = false;
+  }
+});
+
 // 初始化
 populateSelect("doctor");
 renderCalendar();   // 立刻顯示日曆框架
 startSync();        // Firebase 連線後更新資料
+startConfigSync();  // 訂閱名單設定（醫師 / 助理）
 </script>
 
 </body>
