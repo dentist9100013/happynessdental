@@ -2134,12 +2134,15 @@ body::before {
           <div style="font-size:40px">📋</div>
           <div style="flex:1;min-width:240px">
             <div style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--ink)">
-              本週開會前摘要 · <span id="meetingDateDisplay">2026/05/25（一）</span>
+              本週開會前摘要 · <span id="meetingDateDisplay">2026/06/08（一）</span>
             </div>
             <div style="font-size:13px;color:var(--ink-soft);margin-top:4px;font-family:var(--font-display)">
-              以助理為中心整理 · 涵蓋 04/01 – 05/31（最近兩個月彙整）
+              以助理為中心整理 · 涵蓋 <span id="meetingRangeText">2026/04/01 – 2026/06/06</span>（最近兩個月彙整）
               <div style="margin-top:2px;font-size:12px;color:var(--ink-soft)">
-                資料來源：2026-04_摘要.md、2026-05_摘要.md + 每日歸檔（05/03–05/31）· 缺 05/10、05/11、05/30
+                資料來源：<span id="meetingSourcesText">2026-04_摘要.md、2026-05_摘要.md、2026-06_摘要.md + 每日歸檔（05/17–06/06）</span>
+              </div>
+              <div id="meetingQualityNote" style="margin-top:6px;font-size:12px;color:#9a6a00;background:#fff8df;border:1px solid #f1d48c;border-radius:10px;padding:6px 10px">
+                ⚠️ 資料完整度：05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案。
               </div>
             </div>
           </div>
@@ -2185,34 +2188,42 @@ body::before {
           <label class="checkpoint" data-key="red2">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              DR 男黃晚間：<b>20:30 不接現場、20:15 只約定檢、20:45 禁約任何</b>
-              <span class="checkpoint-sub">4/17 起落實；違反將追蹤負責櫃檯</span>
+              顏醫師臨時加診 / 特約時段：<b>先不接現場</b>，除非是看過多次或特殊指定的病人
+              <span class="checkpoint-sub">若要例外處理，先告知主管或主責櫃檯，不要現場自行判斷</span>
             </span>
           </label>
           <label class="checkpoint" data-key="red3">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              正式假牙試戴、黏著 <b>必須醫師本人處理</b>，助理不得代為操作
+              送技工所的 Try / 正式假牙案件，<b>至少保留 5–7 個工作天</b>，或直接約 2 週
+              <span class="checkpoint-sub">避免模型未回件又臨時改約</span>
             </span>
           </label>
           <div class="meeting-section-title" style="margin-top:14px">行政紅線</div>
           <label class="checkpoint" data-key="red4">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              健保代碼：週六門診 <b>92094C</b>、週日/國定假日 <b>92133C</b>
-              <span class="checkpoint-sub">115.04.01 起生效，key 錯會被核刪</span>
+              6 月起劃休 <b>不得超劃</b>；若要用特休，須先與診所協商，不是事後自動補
+              <span class="checkpoint-sub">屬會記點 / 警告風險項</span>
+            </span>
+          </label>
+          <label class="checkpoint" data-key="red7">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              特殊狀況 <b>每月 1 次可不扣款</b>，但一定要先打來診所；次數過多仍會扣款
+              <span class="checkpoint-sub">因診所仍需改病人與安撫，不是無條件豁免</span>
             </span>
           </label>
           <label class="checkpoint" data-key="red5">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              帳務分工：牙科收據 → <b>Hadassa</b>；日常雜費 → <b>櫃檯</b>，不要混
+              錢的事情 <b>當下處理、能結清就結清</b>；現金不要放在櫃檯暴露未交接
             </span>
           </label>
           <label class="checkpoint" data-key="red6">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              相機必須自備 SD 卡，<b>不要共用</b>，避免照片混淆
+              P3601 相關病人須先完成 <b>讀雲端 / key 入病歷 / 貼貼紙</b>，再往下申報
             </span>
           </label>
         </div>
@@ -2230,36 +2241,37 @@ body::before {
           <label class="checkpoint" data-key="front1">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              熟讀 <b>4/10 版約診指南</b>；不確定就看指南，不要憑印象
+              顏醫師討論 / 評估病人，一律先打開 <b>案例整理 PPT</b> 再進場協助
             </span>
           </label>
           <label class="checkpoint" data-key="front2">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              顏醫師加診日：<b>4/20、4/24、5/4、5/6</b> — 優先填滿這幾天
+              醫師有空檔時，<b>打過電話補病人也要留備註</b>（日期 / 助理代號 / 病患回覆）
             </span>
           </label>
           <label class="checkpoint" data-key="front3">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              男黃醫師 6 月起：<b>週二 → 週五下午</b>；8 月週二改 <b>18:00–20:30</b>
-              <span class="checkpoint-sub">舊病人改約時要先提醒時段變動</span>
+              高自費 / 五類療程 / 特別指定顏醫師病患，<b>優先用口袋名單與特約時段</b>安排
+              <span class="checkpoint-sub">特約未滿再打開，不要反過來操作</span>
             </span>
           </label>
           <label class="checkpoint" data-key="front4">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              現場等候病患 <b>不給確切等候時間</b>，統一話術：「會盡快為您安排」
+              不指定、GP 或新病患先看 <b>王 / 陳 / 邱醫師</b> 空檔時段安排，並留下聯繫備註
+              <span class="checkpoint-sub">活動假牙可優先安排邱醫師；指定療程再與醫師確認</span>
             </span>
           </label>
           <label class="checkpoint" data-key="front5">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              蕭醫師 4/25(六) 改 <b>15:00 看診</b>；6/13 移至 <b>6/12(五)下午</b>
+              加班黃本要找 <b>當診加班醫師簽名</b>；病患領藥不要再引導到杏原藥局
             </span>
           </label>
           <div class="warn-callout" style="margin-top:10px">
-            <b>💡 提醒：</b>約診新規變動頻繁，建議每天開機先看一次公告。
+            <b>💡 提醒：</b>約診規則、特約時段與空檔補位幾乎每週都會調整，建議開機先看公告再接電話。
           </div>
         </div>
 
@@ -2276,39 +2288,45 @@ body::before {
           <label class="checkpoint" data-key="chair1">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              1 樓 suction 氣水分離已啟用（3/31）；<b>倒水前確認閥門位置</b>
+              水雷射眼鏡 <b>勿用酒精擦拭</b>；現階段以清水 + 拭鏡布清潔
             </span>
           </label>
           <label class="checkpoint" data-key="chair2">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              1-3 診 Three Way 水線已更新；<b>舊椅水線也更換完畢</b>
+              醫師個人購買的器械 / 物品要貼 <b>姓名貼</b>，且僅供本人使用
             </span>
           </label>
           <label class="checkpoint" data-key="chair3">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              根尖片照射頭已於 <b>4/13 修復</b>，使用前先確認穩定性
+              六、七診檯面與顏一 / 顏二用完的器械，<b>當天要歸位</b>，不要累積到下一班
+            </span>
+          </label>
+          <label class="checkpoint" data-key="chair7">
+            <input type="checkbox" onchange="toggleCheckpoint(this)">
+            <span class="checkpoint-label">
+              麻藥缺貨過渡期：<b>Articaine 不上二樓、4 歲以下禁用</b>，需 block 的 case 先與醫師確認替代方案
             </span>
           </label>
           <label class="checkpoint" data-key="chair4">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              臉掃機流程圖已張貼於 2 樓，<b>照流程走</b>，不要跳步驟
+              病患反應臉上容易積水時，<b>主動補洞巾</b>，降低看診體驗落差
             </span>
           </label>
           <div class="meeting-section-title" style="margin-top:14px">跟診品質</div>
           <label class="checkpoint" data-key="chair5">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              敏感病人 / VIP 分配：<b>優先派給資深助理</b>
-              <span class="checkpoint-sub">3/26 幹部會議決議</span>
+              吸口水與器械操作要更溫柔，<b>避免粗魯感</b> 成為病患抱怨來源
+              <span class="checkpoint-sub">屬近期會議反映出的體驗痛點</span>
             </span>
           </label>
           <label class="checkpoint" data-key="chair6">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              居家美白庫存放 <b>2 樓冰箱</b>，使用後立即補登
+              廢牙冠回收只認 <b>LINE 通知</b>；沒收到通知，不要直接交付外部人員
             </span>
           </label>
         </div>
@@ -2325,20 +2343,19 @@ body::before {
           <label class="checkpoint" data-key="pay1">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              植牙保固更新：Astra® <b>3+1 年</b>、Hiossen® <b>2+1 年</b>
-              <span class="checkpoint-sub">全診所均需協助病人簽署</span>
+              收據可先用 <b>LINE 會計機器人</b>拍照協助算印花稅，但 <b>紙本仍需留存</b>
             </span>
           </label>
           <label class="checkpoint" data-key="pay2">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              自費項目 4/18 已部分調整，收費前 <b>再確認最新價目表</b>
+              P3601 病人收件時，櫃檯先完成 <b>讀雲端 / 列印 / 貼紙 / key 入病歷</b> 再交醫師
             </span>
           </label>
           <label class="checkpoint" data-key="pay3">
             <input type="checkbox" onchange="toggleCheckpoint(this)">
             <span class="checkpoint-label">
-              帳務收據分工（紅燈已列），<b>跨線要口頭交接</b>
+              費用、退掛與等待過久的狀況要 <b>當下講清楚</b>，避免事後一個謊圓一個謊
             </span>
           </label>
         </div>
@@ -2352,12 +2369,12 @@ body::before {
               <div class="meeting-date">先給肯定，再談改進</div>
             </div>
           </div>
-          <div class="meeting-point"><b>Mina</b> — 櫃檯儲備管理定位穩定，預計 6 月轉正職</div>
-          <div class="meeting-point"><b>Hadassa</b> — 牙科收據帳務分工上線後執行到位</div>
-          <div class="meeting-point"><b>控場助理團隊</b> — 控場加給制度即將上路，謝謝你們扛住流量</div>
-          <div class="meeting-point">感謝全體配合 <b>約診指南 4/10 改版</b>，陣痛期辛苦了</div>
+          <div class="meeting-point"><b>排班 / 系統整理同仁</b> — 6 月班表、JPG 輸出與文字事件註記逐步收斂到同一套工具</div>
+          <div class="meeting-point"><b>主動補位的櫃檯與跟診同仁</b> — 願意補病人、補資料、補現場說明，直接降低客訴風險</div>
+          <div class="meeting-point"><b>協助考核 / 制度整理的教學幹部</b> — 把考核公式與門檻先講清楚，讓 6 月後續推行更穩</div>
+          <div class="meeting-point">感謝全體配合 <b>線上劃休、耗材登記與會計照片化</b> 的過渡期調整</div>
           <div class="warn-callout" style="background:var(--mint-light);border-left-color:var(--mint-dark)">
-            <b>💬 主管的話：</b>顏醫師每月會安排與助理吃飯交流，主題是「生活期望與診所建議」— 有想法別憋著，直接說。
+            <b>💬 管理提醒：</b>近期多次提到「把事情講清楚、優先處理高風險問題」；有疑問先提，不要各自腦補流程。
           </div>
         </div>
 
@@ -2371,10 +2388,10 @@ body::before {
             </div>
           </div>
           <div class="meeting-section-title">常見待釐清</div>
-          <div class="meeting-point">控場加給 <b>細則</b>：什麼情況算「控場」？金額 & 發放週期？</div>
-          <div class="meeting-point">櫃檯／跟診 <b>職責邊界</b>：當櫃檯忙不過來，跟診要支援到什麼程度？</div>
-          <div class="meeting-point">新人上手 <b>里程碑</b>：第 1/2/3 個月應該會什麼？評核標準？</div>
-          <div class="meeting-point">約診規則 <b>變動頻率</b>：能否固定改版日（例如每月 1 號），避免臨時更新？</div>
+          <div class="meeting-point">考核制度 <b>正式參與門檻</b>：旁聽、準備、正式計分三個階段怎麼切？</div>
+          <div class="meeting-point">櫃檯／跟診 <b>補病人責任邊界</b>：誰負責打電話、誰負責備註、誰負責回報醫師？</div>
+          <div class="meeting-point">線上工具 <b>更新責任</b>：班表、會議事件、耗材、支出照片，更新完誰最後確認？</div>
+          <div class="meeting-point">病患體驗 <b>優先改善點</b>：等待、洞巾、吸口水、話術，哪幾項本月先列硬指標？</div>
           <div class="suggest-box">
             <div style="font-family:var(--font-display);font-weight:800;font-size:13px;margin-bottom:6px">
               📝 我的建議 / 想問的事（會後可交給幹部）
@@ -2384,7 +2401,7 @@ body::before {
             <span class="suggest-tag">設備問題</span>
             <span class="suggest-tag">人力升遷</span>
             <span class="suggest-tag">其他</span>
-            <textarea id="meetingSuggestBox" placeholder="例：顏醫師 30 分評估規則，如果病人主動要求延長是否可彈性處理？"></textarea>
+            <textarea id="meetingSuggestBox" placeholder="例：新醫師空檔與 GP 分流規則，櫃檯還需要哪種提示才不會漏排？"></textarea>
             <div style="margin-top:8px;text-align:right">
               <button class="btn btn-mint" onclick="saveSuggestion()" style="font-size:12px">💾 暫存</button>
             </div>
@@ -2397,21 +2414,21 @@ body::before {
             <div class="meeting-icon-circle" style="background:var(--mint)">📊</div>
             <div class="meeting-info">
               <div class="meeting-name">本期重點數字</div>
-              <div class="meeting-date">03/25 – 05/23 LINE 社群彙整</div>
+              <div class="meeting-date">2026/04/01 – 2026/06/06 LINE 社群彙整</div>
             </div>
           </div>
           <div class="kpi-grid">
-            <div class="kpi-block"><div class="kpi-num">362</div><div class="kpi-label">總訊息數</div></div>
-            <div class="kpi-block"><div class="kpi-num">69</div><div class="kpi-label">約診規則</div></div>
-            <div class="kpi-block"><div class="kpi-num">47</div><div class="kpi-label">SOP 更新</div></div>
-            <div class="kpi-block"><div class="kpi-num">30</div><div class="kpi-label">醫師排班</div></div>
-            <div class="kpi-block"><div class="kpi-num">29</div><div class="kpi-label">收費相關</div></div>
-            <div class="kpi-block"><div class="kpi-num">23</div><div class="kpi-label">植牙議題</div></div>
+            <div class="kpi-block"><div class="kpi-num">698</div><div class="kpi-label">總訊息數</div></div>
+            <div class="kpi-block"><div class="kpi-num">247</div><div class="kpi-label">排班 / 加診</div></div>
+            <div class="kpi-block"><div class="kpi-num">43</div><div class="kpi-label">規範 / 流程</div></div>
+            <div class="kpi-block"><div class="kpi-num">32</div><div class="kpi-label">器械 / 耗材</div></div>
+            <div class="kpi-block"><div class="kpi-num">27</div><div class="kpi-label">IT / 系統</div></div>
+            <div class="kpi-block"><div class="kpi-num">19</div><div class="kpi-label">教育訓練</div></div>
             <div class="kpi-block" style="background:var(--peach-light);border-color:var(--peach-dark)">
-              <div class="kpi-num" style="color:var(--peach-dark)">14</div><div class="kpi-label">紅燈提醒</div>
+              <div class="kpi-num" style="color:var(--peach-dark)">10</div><div class="kpi-label">空間 / 設施</div>
             </div>
             <div class="kpi-block" style="background:var(--mint-light);border-color:var(--mint)">
-              <div class="kpi-num" style="color:var(--mint-dark)">9</div><div class="kpi-label">設備維修</div>
+              <div class="kpi-num" style="color:var(--mint-dark)">11</div><div class="kpi-label">完整度提醒</div>
             </div>
           </div>
           <div style="font-size:12px;color:var(--ink-mute);margin-top:10px;font-family:var(--font-display)">
@@ -3680,7 +3697,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260601';"
+      "const DATA_VERSION = '20260607112821';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3739,7 +3756,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260601';"
+      "const DATA_VERSION = '20260607112821';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3812,7 +3829,7 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260601';
+const DATA_VERSION = '20260607112821';
 
 // ─── LINE 週報摘要資料（每週更新）───
 // 僅使用資料來源：
@@ -3820,102 +3837,185 @@ const DATA_VERSION = '20260601';
 // - 09_LINE訊息摘要系統/每日歸檔/*.md
 // - 本檔案內既有 announcements / archivedAnnouncements
 const LINE_WEEKLY_SUMMARY_DATA = {
-  updatedAt: '2026-06-01',
+  updatedAt: '2026-06-07',
   weekly: {
-    range: { start: '2026/05/11', end: '2026/05/31' },
-    rangeText: '2026/05/11 – 2026/05/31',
-    qualityNote: '資料完整度：05/12 檔案仍標示「需人工檢查」；缺少 05/11、05/30 每日歸檔（另 05/10 亦缺檔）；其餘日期可用。建議：遇到爭議或需追溯原句時，回到原始 LINE/每日歸檔交叉確認。',
+    range: { start: '2026/05/17', end: '2026/06/06' },
+    rangeText: '2026/05/17 – 2026/06/06',
+    qualityNote: '資料完整度：05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案，判讀時請以有訊息版每日歸檔為主。',
     weeks: [
       {
-        id: 'w2026-05-25_05-31',
-        title: '2026/05/25–05/31（近一週）',
+        id: 'w2026-05-31_06-06',
+        title: '2026/05/31–06/06（近一週）',
+        dateRange: '2026/05/31 – 2026/06/06',
+        roles: ['櫃檯助理', '儲備管理 / 幹部', '管理部'],
         sources: [
+          '每日歸檔_2026-05-31.md',
+          '每日歸檔_2026-06-01.md',
+          '每日歸檔_2026-06-02.md',
+          '每日歸檔_2026-06-03.md',
+          '每日歸檔_2026-06-04.md',
+          '每日歸檔_2026-06-05.md',
+          '每日歸檔_2026-06-06.md'
+        ],
+        completeness: { status: 'partial', note: '05/31–06/06 七天皆有實際歸檔可用；但 06/03–06/05 同日期仍保留較早排程產生的「無訊息」檔，查核時請以有訊息版為主。' },
+        highlights: [
+          '排班 / 收案：6/5 顏醫師午診加一位病人；6/6 再新增 7/3（五）顏醫師早診。另同步公告 6/9–6/13 王醫師、邱醫師、陳醫師的明確空檔與新醫師收案方向。',
+          '教育訓練 / 行政：6/3 特殊狀況改為每月 1 次可不扣款但須事先來電；6/4、6/5 的考核討論聚焦題目公式、正式滿 3 個月才正式參與，以及儲備管理先理解制度的定位。',
+          '病患溝通 / 材料 / 系統：管理部再次強調小事講實話、費用當次結清、現金不露白；另因 3M 麻藥缺貨，診間需暫時改用 Articaine / lidocaine。6/6 也補充櫃檯電腦若當機或變慢，需回報是哪台機器、開了哪些程式。'
+        ],
+        actions: [
+          '櫃檯：同步 6/9–6/13 新醫師空檔、6/5 午診加病人與 7/3 顏醫師早診資訊；不指定、GP 或新病患優先安排給目前空檔較多的新醫師，且每次聯繫都要留下備註。',
+          '教學 / 管理：把考核公式、正式參與門檻、儲備管理旁聽原則，以及「特殊狀況每月 1 次需事先來電」整理成固定說明，並提醒加班黃本需找當診加班醫師簽名。',
+          '跟診 / 櫃檯：麻藥缺貨過渡期請遵守 Articaine 使用限制與存放分流；若櫃檯電腦當機或過慢，記錄機台與操作情境後直接聯繫弱電處理。'
+        ],
+        background: [
+          '6 月初訊息量不高，但 6/3–6/5 實際補回後，內容集中在新醫師收案、考核制度、材料替代與行政流程，若不整併很容易被拆成各自理解。',
+          '目前真正待人工回查的是 05/30 缺檔；06/03–06/05 雖仍留有舊的無訊息檔，但已被實際歸檔補正，管理版摘要需標示清楚以避免誤判。'
+        ]
+      },
+      {
+        id: 'w2026-05-24_05-30',
+        title: '2026/05/24–05/30（近二週前）',
+        dateRange: '2026/05/24 – 2026/05/30',
+        roles: ['櫃檯助理', '排班 / 行政', '跟診助理'],
+        sources: [
+          '每日歸檔_2026-05-24_無訊息.md',
           '每日歸檔_2026-05-25.md',
           '每日歸檔_2026-05-26.md',
           '每日歸檔_2026-05-27.md',
           '每日歸檔_2026-05-28.md',
-          '每日歸檔_2026-05-29.md',
-          '每日歸檔_2026-05-31.md'
+          '每日歸檔_2026-05-29.md'
         ],
-        completeness: { status: 'partial', note: '本週缺少 05/30 每日歸檔；其餘 6 天可用（05/31 僅 1 則規章公告）。' },
+        completeness: { status: 'partial', note: '05/24–05/29 皆有歸檔；05/24 標示「無訊息」，05/30 每日歸檔缺漏，需人工回查。' },
         highlights: [
-          '櫃檯/排班：6 月班表與加診/手術、空檔提醒持續更新；另新增「列印月班表 JPG」與文字事件註記等功能改善。',
-          '規範/流程：技工所製作時間需預留（5–7 個工作天或直接約 2 週）；並補充助理規章（行政診、非正常時段跟診、特殊支援）可在診所知情下彈性調整上班時間。',
-          '行政/營運：冷氣維修清洗、耗材到貨、病人回饋與內部管理重點（做事優先級/管理者特質）彙整，便於會前快速對齊。'
+          '約診 / 技工所：送立唯 case 需至少保留 5–7 個工作天或直接約 2 週，避免模回不來後連續改約。',
+          '特約 / 口袋名單：顏醫師新增週二早上特約、週三 16:30 特殊安排；高自費與五類療程病患優先用口袋名單補入。',
+          '院內網站 / 會議：5/28 會議把助理劃休、醫師耗材與會計支出逐步改成線上；同週也彙整病患等待感受、操作溫柔度與洞巾使用等體驗問題。'
         ],
         actions: [
-          '櫃檯：落實技工所製作時間規則，降低改約；同步更新口袋名單/優先約診規則（以管理版公告為準）。',
-          '排班：用月班表輸出（JPG）與文字事件註記（開會/座談等）輔助溝通；核對近期加診/手術與空檔，確保行事曆一致。',
-          '行政：依「行政診/特殊支援」新規章，整理可執行的班表註記方式與彈性調整原則，避免口頭資訊落差。'
+          '櫃檯：把技工所製作時間直接反映在約診規則中；特約時段未滿時優先聯繫口袋名單與指定療程病患。',
+          '排班 / 行政：補 key 1–3 月班表、更新 6 月班表與文字事件註記，讓考核與會議資料都回到同一套系統。',
+          '跟診 / 現場：改善吸口水力道、必要時補洞巾、縮短病患只覺得「都在等」的情境。'
         ],
         background: [
-          '班表、流程與工具更新密集，若未集中到單一真實來源，容易誤約或反覆改約；因此強調用公告/行事曆與可輸出格式快速對齊。',
-          '近期同時推動流程標準化與彈性規章，目的在兼顧現場支援與團隊公平感。'
+          '這週的核心不是再加新規則，而是把約診、排班、支出與會議資訊收回同一個線上入口，降低口頭轉述誤差。',
+          '管理部也開始明講哪些事情要做到 90 分、哪些日常可先做到 70–80 分，方便團隊對齊優先順序。'
         ]
       },
       {
-        id: 'w2026-05-18_05-24',
-        title: '2026/05/18–05/24（近二週前）',
+        id: 'w2026-05-17_05-23',
+        title: '2026/05/17–05/23（近三週前）',
+        dateRange: '2026/05/17 – 2026/05/23',
+        roles: ['櫃檯助理', '跟診助理', '醫師協作 / 管理部'],
         sources: [
+          '每日歸檔_2026-05-17.md',
           '每日歸檔_2026-05-18.md',
           '每日歸檔_2026-05-19.md',
           '每日歸檔_2026-05-20.md',
           '每日歸檔_2026-05-21.md',
           '每日歸檔_2026-05-22.md',
-          '每日歸檔_2026-05-23.md',
-          '每日歸檔_2026-05-24_無訊息.md'
+          '每日歸檔_2026-05-23.md'
         ],
-        completeness: { status: 'good', note: '每日歸檔 7/7 皆存在；其中 05/24 標示「無訊息」（來源資料夾不存在，屬正常）。' },
+        completeness: { status: 'good', note: '每日歸檔 7/7 皆存在；內容可與 2026-05_摘要.md 交叉對照。' },
         highlights: [
-          '櫃檯/現場：顏醫師評估/討論病人需先開啟案例整理（PPT）；同週持續提醒各醫師空檔協助補病人、更新/再次提供 5–6 月班表。',
-          '規範/安全：廢牙冠回收桶與詐騙防範（僅接受 LINE 通知、無通知一律不交付）明確化；清潔巡查與清潔劑味道調整需追蹤。',
-          '資訊/溝通：SDF 溝通用語建議（保留不確定性語氣），降低對外說明爭議。'
+          '會前固定動作：顏醫師討論 / 評估病人需先打開案例整理 PPT，避免醫師與櫃檯臨場才找資料。',
+          '排班規則細化：正常配置以 1 位醫師對 1 位助理為主；多助理需求與輪休方式必須在班表上正確標註。',
+          '規範收斂：6 月起劃休不得超劃、特休需先協商；同週也重申水雷射眼鏡清潔與醫師個人物品標示規則。'
         ],
         actions: [
-          '櫃檯：把「顏醫師案例 PPT」列入固定前置動作（開啟/列印/貼標），避免現場資訊不足。',
-          '行政：清潔巡查責任與對外窗口持續確認；廢牙冠回收流程與詐騙防範提醒放入可查 SOP。',
-          '醫師/助理：對外溝通（如 SDF 說明）保留「可能/或許」等措辭，並在需要時回看原始公告。'
+          '櫃檯 / 跟診：把案例 PPT、VIP 關心、補病人聯繫紀錄與備註欄位視為固定前置流程。',
+          '排班：班表上清楚標註 1 / 1.5 / 2 位助理配置與輪休方式，避免現場誤認工作內容。',
+          '管理 / 教學：把劃休規則、眼鏡清潔、個人物品標示整理成短版 SOP，供開會與新人交接共用。'
         ],
         background: [
-          '近期同時在收斂「會前必讀資訊」與「現場安全流程」：把關鍵規範寫成可查 SOP，降低靠口頭傳遞造成的落差。'
-        ]
-      },
-      {
-        id: 'w2026-05-11_05-17',
-        title: '2026/05/11–05/17（近三週前）',
-        sources: [
-          '每日歸檔_2026-05-12_需人工檢查.md',
-          '每日歸檔_2026-05-13.md',
-          '每日歸檔_2026-05-14.md',
-          '每日歸檔_2026-05-15.md',
-          '每日歸檔_2026-05-16.md',
-          '每日歸檔_2026-05-17.md'
-        ],
-        completeness: { status: 'partial', note: '缺少 05/11 每日歸檔（另 05/10 亦缺檔）；05/12 檔案標示「需人工檢查」；05/13–05/17 可用。' },
-        highlights: [
-          '資訊維運：歸檔系統完成修復（授權資料夾、DB 重建、補跑缺漏日、月度 JSONL/摘要重新生成），並提出避免雲端同步造成 SQLite 損毀的建議。',
-          '櫃檯/作業：病人收據可先用 LINE 上傳留存以協助計算印花稅（紙本仍需留存）；同週亦有名牌佩戴與術前注意事項更新提醒。',
-          '器械/排班：水雷射護目鏡保養與檢測限制、器械歸位提醒；並包含班表修正/劃休測試等事項。'
-        ],
-        actions: [
-          '資訊維運：將「權限/路徑/同步衝突」收斂為固定檢查清單；DB 以本機寫入 + JSONL 備援為主，定期做完整性檢查。',
-          '櫃檯/跟診：把收據留存、術前注意事項更新、器械保養等事項整理成短版 SOP（避免散落在聊天中）。'
-        ],
-        background: [
-          '本週包含系統修復與資料回補，且仍有缺檔/需人工檢查日；若需追溯原句，建議回看原始來源。'
+          '這週是 6 月規則正式上線前的收斂期，多項「公平性、品質、排班」規則一起落地，若沒有管理版摘要，最容易變成各說各話。',
+          '同週也開始討論 VIP / 高自費病患的照護與個管方式，代表現場服務與管理要求正在同步提高。'
         ]
       }
     ]
   },
   meeting: {
-    range: { start: '2026/04/01', end: '2026/05/31' },
-    rangeText: '2026/04/01 – 2026/05/31',
-    qualityNote: '開會前摘要（最近兩個月）以「2026-04_摘要.md、2026-05_摘要.md + 05 月每日歸檔（05/03–05/31）」彙整；其中 05/12 檔仍標示需人工檢查，且缺少 05/11、05/30 每日歸檔（另 05/10 亦缺檔），遇到爭議請回看原始訊息。'
+    range: { start: '2026/04/01', end: '2026/06/06' },
+    rangeText: '2026/04/01 – 2026/06/06',
+    sourceText: '2026-04_摘要.md、2026-05_摘要.md、2026-06_摘要.md + 每日歸檔（05/17–06/06）',
+    qualityNote: '資料完整度：05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案。開會引用時請以有訊息版每日歸檔為主。'
   }
 };
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 17806061126,
+    "title": "📅 本週/下週醫師空檔與新醫師約診策略",
+    "type": "info",
+    "body": "<strong>一、本週/下週醫師空檔（請盡量約滿）</strong><br>6/6（六）午診：洪醫師 30分、李醫師 15分<br>6/8（一）早診：許醫師 30分；午診：王醫師 15分、蔡醫師 30分<br>6/9（二）晚診：王醫師 135分<br>6/10（三）午診：邱醫師 120分；晚診：陳醫師 30分<br>6/11（四）特約午診：洪醫師 45分<br>6/12（五）晚診：男黃醫師 15分、陳醫師 135分<br>6/13（六）早診：王醫師 90分；午診：王醫師 195分、李醫師 15分<br><br><strong>二、三位新醫師約診原則</strong><br>新醫師空檔較多，「不指定」「GP 或新病患」請依時段優先安排給新醫師，協助慢慢建立病患。<br><br>🌞白天診：王醫師（一下午）、邱醫師（三下午）<br>🌙夜診：王醫師（一、二）、陳醫師（三、五）、邱醫師（三）<br>🗒️假日週六：王醫師<br>活動假牙：邱醫師<br><br><strong>三、新醫師可看項目</strong><br>三位新醫師無特別不看項目，一般 GP（SC、OD、檢查、牙痛、endo、小朋友、拔牙、牙齦腫…）等健保項目皆可，多數病患可安排。<br><br><strong>櫃檯</strong>：Tina、Min、Gigi、璟妤、Shan、晏瑜、柔慈、柯",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 17806061127,
+    "title": "➕ 7/3（五）顏醫師加開早診",
+    "type": "info",
+    "body": "<strong>加診通知</strong><br>7/3（五）顏醫師加開一個早診，請櫃檯協助安排約診。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 17806051400,
+    "title": "📅 6/5（五）顏醫師加開午診",
+    "type": "info",
+    "body": "<strong>日期</strong><br>6月5日（週五）<br><br><strong>內容</strong><br>顏醫師當日本就有上班，午診僅多加一位病人，操作不會困難，請相關同仁留意排程。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 17806031400,
+    "title": "📝 6/3（三）Sharon 考核時段調整",
+    "type": "gold",
+    "body": "<strong>原訂</strong><br>6/5（五）與 Sharon 進行考核<br><br><strong>異動為</strong><br>6/3（三）14:00（該時段有病患取消）<br><br><strong>備註</strong><br>I&M 一起進行；6/3 下午 14:45 起開始有約診病人，請把握 14:00–14:45 時段。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 17806021718,
+    "title": "‼️ 與病患溝通原則：講實話、當下處理",
+    "type": "urgent",
+    "body": "<strong>原則</strong><br>除非重大到會造成醫療糾紛，否則各種小事請盡量「講實話」、當下處理好，不要用一個謊圓另一個謊。<br><br><strong>金錢相關</strong><br>顏醫師特別強調，金錢事項務必當下處理，能結清就結清，避免造成糾紛。<br><br><strong>提醒</strong><br>之前有病人反應助理把錢放在櫃檯都不處理，請務必「財不露白」，款項收取後即時入帳處理。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 17806314570,
+    "title": "💉 麻藥缺貨與暫代使用規則",
+    "type": "urgent",
+    "body": "<strong>背景</strong><br>3M 麻藥因工廠轉移與衛署重跑持續缺貨；常用棕麻也受戰爭與市場囤貨影響，供應偏緊。<br><br><strong>目前暫代材料</strong><br>助理已先訂購約 6 盒 Articaine（金麻）備用，另已向憶生堂補到 lidocaine 2% + 1:10萬 epinephrine。<br><br><strong>使用限制</strong><br>1. Articaine 一般不建議用於 block；雖最新報告與 lidocaine 差異不明顯，仍請優先依適應症使用。<br>2. 4 歲以下小朋友不要使用 Articaine。<br>3. 金麻不要帶到二樓，以免混用。<br>4. 浸潤麻醉效果較好，適合 case 再使用。<br><br><strong>執行重點</strong><br>缺貨過渡期請跟診與櫃檯同步提醒醫師、確認診間放置位置與使用對象；若遇到材料不足或不確定 case，先回報主管確認。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 17806342315,
+    "title": "🧾 6 月行政提醒：特殊狀況、加班黃本與領藥引導",
+    "type": "info",
+    "body": "<strong>特殊狀況扣款規則</strong><br>自 6 月起，特殊狀況每月 1 次可不扣款，但必須事先打來診所說明；若特殊狀況過多，因診所端仍需協助改病人與安撫，後續仍會扣款。<br><br><strong>加班單據</strong><br>助理如有加班，黃本請記得找當診加班醫師簽名，避免後續行政補件。<br><br><strong>病患領藥引導</strong><br>杏原藥局已停止營業，櫃檯與助理不要再引導病患前往該藥局領藥；若病患詢問，請改提供其他可用藥局資訊。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1780300000001,
+    "title": "📅 6/4（四）13:30 助理考核制度說明",
+    "type": "general",
+    "body": "【2026年6月｜教育訓練／考核】<br><br><strong>🗓️ 6/4（四）13:30 助理考核說明會</strong><br>請 @Min、@郭穎襄、@晏瑜 向大家說明目前診所助理考核怎麼計算、題目如何帶入公式。<br><br><strong>📌 考核參與資格</strong><br>原則上助理需正式滿 3 個月以上才參加考核。Mina（儲備管理）此次先了解制度、不一定正式參與；讓她多了解診所制度有助於後續管理。<br><br><strong>🔄 考核方式調整</strong><br>未來可能在既有架構上調整考核方式（細節尚未定案）。先做準備可降低日後制度推行的難度，也保留優化空間。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 1780290994960,
     "title": "📅 公告📣 助理規章加入以下： 「行政診」「跟診醫師非…",
@@ -4262,15 +4362,6 @@ let announcements = [
     "pinned": false
   },
   {
-    "id": 1778276760000,
-    "title": "👨‍⚕️ 新醫師約診提醒（王/陳/邱醫師）",
-    "type": "info",
-    "body": "最近醫師們的空檔好像又變多了，再麻煩與感謝醫師和助理們持續認真看診與約診～ 🙏<br><br><strong>👀 請特別注意以下新醫師</strong><br>• 王醫師（星期一／二／六）<br>• 陳醫師（星期三、五晚上）<br>• 邱醫師（5/20（三）之後午、晚）<br><br>@All",
-    "author": "LINE 同步",
-    "time": "剛剛",
-    "pinned": false
-  },
-  {
     "id": 1778254920000,
     "title": "📋 本週/下週醫師約診空檔提醒（5/9–5/16）",
     "type": "info",
@@ -4610,7 +4701,7 @@ let announcements = [
     "body": "<strong>【2026-04-24 LINE 訊息】</strong>因有以下五大狀況需提醒：<br><br>1. 沒善用資源：蕭醫師常很閒<br><br>2. 蕭醫師來，我們要給雙和醫院費用<br><br>3. 浪費行政端時間（這兩天因一個李醫師「自費」拔牙的病患找不到快點的時間，只好問新醫師花不少時間，承擔出問題風險）<br><br>4. Google 負評也是拔智齒約不到<br><br>5. 之前就講過 45 分鐘約三個 ROS 的問題，又發生<br><br>請櫃檯加強善用蕭醫師時段，避免浪費資源。",
     "author": "LINE 同步",
     "time": "剛剛",
-    "pinned": true
+    "pinned": false
   },
   {
     "id": 1776985748385,
@@ -4880,7 +4971,7 @@ let announcements = [
     "body": "【2026-04-17 LINE 訊息｜已整合 4/28 加診訊息】歡迎王韻婷醫師（79年次）加入福美團隊！<br><br><strong>🎓 學經歷</strong><br>• 北醫畢，一般 GP 醫師<br>• 住東門附近，認同我們的理念<br>• 喜歡唱歌<br>• 星期四、五在台北市診所支援<br><br><strong>👶 適合轉診的病人</strong><br>兒林醫師定檢的小朋友可約她<br><br><strong>📅 四月看診時間</strong><br>• 4/28（二）晚 ← 加診場，請大家協助幫 Dr.王 約滿！<br><br><strong>📅 五月看診時間</strong><br>• 5/4（一）晚<br>• 5/5（二）晚<br>• 5/9（六）早、午<br>• 5/11（一）晚<br>• ⚠️ 醫師出國至 6/4<br><br><strong>📅 六月起常態班表</strong><br>• 星期一 午、晚<br>• 星期二 晚<br>• 星期六 早、午<br><br>📝 約診方式比照一般 GP 醫師；如卡到多人上班可先劃休她。",
     "author": "LINE 同步",
     "time": "剛剛",
-    "pinned": true
+    "pinned": false
   },
   {
     "id": 1776467362898,
@@ -4889,7 +4980,7 @@ let announcements = [
     "body": "【2026-04-17 LINE 訊息】歡迎邱柏智醫師（80年次）加入福美團隊！<br><br><strong>📅 上班時間</strong><br>• 預計 5/20（三）午晚 開始上班<br>• 每週三 午、晚<br>• 八月研究所畢業、九月準備專科考試<br>• 預計十月後增加診次<br><br><strong>🎓 學經歷</strong><br>• 北醫贗復碩士（八月完訓畢）<br>• 阿根廷 University of Buenos Aires (UBA) 牙醫系畢業<br>• 在台通過學歷甄試與牙醫執照<br>• 永和耕莘住院受訓 2 年（PGY）<br>• 目前牙醫臨床 5–6 年<br><br><strong>🦷 專長</strong><br>• 主要：CD／RPD（全口、局部活動假牙）<br>• 其他一般牙科也可接<br><br><strong>🗣️ 語言能力</strong><br>中文／台語／英文／西班牙文<br><br>💬 之後會在福美協助假牙的部分，請各位醫師同仁們多多指教！",
     "author": "LINE 同步",
     "time": "剛剛",
-    "pinned": true
+    "pinned": false
   },
   {
     "id": 1776467362897,
@@ -5623,22 +5714,6 @@ let events = {
       "note": "新人跟診品質、敏感病人分配、助理規範"
     }
   ],
-  "2026-04-13": [
-    {
-      "name": "林醫師加午晚診",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "兒林醫師加午診、晚診"
-    }
-  ],
-  "2026-04-25": [
-    {
-      "name": "蕭醫師看診時間異動",
-      "time": "15:00",
-      "type": "doctor",
-      "note": "改15:00開始看診"
-    }
-  ],
   "2026-03-31": [
     {
       "name": "一樓suction機氣水分離裝置安裝",
@@ -5654,56 +5729,6 @@ let events = {
     },
     {
       "name": "開會",
-      "time": "12:30",
-      "type": "meeting",
-      "note": ""
-    }
-  ],
-  "2026-06-12": [
-    {
-      "name": "蕭醫師看診日異動",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "原6/13(六)改到6/12(五)下午"
-    }
-  ],
-  "2026-04-24": [
-    {
-      "name": "顏醫師下午加診",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "4/24（五）顏醫師加開下午診"
-    }
-  ],
-  "2026-05-04": [
-    {
-      "name": "顏醫師下午加病人",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "5/4（一）下午顏醫師有加病人"
-    },
-    {
-      "name": "王醫師晚上看診",
-      "time": "18:00",
-      "type": "doctor",
-      "note": "5/4（一）晚 王醫師看診（5月固定時段之一）"
-    },
-    {
-      "name": "📸 七診攝影燈控制盒安裝（昆霖）",
-      "time": "全天",
-      "type": "maintenance",
-      "note": "請對接同仁確認可正常使用後再讓工程師離開"
-    },
-    {
-      "name": "Mina 早上當櫃流",
-      "time": "09:00",
-      "type": "other",
-      "note": "原 5/7 早上改到 5/4 早上當櫃流（櫃檯 G/Y 協助帶）"
-    }
-  ],
-  "2026-04-07": [
-    {
-      "name": "診所開會",
       "time": "12:30",
       "type": "meeting",
       "note": ""
@@ -5733,74 +5758,20 @@ let events = {
       "note": "可以申報92133C"
     }
   ],
-  "2026-05-01": [
+  "2026-04-07": [
     {
-      "name": "🎌 勞動節（國定假日）",
-      "time": "00:00",
+      "name": "診所開會",
+      "time": "12:30",
       "type": "meeting",
-      "note": "可以申報92133C"
+      "note": ""
     }
   ],
-  "2026-06-19": [
+  "2026-04-13": [
     {
-      "name": "🎌 端午節（國定假日）",
-      "time": "00:00",
-      "type": "meeting",
-      "note": "可以申報92133C"
-    },
-    {
-      "name": "📚 李醫師上課",
-      "time": "09:00",
-      "type": "training",
-      "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
-    }
-  ],
-  "2026-09-25": [
-    {
-      "name": "🎌 中秋節（國定假日）",
-      "time": "00:00",
-      "type": "meeting",
-      "note": "可以申報92133C"
-    }
-  ],
-  "2026-09-28": [
-    {
-      "name": "🎌 教師節（國定假日）",
-      "time": "00:00",
-      "type": "meeting",
-      "note": "可以申報92133C"
-    }
-  ],
-  "2026-10-09": [
-    {
-      "name": "🎌 國慶日補假（國定假日）",
-      "time": "00:00",
-      "type": "meeting",
-      "note": "可以申報92133C"
-    }
-  ],
-  "2026-10-10": [
-    {
-      "name": "🎌 國慶日（國定假日）",
-      "time": "00:00",
-      "type": "meeting",
-      "note": "可以申報92133C"
-    }
-  ],
-  "2026-10-26": [
-    {
-      "name": "🎌 光復節補假（國定假日）",
-      "time": "00:00",
-      "type": "meeting",
-      "note": "可以申報92133C"
-    }
-  ],
-  "2026-12-25": [
-    {
-      "name": "🎌 行憲紀念日（國定假日）",
-      "time": "00:00",
-      "type": "meeting",
-      "note": "可以申報92133C"
+      "name": "林醫師加午晚診",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "兒林醫師加午診、晚診"
     }
   ],
   "2026-04-14": [
@@ -5809,6 +5780,30 @@ let events = {
       "time": "12:30",
       "type": "meeting",
       "note": ""
+    }
+  ],
+  "2026-04-24": [
+    {
+      "name": "顏醫師下午加診",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "4/24（五）顏醫師加開下午診"
+    }
+  ],
+  "2026-04-25": [
+    {
+      "name": "蕭醫師看診時間異動",
+      "time": "15:00",
+      "type": "doctor",
+      "note": "改15:00開始看診"
+    }
+  ],
+  "2026-04-27": [
+    {
+      "name": "星汎淨水 RO 濾心更換",
+      "time": "15:00",
+      "type": "maintenance",
+      "note": "4/27（一）下午 3、4 點，星汎淨水來更換 RO 濾水器濾心，共 12 支，費用 7,200 元"
     }
   ],
   "2026-04-28": [
@@ -5837,12 +5832,38 @@ let events = {
       "note": "社區洗水塔，理論上不影響；若停水須關閉一樓後方 suction 機器，改用診療椅內建 suction"
     }
   ],
-  "2026-05-06": [
+  "2026-05-01": [
     {
-      "name": "顏醫師下午加手術",
+      "name": "🎌 勞動節（國定假日）",
+      "time": "00:00",
+      "type": "meeting",
+      "note": "可以申報92133C"
+    }
+  ],
+  "2026-05-04": [
+    {
+      "name": "顏醫師下午加病人",
       "time": "14:00",
       "type": "doctor",
-      "note": "5/6（三）下午顏醫師有加手術"
+      "note": "5/4（一）下午顏醫師有加病人"
+    },
+    {
+      "name": "王醫師晚上看診",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "5/4（一）晚 王醫師看診（5月固定時段之一）"
+    },
+    {
+      "name": "📸 七診攝影燈控制盒安裝（昆霖）",
+      "time": "全天",
+      "type": "maintenance",
+      "note": "請對接同仁確認可正常使用後再讓工程師離開"
+    },
+    {
+      "name": "Mina 早上當櫃流",
+      "time": "09:00",
+      "type": "other",
+      "note": "原 5/7 早上改到 5/4 早上當櫃流（櫃檯 G/Y 協助帶）"
     }
   ],
   "2026-05-05": [
@@ -5851,6 +5872,22 @@ let events = {
       "time": "18:00",
       "type": "doctor",
       "note": "5/5（二）晚 王醫師看診"
+    }
+  ],
+  "2026-05-06": [
+    {
+      "name": "顏醫師下午加手術",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/6（三）下午顏醫師有加手術"
+    }
+  ],
+  "2026-05-08": [
+    {
+      "name": "顏醫師加診",
+      "time": "17:18",
+      "type": "doctor",
+      "note": "顏醫師多增加一位病人"
     }
   ],
   "2026-05-09": [
@@ -5911,6 +5948,90 @@ let events = {
       "note": "5/11（一）午診 兒林醫師空檔 75 分，請協助約診"
     }
   ],
+  "2026-05-12": [
+    {
+      "name": "📋 5 月例行會議",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月份開會日期之一（LINE 公告）"
+    }
+  ],
+  "2026-05-13": [
+    {
+      "name": "🍽️ 顏醫師吃飯時間（J T I H）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
+    }
+  ],
+  "2026-05-14": [
+    {
+      "name": "🍲 醫師聚餐（岩藏鍋）",
+      "time": "12:00",
+      "type": "meeting",
+      "note": "Dr.顏／Dr.洪／Dr.邱／Dr.蔡／Dr.女黃／Dr.許（+助理 Ivy）"
+    },
+    {
+      "name": "H 早上行政",
+      "time": "09:00",
+      "type": "other",
+      "note": "班表異動"
+    },
+    {
+      "name": "洪醫師早診空檔 30 分",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "5/14（四）早診 洪醫師空檔 30 分，請協助約診"
+    },
+    {
+      "name": "女黃醫師午診空檔 15 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/14（四）午診 女黃醫師空檔 15 分，請協助約診"
+    }
+  ],
+  "2026-05-15": [
+    {
+      "name": "陳醫師晚診空檔 105 分",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "5/15（五）晚診 陳醫師空檔 105 分，請協助約診"
+    }
+  ],
+  "2026-05-16": [
+    {
+      "name": "🍽️ 顏醫師吃飯時間（G W H）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
+    },
+    {
+      "name": "女黃醫師晚診空檔 15 分",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "5/16（六）晚診 女黃醫師空檔 15 分，請協助約診"
+    },
+    {
+      "name": "許醫師早診空檔 60 分",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "5/16（六）早診 許醫師空檔 60 分，請協助約診"
+    }
+  ],
+  "2026-05-18": [
+    {
+      "name": "Mina 早上當櫃流",
+      "time": "09:00",
+      "type": "other",
+      "note": "原 5/14 早上改到 5/18 早上當櫃流（櫃檯 G/Y 協助帶）"
+    },
+    {
+      "name": "🔧 機械式管路漏水維修（昆霖）",
+      "time": "全天",
+      "type": "maintenance",
+      "note": "5/16 發現管路漏水，昆霖安排星期一前來處理"
+    }
+  ],
   "2026-05-20": [
     {
       "name": "邱醫師開始看診（每週三午晚）",
@@ -5937,12 +6058,220 @@ let events = {
       "note": "5/20（三）邱醫師午診空檔 15 分、晚診空檔 145 分，請協助約診"
     }
   ],
-  "2026-04-27": [
+  "2026-05-22": [
     {
-      "name": "星汎淨水 RO 濾心更換",
-      "time": "15:00",
-      "type": "maintenance",
-      "note": "4/27（一）下午 3、4 點，星汎淨水來更換 RO 濾水器濾心，共 12 支，費用 7,200 元"
+      "name": "陳醫師晚診空檔 165 分",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "5/22（五）晚診 陳醫師空檔 165 分，請協助約診"
+    }
+  ],
+  "2026-05-23": [
+    {
+      "name": "🍽️ 顏醫師吃飯時間（Z M K Y）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
+    },
+    {
+      "name": "蕭醫師午診空檔 60 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/23（六）午診 蕭醫師空檔 60 分，請協助約診"
+    },
+    {
+      "name": "顏醫師午診空檔 15 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/23（六）午診 顏醫師空檔 15 分，請協助約診"
+    }
+  ],
+  "2026-05-25": [
+    {
+      "name": "顏醫師加診（植牙病人 1 位）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師 5/25（一）下午 2 點加 1 位植牙病人"
+    },
+    {
+      "name": "Dr.顏約診規則調整生效",
+      "time": "15:07",
+      "type": "doctor",
+      "note": "週二早上增設特約、週三 16:30 設其他特殊（16:50 前需離開）"
+    },
+    {
+      "name": "立唯 case 約診規則提醒",
+      "time": "09:54",
+      "type": "other",
+      "note": "立唯 case 須預留 5–7 天製作時間（不含假日）"
+    }
+  ],
+  "2026-05-27": [
+    {
+      "name": "邱醫師午診空檔 15 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/27（三）午診 邱醫師空檔 15 分，請協助約診"
+    },
+    {
+      "name": "陳醫師晚診空檔 15 分",
+      "time": "19:00",
+      "type": "doctor",
+      "note": "5/27（三）晚診 陳醫師空檔 15 分，請協助約診"
+    }
+  ],
+  "2026-05-28": [
+    {
+      "name": "📋 5 月例行會議",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月份開會日期之一（LINE 公告）"
+    }
+  ],
+  "2026-05-29": [
+    {
+      "name": "Y 早上：蔡改 S 跟蔡",
+      "time": "09:00",
+      "type": "other",
+      "note": "班表異動"
+    }
+  ],
+  "2026-05-30": [
+    {
+      "name": "🍽️ 顏醫師吃飯時間（C J S）",
+      "time": "全天",
+      "type": "meeting",
+      "note": "5 月跟顏醫師吃飯時間"
+    },
+    {
+      "name": "李醫師午診空檔 60 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "5/30（六）午診 李醫師空檔 60 分，請協助約診"
+    }
+  ],
+  "2026-06-02": [
+    {
+      "name": "Elena 請假",
+      "time": "09:00",
+      "type": "leave",
+      "note": "身體不適，請假一天"
+    }
+  ],
+  "2026-06-03": [
+    {
+      "name": "顏醫師加診（1 位病人）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師 6/3（三）下午加一位病人"
+    },
+    {
+      "name": "Sharon 考核（I&M 一起）",
+      "time": "14:00",
+      "type": "meeting",
+      "note": "原訂 6/5 改至此時段，因有病患取消；14:45 起恢復約診"
+    }
+  ],
+  "2026-06-04": [
+    {
+      "name": "助理考核制度說明會",
+      "time": "13:30",
+      "type": "meeting",
+      "note": "Min／郭穎襄／晏瑜 說明助理考核怎麼計算、題目如何帶入公式"
+    }
+  ],
+  "2026-06-05": [
+    {
+      "name": "顏醫師早上加病人",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "6/5（五）早上顏醫師加病人（LINE 同步 2026-05-19 07:46）"
+    },
+    {
+      "name": "顏醫師下午改兩個手術",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "6/5（五）下午顏醫師改為兩個手術，一個診約滿（LINE 2026-05-22 14:16）"
+    },
+    {
+      "name": "顏醫師午診加診",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師本日上班，午診加一位病人"
+    }
+  ],
+  "2026-06-06": [
+    {
+      "name": "蕭醫師加診（原 6/27 異動）",
+      "time": "全天",
+      "type": "doctor",
+      "note": "原 6/27（六）改至此日看診"
+    }
+  ],
+  "2026-06-08": [
+    {
+      "name": "顏醫師加手術",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "6/8（一）下午 14:00 顏醫師加一台手術"
+    }
+  ],
+  "2026-06-09": [
+    {
+      "name": "顏醫師加診（1 位病人）",
+      "time": "18:15",
+      "type": "doctor",
+      "note": "6/9（二）18:15 顏醫師加一位病人"
+    },
+    {
+      "name": "王醫師晚診空檔 135 分",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "6/9（二）晚診 王醫師空檔 135 分，請優先安排不指定、GP 或新病患"
+    },
+    {
+      "name": "診所會議",
+      "time": "00:00",
+      "type": "meeting",
+      "note": ""
+    }
+  ],
+  "2026-06-10": [
+    {
+      "name": "邱醫師午診空檔 120 分",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "6/10（三）午診 邱醫師空檔 120 分，活動假牙與一般 GP 可優先評估安排"
+    }
+  ],
+  "2026-06-11": [
+    {
+      "name": "顏醫師 ARP 手術（11:00）",
+      "time": "11:00",
+      "type": "doctor",
+      "note": "顏醫師加一台 ARP 手術"
+    }
+  ],
+  "2026-06-12": [
+    {
+      "name": "蕭醫師看診日異動",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "原6/13(六)改到6/12(五)下午"
+    },
+    {
+      "name": "陳醫師晚診空檔 135 分",
+      "time": "18:00",
+      "type": "doctor",
+      "note": "6/12（五）晚診 陳醫師空檔 135 分，請優先安排不指定、GP 或新病患"
+    }
+  ],
+  "2026-06-13": [
+    {
+      "name": "王醫師早午診空檔",
+      "time": "09:00 / 14:00",
+      "type": "doctor",
+      "note": "6/13（六）早診空檔 90 分、午診空檔 195 分，請優先安排不指定、GP 或新病患"
     }
   ],
   "2026-06-17": [
@@ -5967,6 +6296,20 @@ let events = {
       "note": "顏醫師早診加手術"
     }
   ],
+  "2026-06-19": [
+    {
+      "name": "🎌 端午節（國定假日）",
+      "time": "00:00",
+      "type": "meeting",
+      "note": "可以申報92133C"
+    },
+    {
+      "name": "📚 李醫師上課",
+      "time": "09:00",
+      "type": "training",
+      "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
+    }
+  ],
   "2026-06-20": [
     {
       "name": "📚 李醫師上課",
@@ -5981,6 +6324,70 @@ let events = {
       "time": "09:00",
       "type": "training",
       "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
+    }
+  ],
+  "2026-06-25": [
+    {
+      "name": "幹部會議",
+      "time": "00:00",
+      "type": "meeting",
+      "note": ""
+    }
+  ],
+  "2026-06-26": [
+    {
+      "name": "顏醫師加手術（午診）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師午診加手術"
+    }
+  ],
+  "2026-06-27": [
+    {
+      "name": "蕭醫師停診（改至 6/6）",
+      "time": "全天",
+      "type": "doctor",
+      "note": "原 6/27（六）蕭醫師有事/上課無法看診，改至 6/6（六）"
+    }
+  ],
+  "2026-06-29": [
+    {
+      "name": "顏醫師加病人（下午）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師下午加病人"
+    }
+  ],
+  "2026-06-30": [
+    {
+      "name": "診所會議",
+      "time": "00:00",
+      "type": "meeting",
+      "note": ""
+    }
+  ],
+  "2026-07-03": [
+    {
+      "name": "顏醫師加診（早診）",
+      "time": "09:00",
+      "type": "doctor",
+      "note": "加開早診一節，協助安排約診"
+    }
+  ],
+  "2026-07-10": [
+    {
+      "name": "顏醫師加病人（14:00）",
+      "time": "14:00",
+      "type": "doctor",
+      "note": "顏醫師下午 14:00 加一位病人"
+    }
+  ],
+  "2026-07-11": [
+    {
+      "name": "蕭醫師看診日",
+      "time": "全天",
+      "type": "doctor",
+      "note": "2026 下半年排程（LINE 同步）"
     }
   ],
   "2026-07-15": [
@@ -6021,6 +6428,22 @@ let events = {
       "time": "09:00",
       "type": "training",
       "note": "李醫師上課週：2026-07-15 ~ 2026-07-19"
+    }
+  ],
+  "2026-07-25": [
+    {
+      "name": "蕭醫師看診日",
+      "time": "全天",
+      "type": "doctor",
+      "note": "2026 下半年排程（LINE 同步）"
+    }
+  ],
+  "2026-08-01": [
+    {
+      "name": "蕭醫師看診日",
+      "time": "全天",
+      "type": "doctor",
+      "note": "2026 下半年排程（LINE 同步）"
     }
   ],
   "2026-08-12": [
@@ -6069,6 +6492,22 @@ let events = {
       "note": "李醫師上課週：2026-08-12 ~ 2026-08-16"
     }
   ],
+  "2026-08-29": [
+    {
+      "name": "蕭醫師看診日",
+      "time": "全天",
+      "type": "doctor",
+      "note": "2026 下半年排程（LINE 同步）"
+    }
+  ],
+  "2026-09-05": [
+    {
+      "name": "蕭醫師看診日",
+      "time": "全天",
+      "type": "doctor",
+      "note": "2026 下半年排程（LINE 同步）"
+    }
+  ],
   "2026-09-09": [
     {
       "name": "📚 李醫師上課",
@@ -6109,60 +6548,28 @@ let events = {
       "note": "李醫師上課週：2026-09-09 ~ 2026-09-13"
     }
   ],
-  "2026-05-08": [
-    {
-      "name": "顏醫師加診",
-      "time": "17:18",
-      "type": "doctor",
-      "note": "顏醫師多增加一位病人"
-    }
-  ],
-  "2026-07-11": [
-    {
-      "name": "蕭醫師看診日",
-      "time": "全天",
-      "type": "doctor",
-      "note": "2026 下半年排程（LINE 同步）"
-    }
-  ],
-  "2026-07-25": [
-    {
-      "name": "蕭醫師看診日",
-      "time": "全天",
-      "type": "doctor",
-      "note": "2026 下半年排程（LINE 同步）"
-    }
-  ],
-  "2026-08-01": [
-    {
-      "name": "蕭醫師看診日",
-      "time": "全天",
-      "type": "doctor",
-      "note": "2026 下半年排程（LINE 同步）"
-    }
-  ],
-  "2026-08-29": [
-    {
-      "name": "蕭醫師看診日",
-      "time": "全天",
-      "type": "doctor",
-      "note": "2026 下半年排程（LINE 同步）"
-    }
-  ],
-  "2026-09-05": [
-    {
-      "name": "蕭醫師看診日",
-      "time": "全天",
-      "type": "doctor",
-      "note": "2026 下半年排程（LINE 同步）"
-    }
-  ],
   "2026-09-19": [
     {
       "name": "蕭醫師看診日",
       "time": "全天",
       "type": "doctor",
       "note": "2026 下半年排程（LINE 同步）"
+    }
+  ],
+  "2026-09-25": [
+    {
+      "name": "🎌 中秋節（國定假日）",
+      "time": "00:00",
+      "type": "meeting",
+      "note": "可以申報92133C"
+    }
+  ],
+  "2026-09-28": [
+    {
+      "name": "🎌 教師節（國定假日）",
+      "time": "00:00",
+      "type": "meeting",
+      "note": "可以申報92133C"
     }
   ],
   "2026-10-03": [
@@ -6173,12 +6580,36 @@ let events = {
       "note": "2026 下半年排程（LINE 同步）"
     }
   ],
+  "2026-10-09": [
+    {
+      "name": "🎌 國慶日補假（國定假日）",
+      "time": "00:00",
+      "type": "meeting",
+      "note": "可以申報92133C"
+    }
+  ],
+  "2026-10-10": [
+    {
+      "name": "🎌 國慶日（國定假日）",
+      "time": "00:00",
+      "type": "meeting",
+      "note": "可以申報92133C"
+    }
+  ],
   "2026-10-17": [
     {
       "name": "蕭醫師看診日",
       "time": "全天",
       "type": "doctor",
       "note": "2026 下半年排程（LINE 同步）"
+    }
+  ],
+  "2026-10-26": [
+    {
+      "name": "🎌 光復節補假（國定假日）",
+      "time": "00:00",
+      "type": "meeting",
+      "note": "可以申報92133C"
     }
   ],
   "2026-10-31": [
@@ -6221,288 +6652,12 @@ let events = {
       "note": "2026 下半年排程（LINE 同步）"
     }
   ],
-  "2026-05-25": [
+  "2026-12-25": [
     {
-      "name": "顏醫師加診（植牙病人 1 位）",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "顏醫師 5/25（一）下午 2 點加 1 位植牙病人"
-    },
-    {
-      "name": "Dr.顏約診規則調整生效",
-      "time": "15:07",
-      "type": "doctor",
-      "note": "週二早上增設特約、週三 16:30 設其他特殊（16:50 前需離開）"
-    },
-    {
-      "name": "立唯 case 約診規則提醒",
-      "time": "09:54",
-      "type": "other",
-      "note": "立唯 case 須預留 5–7 天製作時間（不含假日）"
-    }
-  ],
-  "2026-05-18": [
-    {
-      "name": "Mina 早上當櫃流",
-      "time": "09:00",
-      "type": "other",
-      "note": "原 5/14 早上改到 5/18 早上當櫃流（櫃檯 G/Y 協助帶）"
-    },
-    {
-      "name": "🔧 機械式管路漏水維修（昆霖）",
-      "time": "全天",
-      "type": "maintenance",
-      "note": "5/16 發現管路漏水，昆霖安排星期一前來處理"
-    }
-  ],
-  "2026-06-09": [
-    {
-      "name": "顏醫師加診（1 位病人）",
-      "time": "18:15",
-      "type": "doctor",
-      "note": "6/9（二）18:15 顏醫師加一位病人"
-    },
-    {
-      "name": "診所會議",
+      "name": "🎌 行憲紀念日（國定假日）",
       "time": "00:00",
       "type": "meeting",
-      "note": ""
-    }
-  ],
-  "2026-05-12": [
-    {
-      "name": "📋 5 月例行會議",
-      "time": "全天",
-      "type": "meeting",
-      "note": "5 月份開會日期之一（LINE 公告）"
-    }
-  ],
-  "2026-05-28": [
-    {
-      "name": "📋 5 月例行會議",
-      "time": "全天",
-      "type": "meeting",
-      "note": "5 月份開會日期之一（LINE 公告）"
-    }
-  ],
-  "2026-06-08": [
-    {
-      "name": "顏醫師加手術",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "6/8（一）下午 14:00 顏醫師加一台手術"
-    }
-  ],
-  "2026-05-14": [
-    {
-      "name": "🍲 醫師聚餐（岩藏鍋）",
-      "time": "12:00",
-      "type": "meeting",
-      "note": "Dr.顏／Dr.洪／Dr.邱／Dr.蔡／Dr.女黃／Dr.許（+助理 Ivy）"
-    },
-    {
-      "name": "H 早上行政",
-      "time": "09:00",
-      "type": "other",
-      "note": "班表異動"
-    },
-    {
-      "name": "洪醫師早診空檔 30 分",
-      "time": "09:00",
-      "type": "doctor",
-      "note": "5/14（四）早診 洪醫師空檔 30 分，請協助約診"
-    },
-    {
-      "name": "女黃醫師午診空檔 15 分",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "5/14（四）午診 女黃醫師空檔 15 分，請協助約診"
-    }
-  ],
-  "2026-05-13": [
-    {
-      "name": "🍽️ 顏醫師吃飯時間（J T I H）",
-      "time": "全天",
-      "type": "meeting",
-      "note": "5 月跟顏醫師吃飯時間"
-    }
-  ],
-  "2026-05-16": [
-    {
-      "name": "🍽️ 顏醫師吃飯時間（G W H）",
-      "time": "全天",
-      "type": "meeting",
-      "note": "5 月跟顏醫師吃飯時間"
-    },
-    {
-      "name": "女黃醫師晚診空檔 15 分",
-      "time": "18:00",
-      "type": "doctor",
-      "note": "5/16（六）晚診 女黃醫師空檔 15 分，請協助約診"
-    },
-    {
-      "name": "許醫師早診空檔 60 分",
-      "time": "09:00",
-      "type": "doctor",
-      "note": "5/16（六）早診 許醫師空檔 60 分，請協助約診"
-    }
-  ],
-  "2026-05-23": [
-    {
-      "name": "🍽️ 顏醫師吃飯時間（Z M K Y）",
-      "time": "全天",
-      "type": "meeting",
-      "note": "5 月跟顏醫師吃飯時間"
-    },
-    {
-      "name": "蕭醫師午診空檔 60 分",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "5/23（六）午診 蕭醫師空檔 60 分，請協助約診"
-    },
-    {
-      "name": "顏醫師午診空檔 15 分",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "5/23（六）午診 顏醫師空檔 15 分，請協助約診"
-    }
-  ],
-  "2026-05-30": [
-    {
-      "name": "🍽️ 顏醫師吃飯時間（C J S）",
-      "time": "全天",
-      "type": "meeting",
-      "note": "5 月跟顏醫師吃飯時間"
-    },
-    {
-      "name": "李醫師午診空檔 60 分",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "5/30（六）午診 李醫師空檔 60 分，請協助約診"
-    }
-  ],
-  "2026-05-29": [
-    {
-      "name": "Y 早上：蔡改 S 跟蔡",
-      "time": "09:00",
-      "type": "other",
-      "note": "班表異動"
-    }
-  ],
-  "2026-06-03": [
-    {
-      "name": "顏醫師加診（1 位病人）",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "顏醫師 6/3（三）下午加一位病人"
-    }
-  ],
-  "2026-05-15": [
-    {
-      "name": "陳醫師晚診空檔 105 分",
-      "time": "18:00",
-      "type": "doctor",
-      "note": "5/15（五）晚診 陳醫師空檔 105 分，請協助約診"
-    }
-  ],
-  "2026-06-27": [
-    {
-      "name": "蕭醫師停診（改至 6/6）",
-      "time": "全天",
-      "type": "doctor",
-      "note": "原 6/27（六）蕭醫師有事/上課無法看診，改至 6/6（六）"
-    }
-  ],
-  "2026-06-06": [
-    {
-      "name": "蕭醫師加診（原 6/27 異動）",
-      "time": "全天",
-      "type": "doctor",
-      "note": "原 6/27（六）改至此日看診"
-    }
-  ],
-  "2026-05-22": [
-    {
-      "name": "陳醫師晚診空檔 165 分",
-      "time": "18:00",
-      "type": "doctor",
-      "note": "5/22（五）晚診 陳醫師空檔 165 分，請協助約診"
-    }
-  ],
-  "2026-06-05": [
-    {
-      "name": "顏醫師早上加病人",
-      "time": "09:00",
-      "type": "doctor",
-      "note": "6/5（五）早上顏醫師加病人（LINE 同步 2026-05-19 07:46）"
-    },
-    {
-      "name": "顏醫師下午改兩個手術",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "6/5（五）下午顏醫師改為兩個手術，一個診約滿（LINE 2026-05-22 14:16）"
-    }
-  ],
-  "2026-05-27": [
-    {
-      "name": "邱醫師午診空檔 15 分",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "5/27（三）午診 邱醫師空檔 15 分，請協助約診"
-    },
-    {
-      "name": "陳醫師晚診空檔 15 分",
-      "time": "19:00",
-      "type": "doctor",
-      "note": "5/27（三）晚診 陳醫師空檔 15 分，請協助約診"
-    }
-  ],
-  "2026-06-11": [
-    {
-      "name": "顏醫師 ARP 手術（11:00）",
-      "time": "11:00",
-      "type": "doctor",
-      "note": "顏醫師加一台 ARP 手術"
-    }
-  ],
-  "2026-06-26": [
-    {
-      "name": "顏醫師加手術（午診）",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "顏醫師午診加手術"
-    }
-  ],
-  "2026-06-29": [
-    {
-      "name": "顏醫師加病人（下午）",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "顏醫師下午加病人"
-    }
-  ],
-  "2026-07-10": [
-    {
-      "name": "顏醫師加病人（14:00）",
-      "time": "14:00",
-      "type": "doctor",
-      "note": "顏醫師下午 14:00 加一位病人"
-    }
-  ],
-  "2026-06-30": [
-    {
-      "name": "診所會議",
-      "time": "00:00",
-      "type": "meeting",
-      "note": ""
-    }
-  ],
-  "2026-06-25": [
-    {
-      "name": "幹部會議",
-      "time": "00:00",
-      "type": "meeting",
-      "note": ""
+      "note": "可以申報92133C"
     }
   ]
 };
@@ -6689,6 +6844,13 @@ function initMeetingPage() {
     const y = mon.getFullYear(), m = String(mon.getMonth()+1).padStart(2,'0'), d = String(mon.getDate()).padStart(2,'0');
     dateEl.textContent = `${y}/${m}/${d}（一）`;
   }
+  const meeting = LINE_WEEKLY_SUMMARY_DATA?.meeting || {};
+  const rangeEl = document.getElementById('meetingRangeText');
+  const sourcesEl = document.getElementById('meetingSourcesText');
+  const qualityEl = document.getElementById('meetingQualityNote');
+  if (rangeEl && meeting.rangeText) rangeEl.textContent = meeting.rangeText;
+  if (sourcesEl && meeting.sourceText) sourcesEl.textContent = meeting.sourceText;
+  if (qualityEl && meeting.qualityNote) qualityEl.textContent = `⚠️ ${meeting.qualityNote}`;
   switchMeetingRole(_meetingState.role || 'all');
 }
 
@@ -6731,13 +6893,20 @@ function openLineSummaryDetail(id) {
   if (!overlay || !titleEl || !subEl || !bodyEl) return;
 
   titleEl.textContent = week.title || 'LINE 週報摘要';
-  subEl.textContent = `資料來源：${(week.sources || []).join('、')}`;
+  const dateText = week.dateRange ? `日期：${week.dateRange}` : '';
+  const sourceText = `資料來源：${(week.sources || []).join('、')}`;
+  subEl.textContent = [dateText, sourceText].filter(Boolean).join(' · ');
 
   const list = (items) => (items || []).map(x => `<li>${_escapeHtml(x)}</li>`).join('');
   bodyEl.innerHTML = `
     <div style="font-size:13px;line-height:1.85;color:var(--ink-soft)">
       <div style="font-family:var(--font-display);font-weight:900;color:var(--ink);margin-bottom:8px">資料完整度</div>
       <div style="background:var(--cream);border:1.5px dashed var(--border);border-radius:var(--r-md);padding:10px 12px;margin-bottom:14px">${_escapeHtml(week.completeness?.note || '')}</div>
+
+      <div style="background:var(--mint-light);border:1.5px solid var(--mint);border-radius:var(--r-md);padding:10px 12px;margin-bottom:14px">
+        <div style="font-family:var(--font-display);font-weight:900;color:var(--mint-dark);margin-bottom:6px">角色焦點</div>
+        <div>${_escapeHtml((week.roles || []).join('、') || '管理版彙整')}</div>
+      </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-md);padding:12px">
@@ -6784,7 +6953,9 @@ function renderLineWeeklySummary() {
       <div style="display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap">
         <div>
           <div style="font-family:var(--font-display);font-size:14px;font-weight:900;color:var(--ink)">${_escapeHtml(w.title || '')}</div>
+          <div style="font-size:12px;color:var(--ink-mute);margin-top:2px">日期：${_escapeHtml(w.dateRange || '')}</div>
           <div style="font-size:12px;color:var(--ink-mute);margin-top:2px">資料來源：${_escapeHtml((w.sources || []).join('、'))}</div>
+          <div style="font-size:12px;color:var(--mint-dark);margin-top:4px">角色焦點：${_escapeHtml((w.roles || []).join('、') || '管理版彙整')}</div>
         </div>
         <button class="btn btn-ghost" type="button" data-line-detail-id="${_escapeHtml(w.id)}" style="font-size:12px;padding:6px 10px">查看詳細 →</button>
       </div>
