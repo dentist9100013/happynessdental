@@ -2134,15 +2134,15 @@ body::before {
           <div style="font-size:40px">📋</div>
           <div style="flex:1;min-width:240px">
             <div style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--ink)">
-              本週開會前摘要 · <span id="meetingDateDisplay">2026/06/08（一）</span>
+              本週開會前摘要 · <span id="meetingDateDisplay">2026/06/09（二）</span>
             </div>
             <div style="font-size:13px;color:var(--ink-soft);margin-top:4px;font-family:var(--font-display)">
-              以助理為中心整理 · 涵蓋 <span id="meetingRangeText">2026/04/01 – 2026/06/06</span>（最近兩個月彙整）
+              以助理為中心整理 · 涵蓋 <span id="meetingRangeText">2026/04/01 – 2026/06/08</span>（最近兩個月彙整）
               <div style="margin-top:2px;font-size:12px;color:var(--ink-soft)">
-                資料來源：<span id="meetingSourcesText">2026-04_摘要.md、2026-05_摘要.md、2026-06_摘要.md + 每日歸檔（05/17–06/06）</span>
+                資料來源：<span id="meetingSourcesText">2026-04_摘要.md、2026-05_摘要.md、2026-06_摘要.md + 每日歸檔（05/18–06/08）</span>
               </div>
               <div id="meetingQualityNote" style="margin-top:6px;font-size:12px;color:#9a6a00;background:#fff8df;border:1px solid #f1d48c;border-radius:10px;padding:6px 10px">
-                ⚠️ 資料完整度：05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案。
+                ⚠️ 資料完整度：05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案；06/07–06/08 已有實際歸檔可用。
               </div>
             </div>
           </div>
@@ -3697,7 +3697,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260607112821';"
+      "const DATA_VERSION = '20260609070018';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3756,7 +3756,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260607112821';"
+      "const DATA_VERSION = '20260609070018';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3829,7 +3829,7 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260607112821';
+const DATA_VERSION = '20260609070018';
 
 // ─── LINE 週報摘要資料（每週更新）───
 // 僅使用資料來源：
@@ -3837,113 +3837,140 @@ const DATA_VERSION = '20260607112821';
 // - 09_LINE訊息摘要系統/每日歸檔/*.md
 // - 本檔案內既有 announcements / archivedAnnouncements
 const LINE_WEEKLY_SUMMARY_DATA = {
-  updatedAt: '2026-06-07',
+  updatedAt: '2026-06-08',
   weekly: {
-    range: { start: '2026/05/17', end: '2026/06/06' },
-    rangeText: '2026/05/17 – 2026/06/06',
-    qualityNote: '資料完整度：05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案，判讀時請以有訊息版每日歸檔為主。',
+    range: { start: '2026/05/19', end: '2026/06/08' },
+    rangeText: '2026/05/19 – 2026/06/08',
+    qualityNote: '資料完整度：05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案；06/07–06/08 已有實際歸檔可用。判讀時請以有訊息版每日歸檔為主。',
     weeks: [
       {
-        id: 'w2026-05-31_06-06',
-        title: '2026/05/31–06/06（近一週）',
-        dateRange: '2026/05/31 – 2026/06/06',
-        roles: ['櫃檯助理', '儲備管理 / 幹部', '管理部'],
+        id: 'w2026-06-02_06-08',
+        title: '2026/06/02–06/08（近一週）',
+        dateRange: '2026/06/02 – 2026/06/08',
+        roles: ['櫃檯助理', '正式助理 / 跟診', '管理部'],
         sources: [
-          '每日歸檔_2026-05-31.md',
-          '每日歸檔_2026-06-01.md',
           '每日歸檔_2026-06-02.md',
           '每日歸檔_2026-06-03.md',
           '每日歸檔_2026-06-04.md',
           '每日歸檔_2026-06-05.md',
-          '每日歸檔_2026-06-06.md'
+          '每日歸檔_2026-06-06.md',
+          '每日歸檔_2026-06-07.md',
+          '每日歸檔_2026-06-08.md'
         ],
-        completeness: { status: 'partial', note: '05/31–06/06 七天皆有實際歸檔可用；但 06/03–06/05 同日期仍保留較早排程產生的「無訊息」檔，查核時請以有訊息版為主。' },
+        completeness: { status: 'partial', note: '06/02–06/08 七天皆有實際歸檔可用；06/03–06/05 同日期仍保留較早排程產生的「無訊息」檔，06/08 另有一則重送已合併判讀。' },
         highlights: [
-          '排班 / 收案：6/5 顏醫師午診加一位病人；6/6 再新增 7/3（五）顏醫師早診。另同步公告 6/9–6/13 王醫師、邱醫師、陳醫師的明確空檔與新醫師收案方向。',
-          '教育訓練 / 行政：6/3 特殊狀況改為每月 1 次可不扣款但須事先來電；6/4、6/5 的考核討論聚焦題目公式、正式滿 3 個月才正式參與，以及儲備管理先理解制度的定位。',
-          '病患溝通 / 材料 / 系統：管理部再次強調小事講實話、費用當次結清、現金不露白；另因 3M 麻藥缺貨，診間需暫時改用 Articaine / lidocaine。6/6 也補充櫃檯電腦若當機或變慢，需回報是哪台機器、開了哪些程式。'
+          '制度 / 現場：6/2–6/3 管理部集中重申對病患要講實話、費用盡量當次結清、現金不可放櫃檯不處理；6/7 再補充助理上班時間看牙內規為每 3 個月 1 次、單次不超過 45 分鐘。',
+          '排班 / 收案：6/5 公布新醫師收案方向與 6/9–6/13 空檔；6/6 再新增 7/3（五）顏醫師早診，櫃檯需同步掌握後續補位。',
+          '材料 / 交接：3M 麻藥缺貨期間改以 Articaine / lidocaine 過渡；6/8 再新增正式助理收料確認規範、廠商回收寄錯貨與 6/9 開會前團體照提醒。'
         ],
         actions: [
-          '櫃檯：同步 6/9–6/13 新醫師空檔、6/5 午診加病人與 7/3 顏醫師早診資訊；不指定、GP 或新病患優先安排給目前空檔較多的新醫師，且每次聯繫都要留下備註。',
-          '教學 / 管理：把考核公式、正式參與門檻、儲備管理旁聽原則，以及「特殊狀況每月 1 次需事先來電」整理成固定說明，並提醒加班黃本需找當診加班醫師簽名。',
-          '跟診 / 櫃檯：麻藥缺貨過渡期請遵守 Articaine 使用限制與存放分流；若櫃檯電腦當機或過慢，記錄機台與操作情境後直接聯繫弱電處理。'
+          '櫃檯：依空檔表優先補 6/9–6/13 新醫師診次，並在 6/9 會議前完成團體照集合與會議提醒。',
+          '正式助理 / 跟診：麻藥缺貨過渡期遵守 Articaine 使用限制與樓層分流；對新人送交物件保持雙重確認與即時回報。',
+          '管理部：把「特殊狀況每月 1 次需事先來電」「加班黃本簽名」「正式助理驗收責任」整理成可重複引用的短版說明。'
         ],
         background: [
-          '6 月初訊息量不高，但 6/3–6/5 實際補回後，內容集中在新醫師收案、考核制度、材料替代與行政流程，若不整併很容易被拆成各自理解。',
-          '目前真正待人工回查的是 05/30 缺檔；06/03–06/05 雖仍留有舊的無訊息檔，但已被實際歸檔補正，管理版摘要需標示清楚以避免誤判。'
+          '這一週的 LINE 主軸是把病患溝通、材料替代、內規與收案策略一起收斂成可執行版本，若不整併會被拆成很多零散提醒。',
+          '真正需要人工回查的仍是 05/30 缺檔；06/02–06/08 本身均有實際歸檔，只要避開舊的無訊息檔與 06/08 重送即可。'
         ]
       },
       {
-        id: 'w2026-05-24_05-30',
-        title: '2026/05/24–05/30（近二週前）',
-        dateRange: '2026/05/24 – 2026/05/30',
-        roles: ['櫃檯助理', '排班 / 行政', '跟診助理'],
+        id: 'w2026-05-26_06-01',
+        title: '2026/05/26–06/01（近二週前）',
+        dateRange: '2026/05/26 – 2026/06/01',
+        roles: ['櫃檯助理', '儲備管理 / 幹部', '管理部'],
         sources: [
-          '每日歸檔_2026-05-24_無訊息.md',
-          '每日歸檔_2026-05-25.md',
           '每日歸檔_2026-05-26.md',
           '每日歸檔_2026-05-27.md',
           '每日歸檔_2026-05-28.md',
-          '每日歸檔_2026-05-29.md'
+          '每日歸檔_2026-05-29.md',
+          '每日歸檔_2026-05-31.md',
+          '每日歸檔_2026-06-01.md'
         ],
-        completeness: { status: 'partial', note: '05/24–05/29 皆有歸檔；05/24 標示「無訊息」，05/30 每日歸檔缺漏，需人工回查。' },
+        completeness: { status: 'partial', note: '05/26–05/29、05/31、06/01 皆有實際歸檔；05/30 每日歸檔缺漏，需人工回查。' },
         highlights: [
-          '約診 / 技工所：送立唯 case 需至少保留 5–7 個工作天或直接約 2 週，避免模回不來後連續改約。',
-          '特約 / 口袋名單：顏醫師新增週二早上特約、週三 16:30 特殊安排；高自費與五類療程病患優先用口袋名單補入。',
-          '院內網站 / 會議：5/28 會議把助理劃休、醫師耗材與會計支出逐步改成線上；同週也彙整病患等待感受、操作溫柔度與洞巾使用等體驗問題。'
+          '院務 / 線上化：5/28 會議把助理劃休、醫師耗材與會計支出逐步改成線上；班表系統新增事件註記與列印月班表 JPG 功能。',
+          '排班 / 人力：同週同步 6 月兼職助理 Naomi、顏醫師 6/11 ARP 手術、6/29 與 7/10 加病人、以及補 key 1–3 月班表作為考核基準。',
+          '考核 / 教學：6/1 再延伸出助理考核公式說明、正式滿 3 個月才正式參與、Mina 以儲備管理身分先理解制度。'
         ],
         actions: [
-          '櫃檯：把技工所製作時間直接反映在約診規則中；特約時段未滿時優先聯繫口袋名單與指定療程病患。',
-          '排班 / 行政：補 key 1–3 月班表、更新 6 月班表與文字事件註記，讓考核與會議資料都回到同一套系統。',
-          '跟診 / 現場：改善吸口水力道、必要時補洞巾、縮短病患只覺得「都在等」的情境。'
+          '櫃檯 / 排班：把線上劃休、醫師耗材、會計收據拍照與班表事件註記視為標準入口，減少紙本與口頭轉述落差。',
+          '教學 / 管理：完成考核公式說明、正式參與門檻與儲備管理旁聽原則的固定版本，供 6 月考核使用。',
+          '行政：持續追 05/30 缺檔，並把 1–3 月班表補 key 進系統，讓考核與工作診數統計有依據。'
         ],
         background: [
-          '這週的核心不是再加新規則，而是把約診、排班、支出與會議資訊收回同一個線上入口，降低口頭轉述誤差。',
-          '管理部也開始明講哪些事情要做到 90 分、哪些日常可先做到 70–80 分，方便團隊對齊優先順序。'
+          '這一段時間是 5/28 院務會議決議開始落地的第一週，重點在把線上工具、人力安排與考核資料建置串成同一條流程。',
+          '因 05/30 缺檔，這週摘要需明示資料不完整；其餘日期已有實際歸檔與月摘要可互相佐證。'
         ]
       },
       {
-        id: 'w2026-05-17_05-23',
-        title: '2026/05/17–05/23（近三週前）',
-        dateRange: '2026/05/17 – 2026/05/23',
-        roles: ['櫃檯助理', '跟診助理', '醫師協作 / 管理部'],
+        id: 'w2026-05-19_05-25',
+        title: '2026/05/19–05/25（近三週前）',
+        dateRange: '2026/05/19 – 2026/05/25',
+        roles: ['櫃檯助理', '排班 / 行政', '跟診助理'],
         sources: [
-          '每日歸檔_2026-05-17.md',
-          '每日歸檔_2026-05-18.md',
           '每日歸檔_2026-05-19.md',
           '每日歸檔_2026-05-20.md',
           '每日歸檔_2026-05-21.md',
           '每日歸檔_2026-05-22.md',
-          '每日歸檔_2026-05-23.md'
+          '每日歸檔_2026-05-23.md',
+          '每日歸檔_2026-05-24_無訊息.md',
+          '每日歸檔_2026-05-25.md'
         ],
-        completeness: { status: 'good', note: '每日歸檔 7/7 皆存在；內容可與 2026-05_摘要.md 交叉對照。' },
+        completeness: { status: 'good', note: '05/19–05/25 七天皆有對應歸檔，其中 05/24 為明確標示的無訊息日，可視為完整週資料。' },
         highlights: [
-          '會前固定動作：顏醫師討論 / 評估病人需先打開案例整理 PPT，避免醫師與櫃檯臨場才找資料。',
-          '排班規則細化：正常配置以 1 位醫師對 1 位助理為主；多助理需求與輪休方式必須在班表上正確標註。',
-          '規範收斂：6 月起劃休不得超劃、特休需先協商；同週也重申水雷射眼鏡清潔與醫師個人物品標示規則。'
+          '排班 / 公平性：5/19–5/20 集中釐清 1 位醫師對 1 位助理為原則、多助理配置與輪休標註方式，並要求不要因個別醫師難跟就常態性加排人力。',
+          '醫師看診異動：同週同步 6/5、6/17、6/18、6/26 等加診或加手術時段，也開始明確區分顏醫師特約、高自費與 VIP 病患的優先安排方式。',
+          '流程 / 品質：案例整理 PPT、補病人備註、VIP 討論、抽血協調與立唯 case 製作時間都在這週形成固定做法。'
         ],
         actions: [
           '櫃檯 / 跟診：把案例 PPT、VIP 關心、補病人聯繫紀錄與備註欄位視為固定前置流程。',
-          '排班：班表上清楚標註 1 / 1.5 / 2 位助理配置與輪休方式，避免現場誤認工作內容。',
-          '管理 / 教學：把劃休規則、眼鏡清潔、個人物品標示整理成短版 SOP，供開會與新人交接共用。'
+          '排班 / 行政：班表上清楚標註 1 / 1.5 / 2 位助理配置與輪休方式，避免現場誤認工作內容。',
+          '管理 / 教學：把立唯 case 製作時間、特約病人處理與抽血協調等規則整理成短版 SOP，供後續 6 月制度銜接。'
         ],
         background: [
-          '這週是 6 月規則正式上線前的收斂期，多項「公平性、品質、排班」規則一起落地，若沒有管理版摘要，最容易變成各說各話。',
-          '同週也開始討論 VIP / 高自費病患的照護與個管方式，代表現場服務與管理要求正在同步提高。'
+          '這是 6 月新規則全面上線前的整理週，許多後續在 5/26 之後正式落地的做法，實際上都在這週先被討論清楚。',
+          '由於 05/24 為明確無訊息日，這段摘要可和 2026-05_摘要.md 互相驗證，穩定度高於後一週的缺檔區間。'
         ]
       }
     ]
   },
   meeting: {
-    range: { start: '2026/04/01', end: '2026/06/06' },
-    rangeText: '2026/04/01 – 2026/06/06',
-    sourceText: '2026-04_摘要.md、2026-05_摘要.md、2026-06_摘要.md + 每日歸檔（05/17–06/06）',
-    qualityNote: '資料完整度：05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案。開會引用時請以有訊息版每日歸檔為主。'
+    range: { start: '2026/04/01', end: '2026/06/08' },
+    rangeText: '2026/04/01 – 2026/06/08',
+    sourceText: '2026-04_摘要.md、2026-05_摘要.md、2026-06_摘要.md + 每日歸檔（05/18–06/08）',
+    qualityNote: '資料完整度：04/25–05/13 有多日僅存「需人工檢查」版本；05/30 每日歸檔仍缺漏；06/03–06/05 已補入實際歸檔，但同日期仍保留較早排程產生的「無訊息」檔案；06/07–06/08 已有實際歸檔可用。開會引用時請以有訊息版每日歸檔為主。'
   }
 };
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 17806081624,
+    "title": "⚠️ 助理收料確認規範",
+    "type": "urgent",
+    "body": "<strong>來源</strong><br>顏醫師指示<br><br><strong>說明</strong><br>各位助理若送來的物品有疑慮時，請務必回報。<br><br><strong>原因</strong><br>因新人目前尚無責任歸屬，所有送來的物品須由<strong>正式助理親眼確認</strong>後方可收下。<br><br><strong>對象</strong><br>全體正式助理"
+  },
+  {
+    "id": 17806081707,
+    "title": "📦 廠商寄錯物品暫放二樓",
+    "type": "info",
+    "body": "<strong>狀況</strong><br>廠商寄錯物品，明後天將派人前來收回。<br><br><strong>暫放位置</strong><br>因擔心一樓無處擺放，已先放置於<strong>二樓休息室</strong>。<br><br><strong>請協助</strong><br>麻煩櫃檯同仁留意廠商來收件，感謝配合。"
+  },
+  {
+    "id": 17806081734,
+    "title": "🍩 休息室甜甜圈請享用",
+    "type": "general",
+    "body": "<strong>來源</strong><br>以醫師遲到扣打購買<br><br><strong>位置</strong><br>已放置於<strong>休息室</strong><br><br><strong>說明</strong><br>大家<strong>一人一個</strong>，請自行取用，感謝大家～"
+  },
+  {
+    "id": 17806071758,
+    "title": "📋 內規提醒：助理看牙規範",
+    "type": "urgent",
+    "body": "<strong>內規提醒</strong><br>助理於上班時間（不影響工作前提下）可給跟診醫師看牙。<br><br><strong>頻率限制</strong><br>每 3 個月 1 次<br><br><strong>單次時間限制</strong><br>不超過 45 分鐘／次",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 17806061126,
     "title": "📅 本週/下週醫師空檔與新醫師約診策略",
@@ -6233,7 +6260,7 @@ let events = {
       "name": "診所會議",
       "time": "00:00",
       "type": "meeting",
-      "note": ""
+      "note": "開會前請拍團體照"
     }
   ],
   "2026-06-10": [
@@ -6831,19 +6858,45 @@ function saveSuggestion() {
   }
 }
 
+function getMeetingDisplayDateText() {
+  const weekdayMap = ['日', '一', '二', '三', '四', '五', '六'];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const meetingDates = Object.entries(events || {})
+    .filter(([date, items]) => {
+      if (!Array.isArray(items)) return false;
+      return items.some(item =>
+        item &&
+        item.type === 'meeting' &&
+        /會議|開會/.test(`${item.name || ''} ${item.note || ''}`)
+      );
+    })
+    .map(([date]) => new Date(`${date}T00:00:00`))
+    .filter(date => !Number.isNaN(date.getTime()) && date >= today)
+    .sort((a, b) => a - b);
+
+  const target = meetingDates[0];
+  if (target) {
+    const y = target.getFullYear();
+    const m = String(target.getMonth() + 1).padStart(2, '0');
+    const d = String(target.getDate()).padStart(2, '0');
+    return `${y}/${m}/${d}（${weekdayMap[target.getDay()]}）`;
+  }
+
+  const fallback = new Date(today);
+  const day = fallback.getDay();
+  const daysToMon = day === 1 ? 0 : (8 - day) % 7 || 7;
+  fallback.setDate(fallback.getDate() + daysToMon);
+  const y = fallback.getFullYear();
+  const m = String(fallback.getMonth() + 1).padStart(2, '0');
+  const d = String(fallback.getDate()).padStart(2, '0');
+  return `${y}/${m}/${d}（${weekdayMap[fallback.getDay()]}）`;
+}
+
 // 初始化：設定顯示日期、載入預設角色過濾、計算進度
 function initMeetingPage() {
-  // 更新顯示日期為下一個週一
   const dateEl = document.getElementById('meetingDateDisplay');
-  if (dateEl) {
-    const now = new Date();
-    const day = now.getDay();
-    const daysToMon = day === 1 ? 0 : (8 - day) % 7 || 7;
-    const mon = new Date(now);
-    mon.setDate(now.getDate() + daysToMon);
-    const y = mon.getFullYear(), m = String(mon.getMonth()+1).padStart(2,'0'), d = String(mon.getDate()).padStart(2,'0');
-    dateEl.textContent = `${y}/${m}/${d}（一）`;
-  }
+  if (dateEl) dateEl.textContent = getMeetingDisplayDateText();
   const meeting = LINE_WEEKLY_SUMMARY_DATA?.meeting || {};
   const rangeEl = document.getElementById('meetingRangeText');
   const sourcesEl = document.getElementById('meetingSourcesText');
