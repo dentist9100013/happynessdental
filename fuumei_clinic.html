@@ -3697,7 +3697,7 @@ async function saveToFile() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260618070109';"
+      "const DATA_VERSION = '20260625070114';"
     );
 
     const writable = await _fileHandle.createWritable();
@@ -3756,7 +3756,7 @@ function _saveToFileByDownload() {
     const ver = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}${String(today.getHours()).padStart(2,'0')}${String(today.getMinutes()).padStart(2,'0')}`;
     html = html.replace(
       /const DATA_VERSION = '[^']*';/,
-      "const DATA_VERSION = '20260618070109';"
+      "const DATA_VERSION = '20260625070114';"
     );
 
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -3829,7 +3829,7 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20260618070109';
+const DATA_VERSION = '20260625070114';
 
 // ─── LINE 週報摘要資料（每週更新）───
 // 僅使用資料來源：
@@ -3944,6 +3944,123 @@ const LINE_WEEKLY_SUMMARY_DATA = {
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 1780623114,
+    "title": "🛡️ 雷射護目鏡使用提醒（各波長對應）",
+    "type": "info",
+    "body": "<strong>新進護目鏡</strong><br>診所新進符合光動力波長的雷射保護眼鏡（上方貼有「光動力」標示），放置於光動力機器旁，請大家妥善愛惜。<br><br><strong>雷射眼鏡標示適用波長，本診所各雷射波長：</strong><br>1. 水雷射：Er:YAG 2940nm<br>2. 以下皆屬二極體雷射：<br>　・二極體雷射：980nm<br>　・畢卡索：810nm<br>　・光動力：吸盤808nm、筆660nm<br><br>請依雷射機種配戴對應波長之護目鏡，愛護眼睛、長久工作。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1780624172,
+    "title": "📢 管理部：現場病患優先請新醫師看診",
+    "type": "urgent",
+    "body": "<strong>管理部訊息</strong><br>現場病患若為非在場醫師看過、又未指定醫師者，盡量先詢問「新醫師」是否有空看診。<br><br><strong>新進醫師：</strong>王韻婷、邱柏智、陳卓毅<br>請新醫師的跟診助理（Gigi、Shan、璟妤、柔慈、YCC、韻文W）特別留意現場病患安排，麻煩了。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1780623135,
+    "title": "🐭 環境清潔與防蟲防鼠提醒",
+    "type": "info",
+    "body": "<strong>狀況</strong><br>7診近玻璃門處發現老鼠屎（疑由外面跑入），已於7診放置超音波驅鼠器，後續將再增購並佈設於診所各處。候診區亦曾發現蟑螂（已撲殺），後續會添購驅蟲香氛噴霧減少蟲害。<br><br><strong>請大家配合</strong><br>・食物類垃圾盡量丟二樓休息室<br>・流動每天務必倒垃圾<br>・食物類垃圾不可放隔夜",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1780624084,
+    "title": "📅 牙醫小幫手 線上預約注意事項",
+    "type": "info",
+    "body": "<strong>線上預約注意事項（綜合9位助理投票選出）</strong><br>1. 線上點選完不代表預約已完成，收到「確認預約成功」通知才算完成；未收到通知前請勿前往診所就診。<br>2. 預約當日改約、無故未到、遲到導致無法看診，系統將自動鎖定，日後無法使用線上預約；如無法前來，請於24小時前來電取消。<br>3. 預約時請於備註欄說明目前牙齒狀況；初診當天請攜帶本人健保卡，並提前10分鐘抵達診所建檔。<br>4. 預約時間為參考時間，醫師會盡力準時，但為顧及醫療品質難免延遲，敬請耐心等候。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1780624190,
+    "title": "🗓️ 下月劃休／臨時加診時程提醒",
+    "type": "urgent",
+    "body": "<strong>下月劃休</strong>：請於15號前提出（請醫師先看劃休當診約診狀況，適時告知助理如何改約，降低客訴風險）。<br><strong>下月臨時加診</strong>：請於25號前提出；26號後臨時加診需先問 Ivy（Min）或 Josey（璟妤）排班狀況，確認是否有助理可上班。<br><br>🌟 班表 28號公布 🌟",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1780624205,
+    "title": "🏅 幹部開會（6/25 11:30-13:30）",
+    "type": "gold",
+    "body": "<strong>時間</strong>：6月25日 11:30-13:30<br><strong>議程</strong><br>1. 幹部講解「顏醫師自費講解」<br>2. 診所內部管理問題討論<br>3. 幹部說明「診所升遷制度」（新人UNA提問）<br>4. 顏醫師植牙耗材介紹<br>5. 其他提案、或抽問規章<br><br><strong>與會</strong>：Min、璟妤、林芷晴、郭穎襄、晏瑜、Shan、Gigi",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1780623114700,
+    "title": "🥽 新進光動力雷射防護眼鏡",
+    "type": "info",
+    "body": "<strong>新設備</strong><br>診所新進符合光動力波長的雷射防護眼鏡（上方貼有「光動力」標示），放置於光動力機器旁邊。<br>請大家使用後妥善愛惜、放回原位。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1780623135000,
+    "title": "🐭 病媒防治與垃圾管理規範",
+    "type": "urgent",
+    "body": "<strong>蟲鼠情況</strong><br>7診靠近玻璃門處發現老鼠屎（疑由外部進入），已於7診放置超音波驅鼠器，後續將再增購擺放於診所各處。候診區亦曾發現蟑螂（已撲殺），將購入防蟲香料噴霧以減少蟲害。<br><strong>垃圾處理規範</strong><br>1. 食物類垃圾請盡量丟至二樓休息室。<br>2. 流動垃圾每天務必清倒。<br>3. 食物類垃圾不可放置隔夜。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 178062201745,
+    "title": "📋 助理考核表單填寫提醒",
+    "type": "info",
+    "body": "<strong>事項</strong><br>福美櫃檯已於 6/18（四）發送助理考核表單給全體醫師、助理，請尚未填寫者儘快完成。<br><br><strong>最後收單日</strong><br>6/24（三）",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1806134444,
+    "title": "🗓️ 下週約診醫師空檔提醒",
+    "type": "info",
+    "body": "<strong>請盡量幫醫師約滿空檔</strong><br>6/22（一）王醫師：午診15分、晚診15分<br>6/23（二）洪醫師午診15分；王醫師晚診30分<br>6/24（三）邱醫師晚診15分<br>6/26（五）陳醫師晚診60分<br>6/27（六）王醫師：早診15分、午診195分",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1806175637,
+    "title": "📦 牙材訂購貨到付款提醒",
+    "type": "info",
+    "body": "<strong>商登牙材訂購</strong><br>貨到付款 4800 元，請櫃檯留意收貨與付款。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1806223558,
+    "title": "📚 健保抽審申報教學",
+    "type": "info",
+    "body": "<strong>時間</strong>：6/22（一）14:00–16:00<br><strong>學習者</strong>：Min、璟妤、晏瑜",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
+  {
+    "id": 1806224711,
+    "title": "📣 醫師劃休與臨時加診新規範",
+    "type": "urgent",
+    "body": "<strong>人員增加，新增排班規範</strong><br><strong>下月劃休</strong>：請於 15 號前提出，並先確認該診約診狀況，適時告知助理如何改約以降低客訴。<br><strong>下月臨時加診</strong>：請於 25 號前提出；26 號後臨時加診需先詢問 Min 或 璟妤 是否有助理可上班。<br><strong>班表 28 號公布</strong><br>新醫師臨時劃休較好約，但資深醫師可能較難約，屆時再麻煩醫師協助調整改約方式。",
+    "author": "LINE 同步（已整合）",
+    "time": "剛剛",
+    "pinned": false
+  },
   {
     "id": 202606171001,
     "title": "🦷 顏醫師 7月加診/手術排程整合",
@@ -6532,6 +6649,14 @@ let events = {
       "note": "李醫師上課週：2026-06-17 ~ 2026-06-21"
     }
   ],
+  "2026-06-22": [
+    {
+      "name": "健保抽審申報教學",
+      "time": "14:00",
+      "type": "training",
+      "note": "學習者：Min、璟妤、晏瑜"
+    }
+  ],
   "2026-06-23": [
     {
       "name": "牙醫小幫手教學",
@@ -6540,12 +6665,26 @@ let events = {
       "note": "中餐比照開會；目前來源僅見 2026-06_摘要.md 的 06/12 條目，待每日歸檔補查。"
     }
   ],
+  "2026-06-24": [
+    {
+      "name": "助理考核表單最後收單日",
+      "time": "23:59",
+      "type": "other",
+      "note": "福美櫃檯收回考核表單截止"
+    }
+  ],
   "2026-06-25": [
     {
       "name": "幹部會議",
       "time": "00:00",
       "type": "meeting",
       "note": ""
+    },
+    {
+      "name": "幹部開會",
+      "time": "11:30",
+      "type": "meeting",
+      "note": "自費講解、管理問題、升遷制度、植牙耗材介紹、抽問規章"
     }
   ],
   "2026-06-26": [
