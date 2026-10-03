@@ -3829,7 +3829,7 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20261002071001';
+const DATA_VERSION = '20261003094821';
 
 // ─── LINE 週報摘要資料（每週更新）───
 // 僅使用資料來源：
@@ -4086,6 +4086,24 @@ const LINE_WEEKLY_SUMMARY_DATA = {
 
 // ─── DATA ───
 let announcements = [
+  {
+    "id": 202610030950,
+    "title": "🗓️ 本週／下週醫師約診空檔（請優先補滿）",
+    "type": "info",
+    "body": "請櫃檯留意以下醫師空檔，盡量幫醫師把約診排滿：<br><table style=\"border-collapse:collapse;width:100%\"><tr><th style=\"padding:4px 8px;border:1px solid #EDE8E0;background:#F7F3EE\">日期</th><th style=\"padding:4px 8px;border:1px solid #EDE8E0;background:#F7F3EE\">診次</th><th style=\"padding:4px 8px;border:1px solid #EDE8E0;background:#F7F3EE\">醫師</th><th style=\"padding:4px 8px;border:1px solid #EDE8E0;background:#F7F3EE\">空檔</th></tr><tr><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">10/3（六）</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">午診</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">洪醫師</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">15 分</td></tr><tr><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">10/3（六）</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">午診</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">蕭醫師</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">15 分</td></tr><tr><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">10/6（二）</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">晚診</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">男黃醫師</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">30 分</td></tr><tr><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">10/9（五）</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">午診</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">邱醫師</td><td style=\"padding:4px 8px;border:1px solid #EDE8E0\">45 分</td></tr></table><br>※ 10/3 更新：邱醫師空檔改為 <strong>10/9（五）午診 45 分</strong>（取代 10/2 公告的晚診 30 分）。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/10/03",
+    "pinned": false
+  },
+  {
+    "id": 202610030951,
+    "title": "⚠️ 植牙診斷書：開立前先詢問病患特殊需求",
+    "type": "urgent",
+    "body": "櫃檯及跟診助理請注意：病患要開<strong>「植牙」那次的診斷書</strong>時，請先詢問是否有特殊需求（例如希望診斷書<strong>不特別提到「植牙」</strong>）。<br>若病患有此需求，需向病患說明：<strong>保險公司如來查證，診所仍會如實告知有植牙</strong>（被查機率不高）。",
+    "author": "LINE 同步（已整合）",
+    "time": "2026/10/02",
+    "pinned": false
+  },
   {
     "id": 202610021430,
     "title": "💰 自費價目調整（115年10月起適用）",
