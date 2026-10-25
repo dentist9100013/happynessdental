@@ -1,0 +1,105 @@
+/* 福美 AI 事務所（總覽頁最上方的像素辦公室）
+   深色木框＋暖色遊戲 UI，亮暗模式都用同一套（場景本身是暖色像素畫） */
+.fo{min-width:0;--fo-frame:#2b2420;--fo-panel:#332a24;--fo-panel2:#3d322b;--fo-ink:#f3e6cc;--fo-muted:#bfae92;--fo-gold:#f0b44c;
+  --fo-ok:#4fd18a;--fo-warn:#ffb23a;--fo-fail:#ff5a4a;--fo-wait:#7cb1ea;
+  background:var(--fo-frame);border-radius:16px;padding:10px 10px 12px;margin-bottom:22px;color:var(--fo-ink);
+  box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.fo-bar{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;padding:2px 6px 9px;font-size:13.5px}
+.fo-bar b{font-size:16px;letter-spacing:1px;color:var(--fo-gold)}
+.fo-bar .fo-hol{background:#7a2f2a;color:#ffe9d0;border-radius:999px;padding:1px 10px;font-size:12.5px}
+.fo-bar .fo-hol:empty{display:none}
+.fo-bar .fo-sp{margin-left:auto}
+.fo-btn{font:inherit;font-size:12.5px;color:var(--fo-ink);background:var(--fo-panel2);border:1px solid #5a4a3e;border-radius:8px;padding:3px 10px;cursor:pointer}
+.fo-btn:hover{border-color:var(--fo-gold)}
+.fo-btn:focus-visible{outline:2px solid var(--fo-gold);outline-offset:2px}
+.fo-stage{position:relative;border-radius:10px;overflow:hidden;background:#1d1815;line-height:0}
+.fo-stage canvas{width:100%;aspect-ratio:2752/1536;display:block;image-rendering:auto;cursor:default}
+.fo-stage canvas.hand{cursor:pointer}
+.fo-tip{position:absolute;pointer-events:none;background:rgba(31,25,21,.94);color:var(--fo-ink);border:1px solid #6b5848;border-radius:8px;
+  padding:6px 9px;font-size:12.5px;line-height:1.45;max-width:260px;transform:translate(-50%,-100%);white-space:normal;z-index:2}
+.fo-tip b{color:var(--fo-gold);font-size:13.5px}
+.fo-tip .st{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:1px}
+/* 欄寬用 minmax(0,…)：不讓不換行的長名稱把欄位撐出畫面 */
+.fo-panels{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:10px}
+@media (max-width:900px){.fo-panels{grid-template-columns:minmax(0,1fr)}}
+.fo-p{background:var(--fo-panel);border:1px solid #4a3d33;border-radius:12px;padding:12px 14px;min-width:0}
+.fo-p h4{font-size:14px;color:var(--fo-gold);letter-spacing:2px;text-align:center;margin-bottom:8px;font-weight:700}
+.fo-p h4:before,.fo-p h4:after{content:"—";color:#7a6654;margin:0 8px;font-weight:400}
+/* 今日小記：便條紙 */
+.fo-note{background:#f6ecd2;color:#3a2e24;border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.6;
+  background-image:repeating-linear-gradient(transparent 0 23px,rgba(150,120,80,.18) 23px 24px);min-height:150px}
+.fo-note .t{font-weight:700;font-size:14px;margin-bottom:4px}
+.fo-note .d{color:#8a7558;font-size:11.5px;text-align:right}
+.fo-note ul{padding-left:18px}
+.fo-note li{margin:2px 0}
+.fo-note .who{color:#6b2e8f;font-weight:700}
+/* 運作狀態 */
+.fo-counts{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
+.fo-counts div{background:var(--fo-panel2);border-radius:8px;padding:4px 10px;text-align:center;min-width:56px}
+.fo-counts b{display:block;font-size:20px;line-height:1.2}
+.fo-counts span{font-size:11.5px;color:var(--fo-muted)}
+.fo-lights{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 10px}
+.fo-light{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--fo-ink);background:none;border:0;padding:2px 0;cursor:pointer;text-align:left;font-family:inherit;min-width:0}
+.fo-light span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fo-light:hover span{color:var(--fo-gold)}
+.fo-light i,.fo-dot{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block;background:#666}
+.ok{--c:var(--fo-ok)} .warn{--c:var(--fo-warn)} .fail{--c:var(--fo-fail)} .wait{--c:var(--fo-wait)}
+.fo-light i,.fo-dot{background:var(--c,#666)}
+/* 員工名冊 */
+.fo-member{display:flex;align-items:center;gap:10px;padding:5px 4px;border-radius:8px;cursor:pointer;background:none;border:0;width:100%;color:inherit;font:inherit;text-align:left}
+.fo-member:hover{background:var(--fo-panel2)}
+.fo-av{width:40px;height:40px;border-radius:8px;background:#4a3d33;flex:none;object-fit:contain;display:block}
+.fo-member .n{font-size:13.5px;font-weight:700}
+.fo-member .r{font-size:11.5px;color:var(--fo-muted)}
+.fo-member .s{margin-left:auto;font-size:11.5px;display:flex;align-items:center;gap:5px;white-space:nowrap}
+/* 收合 */
+.fo.collapsed .fo-panels{display:none}
+.fo.collapsed .fo-stage canvas{aspect-ratio:auto;height:300px;object-fit:cover;object-position:50% 70%}
+@media (max-width:600px){.fo.collapsed .fo-stage canvas{height:220px}}
+.fo-bar .fo-ev{background:#2f5d50;color:#e6fff4}
+/* 角色介紹卡（點員工名冊開啟） */
+.fo-card{border:0;padding:0;margin:auto;inset:0;max-height:calc(100vh - 32px);overflow:auto;background:transparent;max-width:min(760px,calc(100vw - 32px));width:100%;color:var(--fo-ink)}
+.fo-card::backdrop{background:rgba(20,14,10,.62)}
+.fo-card-in{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);background:var(--fo-panel);border:2px solid #6b5848;border-radius:16px;overflow:hidden;
+  box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.fo-pic{background:linear-gradient(160deg,#f6e7cc,#e9d2ae);display:flex;align-items:center;justify-content:center;min-height:300px}
+.fo-pic img{width:100%;height:100%;object-fit:cover;display:block}
+.fo-pic.pixel img{width:62%;height:auto;object-fit:contain}
+.fo-info{padding:18px 20px 16px;font-size:13.5px;line-height:1.65;min-width:0}
+.fo-card-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.fo-card-h b{font-size:22px;color:var(--fo-gold);letter-spacing:1px}
+.fo-card-h span{color:var(--fo-muted);font-size:13px}
+.fo-card-st{display:flex;align-items:center;gap:6px;font-size:12.5px;margin:4px 0 10px;color:var(--fo-muted)}
+.fo-info p{margin:0 0 8px}
+.fo-trait b{color:var(--fo-gold);font-size:12px;margin-right:8px;letter-spacing:1px}
+.fo-quote{color:#e9d9b8;font-style:italic}
+.fo-jobs{background:var(--fo-panel2);border-radius:10px;padding:8px 10px;margin:10px 0 12px}
+.fo-jobs-h{font-size:11.5px;color:var(--fo-muted);margin-bottom:4px}
+.fo-job{display:flex;align-items:center;gap:7px;width:100%;background:none;border:0;color:inherit;font:inherit;font-size:12.5px;padding:3px 0;cursor:pointer;text-align:left}
+.fo-job:hover .jn{color:var(--fo-gold)}
+.fo-job .js{margin-left:auto;color:var(--fo-muted);font-size:11.5px;white-space:nowrap}
+.fo-card-act{display:flex;gap:8px;justify-content:flex-end}
+@media (max-width:640px){.fo-card-in{grid-template-columns:minmax(0,1fr)}.fo-pic{min-height:0;aspect-ratio:1/1;max-height:300px}}
+/* 器械小教室介紹卡 */
+.fo-lesson .fo-pic{background:#fff}
+.fo-lesson .fo-pic img{object-fit:contain;padding:10px;box-sizing:border-box}
+.fo-lesson .fo-pic.pixel img{image-rendering:pixelated;width:70%}
+.fo-tags{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.fo-tags span{font-size:11.5px;background:var(--fo-panel2);border-radius:999px;padding:1px 9px;color:var(--fo-muted)}
+.fo-tags .now{background:#6b2e8f;color:#f3e6ff}
+.fo-tags .same{background:#2f5d50;color:#e6fff4}
+.fo-info .lb{display:inline-block;color:var(--fo-gold);font-size:12px;letter-spacing:1px;margin-right:8px}
+.fo-notes ul{margin:2px 0 8px 18px;padding:0}
+.fo-notes li{margin:2px 0}
+.fo-procs{margin:0 0 8px}
+.fo-procs span{display:inline-block;font-size:11.5px;border:1px solid #5a4a3e;border-radius:6px;padding:0 6px;margin:2px 4px 2px 0}
+.fo-src{font-size:11px;color:var(--fo-muted)}
+.fo-card-act{flex-wrap:wrap}
+.fo-card-act a.fo-btn{text-decoration:none;display:inline-block}
+/* 網站版（院內網站首頁）：運作狀態完整顯示、不可點 */
+.fo.site .fo-light{cursor:default;align-items:flex-start}
+.fo.site .fo-light i{margin-top:4px}
+.fo.site .fo-light span{white-space:normal;overflow:visible;line-height:1.45}
+.fo.site .fo-light:hover span{color:inherit}
+.fo.site .fo-job{cursor:default}
+.fo.site .fo-job:hover .jn{color:inherit}
