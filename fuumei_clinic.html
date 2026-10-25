@@ -3833,7 +3833,7 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20261025064115';
+const DATA_VERSION = '20261025233535';
 
 // ─── LINE 週報摘要資料（每週更新）───
 // 僅使用資料來源：
@@ -9265,9 +9265,13 @@ let events = {
     if (savedAnn && Array.isArray(savedAnn) && savedAnn.length > 0) {
       if (isNewVersion) {
         // 新版本：將 HTML 中有但 localStorage 沒有的公告（以 id 比對）插入最前
-        const savedIds = new Set(savedAnn.map(a => a.id));
-        const newEntries = announcements.filter(a => !savedIds.has(a.id));
-        announcements = [...newEntries, ...savedAnn];
+        // 自動產生的公告（如臨時班表異動日曆）固定 id，一律以 HTML 最新版取代瀏覽器舊版
+        const AUTO_REFRESH_IDS = new Set([209901010001]);
+        const freshAuto = announcements.filter(a => AUTO_REFRESH_IDS.has(a.id));
+        const keptSaved = savedAnn.filter(a => !AUTO_REFRESH_IDS.has(a.id));
+        const savedIds = new Set(keptSaved.map(a => a.id));
+        const newEntries = announcements.filter(a => !AUTO_REFRESH_IDS.has(a.id) && !savedIds.has(a.id));
+        announcements = [...freshAuto, ...newEntries, ...keptSaved];
       } else {
         announcements = savedAnn;
       }
