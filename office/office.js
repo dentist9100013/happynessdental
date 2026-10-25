@@ -525,18 +525,20 @@
     ctx.fillStyle = 'rgba(31,25,21,.85)'; roundRect(bx, by, tw, 40, 10); ctx.fill();
     ctx.fillStyle = '#f0b44c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(c.def.name, x + w / 2, by + 21);
   }
+  // 手機畫面很窄：對話框放大約 2.6 倍，字才看得清楚（約 12px）
+  const BF = SMALL ? 2.6 : 1;
   function drawBubble(c, text, t) {
-    ctx.font = '500 32px "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif';
-    const L = wrapText(`${c.def.name}：${text}`, 560), lh = 42;
-    const bw = Math.max(...L.map(l => ctx.measureText(l).width)) + 36, bh = L.length * lh + 22;
+    ctx.font = `500 ${Math.round(32 * BF)}px "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif`;
+    const L = wrapText(`${c.def.name}：${text}`, SMALL ? 1150 : 560), lh = 42 * BF, pad = 18 * BF;
+    const bw = Math.max(...L.map(l => ctx.measureText(l).width)) + pad * 2, bh = L.length * lh + 22 * BF;
     let bx = c.box[0] + c.box[2] / 2 - bw / 2, by = c.box[1] - bh - 24;
     bx = Math.max(12, Math.min(W - bw - 12, bx)); by = Math.max(12, by);
-    ctx.fillStyle = '#fffaf0'; ctx.strokeStyle = '#2b2420'; ctx.lineWidth = 5; roundRect(bx, by, bw, bh, 12); ctx.fill(); ctx.stroke();
-    const tx = Math.min(Math.max(c.x, bx + 24), bx + bw - 24);
-    ctx.beginPath(); ctx.moveTo(tx - 12, by + bh - 2); ctx.lineTo(tx, by + bh + 18); ctx.lineTo(tx + 12, by + bh - 2); ctx.closePath(); ctx.fill();
-    ctx.beginPath(); ctx.moveTo(tx - 12, by + bh); ctx.lineTo(tx, by + bh + 18); ctx.lineTo(tx + 12, by + bh); ctx.stroke();
+    ctx.fillStyle = '#fffaf0'; ctx.strokeStyle = '#2b2420'; ctx.lineWidth = 5 * BF; roundRect(bx, by, bw, bh, 12 * BF); ctx.fill(); ctx.stroke();
+    const tx = Math.min(Math.max(c.x, bx + 24 * BF), bx + bw - 24 * BF), aw = 12 * BF, ah = 18 * BF;
+    ctx.beginPath(); ctx.moveTo(tx - aw, by + bh - 2); ctx.lineTo(tx, by + bh + ah); ctx.lineTo(tx + aw, by + bh - 2); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(tx - aw, by + bh); ctx.lineTo(tx, by + bh + ah); ctx.lineTo(tx + aw, by + bh); ctx.stroke();
     ctx.fillStyle = '#2b2420'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-    L.forEach((l, i) => ctx.fillText(l, bx + 18, by + 12 + i * lh));
+    L.forEach((l, i) => ctx.fillText(l, bx + pad, by + 12 * BF + i * lh));
   }
 
   // ---------- 互動 ----------
