@@ -135,13 +135,21 @@
   root.querySelector('[data-act=toggle]').textContent = root.classList.contains('collapsed') ? '展開' : '收合';
 
   // ---------- 素材 ----------
-  const img = src => { const i = new Image(); i.src = BASE + src; return i; };
-  const BG = img('assets/bg.jpg'), BOARD_IMG = img('assets/board.png');
+  // 手機等小畫面（寬度 < 760）改用 assets/sm/ 的半尺寸 WebP（_工具/make_small.py 產生），下載量約 1/10
+  const SMALL = (mount.clientWidth || window.innerWidth || 1200) < 760, SK = SMALL ? 0.5 : 1;
+  const sm = src => SMALL ? 'assets/sm/' + src.replace(/^assets\//, '').replace(/\.(png|jpe?g)$/, '.webp') : src;
+  // 圖片等動畫捲到畫面附近才開始下載（網站首頁的動畫在最下面，不拖慢首頁）
+  let started = false; const QUEUE = [];
+  const img = src => { const i = new Image(); if (started) i.src = BASE + src; else QUEUE.push([i, BASE + src]); return i; };
+  function begin() { if (started) return; started = true; QUEUE.splice(0).forEach(([i, s]) => { i.src = s; }); }
+  const BG = img(sm('assets/bg.jpg')), BOARD_IMG = img(sm('assets/board.png'));
   const SHEETS = {};
-  Object.keys(SP.chars).forEach(id => { SHEETS[id] = img(SP.chars[id].img); SHEETS[id].onload = () => { if (typeof panels === 'function') panels(); }; });
+  Object.keys(SP.chars).forEach(id => { SHEETS[id] = img(sm(SP.chars[id].img)); });
+  const CORE = () => [BG, BOARD_IMG].concat(Object.values(SHEETS));
+  const AV = id => BASE + (SMALL ? `assets/sm/avatars/${id}.webp` : `assets/avatars/${id}.png`);
 
   const DECOR_IMG = {}; // 用到哪個主題才載入，不要一次全部下載
-  const decorImg = k => (SP.decor && SP.decor[k]) ? (DECOR_IMG[k] || (DECOR_IMG[k] = img(SP.decor[k].img))) : null;
+  const decorImg = k => (SP.decor && SP.decor[k]) ? (DECOR_IMG[k] || (DECOR_IMG[k] = img(sm(SP.decor[k].img)))) : null;
   const QS = new URLSearchParams(location.search);
   const FO_THEME = QS.get('fo-theme'); // 測試用：?fo-theme=halloween / xmas / cny / newyear / dragonboat / midautumn
   const FO_DATE = (QS.get('fo-date') || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); // 測試用：?fo-date=2026-11-13 看活動當天
@@ -376,6 +384,15 @@
     if (out.length > 5) { out.length = 5; out[4] = out[4].slice(0, -1) + '…'; }
     return out;
   }
+  let lampCv = null, lampDk = -1;
+  function lampLayer(dk) {
+    if (!lampCv) { lampCv = document.createElement('canvas'); lampCv.width = W / 4; lampCv.height = H / 4; }
+    if (Math.abs(dk - lampDk) > 0.01) {
+      lampDk = dk; const c = lampCv.getContext('2d'); c.clearRect(0, 0, lampCv.width, lampCv.height); c.setTransform(0.25, 0, 0, 0.25, 0, 0);
+      LAMPS.forEach(([x, y, r]) => { const g = c.createRadialGradient(x, y, 4, x, y, r); g.addColorStop(0, `rgba(255,190,110,${dk * 0.55})`); g.addColorStop(1, 'rgba(255,190,110,0)'); c.fillStyle = g; c.fillRect(x - r, y - r, r * 2, r * 2); });
+    }
+    return lampCv;
+  }
   function roundRect(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
   function draw(t) {
     const cw = cv.width, ch = cv.height;
@@ -387,7 +404,14 @@
     const S = Math.max(K, sy), ox = (cw - W * S) / 2, oy = (ch - H * S) * 0.7;
     ctx.setTransform(S, 0, 0, S, ox, oy);
     view = { S, ox, oy };
-    if (BG.complete && BG.naturalWidth) ctx.drawImage(BG, 0, 0, W, H);
+    const core = CORE(), ready = core.filter(i => i.complete && i.naturalWidth).length;
+    if (ready < core.length) { // 載入中：深色底＋進度，不要只出現一半的人
+      ctx.fillStyle = '#1d1815'; ctx.fillRect(0, 0, W, H); ctx.fillStyle = '#f0b44c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = '700 72px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillText('福美 AI 事務所 準備中…', W / 2, H / 2 - 40);
+      ctx.fillStyle = '#4a3d33'; ctx.fillRect(W / 2 - 500, H / 2 + 50, 1000, 26); ctx.fillStyle = '#f0b44c'; ctx.fillRect(W / 2 - 500, H / 2 + 50, 1000 * ready / core.length, 26);
+      return;
+    }
+    ctx.drawImage(BG, 0, 0, W, H);
     const items = D ? D.items : [];
     // 監控牆 16 格
     items.slice(0, 16).forEach((it, i) => {
@@ -424,7 +448,7 @@
       if (d.glow) { const a = 0.35 + 0.12 * Math.sin(t / 500 + d.x), g = ctx.createRadialGradient(d.x, y + h * 0.45, 4, d.x, y + h * 0.45, Math.max(w, h) * 0.9);
         g.addColorStop(0, `rgba(255,170,80,${a})`); g.addColorStop(1, 'rgba(255,170,80,0)'); ctx.fillStyle = g; ctx.fillRect(d.x - w * 1.2, y - h * 0.5, w * 2.4, h * 2); }
       ctx.globalAlpha = d.twinkle ? 0.82 + 0.18 * Math.sin(t / 260 + d.x) : 1;
-      ctx.drawImage(dimg, f[0], f[1], f[2], f[3], x, y, w, h); ctx.globalAlpha = 1;
+      ctx.drawImage(dimg, f[0] * SK, f[1] * SK, f[2] * SK, f[3] * SK, x, y, w, h); ctx.globalAlpha = 1;
       if (d.fu) { ctx.save(); ctx.translate(d.x, y + h / 2); ctx.fillStyle = '#1f130c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.font = `900 ${Math.round(h * 0.42)}px "PingFang TC","Noto Sans TC","Microsoft JhengHei",serif`; ctx.fillText('福', 0, h * 0.02); ctx.restore(); }
       if (d.notice && d.ev && d.ev.notice) { // 公告紙：先蓋掉紙上的雜線，再寫活動文字
@@ -451,7 +475,7 @@
         ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.45, 22, 0, 0, Math.PI * 2); ctx.stroke(); }
       ctx.save(); ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.translate(c.x, c.y + bob);
       if (c.face < 0 && (c.pose === 'walk1' || c.pose === 'walk2' || c.pose === 'travel')) ctx.scale(-1, 1);
-      ctx.drawImage(sh, fx, fy, fw, fh, -fw / 2, -fh, fw, fh); ctx.restore();
+      ctx.drawImage(sh, fx * SK, fy * SK, fw * SK, fh * SK, -fw / 2, -fh, fw, fh); ctx.restore();
       c.box = [c.x - fw / 2, c.y - fh, fw, fh];
     });
     // 夜間
@@ -459,7 +483,7 @@
     if (dk > 0) {
       ctx.fillStyle = `rgba(14,18,48,${dk})`; ctx.fillRect(0, 0, W, H);
       ctx.globalCompositeOperation = 'lighter';
-      LAMPS.forEach(([x, y, r]) => { const g = ctx.createRadialGradient(x, y, 4, x, y, r); g.addColorStop(0, `rgba(255,190,110,${dk * 0.55})`); g.addColorStop(1, 'rgba(255,190,110,0)'); ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2); });
+      ctx.drawImage(lampLayer(dk), 0, 0, W, H);
       ctx.globalCompositeOperation = 'source-over';
     }
     // 名牌（滑鼠指到的人）
@@ -568,7 +592,7 @@
         : `<button class="fo-job ${i.status}" type="button" data-act="item" data-id="${esc(i.id)}"><i class="fo-dot"></i><span class="jn">${esc(i.name)}</span><span class="js">${esc(i.schedule || '')}</span></button>`).join('');
     card.innerHTML = `<div class="fo-card-in">
       <div class="fo-pic"><img src="${BASE}assets/portraits/${id}.jpg" alt="${esc(c.def.name)}的大頭照"
-        onerror="this.onerror=null;this.src='${BASE}assets/avatars/${id}.png';this.parentNode.classList.add('pixel')"></div>
+        onerror="this.onerror=null;this.src='${AV(id)}';this.parentNode.classList.add('pixel')"></div>
       <div class="fo-info">
         <div class="fo-card-h"><b>${esc(c.def.name)}</b><span>${esc(bio.title || c.def.role)}</span></div>
         <div class="fo-card-st ${md.level}"><i class="fo-dot"></i>${esc(c.def.human ? '' : ST_TXT[md.level] + '・')}${esc(where)}・${esc(ROOM_NAME[c.def.room])}</div>
@@ -611,6 +635,7 @@
   // ---------- 面板 ----------
   const MODE_TXT = { work: '工作中', walk: '走動中', idle: '待命', worry: '冒汗中', alarm: '出狀況', sleep: '下班睡覺', fade: '走動中' };
   const EV_TXT = a => a.phase === 'during' ? `${a.e.name}進行中` : a.phase === 'post' ? `${a.e.name}回來了` : `${a.e.name}倒數 ${a.days} 天`;
+  const setHTML = (sel, h) => { const el = root.querySelector(sel); if (el && el.__h !== h) { el.__h = h; el.innerHTML = h; } };
   function panels() {
     const today = now();
     root.querySelector('.fo-date').textContent = `${today.getMonth() + 1}/${today.getDate()}（${'日一二三四五六'[today.getDay()]}）${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}`;
@@ -626,28 +651,29 @@
       h = `<div class="t">${esc(A.headline || 'Claude 的便條')}</div><ul>${(A.items || []).slice(0, 3).map(x => `<li>${esc(x.title)}</li>`).join('')}</ul>`;
     } else h = '<div class="t">今天還沒有小記</div>每天早上 Claude 會留一張便條在這裡。';
     h += `<div class="d">${esc((S && S.date === iso ? '' : (A && A.generated_at) || '') || '')}</div>`;
-    root.querySelector('.fo-note').innerHTML = h;
+    setHTML('.fo-note', h);
     // 運作狀態
     if (D) {
       const c = D.counts;
-      root.querySelector('.fo-counts').innerHTML = [['ok', '正常'], ['warn', '需注意'], ['fail', '失敗']].map(([k, n]) => `<div class="${k}"><b style="color:var(--c)">${c[k] || 0}</b><span>${n}</span></div>`).join('');
-      root.querySelector('.fo-lights').innerHTML = D.items.map(i => SITE
+      setHTML('.fo-counts', [['ok', '正常'], ['warn', '需注意'], ['fail', '失敗']].map(([k, n]) => `<div class="${k}"><b style="color:var(--c)">${c[k] || 0}</b><span>${n}</span></div>`).join(''));
+      setHTML('.fo-lights', D.items.map(i => SITE
         ? `<div class="fo-light ${i.status}" title="${esc(i.summary)}"><i></i><span>${esc(i.name)}</span></div>` // 網站版：完整顯示、不連結
-        : `<button class="fo-light ${i.status}" type="button" data-act="item" data-id="${esc(i.id)}" title="${esc(i.summary)}"><i></i><span>${esc(i.name)}</span></button>`).join('');
+        : `<button class="fo-light ${i.status}" type="button" data-act="item" data-id="${esc(i.id)}" title="${esc(i.summary)}"><i></i><span>${esc(i.name)}</span></button>`).join(''));
     }
     // 員工名冊
-    root.querySelector('.fo-list').innerHTML = chars.map(c => {
+    setHTML('.fo-list', chars.map(c => {
       const md = c.mood || moodOf(c.def);
       // 大頭照由 _工具/make_avatars.py 依頭部位置裁成同樣大小（頭頂到脖子）
-      return `<button class="fo-member" type="button" data-act="member" data-id="${c.def.id}"><img class="fo-av" src="${BASE}assets/avatars/${c.def.id}.png" alt="">
+      return `<button class="fo-member" type="button" data-act="member" data-id="${c.def.id}"><img class="fo-av" src="${AV(c.def.id)}" alt="">
         <span><span class="n">${esc(c.def.name)}</span><br><span class="r">${esc(c.def.role)}</span></span>
         <span class="s ${md.level}"><span class="fo-dot"></span>${esc(c.hidden ? '員工旅遊中' : c.room !== c.def.room ? `在${ROOM_NAME[c.room]}串門子` : (MODE_TXT[c.mode] || ''))}</span></button>`;
-    }).join('');
+    }).join(''));
   }
 
   // ---------- 主迴圈 ----------
   let last = performance.now(), visible = true, lastPanel = 0;
   function loop(t) {
+    if (SMALL && t - last < 30) { requestAnimationFrame(loop); return; } // 手機：約每秒 30 格就夠
     const dt = Math.min(0.1, (t - last) / 1000); last = t;
     if (visible && !document.hidden) {
       chars.forEach(c => step(c, t, dt)); tickBubble(t); draw(t);
@@ -655,7 +681,10 @@
     }
     requestAnimationFrame(loop);
   }
-  if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(cv);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(cv);
+    new IntersectionObserver(es => { if (es[0].isIntersecting) begin(); }, { rootMargin: '800px 0px' }).observe(mount);
+  } else begin();
   window.addEventListener('resize', resize);
   function refreshMoods() { const t = performance.now(); chars.forEach(c => { const before = c.mood && c.mood.level; c.mood = moodOf(c.def);
     if (c.mode !== 'walk' && (c.mood.level === 'fail' || before === 'fail' || isNight())) decide(c, t); }); }
