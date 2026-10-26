@@ -201,7 +201,13 @@
     const [x, y] = SPOTS[def.room][def.home];
     return { def, room: def.room, x, y, tx: x, ty: y, mode: 'work', until: performance.now() + rnd(2000, 9000), pose: 'sit', face: 1, alpha: 1, visit: null };
   });
-  function frameOf(c) { const f = SP.chars[c.def.id].frames; return f[c.pose] || f.stand; }
+  // 站著閒晃時隨機換姿勢（10/27 新增喝飲料、伸懶腰）；開口說話時先揮手（見 drawPose）
+  const idlePose = () => { const r = Math.random(); return r < 0.5 ? 'stand' : r < 0.8 ? 'drink' : 'stretch'; };
+  function frameOf(c, pose) { const f = SP.chars[c.def.id].frames; return f[pose || c.pose] || f.stand; }
+  function drawPose(c, t) { // 站著的人剛開口的 1.6 秒揮個手
+    if (bubble && bubble.c === c && c.mode === 'idle' && t - bubble.start < 1600) return 'wave';
+    return c.pose;
+  }
   function fade(c, t, dir, done) { c.mode = 'fade'; c.fadeDir = dir; c.fadeStart = t; c.fadeDone = done; }
   function startReturn(c, t) { c.visit = c.visit || {}; c.visit.stage = 'return'; goTo(c, DOORS[c.room]); }
   function goTo(c, spot) { c.tx = spot[0]; c.ty = spot[1]; c.mode = 'walk'; }
@@ -249,7 +255,7 @@
     const v = c.visit;
     if (v.stage === 'toDoor') { fade(c, t, -1, t2 => { c.room = v.to; [c.x, c.y] = DOORS[v.to]; v.stage = 'enter';
       fade(c, t2, 1, t3 => { v.stage = 'inRoom'; goTo(c, pickSpot(c, v.to, roomSpots(v.to), true)); }); }); return true; }
-    if (v.stage === 'inRoom') { v.stage = 'visiting'; c.mode = 'idle'; c.pose = 'stand'; c.until = t + rnd(6000, 10000); return true; }
+    if (v.stage === 'inRoom') { v.stage = 'visiting'; c.mode = 'idle'; c.pose = idlePose(); c.until = t + rnd(6000, 10000); return true; }
     if (v.stage === 'return') { fade(c, t, -1, t2 => { c.room = c.def.room; [c.x, c.y] = DOORS[c.room]; v.stage = 'home';
       fade(c, t2, 1, () => { c.visit = null; goTo(c, c.def.human && lessonBusy() ? LESSON_SPOT : SPOTS[c.room][c.def.home]); }); }); return true; }
     return false;
@@ -268,7 +274,7 @@
         if (c.visit && arriveVisit(c, t)) return;
         const home = SPOTS[c.def.room][c.def.home];
         if (c.x === home[0] && c.y === home[1]) { c.mode = 'work'; c.pose = 'sit'; c.until = t + rnd(8000, 14000); }
-        else { c.mode = 'idle'; c.pose = 'stand'; c.until = t + rnd(3000, 5500); }
+        else { c.mode = 'idle'; c.pose = idlePose(); c.until = t + rnd(3000, 5500); }
         decideNow(c, t, true); return; }
       c.x += dx / d * v; c.y += dy / d * v; if (Math.abs(dx) > 2) c.face = dx > 0 ? 1 : -1;
       const eve = c.def.human && activeEvents().some(a => a.e.kind === 'trip' && a.phase === 'eve');
@@ -377,7 +383,7 @@
       queue = program(t); if (!queue.length) { nextBubble = t + 5000; return; }
     }
     const [who, text] = queue.shift(), c = charOf(who);
-    if (c && !c.hidden && text) bubble = { c, text, until: t + sayFor(text) };
+    if (c && !c.hidden && text) bubble = { c, text, until: t + sayFor(text), start: t };
     else nextBubble = t + 300;
   }
 
@@ -479,8 +485,8 @@
       if (c.decor) { drawDecor(c.decor); return; }
       if (c.hidden) { c.box = null; return; }
       const sh = SHEETS[c.def.id]; if (!sh.complete || !sh.naturalWidth) return;
-      const [fx, fy, fw, fh] = frameOf(c);
-      const bob = c.pose === 'stand' ? Math.round(Math.sin(t / 400 + c.x) * 2) : 0;
+      const pose = drawPose(c, t), [fx, fy, fw, fh] = frameOf(c, pose);
+      const bob = (pose === 'stand' || pose === 'drink' || pose === 'wave') ? Math.round(Math.sin(t / 400 + c.x) * 2) : 0;
       // 腳下影子
       ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.32, 12, 0, 0, Math.PI * 2); ctx.fill();
       if (c.mood && c.mood.level === 'fail') { ctx.strokeStyle = `rgba(255,70,50,${0.5 + 0.4 * Math.sin(t / 180)})`; ctx.lineWidth = 6;
@@ -612,7 +618,7 @@
     if (b.dataset.act === 'lesson-prev') openLesson(lessonIdx - 1);
     if (b.dataset.act === 'lesson-next') openLesson(lessonIdx + 1);
     if (b.dataset.act === 'find') { const c = chars.find(c => c.def.id === b.dataset.id); card.close();
-      if (c && !c.hidden) { bubble = { c, text: c.def.line, until: performance.now() + 5000 }; nextBubble = performance.now() + 6000; }
+      if (c && !c.hidden) { bubble = { c, text: c.def.line, until: performance.now() + 5000, start: performance.now() }; nextBubble = performance.now() + 6000; }
       window.scrollTo({ top: cv.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' }); }
   });
 
@@ -750,7 +756,7 @@
     for (let i = 0; i < sec * 10; i++) { chars.forEach(c => step(c, t, 0.1));
       if (talk) { tickBubble(t); if (bubble && bubble !== last) { last = bubble; said.push(`${Math.round(i / 10)}s ${bubble.c.def.name}：${bubble.text}`); } }
       t += 100;
-      if (i % 10 === 9) out.push(chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, hidden: !!c.hidden }))); }
+      if (i % 10 === 9) out.push(chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, pose: c.pose, hidden: !!c.hidden }))); }
     return talk ? said : out; };
-  window.FUMEI_OFFICE_DEBUG = () => ({ theme: theme(), bubble: bubble && `${bubble.c.def.name}：${bubble.text}`, modes: chars.map(c => `${c.def.name}:${c.hidden ? 'away' : c.mode}@${c.room}`), events: activeEvents().map(EV_TXT), lesson: { now: (lessonAt(slotNow()) || {}).zh, phase: lesson && lesson.phase, total: LESSONS.length }, queue: queue.length, weekly: WEEKLY.length, pinned: pinned && pinned.ev.title, pos: chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, hidden: !!c.hidden })) });
+  window.FUMEI_OFFICE_DEBUG = () => ({ theme: theme(), bubble: bubble && `${bubble.c.def.name}：${bubble.text}`, modes: chars.map(c => `${c.def.name}:${c.hidden ? 'away' : c.mode}@${c.room}`), events: activeEvents().map(EV_TXT), lesson: { now: (lessonAt(slotNow()) || {}).zh, phase: lesson && lesson.phase, total: LESSONS.length }, queue: queue.length, weekly: WEEKLY.length, pinned: pinned && pinned.ev.title, pos: chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, pose: c.pose, hidden: !!c.hidden })) });
 })();
