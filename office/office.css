@@ -103,3 +103,5 @@
 .fo.site .fo-light:hover span{color:inherit}
 .fo.site .fo-job{cursor:default}
 .fo.site .fo-job:hover .jn{color:inherit}
+/* 每週話題介紹卡：沒有圖時左邊是一張便條 */
+.fo-note-big{background:#fff3a8;color:#3a2e24;font-weight:800;font-size:20px;line-height:1.5;padding:24px;margin:24px;border-radius:4px;box-shadow:0 6px 14px rgba(0,0,0,.25);transform:rotate(-2deg);text-align:center}

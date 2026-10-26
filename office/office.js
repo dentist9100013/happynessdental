@@ -305,6 +305,10 @@
   // ---------- 對話框：導播（小故事、狀況回報、小叮嚀、互動小劇場、節慶台詞、器械小教室輪流播） ----------
   let bubble = null, nextBubble = performance.now() + 2500; // 等資料（含 story.js）載完再開始說話
   let queue = [], storyAt = -1e9, lastSkit = performance.now();
+  // 每週話題（web/weekly.js，週三 06:00 排程任務產生）：診所 LINE 的事＋牙科議題，播放時在公告室布告欄釘一張照片／便條
+  const WEEKLY = (window.FUMEI_OFFICE_WEEKLY && window.FUMEI_OFFICE_WEEKLY.events) || [];
+  let lastWeekly = performance.now() - 2 * 60000, pinned = null; // pinned＝{ ev, until }
+  const PIN = { x: 1490, y: 172, w: 176, h: 206 }; // 公告室布告欄上的位置（世界座標）
   const alertAt = {}; // 同一人的狀況回報至少隔 10 分鐘才再講
   const BAGS = {}; // 洗牌袋：一輪講完才會重複
   function draw1(key, arr) {
@@ -337,6 +341,13 @@
     const up = chars.filter(awake); if (!up.length) return [];
     const alerts = up.filter(c => statusLine(c) && t - (alertAt[c.def.id] || -1e9) > 10 * 60000);
     if (alerts.length && Math.random() < 0.5) { const c = alerts[Math.floor(Math.random() * alerts.length)]; alertAt[c.def.id] = t; return [[c.def.id, statusLine(c)]]; }
+    if (WEEKLY.length && t - lastWeekly > rnd(3, 6) * 60000 && Math.random() < 0.5) {
+      const newest = WEEKLY.reduce((m, e) => e.week > m ? e.week : m, '');
+      const pool = Math.random() < 0.7 ? WEEKLY.filter(e => e.week === newest) : WEEKLY; // 七成播最新一週
+      const ok = pool.filter(e => e.beats.every(([w]) => awake(charOf(w))));
+      const ev = draw1('weekly:' + newest + ':' + ok.length, ok);
+      if (ev) { lastWeekly = t; pinned = { ev, until: t + 90000 + ev.beats.length * 9000 }; return ev.beats.slice(); }
+    }
     if (t - lastSkit > rnd(4, 8) * 60000 && Math.random() < 0.5) {
       const ok = (TALK.skits || []).filter(k => k.beats.every(([w]) => awake(charOf(w))));
       const k = draw1('skit:' + ok.length, ok); if (k) { lastSkit = t; return k.beats.slice(); }
@@ -460,6 +471,7 @@
     }
     places.filter(d => d.hang).forEach(drawDecor);
     drawBoard();
+    drawPin(t);
     // 角色與地上裝飾（依底部 y 排序）
     const floorDecor = places.filter(d => !d.hang).map(d => ({ decor: d, y: d.y }));
     const order = chars.concat(floorDecor).sort((a, b) => a.y - b.y);
@@ -518,6 +530,25 @@
     ctx.fillStyle = '#1f6fb2'; ctx.font = '700 38px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillText('點我看介紹 ▶', 570, 430, 410);
     ctx.restore();
   }
+  const WEEKLY_IMG = {};
+  const weeklyImg = ev => ev.img ? (WEEKLY_IMG[ev.id] || (WEEKLY_IMG[ev.id] = img(sm(ev.img)))) : null;
+  const onPin = (wx, wy) => pinned && performance.now() < pinned.until && wx >= PIN.x - PIN.w / 2 && wx <= PIN.x + PIN.w / 2 && wy >= PIN.y && wy <= PIN.y + PIN.h;
+  function drawPin(t) { // 每週話題播放時：布告欄釘一張拍立得（有圖）或便條（沒圖），寫上標題
+    if (!pinned || t > pinned.until) { pinned = null; return; }
+    const ev = pinned.ev, im = weeklyImg(ev), { x, y, w, h } = PIN;
+    ctx.save(); ctx.translate(x, y + h / 2); ctx.rotate(-0.04);
+    ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(-w / 2 + 6, -h / 2 + 8, w, h);
+    ctx.fillStyle = im ? '#fbfaf5' : '#fff3a8'; ctx.fillRect(-w / 2, -h / 2, w, h);
+    if (im && im.complete && im.naturalWidth) { const s = Math.min((w - 20) / im.naturalWidth, (h - 66) / im.naturalHeight), iw = im.naturalWidth * s, ih = im.naturalHeight * s;
+      ctx.fillStyle = ev.kind === 'dental' ? '#dff0f7' : '#f3e8f7'; ctx.fillRect(-w / 2 + 10, -h / 2 + 10, w - 20, h - 66);
+      ctx.drawImage(im, -iw / 2, -h / 2 + 10 + (h - 66 - ih) / 2, iw, ih); }
+    ctx.fillStyle = '#2b2420'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = `700 ${im ? 22 : 26}px "PingFang TC","Noto Sans TC",sans-serif`;
+    const lines = wrapText(ev.title, w - 24).slice(0, im ? 2 : 5);
+    lines.forEach((l, i) => ctx.fillText(l, 0, (im ? h / 2 - 44 : -h / 2 + 44) + i * (im ? 24 : 32), w - 16));
+    ctx.fillStyle = ev.kind === 'dental' ? '#1f6fb2' : '#6b2e8f'; ctx.beginPath(); ctx.arc(0, -h / 2 + 4, 9, 0, Math.PI * 2); ctx.fill(); // 圖釘
+    ctx.restore();
+  }
   let view = { S: 1, ox: 0, oy: 0 };
   function nameTag(c) {
     const [x, y, w] = c.box; ctx.font = '700 30px "PingFang TC","Noto Sans TC",sans-serif';
@@ -548,6 +579,9 @@
   cv.addEventListener('mousemove', ev => {
     const [wx, wy, r] = toWorld(ev); const c = hit(wx, wy); hover = c || null; cv.classList.toggle('hand', !!c);
     if (!c) {
+      if (onPin(wx, wy)) { cv.classList.add('hand');
+        tip.innerHTML = `<b>本週話題</b>　${esc(pinned.ev.title)}<br><span style="color:#bfae92">點一下看說明</span>`;
+        tip.style.left = (ev.clientX - r.left) + 'px'; tip.style.top = (ev.clientY - r.top - 14) + 'px'; tip.hidden = false; return; }
       const l = onBoard(wx, wy) && lessonAt(slotNow()); cv.classList.toggle('hand', !!l);
       if (!l) { tip.hidden = true; return; }
       tip.innerHTML = `<b>器械小教室</b>　${esc(l.zh)}<br><span style="color:#bfae92">每 30 分鐘換一個，點一下看介紹</span>`;
@@ -564,7 +598,8 @@
     const el = document.getElementById('job-' + id); window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
   }
   cv.addEventListener('click', ev => { const [wx, wy] = toWorld(ev); const c = hit(wx, wy);
-    if (!c) { if (onBoard(wx, wy) && LESSONS.length) openLesson(LESSONS.indexOf(lessonAt(slotNow()))); return; }
+    if (!c) { if (onPin(wx, wy)) return openWeekly(pinned.ev);
+      if (onBoard(wx, wy) && LESSONS.length) openLesson(LESSONS.indexOf(lessonAt(slotNow()))); return; }
     if (SITE) return openCard(c.def.id);
     const md = c.mood || moodOf(c.def); openItem((md.item || {}).id || c.def.items[0]); });
   root.addEventListener('click', ev => {
@@ -630,6 +665,21 @@
           <button class="fo-btn" type="button" data-act="lesson-next">下一個 ▶</button>
           ${SITE ? '' : `<a class="fo-btn" href="${esc(KIT)}index.html" target="_blank" rel="noopener">打開器械認識</a>`}
           <button class="fo-btn" type="button" data-act="close">關閉</button></div>
+      </div></div>`;
+    if (!card.open) { if (card.showModal) card.showModal(); else card.setAttribute('open', ''); }
+  }
+
+  function openWeekly(ev) {
+    const name = id => (STAFF.find(s => s.id === id) || {}).name || id;
+    card.innerHTML = `<div class="fo-card-in fo-lesson">
+      <div class="fo-pic ${ev.img ? 'pixel' : ''}">${ev.img ? `<img src="${BASE + sm(ev.img)}" alt="" onerror="this.onerror=null;this.src='${BASE + ev.img}'">` : `<div class="fo-note-big">${esc(ev.title)}</div>`}</div>
+      <div class="fo-info">
+        <div class="fo-card-h"><b>${esc(ev.title)}</b></div>
+        <div class="fo-tags"><span class="${ev.kind === 'dental' ? 'same' : 'now'}">${ev.kind === 'dental' ? '牙科話題' : '診所大小事'}</span><span>${esc(ev.week)} 那週</span></div>
+        ${ev.card && ev.card.body ? `<p>${esc(ev.card.body)}</p>` : ''}
+        <div class="fo-notes"><b class="lb">辦公室的對話</b><ul>${ev.beats.map(([w, x]) => `<li><b>${esc(name(w))}</b>：${esc(x)}</li>`).join('')}</ul></div>
+        ${ev.card && ev.card.source ? `<p class="fo-src">來源：${esc(ev.card.source)}</p>` : ''}
+        <div class="fo-card-act"><button class="fo-btn" type="button" data-act="close">關閉</button></div>
       </div></div>`;
     if (!card.open) { if (card.showModal) card.showModal(); else card.setAttribute('open', ''); }
   }
@@ -702,5 +752,5 @@
       t += 100;
       if (i % 10 === 9) out.push(chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, hidden: !!c.hidden }))); }
     return talk ? said : out; };
-  window.FUMEI_OFFICE_DEBUG = () => ({ theme: theme(), bubble: bubble && `${bubble.c.def.name}：${bubble.text}`, modes: chars.map(c => `${c.def.name}:${c.hidden ? 'away' : c.mode}@${c.room}`), events: activeEvents().map(EV_TXT), lesson: { now: (lessonAt(slotNow()) || {}).zh, phase: lesson && lesson.phase, total: LESSONS.length }, queue: queue.length, pos: chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, hidden: !!c.hidden })) });
+  window.FUMEI_OFFICE_DEBUG = () => ({ theme: theme(), bubble: bubble && `${bubble.c.def.name}：${bubble.text}`, modes: chars.map(c => `${c.def.name}:${c.hidden ? 'away' : c.mode}@${c.room}`), events: activeEvents().map(EV_TXT), lesson: { now: (lessonAt(slotNow()) || {}).zh, phase: lesson && lesson.phase, total: LESSONS.length }, queue: queue.length, weekly: WEEKLY.length, pinned: pinned && pinned.ev.title, pos: chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, hidden: !!c.hidden })) });
 })();
