@@ -1681,7 +1681,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/fireba
 import {
   getFirestore, collection, doc,
   setDoc, addDoc, onSnapshot, deleteField,
-  serverTimestamp
+  serverTimestamp, getDocs, deleteDoc, writeBatch
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 // ============ 設定區 ============
@@ -2933,12 +2933,66 @@ const staffAddBtn = document.getElementById("staffAdd");
 
 let staffEditRole = "doctor";   // 名單管理目前編輯的角色
 let staffDoctorDraft = [];      // 醫師草稿（字串陣列）
-let staffAsstDraft = [];        // 助理草稿（{en, zh} 陣列）
+let staffDoctorOrig = [];       // 醫師草稿每列原本的名字（新增的列為 ""），用來偵測改名
+let staffAsstDraft = [];        // 助理草稿（{en, zh, orig} 陣列；orig = 原本的顯示名）
 
 function escapeAttr(s) {
   return String(s)
     .replace(/&/g, "&amp;").replace(/"/g, "&quot;")
     .replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// ----- 改名時搬移班表資料 -----
+// 依每天的 entries 算出要怎麼搬：舊名字的資料搬到新名字；新名字當天已有資料就以新名字為準（那是畫面上看得到、較新的）
+function planNameMigration(dayDocs, renames) {
+  const patches = [];
+  dayDocs.forEach(({ id, entries }) => {
+    const patch = {};
+    renames.forEach(({ orig, name }) => {
+      if (!entries || !(orig in entries)) return;
+      if (!(name in entries) && !(name in patch)) patch[name] = entries[orig];
+      patch[orig] = null;   // null 代表刪掉舊 key
+    });
+    if (Object.keys(patch).length) patches.push({ id, patch });
+  });
+  return patches;
+}
+
+// 2026-10-29 H-005：改用 writeBatch，連同名單一起寫入。總寫入數 ≤ 500 時是「全部成功或全部不做」，
+// 不會出現搬一半（部分日子新名、部分舊名）的狀況；超過 500 筆才分批，名單放在最後一批。
+async function migrateScheduleNames(schedCol, renames, configRef, configData) {
+  const snap = await getDocs(schedCol);
+  const dayDocs = snap.docs.map(d => ({ id: d.id, entries: d.data().entries || {} }));
+  const patches = planNameMigration(dayDocs, renames);
+  const ops = [];
+  patches.forEach(({ id, patch }) => {
+    const entries = {};
+    Object.entries(patch).forEach(([k, v]) => { entries[k] = v === null ? deleteField() : v; });
+    ops.push(b => b.set(doc(schedCol, id), { entries, ts: serverTimestamp() }, { merge: true }));
+  });
+
+  // 「北昕已設定」勾選的 key 也含名字：bxin_年_月_名字_日_類型
+  const bsnap = await getDocs(BXIN_COL);
+  const bxinIds = new Set(bsnap.docs.map(d => d.id));
+  bsnap.docs.forEach(d => {
+    const m = d.id.match(/^(bxin_\d+_\d+_)(.+)(_\d+_(?:rest|extra))$/);
+    if (!m) return;
+    const r = renames.find(x => x.orig === m[2]);
+    if (!r) return;
+    const newId = m[1] + r.name + m[3];
+    const data = d.data();
+    if (!bxinIds.has(newId)) ops.push(b => b.set(doc(BXIN_COL, newId), data));
+    ops.push(b => b.delete(d.ref));
+  });
+
+  ops.push(b => b.set(configRef, configData));   // 名單最後寫，確保搬完才換名單
+  const LIMIT = 450;
+  for (let i = 0; i < ops.length; i += LIMIT) {
+    const batch = writeBatch(db);
+    ops.slice(i, i + LIMIT).forEach(fn => fn(batch));
+    await batch.commit();
+  }
+  return patches.length;
 }
 
 // ----- config 即時同步（名單以雲端為準）-----
@@ -3013,7 +3067,8 @@ adminTabStaff.addEventListener("click", () => openAdminTab("staff"));
 // ----- 載入草稿（從目前雲端名單複製一份）-----
 function loadStaffDrafts() {
   staffDoctorDraft = DOCTORS.map(n => n);
-  staffAsstDraft = ASSISTANTS.map(a => ({ en: a.en, zh: a.zh }));
+  staffDoctorOrig = DOCTORS.map(n => n);
+  staffAsstDraft = ASSISTANTS.map(a => ({ en: a.en, zh: a.zh, orig: assistantDisplayName(a) }));
   renderStaffList();
 }
 
@@ -3065,15 +3120,15 @@ staffListEl.addEventListener("click", e => {
   const del = e.target.closest("[data-del]");
   if (!del) return;
   const i = Number(del.dataset.del);
-  if (staffEditRole === "doctor") staffDoctorDraft.splice(i, 1);
+  if (staffEditRole === "doctor") { staffDoctorDraft.splice(i, 1); staffDoctorOrig.splice(i, 1); }
   else staffAsstDraft.splice(i, 1);
   renderStaffList();
 });
 
 // 新增一列
 staffAddBtn.addEventListener("click", () => {
-  if (staffEditRole === "doctor") staffDoctorDraft.push("");
-  else staffAsstDraft.push({ en: "", zh: "" });
+  if (staffEditRole === "doctor") { staffDoctorDraft.push(""); staffDoctorOrig.push(""); }
+  else staffAsstDraft.push({ en: "", zh: "", orig: "" });
   renderStaffList();
   const rows = staffListEl.querySelectorAll(".staff-row");
   rows[rows.length - 1]?.querySelector(".staff-input")?.focus();
@@ -3088,33 +3143,77 @@ staffSaveBtn.addEventListener("click", async () => {
   }
   adminPwdError.textContent = "";
 
-  let docId, list, label;
+  // rows：每列 { orig: 原本的名字（新增列為 ""）, name: 新的名字 }
+  // 班表資料是用名字當 key 存的，名字一改，舊資料就對不上（看起來像消失），所以改名時要一起搬資料
+  let docId, list, label, rows;
   if (staffEditRole === "doctor") {
-    list = staffDoctorDraft.map(n => n.trim()).filter(Boolean);
+    rows = staffDoctorDraft.map((n, i) => ({ orig: staffDoctorOrig[i] || "", name: n.trim() })).filter(r => r.name);
+    list = rows.map(r => r.name);
     if (!list.length) { showToast("醫師名單不可全空"); return; }
     if (new Set(list).size !== list.length) { showToast("醫師名單有重複，請修正"); return; }
     docId = "doctors"; label = "醫師";
   } else {
-    list = staffAsstDraft
-      .map(a => ({ en: a.en.trim(), zh: a.zh.trim() }))
+    const kept = staffAsstDraft
+      .map(a => ({ en: a.en.trim(), zh: a.zh.trim(), orig: a.orig || "" }))
       .filter(a => a.en || a.zh);
+    list = kept.map(a => ({ en: a.en, zh: a.zh }));
+    rows = kept.map(a => ({ orig: a.orig, name: assistantDisplayName(a) }));
     if (!list.length) { showToast("助理名單不可全空"); return; }
-    const displays = list.map(a => `${a.en} ${a.zh}`);
+    const displays = rows.map(r => r.name);
     if (new Set(displays).size !== displays.length) { showToast("助理名單有重複，請修正"); return; }
     docId = "assistants"; label = "助理";
+  }
+
+  const newNames = new Set(rows.map(r => r.name));
+  const renames = rows.filter(r => r.orig && r.orig !== r.name);
+  const origNames = staffEditRole === "doctor" ? staffDoctorOrig.filter(Boolean) : staffAsstDraft.map(a => a.orig).filter(Boolean);
+  const keptOrig = new Set(rows.map(r => r.orig));
+  const removed = origNames.filter(n => !keptOrig.has(n) && !newNames.has(n));
+  const schedCol = staffEditRole === "assistant" ? SCHEDULE_COL_ASSISTANT : SCHEDULE_COL_DOCTOR;
+
+  // 2026-10-29 H-005：新名字是別人原本的名字（互換或連鎖改名）時，資料會被覆蓋，先擋下
+  const origSet = new Set(rows.map(r => r.orig).filter(Boolean));
+  const clash = renames.filter(r => origSet.has(r.name));
+  if (clash.length) {
+    alert(`偵測到名字互換或連鎖改名：\n${clash.map(r => `「${r.orig}」→「${r.name}」`).join("\n")}\n\n「${clash[0].name}」目前還是名單上另一位的名字，直接改會讓班表資料互相覆蓋。\n請分兩次儲存：先把其中一位改成暫時名字（例如加上「_暫」）存檔，再改成最終名字。`);
+    return;
+  }
+
+  if (renames.length) {
+    const msg = renames.map(r => `「${r.orig}」→「${r.name}」`).join("\n");
+    if (!confirm(`偵測到改名：\n${msg}\n\n會把這些人原本填的班表一起搬到新名字，確定嗎？`)) return;
   }
 
   staffSaveBtn.disabled = true;
   showToast("儲存中，請稍候…");
   try {
-    await setDoc(doc(CONFIG_COL, docId), { list, ts: serverTimestamp() });
+    if (removed.length) {
+      const snap = await getDocs(schedCol);
+      const withData = removed.filter(n => snap.docs.some(d => (d.data().entries || {})[n]));
+      if (withData.length && !confirm(`下列人員已有填寫的班表：\n${withData.join("、")}\n\n移出名單後畫面上就看不到他們的資料（資料仍保留，之後用一模一樣的名字加回來就會再出現）。確定移出嗎？`)) {
+        return;
+      }
+    }
+
+    let moved = 0;
+    const configRef = doc(CONFIG_COL, docId);
+    if (renames.length) moved = await migrateScheduleNames(schedCol, renames, configRef, { list, ts: serverTimestamp() });
+    else await setDoc(configRef, { list, ts: serverTimestamp() });
     await addDoc(HISTORY_COL, {
       date: fmtDate(new Date()),
       role: staffEditRole,
-      action: `更新${label}名單（共 ${list.length} 位）`,
+      action: `更新${label}名單（共 ${list.length} 位）` + (renames.length ? `；改名 ${renames.map(r => `${r.orig}→${r.name}`).join("、")}（搬移 ${moved} 天）` : ""),
       ts: serverTimestamp()
     });
-    showToast(`✅ ${label}名單已更新並同步`);
+    // 以剛存的名單重設草稿（orig 改成新名字），避免同一視窗再次儲存時重複搬移
+    if (staffEditRole === "doctor") {
+      staffDoctorDraft = list.slice();
+      staffDoctorOrig = list.slice();
+    } else {
+      staffAsstDraft = list.map(a => ({ ...a, orig: assistantDisplayName(a) }));
+    }
+    renderStaffList();
+    showToast(`✅ ${label}名單已更新並同步` + (moved ? `，已搬移 ${moved} 天班表` : ""));
   } catch (err) {
     console.error(err);
     showToast("儲存失敗：" + err.message);
