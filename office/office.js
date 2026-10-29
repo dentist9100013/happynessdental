@@ -296,7 +296,7 @@
   const LESSON_IMG = {};
   const lessonImg = l => LESSON_IMG[l.id] || (LESSON_IMG[l.id] = img('assets/lessons/' + l.id + '.png'));
   // 每堂課開始後 90 秒內（白天、小美在辦公室時）小美會走到白板前講解
-  const lessonWindow = () => { const d = now(); return !isNight() && (d.getMinutes() % 30) * 60 + d.getSeconds() < 90; };
+  const lessonWindow = () => { const d = now(); return scene === 'office' && !isNight() &&(d.getMinutes() % 30) * 60 + d.getSeconds() < 90; };
   let lesson = null; // { slot, phase: 'walking' | 'talking' | 'done', t0 }
   const lessonBusy = () => !!lesson && lesson.phase !== 'done';
   function lessonBeats(l) {
@@ -306,6 +306,159 @@
     if (notes.length && Math.random() < 0.6) out.push(['mei', `還有：${notes[Math.floor(Math.random() * notes.length)]}`]);
     out.push(['mei', '想看照片和更多說明，點左邊的白板就有喔！']);
     return out;
+  }
+
+  // ---------- 休息室（21:30～隔天 09:00，背景 assets/rest.jpg；10/29 新增） ----------
+  // 每人一間房（世界座標）：bed＝睡臉放的枕頭中心（小推、顧問 Claude 房裡沒有床，doze＝坐著打盹的腳底）、
+  // hobby＝睡前嗜好、desk＝遠端工作、spots＝在房裡走動、brush＝刷牙；sleep／wake＝幾點睡、幾點起床
+  const ROOMS = {
+    kui: { bed: [405, 425], hobby: [560, 752], desk: [640, 748], spots: [[300, 750], [560, 750]], brush: [300, 750], sleep: '23:30', wake: '07:30' },
+    dang: { bed: [865, 595], hobby: [1340, 750], desk: [1250, 750], spots: [[1220, 750], [1350, 750]], brush: [1220, 750], sleep: '23:00', wake: '07:15' },
+    lai: { bed: [1870, 470], hobby: [1580, 700], desk: [1720, 745], spots: [[1600, 745], [1720, 750]], brush: [1650, 750], sleep: '00:30', wake: '07:40' },
+    tui: { doze: [2190, 690], hobby: [2400, 745], desk: [2300, 745], spots: [[2330, 745], [2500, 745]], brush: [2330, 745], sleep: '01:00', wake: '07:50' },
+    o: { bed: [385, 1140], hobby: [600, 1495], desk: [470, 1495], spots: [[420, 1495], [620, 1495]], brush: [400, 1495], sleep: '23:00', wake: '07:10' },
+    bei: { bed: [925, 1215], hobby: [1150, 1490], desk: [1300, 1495], spots: [[1120, 1495], [1300, 1495]], brush: [1120, 1495], sleep: '22:15', wake: '07:00' },
+    claude: { doze: [1560, 1395], hobby: [1700, 1490], desk: [1850, 1495], spots: [[1700, 1495], [1880, 1495]], brush: [1700, 1495], sleep: '22:30', wake: '07:05' },
+    mei: { bed: [2330, 1185], hobby: [2280, 1470], desk: [2420, 1495], spots: [[2150, 1495], [2420, 1495]], brush: [2150, 1495], sleep: '23:15', wake: '07:20' },
+  };
+  const HOBBY_TXT = { kui: '追劇中', dang: '整理照片中', lai: '滑手機中', tui: '打電動中', o: '組模型中', bei: '健身中', claude: '織毛線中', mei: '敷面膜中' };
+  const FO_SCENE = QS.get('fo-scene'); // 測試用：?fo-scene=rest / office 強制顯示某個場景（可搭配 ?fo-time）
+  // 「夜裡的分鐘數」：中午以前算成隔天（＋1440），所以 21:30＝1290、凌晨 1:00＝1500、早上 9:00＝1980
+  const nm = s => { const [h, m] = s.split(':').map(Number), v = h * 60 + m; return v < 720 ? v + 1440 : v; };
+  const nightMin = () => { const d = now(), v = d.getHours() * 60 + d.getMinutes() + d.getSeconds() / 60; return v < 720 ? v + 1440 : v; };
+  const UNIFORM_AT = nm('08:20'); // 換上制服準備出門
+  const sceneNow = () => FO_SCENE === 'rest' || FO_SCENE === 'office' ? FO_SCENE : (nightMin() >= 1290 && nightMin() < 1980 ? 'rest' : 'office');
+  let scene = 'office', sceneFx = null; // sceneFx＝{ t0, to }：換場時的淡出淡入字卡
+  const FX_ALL = 3400;
+  let REST_BG = null; const REST_SHEETS = {};
+  function loadRest() { // 休息室的圖用到才下載
+    if (REST_BG) return; REST_BG = img(sm('assets/rest.jpg'));
+    Object.keys(SP.chars).forEach(id => { if (SP.chars[id].restImg) REST_SHEETS[id] = img(sm(SP.chars[id].restImg)); });
+  }
+  const RCORE = () => { loadRest(); return [REST_BG].concat(Object.values(REST_SHEETS), Object.values(SHEETS)); };
+  function restFrame(c, pose) { // 便服動作在 _rest 動作條；制服動作（站、喝飲料、走路…）用辦公室的動作條
+    const s = SP.chars[c.def.id];
+    if (s.restFrames && s.restFrames[pose] && REST_SHEETS[c.def.id]) return [REST_SHEETS[c.def.id], s.restFrames[pose]];
+    return [SHEETS[c.def.id], s.frames[pose] || s.frames.stand];
+  }
+  function restPhase(c) {
+    const R = ROOMS[c.def.id], m = nightMin(), md = c.mood || moodOf(c.def);
+    if (inShift(c.def) || (md.level === 'fail' && !c.def.human)) return 'remote'; // 排程時段或系統出狀況：起來遠端工作
+    const s = nm(R.sleep), w = nm(R.wake);
+    if (m < s - 12) return 'hobby';
+    if (m < s) return 'brush';
+    if (m < w) return 'sleep';
+    if (m < w + 12) return 'brush';
+    return m < UNIFORM_AT ? 'casual' : 'uniform';
+  }
+  function restEnter(c, t, ph, instant) {
+    const R = ROOMS[c.def.id], prev = c.ph; c.ph = ph;
+    if (ph === 'sleep') {
+      const lie = () => { c.mode = 'sleep'; c.pose = R.doze ? 'doze' : 'sleepface'; [c.x, c.y] = R.doze || R.bed; c.tx = c.x; c.ty = c.y; c.until = 1e12; };
+      if (instant) { lie(); c.alpha = 1; return; }
+      return fade(c, t, -1, t2 => { lie(); fade(c, t2, 1, () => { c.mode = 'sleep'; c.until = 1e12; }); });
+    }
+    const pose = { hobby: 'hobby', brush: 'brush', remote: 'remote', casual: 'c_stand', uniform: 'stand' }[ph];
+    const swap = prev === 'sleep' || (ph === 'uniform' && prev === 'casual'); // 起床、換制服：原地淡出淡入
+    const spot = ph === 'uniform' && !instant ? [c.x, c.y] : { hobby: R.hobby, brush: R.brush, remote: R.desk, casual: R.spots[0], uniform: R.spots[1] }[ph];
+    const place = t3 => { [c.x, c.y] = spot; c.tx = c.x; c.ty = c.y; c.mode = 'idle'; c.pose = pose; c.until = t3 + rnd(8000, 16000); };
+    if (!instant) { // 換階段時說一句
+      const N = TALK.night || {}, say = ph === 'brush' ? (nightMin() > 1700 ? draw1('n:morning', N.morning) : draw1('n:gn', N.goodnight))
+        : ph === 'uniform' ? draw1('n:uniform', N.uniform) : ph === 'remote' ? draw1('n:remote:' + c.def.id, ((N.remote || {})[c.def.id] || []).concat((N.remote || {}).any || [])) : null;
+      if (say) queue.unshift([c.def.id, say]);
+    }
+    if (instant) { place(t); c.alpha = 1; return; }
+    if (swap) return fade(c, t, -1, t2 => { place(t2); fade(c, t2, 1, t3 => place(t3)); });
+    c.arrivePose = pose; goTo(c, spot);
+  }
+  function restStep(c, t, dt) {
+    c.hidden = awayToday(c.def); if (c.hidden) return;
+    const R = ROOMS[c.def.id];
+    if (c.mode === 'fade') {
+      const p = Math.min(1, (t - c.fadeStart) / 500); c.alpha = c.fadeDir < 0 ? 1 - p : p;
+      if (p >= 1) { const f = c.fadeDone; c.fadeDone = null; c.mode = 'idle'; c.until = t + 1e9; f && f(t); }
+      return;
+    }
+    const ph = restPhase(c);
+    if (ph !== c.ph) return restEnter(c, t, ph, false);
+    if (c.mode === 'walk') {
+      const dx = c.tx - c.x, dy = c.ty - c.y, d = Math.hypot(dx, dy), v = 70 * dt;
+      if (d <= v) { c.x = c.tx; c.y = c.ty; c.mode = 'idle'; c.pose = c.arrivePose === 'stand' ? idlePose() : c.arrivePose;
+        c.until = t + (c.pose === 'hobby' ? rnd(12000, 22000) : rnd(4000, 7000)); return; }
+      c.x += dx / d * v; c.y += dy / d * v; if (Math.abs(dx) > 2) c.face = dx > 0 ? 1 : -1;
+      const alt = Math.floor(t / 260) % 2; c.pose = ph === 'uniform' ? (alt ? 'walk1' : 'walk2') : (alt ? 'c_walk1' : 'c_walk2');
+      return;
+    }
+    if (t < c.until || c.mode === 'sleep') return;
+    const at = s => Math.hypot(c.x - s[0], c.y - s[1]) < 4;
+    if (ph === 'hobby') { // 玩一陣子、起來走走、再回去玩
+      if (!at(R.hobby)) { c.arrivePose = 'hobby'; return goTo(c, R.hobby); }
+      if (Math.random() < 0.35) { c.arrivePose = 'c_stand'; return goTo(c, R.spots[Math.floor(Math.random() * R.spots.length)]); }
+      c.until = t + rnd(12000, 22000); return;
+    }
+    if (ph === 'casual' || ph === 'uniform') {
+      const s = R.spots.filter(s => !at(s)); c.arrivePose = ph === 'casual' ? 'c_stand' : 'stand';
+      return goTo(c, s[Math.floor(Math.random() * s.length)] || R.spots[0]);
+    }
+    c.until = t + 10000;
+  }
+  function enterScene(s, t) {
+    scene = s; bubble = null; queue = []; pinned = null; lesson = null; nextBubble = t + 3000;
+    if (s === 'rest') { loadRest(); chars.forEach(c => { c.ph = null; c.mood = moodOf(c.def); restEnter(c, t, restPhase(c), true); }); }
+    else chars.forEach(c => { const [x, y] = SPOTS[c.def.room][c.def.home];
+      Object.assign(c, { room: c.def.room, x, y, tx: x, ty: y, mode: 'work', pose: 'sit', alpha: 1, visit: null, ph: null, until: t + rnd(2000, 9000) }); });
+  }
+  function whereTxt(c) { // 名冊與介紹卡上「現在在做什麼」
+    if (c.hidden) return '員工旅遊中';
+    if (scene === 'rest') {
+      if (c.mode === 'walk') return '在房間走動';
+      return { hobby: HOBBY_TXT[c.def.id] || '休息中', brush: '刷牙中', sleep: ROOMS[c.def.id].doze ? '坐著打盹' : '睡覺中',
+        remote: (c.mood || {}).level === 'fail' ? '半夜起來處理狀況' : '遠端工作中', casual: '起床了', uniform: '準備上班' }[c.ph] || '休息中';
+    }
+    return c.room !== c.def.room ? `在${ROOM_NAME[c.room]}串門子` : (MODE_TXT[c.mode] || '');
+  }
+  function restProgram(t) { // 休息室的對話：嗜好碎念、遠端工作、刷牙小叮嚀、睡前小劇場
+    const N = TALK.night || {}, up = chars.filter(awake); if (!up.length) return [];
+    const alerts = up.filter(c => statusLine(c) && t - (alertAt[c.def.id] || -1e9) > 10 * 60000);
+    if (alerts.length && Math.random() < 0.5) { const c = alerts[Math.floor(Math.random() * alerts.length)]; alertAt[c.def.id] = t; return [[c.def.id, statusLine(c)]]; }
+    if (t - lastSkit > rnd(3, 6) * 60000 && Math.random() < 0.5) {
+      const ok = (N.skits || []).filter(k => k.beats.every(([w]) => { const o = charOf(w); return awake(o) && o.ph === 'hobby'; }));
+      const k = draw1('nskit:' + ok.length, ok); if (k) { lastSkit = t; return k.beats.slice(); }
+    }
+    const c = up[Math.floor(Math.random() * up.length)], id = c.def.id;
+    const pool = c.ph === 'hobby' ? (N.hobby || {})[id] : c.ph === 'remote' ? ((N.remote || {})[id] || []).concat((N.remote || {}).any || [])
+      : c.ph === 'uniform' ? N.uniform : N.morning;
+    const text = draw1('n:' + c.ph + ':' + id, pool); return text ? [[id, text]] : [];
+  }
+  function drawRest(t) {
+    ctx.drawImage(REST_BG, 0, 0, W, H);
+    chars.slice().sort((a, b) => a.y - b.y).forEach(c => {
+      if (c.hidden) { c.box = null; return; }
+      let pose = c.pose;
+      if (pose === 'hobby') pose = Math.floor(t / 1700 + c.x / 97) % 2 ? 'hobby1' : 'hobby2';
+      if (c.ph === 'uniform' && bubble && bubble.c === c && c.mode === 'idle' && t - bubble.start < 1600) pose = 'wave';
+      const [sh, f] = restFrame(c, pose); if (!sh.complete || !sh.naturalWidth) return;
+      const [fx, fy, fw, fh] = f, face = pose === 'sleepface', x = c.x - fw / 2, y = face ? c.y - fh / 2 : c.y - fh;
+      if (!face && pose !== 'doze') { ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.32, 12, 0, 0, Math.PI * 2); ctx.fill(); }
+      ctx.save(); ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.translate(c.x, y + fh);
+      if (c.face < 0 && /walk/.test(pose)) ctx.scale(-1, 1);
+      ctx.drawImage(sh, fx * SK, fy * SK, fw * SK, fh * SK, -fw / 2, -fh, fw, fh); ctx.restore();
+      c.box = [x, y, fw, fh];
+      if (pose === 'remote') { // 筆電的光：出狀況時是紅色閃爍
+        const bad = (c.mood || {}).level === 'fail', a = bad ? 0.35 + 0.25 * Math.sin(t / 180) : 0.28, gx = c.x + fw * 0.12, gy = c.y - fh * 0.42;
+        const g = ctx.createRadialGradient(gx, gy, 4, gx, gy, 150); g.addColorStop(0, bad ? `rgba(255,70,50,${a})` : `rgba(150,200,255,${a})`); g.addColorStop(1, 'rgba(150,200,255,0)');
+        ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(gx - 150, gy - 150, 300, 300); ctx.globalCompositeOperation = 'source-over';
+      }
+      if (c.mode === 'sleep' && (c.alpha == null || c.alpha > 0.9)) { // Z z z 往上飄
+        ctx.fillStyle = '#e4ecff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        for (let i = 0; i < 3; i++) { const p = (t / 2400 + i / 3 + c.x / 1000) % 1;
+          ctx.globalAlpha = Math.sin(p * Math.PI) * 0.9; ctx.font = `800 ${26 + i * 9}px "PingFang TC",sans-serif`;
+          ctx.fillText('Z', x + fw * 0.85 + p * 40, y + 10 - p * 90); }
+        ctx.globalAlpha = 1;
+      }
+    });
+    const m = nightMin(); // 06:00 以後天慢慢亮：整間染上一點晨光
+    if (m > 1800) { ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = `rgba(255,205,150,${Math.min(1, (m - 1800) / 180) * 0.13})`; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; }
   }
 
   // ---------- 對話框：導播（小故事、狀況回報、小叮嚀、互動小劇場、節慶台詞、器械小教室輪流播） ----------
@@ -341,6 +494,7 @@
     return l ? `【${l.zh}】${l.notes[Math.floor(Math.random() * l.notes.length)]}` : null;
   }
   function program(t) { // 挑下一段要播的內容，放進 queue
+    if (scene === 'rest') return restProgram(t);
     const today = localISO(now()), story = window.FUMEI_STORY;
     const hasStory = story && story.date === today && Array.isArray(story.beats) && story.beats.length;
     if (hasStory && t - storyAt > 25 * 60000) { storyAt = t; return story.beats.map(b => [b.who, b.text]); }
@@ -375,7 +529,7 @@
     if (lesson && lesson.phase === 'walking' && (Math.hypot(mei.x - LESSON_SPOT[0], mei.y - LESSON_SPOT[1]) < 6 || t - lesson.t0 > 45000)) {
       lesson.phase = 'talking'; queue = lessonBeats(lessonAt(lesson.slot)); bubble = null; nextBubble = t + 400;
     }
-    if (bubble && t > bubble.until) { bubble = null; nextBubble = Math.max(nextBubble, t + (queue.length ? 700 : rnd(2500, 5000))); }
+    if (bubble && t > bubble.until) { bubble = null; nextBubble = Math.max(nextBubble, t + (queue.length ? 700 : scene === 'rest' ? rnd(6000, 12000) : rnd(2500, 5000))); } // 晚上安靜一點
     if (bubble || t < nextBubble) return;
     if (!queue.length) {
       if (lesson && lesson.phase === 'talking') { lesson.phase = 'done'; mei.until = t + 4000; }
@@ -421,13 +575,14 @@
     const S = Math.max(K, sy), ox = (cw - W * S) / 2, oy = (ch - H * S) * 0.7;
     ctx.setTransform(S, 0, 0, S, ox, oy);
     view = { S, ox, oy };
-    const core = CORE(), ready = core.filter(i => i.complete && i.naturalWidth).length;
+    const core = scene === 'rest' ? RCORE() : CORE(), ready =core.filter(i => i.complete && i.naturalWidth).length;
     if (ready < core.length) { // 載入中：深色底＋進度，不要只出現一半的人
       ctx.fillStyle = '#1d1815'; ctx.fillRect(0, 0, W, H); ctx.fillStyle = '#f0b44c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.font = '700 72px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillText('福美 AI 事務所 準備中…', W / 2, H / 2 - 40);
       ctx.fillStyle = '#4a3d33'; ctx.fillRect(W / 2 - 500, H / 2 + 50, 1000, 26); ctx.fillStyle = '#f0b44c'; ctx.fillRect(W / 2 - 500, H / 2 + 50, 1000 * ready / core.length, 26);
       return;
     }
+    if (scene === 'rest') drawRest(t); else {
     ctx.drawImage(BG, 0, 0, W, H);
     const items = D ? D.items : [];
     // 監控牆 16 格
@@ -504,10 +659,22 @@
       ctx.drawImage(lampLayer(dk), 0, 0, W, H);
       ctx.globalCompositeOperation = 'source-over';
     }
+    } // 辦公室場景結束
     // 名牌（滑鼠指到的人）
-    if (hover && hover.box) nameTag(hover);
+    if (hover && hover.box && !sceneFx) nameTag(hover);
     // 對話框
-    if (bubble && bubble.c.box) drawBubble(bubble.c, bubble.text, t);
+    if (bubble && bubble.c.box && !sceneFx) drawBubble(bubble.c, bubble.text, t);
+    // 換場字卡：21:30「下班囉」、09:00「早安」
+    if (sceneFx) {
+      const p = (t - sceneFx.t0) / FX_ALL, a = Math.max(0, Math.min(1, p < 0.3 ? p / 0.3 : p > 0.7 ? (1 - p) / 0.3 : 1)), rest = sceneFx.to === 'rest';
+      ctx.fillStyle = `rgba(20,15,12,${a})`; ctx.fillRect(0, 0, W, H);
+      ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#f0b44c'; ctx.font = `800 ${Math.round(96 * (SMALL ? 1.5 : 1))}px "PingFang TC","Noto Sans TC",sans-serif`;
+      ctx.fillText(rest ? '下班囉～大家辛苦了' : '早安，上班囉！', W / 2, H / 2 - 50, W - 120);
+      ctx.fillStyle = '#e8dcc6'; ctx.font = `500 ${Math.round(46 * (SMALL ? 1.5 : 1))}px "PingFang TC","Noto Sans TC",sans-serif`;
+      ctx.fillText(rest ? '回休息室囉，明天早上 9:00 見' : '換好制服，回辦公室開工', W / 2, H / 2 + 60 * (SMALL ? 1.5 : 1), W - 120);
+      ctx.globalAlpha = 1;
+    }
   }
   // 白板：板面是斜的平行四邊形，先換到板面座標（寬 1000 × 高 580）再畫字和像素圖
   const boardRect = () => { const s = BOARD.h / BOARD.src[1], w = BOARD.src[0] * s; return { s, x: BOARD.x - w / 2, y: BOARD.y - BOARD.h, w, h: BOARD.h }; };
@@ -585,6 +752,7 @@
   cv.addEventListener('mousemove', ev => {
     const [wx, wy, r] = toWorld(ev); const c = hit(wx, wy); hover = c || null; cv.classList.toggle('hand', !!c);
     if (!c) {
+      if (scene !== 'office') { tip.hidden = true; return; }
       if (onPin(wx, wy)) { cv.classList.add('hand');
         tip.innerHTML = `<b>本週話題</b>　${esc(pinned.ev.title)}<br><span style="color:#bfae92">點一下看說明</span>`;
         tip.style.left = (ev.clientX - r.left) + 'px'; tip.style.top = (ev.clientY - r.top - 14) + 'px'; tip.hidden = false; return; }
@@ -604,7 +772,7 @@
     const el = document.getElementById('job-' + id); window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
   }
   cv.addEventListener('click', ev => { const [wx, wy] = toWorld(ev); const c = hit(wx, wy);
-    if (!c) { if (onPin(wx, wy)) return openWeekly(pinned.ev);
+    if (!c) { if (scene !== 'office') return; if (onPin(wx, wy)) return openWeekly(pinned.ev);
       if (onBoard(wx, wy) && LESSONS.length) openLesson(LESSONS.indexOf(lessonAt(slotNow()))); return; }
     if (SITE) return openCard(c.def.id);
     const md = c.mood || moodOf(c.def); openItem((md.item || {}).id || c.def.items[0]); });
@@ -618,7 +786,7 @@
     if (b.dataset.act === 'lesson-prev') openLesson(lessonIdx - 1);
     if (b.dataset.act === 'lesson-next') openLesson(lessonIdx + 1);
     if (b.dataset.act === 'find') { const c = chars.find(c => c.def.id === b.dataset.id); card.close();
-      if (c && !c.hidden) { bubble = { c, text: c.def.line, until: performance.now() + 5000, start: performance.now() }; nextBubble = performance.now() + 6000; }
+      if (c && !c.hidden) { bubble = { c, text: scene === 'rest' && c.mode === 'sleep' ? '呼…呼…（睡得正熟）' : c.def.line, until: performance.now() + 5000, start: performance.now() }; nextBubble = performance.now() + 6000; }
       window.scrollTo({ top: cv.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' }); }
   });
 
@@ -629,7 +797,7 @@
   function openCard(id) {
     const c = chars.find(c => c.def.id === id); if (!c) return;
     const bio = BIO[id] || {}, md = c.mood || moodOf(c.def), items = (D && D.items) || [];
-    const where = c.hidden ? '員工旅遊中' : c.room !== c.def.room ? `在${ROOM_NAME[c.room]}串門子` : (MODE_TXT[c.mode] || '');
+    const where = whereTxt(c);
     const jobs = c.def.items.map(k => items.find(i => i.id === k)).filter(Boolean).map(i =>
       SITE ? `<div class="fo-job ${i.status}"><i class="fo-dot"></i><span class="jn">${esc(i.name)}</span><span class="js">${esc(i.schedule || '')}</span></div>`
         : `<button class="fo-job ${i.status}" type="button" data-act="item" data-id="${esc(i.id)}"><i class="fo-dot"></i><span class="jn">${esc(i.name)}</span><span class="js">${esc(i.schedule || '')}</span></button>`).join('');
@@ -724,17 +892,24 @@
       // 大頭照由 _工具/make_avatars.py 依頭部位置裁成同樣大小（頭頂到脖子）
       return `<button class="fo-member" type="button" data-act="member" data-id="${c.def.id}"><img class="fo-av" src="${AV(c.def.id)}" alt="">
         <span><span class="n">${esc(c.def.name)}</span><br><span class="r">${esc(c.def.role)}</span></span>
-        <span class="s ${md.level}"><span class="fo-dot"></span>${esc(c.hidden ? '員工旅遊中' : c.room !== c.def.room ? `在${ROOM_NAME[c.room]}串門子` : (MODE_TXT[c.mode] || ''))}</span></button>`;
+        <span class="s ${md.level}"><span class="fo-dot"></span>${esc(whereTxt(c))}</span></button>`;
     }).join(''));
   }
 
   // ---------- 主迴圈 ----------
   let last = performance.now(), visible = true, lastPanel = 0;
+  const stepAny = (c, t, dt) => scene === 'rest' ? restStep(c, t, dt) : step(c, t, dt);
+  function sceneTick(t) { // 時間到就換場：先淡出、全黑時換場景、再淡入
+    const want = sceneNow();
+    if (!sceneFx && want !== scene) { sceneFx = { t0: t, to: want }; if (want === 'rest') loadRest(); }
+    if (sceneFx && t - sceneFx.t0 > FX_ALL / 2 && scene !== sceneFx.to) { enterScene(sceneFx.to, t); lastPanel = 0; }
+    if (sceneFx && t - sceneFx.t0 > FX_ALL) sceneFx = null;
+  }
   function loop(t) {
     if (SMALL && t - last < 30) { requestAnimationFrame(loop); return; } // 手機：約每秒 30 格就夠
     const dt = Math.min(0.1, (t - last) / 1000); last = t;
     if (visible && !document.hidden) {
-      chars.forEach(c => step(c, t, dt)); tickBubble(t); draw(t);
+      sceneTick(t); chars.forEach(c => stepAny(c, t, dt)); tickBubble(t); draw(t);
       if (t - lastPanel > 5000) { panels(); lastPanel = t; }
     }
     requestAnimationFrame(loop);
@@ -745,18 +920,18 @@
   } else begin();
   window.addEventListener('resize', resize);
   function refreshMoods() { const t = performance.now(); chars.forEach(c => { const before = c.mood && c.mood.level; c.mood = moodOf(c.def);
-    if (c.mode !== 'walk' && (c.mood.level === 'fail' || before === 'fail' || isNight())) decide(c, t); }); }
+    if (scene === 'office' && c.mode !== 'walk' && (c.mood.level === 'fail' || before === 'fail' || isNight())) decide(c, t); }); }
   window.addEventListener('fumei-data', () => { D = window.FUMEI_STATUS || D; refreshMoods(); panels(); });
   D = window.FUMEI_STATUS || null;
-  resize(); refreshMoods(); panels();
+  resize(); refreshMoods(); if (sceneNow() === 'rest') enterScene('rest', performance.now()); panels();
   requestAnimationFrame(loop);
   // 除錯用（唯讀）：在主控台輸入 FUMEI_OFFICE_DEBUG() 看目前誰在說話、每人在做什麼
   // 測試用：快轉 sec 秒的走位（不畫圖），每秒回傳一次每人的位置；頁面在背景、動畫不跑時也能檢查站位
   window.FUMEI_OFFICE_SIM = (sec, talk) => { let t = performance.now(); const out = [], said = []; let last = null;
-    for (let i = 0; i < sec * 10; i++) { chars.forEach(c => step(c, t, 0.1));
+    for (let i = 0; i < sec * 10; i++) { chars.forEach(c => stepAny(c, t, 0.1));
       if (talk) { tickBubble(t); if (bubble && bubble !== last) { last = bubble; said.push(`${Math.round(i / 10)}s ${bubble.c.def.name}：${bubble.text}`); } }
       t += 100;
       if (i % 10 === 9) out.push(chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, pose: c.pose, hidden: !!c.hidden }))); }
     return talk ? said : out; };
-  window.FUMEI_OFFICE_DEBUG = () => ({ theme: theme(), bubble: bubble && `${bubble.c.def.name}：${bubble.text}`, modes: chars.map(c => `${c.def.name}:${c.hidden ? 'away' : c.mode}@${c.room}`), events: activeEvents().map(EV_TXT), lesson: { now: (lessonAt(slotNow()) || {}).zh, phase: lesson && lesson.phase, total: LESSONS.length }, queue: queue.length, weekly: WEEKLY.length, pinned: pinned && pinned.ev.title, pos: chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, pose: c.pose, hidden: !!c.hidden })) });
+  window.FUMEI_OFFICE_DEBUG = () => ({ scene, rest: scene === 'rest' ? chars.map(c => `${c.def.name}:${c.ph}/${c.mode}/${c.pose}`) : null, theme: theme(), bubble: bubble && `${bubble.c.def.name}：${bubble.text}`, modes: chars.map(c => `${c.def.name}:${c.hidden ? 'away' : c.mode}@${c.room}`), events: activeEvents().map(EV_TXT), lesson: { now: (lessonAt(slotNow()) || {}).zh, phase: lesson && lesson.phase, total: LESSONS.length }, queue: queue.length, weekly: WEEKLY.length, pinned: pinned && pinned.ev.title, pos: chars.map(c => ({ id: c.def.id, room: c.room, x: Math.round(c.x), y: Math.round(c.y), mode: c.mode, pose: c.pose, hidden: !!c.hidden })) });
 })();
