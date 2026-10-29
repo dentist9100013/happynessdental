@@ -330,10 +330,16 @@
   const sceneNow = () => FO_SCENE === 'rest' || FO_SCENE === 'office' ? FO_SCENE : (nightMin() >= 1290 && nightMin() < 1980 ? 'rest' : 'office');
   let scene = 'office', sceneFx = null; // sceneFx＝{ t0, to }：換場時的淡出淡入字卡
   const FX_ALL = 3400;
-  let REST_BG = null; const REST_SHEETS = {};
+  // 躺在床上睡覺（10/29）：Gemini 照背景重畫「本人蓋被子躺在床上」，_工具/make_sleep_patch.py 切出的補丁蓋在床上（世界座標 [x, y, 寬, 高]）
+  const BEDS = { kui: [309, 385, 148, 149], dang: [811, 530, 227, 177], lai: [1826, 432, 136, 229], o: [298, 1064, 156, 196], bei: [855, 1168, 172, 181], mei: [2350, 1075, 176, 159] };
+  // 睡前／起床的口腔保健（10/29）：刷左右臼齒→刷門牙→牙線→漱口→露齒笑→站著休息，一輪一輪做；[動作, 最短, 最長毫秒]
+  const ORAL = [['scrub', 8000, 11000], ['brushF', 4000, 5500], ['floss', 5000, 7000], ['rinse', 3500, 4500], ['grin', 2500, 3500], ['c_stand', 6000, 12000]];
+  const ORAL_TXT = { scrub: '刷牙中', brushF: '刷門牙中', floss: '用牙線中', rinse: '漱口中', grin: '刷好牙了', c_stand: '刷牙中' };
+  let REST_BG = null; const REST_SHEETS = {}, BED_IMG = {};
   function loadRest() { // 休息室的圖用到才下載
     if (REST_BG) return; REST_BG = img(sm('assets/rest.jpg'));
     Object.keys(SP.chars).forEach(id => { if (SP.chars[id].restImg) REST_SHEETS[id] = img(sm(SP.chars[id].restImg)); });
+    Object.keys(BEDS).forEach(id => { BED_IMG[id] = img(sm(`assets/rest_sleep/${id}_1.png`)); });
   }
   const RCORE = () => { loadRest(); return [REST_BG].concat(Object.values(REST_SHEETS), Object.values(SHEETS)); };
   function restFrame(c, pose) { // 便服動作在 _rest 動作條；制服動作（站、喝飲料、走路…）用辦公室的動作條
@@ -354,11 +360,12 @@
   function restEnter(c, t, ph, instant) {
     const R = ROOMS[c.def.id], prev = c.ph; c.ph = ph;
     if (ph === 'sleep') {
-      const lie = () => { c.mode = 'sleep'; c.pose = R.doze ? 'doze' : 'sleepface'; [c.x, c.y] = R.doze || R.bed; c.tx = c.x; c.ty = c.y; c.until = 1e12; };
+      const lie = () => { c.mode = 'sleep'; c.pose = R.doze ? 'doze' : 'inbed'; [c.x, c.y] = R.doze || R.bed; c.tx = c.x; c.ty = c.y; c.until = 1e12; c.dream = null; };
       if (instant) { lie(); c.alpha = 1; return; }
       return fade(c, t, -1, t2 => { lie(); fade(c, t2, 1, () => { c.mode = 'sleep'; c.until = 1e12; }); });
     }
-    const pose = { hobby: 'hobby', brush: 'brush', remote: 'remote', casual: 'c_stand', uniform: 'stand' }[ph];
+    const pose = { hobby: 'hobby', brush: 'scrub', remote: 'remote', casual: 'c_stand', uniform: 'stand' }[ph];
+    if (ph === 'brush') { c.oral = 0; c.oralT0 = t; }
     const swap = prev === 'sleep' || (ph === 'uniform' && prev === 'casual'); // 起床、換制服：原地淡出淡入
     const spot = ph === 'uniform' && !instant ? [c.x, c.y] : { hobby: R.hobby, brush: R.brush, remote: R.desk, casual: R.spots[0], uniform: R.spots[1] }[ph];
     const place = t3 => { [c.x, c.y] = spot; c.tx = c.x; c.ty = c.y; c.mode = 'idle'; c.pose = pose; c.until = t3 + rnd(8000, 16000); };
@@ -400,6 +407,11 @@
       const s = R.spots.filter(s => !at(s)); c.arrivePose = ph === 'casual' ? 'c_stand' : 'stand';
       return goTo(c, s[Math.floor(Math.random() * s.length)] || R.spots[0]);
     }
+    if (ph === 'brush') { // 刷牙流程下一步
+      if (!at(R.brush)) { c.oral = 0; c.oralT0 = t; c.arrivePose = 'scrub'; return goTo(c, R.brush); }
+      c.oral = ((c.oral || 0) + 1) % ORAL.length; const s = ORAL[c.oral];
+      c.pose = s[0]; c.oralT0 = t; c.until = t + rnd(s[1], s[2]); return;
+    }
     c.until = t + 10000;
   }
   function enterScene(s, t) {
@@ -412,7 +424,7 @@
     if (c.hidden) return '員工旅遊中';
     if (scene === 'rest') {
       if (c.mode === 'walk') return '在房間走動';
-      return { hobby: HOBBY_TXT[c.def.id] || '休息中', brush: '刷牙中', sleep: ROOMS[c.def.id].doze ? '坐著打盹' : '睡覺中',
+      return { hobby: HOBBY_TXT[c.def.id] || '休息中', brush: ORAL_TXT[c.pose] || '刷牙中', sleep: ROOMS[c.def.id].doze ? '坐著打盹' : '睡覺中',
         remote: (c.mood || {}).level === 'fail' ? '半夜起來處理狀況' : '遠端工作中', casual: '起床了', uniform: '準備上班' }[c.ph] || '休息中';
     }
     return c.room !== c.def.room ? `在${ROOM_NAME[c.room]}串門子` : (MODE_TXT[c.mode] || '');
@@ -427,35 +439,100 @@
     }
     const c = up[Math.floor(Math.random() * up.length)], id = c.def.id;
     const pool = c.ph === 'hobby' ? (N.hobby || {})[id] : c.ph === 'remote' ? ((N.remote || {})[id] || []).concat((N.remote || {}).any || [])
-      : c.ph === 'uniform' ? N.uniform : N.morning;
+      : c.ph === 'uniform' ? N.uniform : c.ph === 'brush' ? (N.brush || []).concat((N.brushBy || {})[id] || []) : N.morning;
     const text = draw1('n:' + c.ph + ':' + id, pool); return text ? [[id, text]] : [];
+  }
+  function drawZzz(t, x, y, seed) { // Z z z 往上飄
+    ctx.fillStyle = '#e4ecff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (let i = 0; i < 3; i++) { const p = (t / 2400 + i / 3 + seed / 1000) % 1;
+      ctx.globalAlpha = Math.sin(p * Math.PI) * 0.9; ctx.font = `800 ${26 + i * 9}px "PingFang TC",sans-serif`;
+      ctx.fillText('Z', x + p * 40, y - p * 90); }
+    ctx.globalAlpha = 1;
+  }
+  function star(x, y, r) { // 四角閃光
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4 - Math.PI / 2, rr = i % 2 ? r * 0.28 : r; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); }
+    ctx.closePath(); ctx.fill();
+  }
+  function tooth(cx, cy, s) { // 有笑臉的小牙齒（夢裡的牙寶）
+    ctx.beginPath();
+    ctx.moveTo(cx - s, cy - s * 0.4);
+    ctx.quadraticCurveTo(cx - s, cy - s * 1.1, cx - s * 0.45, cy - s);
+    ctx.quadraticCurveTo(cx, cy - s * 0.8, cx + s * 0.45, cy - s);
+    ctx.quadraticCurveTo(cx + s, cy - s * 1.1, cx + s, cy - s * 0.4);
+    ctx.lineTo(cx + s * 0.75, cy + s * 0.9); ctx.quadraticCurveTo(cx + s * 0.55, cy + s * 1.15, cx + s * 0.35, cy + s * 0.8);
+    ctx.lineTo(cx + s * 0.1, cy + s * 0.25); ctx.quadraticCurveTo(cx, cy + s * 0.1, cx - s * 0.1, cy + s * 0.25);
+    ctx.lineTo(cx - s * 0.35, cy + s * 0.8); ctx.quadraticCurveTo(cx - s * 0.55, cy + s * 1.15, cx - s * 0.75, cy + s * 0.9);
+    ctx.closePath(); ctx.fillStyle = '#ffffff'; ctx.fill(); ctx.strokeStyle = '#6b2e8f'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.fillStyle = '#4a2a5a'; ctx.beginPath(); ctx.arc(cx - s * 0.32, cy - s * 0.35, s * 0.09, 0, 7); ctx.arc(cx + s * 0.32, cy - s * 0.35, s * 0.09, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx, cy - s * 0.2, s * 0.22, 0.15 * Math.PI, 0.85 * Math.PI); ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.fillStyle = 'rgba(255,140,170,.7)'; ctx.beginPath(); ctx.arc(cx - s * 0.55, cy - s * 0.15, s * 0.12, 0, 7); ctx.arc(cx + s * 0.55, cy - s * 0.15, s * 0.12, 0, 7); ctx.fill();
+  }
+  function drawDream(t, c, hx, hy) { // 睡著時偶爾冒出夢泡泡：夢到亮晶晶的牙寶（每人 40～90 秒一次，每次 7 秒）
+    if (c.dream == null) c.dream = t + rnd(8000, 40000);
+    const d = t - c.dream; if (d < 0) return; if (d > 7000) { c.dream = t + rnd(40000, 90000); return; }
+    const a = Math.min(1, d / 500, (7000 - d) / 500), bx = hx + 105, by = hy - 150, bob = Math.sin(t / 500) * 4;
+    ctx.globalAlpha = a * 0.95; ctx.fillStyle = '#fff'; ctx.strokeStyle = 'rgba(110,100,150,.8)'; ctx.lineWidth = 2;
+    [[hx + 38, hy - 52, 7], [hx + 62, hy - 82, 11]].forEach(([x, y, r]) => { ctx.beginPath(); ctx.arc(x, y + bob * 0.5, r, 0, 7); ctx.fill(); ctx.stroke(); });
+    ctx.beginPath(); [[-26, 6, 30], [0, -10, 36], [28, 4, 30], [0, 18, 28]].forEach(([dx, dy, r]) => ctx.arc(bx + dx, by + dy + bob, r, 0, 7)); ctx.fill();
+    tooth(bx, by + 4 + bob, 22);
+    ctx.fillStyle = '#ffd34d'; const tw = Math.abs(Math.sin(t / 260)); star(bx + 30, by - 22 + bob, 6 + tw * 8); star(bx - 32, by + 18 + bob, 4 + (1 - tw) * 6);
+    ctx.globalAlpha = 1;
+  }
+  function drawOral(t, c, pose, fw, fh) { // 刷牙的泡泡、漱口的水珠、刷完牙齒的閃光
+    const mx = c.x, my = c.y - fh * 0.685, k = t - (c.oralT0 || 0);
+    if (/^brush[LRF]$/.test(pose)) { // 牙膏泡泡：從嘴邊冒出來、往上飄、慢慢破掉
+      const side = pose === 'brushL' ? -1 : pose === 'brushR' ? 1 : 0;
+      for (let i = 0; i < 7; i++) { const p = (k / 900 + i / 7) % 1, a = i * 2.4;
+        const bx = mx + side * fw * 0.1 + Math.cos(a) * (16 + p * 50), by = my - 4 + Math.sin(a) * 12 - p * 55, r = (6 + (i % 3) * 3.5) * (1 - p * 0.4);
+        ctx.globalAlpha = (1 - p) * 0.9; ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(bx, by, r, 0, 7); ctx.fill();
+        ctx.strokeStyle = 'rgba(150,200,255,.9)'; ctx.lineWidth = 2.5; ctx.stroke(); }
+    } else if (pose === 'rinse') { // 漱口：嘴角噴出小水珠
+      ctx.fillStyle = 'rgba(140,200,255,.9)';
+      for (let i = 0; i < 6; i++) { const p = (k / 600 + i / 6) % 1, sd = i % 2 ? 1 : -1;
+        ctx.globalAlpha = (1 - p) * 0.9; ctx.beginPath(); ctx.arc(mx + sd * (fw * 0.2 + p * 34), my - 8 - p * 24 + p * p * 70, 6, 0, 7); ctx.fill(); }
+    } else if (pose === 'grin') { // 刷乾淨了：牙齒旁邊閃閃發亮
+      ctx.fillStyle = '#fff6c2';
+      [[-0.17, -6, 0], [0.19, -14, 1.7], [0.03, -40, 3.1]].forEach(([dx, dy, ph]) => {
+        const tw = Math.abs(Math.sin(t / 230 + ph)); ctx.globalAlpha = 0.4 + tw * 0.6; star(mx + dx * fw, my + dy * 1.4, 9 + tw * 16); });
+    }
+    ctx.globalAlpha = 1;
   }
   function drawRest(t) {
     ctx.drawImage(REST_BG, 0, 0, W, H);
     chars.slice().sort((a, b) => a.y - b.y).forEach(c => {
       if (c.hidden) { c.box = null; return; }
       let pose = c.pose;
+      if (pose === 'inbed') { // 躺在床上：畫床的補丁（淡入淡出跟著 alpha）、頭上飄 Z、偶爾做夢夢到亮晶晶的牙齒
+        const b = BEDS[c.def.id], im = BED_IMG[c.def.id];
+        if (b && im && im.complete && im.naturalWidth) {
+          ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.drawImage(im, b[0], b[1], b[2], b[3]); ctx.globalAlpha = 1;
+          c.box = b.slice();
+          if (c.mode === 'sleep' && (c.alpha == null || c.alpha > 0.9)) { drawZzz(t, c.x + 30, c.y - 30, c.x); drawDream(t, c, c.x, c.y); }
+        }
+        return;
+      }
       if (pose === 'hobby') pose = Math.floor(t / 1700 + c.x / 97) % 2 ? 'hobby1' : 'hobby2';
+      if (pose === 'scrub') pose = Math.floor((t - (c.oralT0 || 0)) / 1300) % 2 ? 'brushR' : 'brushL'; // 左右兩邊輪流刷
       if (c.ph === 'uniform' && bubble && bubble.c === c && c.mode === 'idle' && t - bubble.start < 1600) pose = 'wave';
       const [sh, f] = restFrame(c, pose); if (!sh.complete || !sh.naturalWidth) return;
       const [fx, fy, fw, fh] = f, face = pose === 'sleepface', x = c.x - fw / 2, y = face ? c.y - fh / 2 : c.y - fh;
       if (!face && pose !== 'doze') { ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.32, 12, 0, 0, Math.PI * 2); ctx.fill(); }
-      ctx.save(); ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.translate(c.x, y + fh);
+      // 口腔保健的小動作：刷牙時手上下刷（身體跟著微微晃）、牙線慢慢拉、漱口時臉頰咕嚕咕嚕
+      const brushing = /^brush[LRF]$/.test(pose), oy = brushing ? Math.round(Math.sin(t / 42) * 2.2) : pose === 'floss' ? Math.round(Math.sin(t / 110) * 2) : 0;
+      const sx = pose === 'rinse' ? 1 + 0.03 * Math.sin(t / 65) : 1;
+      ctx.save(); ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.translate(c.x, y + fh + oy);
       if (c.face < 0 && /walk/.test(pose)) ctx.scale(-1, 1);
+      if (sx !== 1) ctx.scale(sx, 1);
       ctx.drawImage(sh, fx * SK, fy * SK, fw * SK, fh * SK, -fw / 2, -fh, fw, fh); ctx.restore();
       c.box = [x, y, fw, fh];
+      if (c.ph === 'brush' && c.mode !== 'walk' && (c.alpha == null || c.alpha > 0.9)) drawOral(t, c, pose, fw, fh);
       if (pose === 'remote') { // 筆電的光：出狀況時是紅色閃爍
         const bad = (c.mood || {}).level === 'fail', a = bad ? 0.35 + 0.25 * Math.sin(t / 180) : 0.28, gx = c.x + fw * 0.12, gy = c.y - fh * 0.42;
         const g = ctx.createRadialGradient(gx, gy, 4, gx, gy, 150); g.addColorStop(0, bad ? `rgba(255,70,50,${a})` : `rgba(150,200,255,${a})`); g.addColorStop(1, 'rgba(150,200,255,0)');
         ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(gx - 150, gy - 150, 300, 300); ctx.globalCompositeOperation = 'source-over';
       }
-      if (c.mode === 'sleep' && (c.alpha == null || c.alpha > 0.9)) { // Z z z 往上飄
-        ctx.fillStyle = '#e4ecff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        for (let i = 0; i < 3; i++) { const p = (t / 2400 + i / 3 + c.x / 1000) % 1;
-          ctx.globalAlpha = Math.sin(p * Math.PI) * 0.9; ctx.font = `800 ${26 + i * 9}px "PingFang TC",sans-serif`;
-          ctx.fillText('Z', x + fw * 0.85 + p * 40, y + 10 - p * 90); }
-        ctx.globalAlpha = 1;
-      }
+      if (c.mode === 'sleep' && (c.alpha == null || c.alpha > 0.9)) { drawZzz(t, x + fw * 0.85, y + 10, c.x); drawDream(t, c, c.x, y + 40); } // 坐著打盹
     });
     const m = nightMin(); // 06:00 以後天慢慢亮：整間染上一點晨光
     if (m > 1800) { ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = `rgba(255,205,150,${Math.min(1, (m - 1800) / 180) * 0.13})`; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; }
