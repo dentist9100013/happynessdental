@@ -201,11 +201,19 @@
     const [x, y] = SPOTS[def.room][def.home];
     return { def, room: def.room, x, y, tx: x, ty: y, mode: 'work', until: performance.now() + rnd(2000, 9000), pose: 'sit', face: 1, alpha: 1, visit: null };
   });
-  // 站著閒晃時隨機換姿勢（10/27 新增喝飲料、伸懶腰）；開口說話時先揮手（見 drawPose）
-  const idlePose = () => { const r = Math.random(); return r < 0.5 ? 'stand' : r < 0.8 ? 'drink' : 'stretch'; };
+  // 站著閒晃時隨機換姿勢（10/27 新增喝飲料、伸懶腰；10/30 新增上班動作：講電話、看文件、想事情）；開口說話時先揮手、再比手畫腳（見 drawPose）
+  const IDLE_POSES = [['stand', 20], ['phone', 18], ['read', 18], ['think', 14], ['drink', 16], ['stretch', 14]];
+  const idlePose = () => { let r = Math.random() * 100; for (const [p, w] of IDLE_POSES) { if ((r -= w) < 0) return p; } return 'stand'; };
+  const POSE_TXT = { phone: '講電話中', read: '看文件', think: '想事情', drink: '喝飲料', stretch: '伸懶腰' };
+  // 走路四格（10/30）：跨步 → 雙腿收攏 → 換腳跨步 → 收攏，收攏那格身體微微抬高（walkP）；c_ 是休息室便服
+  const WALK = ['walk1', 'walkP', 'walk2', 'walkP'];
+  function walkPose(t, pre) { return pre + WALK[Math.floor(t / 150) % 4]; }
   function frameOf(c, pose) { const f = SP.chars[c.def.id].frames; return f[pose || c.pose] || f.stand; }
-  function drawPose(c, t) { // 站著的人剛開口的 1.6 秒揮個手
-    if (bubble && bubble.c === c && c.mode === 'idle' && t - bubble.start < 1600) return 'wave';
+  function drawPose(c, t) { // 站著的人剛開口的 1.6 秒揮個手，之後一半機率指著說明（講電話、看文件的人繼續做自己的事）
+    if (bubble && bubble.c === c && c.mode === 'idle') {
+      if (t - bubble.start < 1600) return 'wave';
+      if ((c.pose === 'stand' || c.pose === 'think') && Math.floor(bubble.start / 1000) % 2) return 'point';
+    }
     return c.pose;
   }
   function fade(c, t, dir, done) { c.mode = 'fade'; c.fadeDir = dir; c.fadeStart = t; c.fadeDone = done; }
@@ -274,11 +282,11 @@
         if (c.visit && arriveVisit(c, t)) return;
         const home = SPOTS[c.def.room][c.def.home];
         if (c.x === home[0] && c.y === home[1]) { c.mode = 'work'; c.pose = 'sit'; c.until = t + rnd(8000, 14000); }
-        else { c.mode = 'idle'; c.pose = idlePose(); c.until = t + rnd(3000, 5500); }
+        else { c.mode = 'idle'; c.pose = idlePose(); c.until = t + rnd(4000, 7000); }
         decideNow(c, t, true); return; }
       c.x += dx / d * v; c.y += dy / d * v; if (Math.abs(dx) > 2) c.face = dx > 0 ? 1 : -1;
       const eve = c.def.human && activeEvents().some(a => a.e.kind === 'trip' && a.phase === 'eve');
-      c.pose = eve ? 'travel' : (Math.floor(t / 230) % 2 ? 'walk1' : 'walk2'); // 員旅前一天：小美拖著行李走
+      c.pose = eve ? 'travel' : walkPose(t, ''); // 員旅前一天：小美拖著行李走
       return;
     }
     if (t > c.until || (c.def.human && lessonBusy() && c.mode !== 'idle')) decide(c, t);
@@ -393,7 +401,7 @@
       if (d <= v) { c.x = c.tx; c.y = c.ty; c.mode = 'idle'; c.pose = c.arrivePose === 'stand' ? idlePose() : c.arrivePose;
         c.until = t + (c.pose === 'hobby' ? rnd(12000, 22000) : rnd(4000, 7000)); return; }
       c.x += dx / d * v; c.y += dy / d * v; if (Math.abs(dx) > 2) c.face = dx > 0 ? 1 : -1;
-      const alt = Math.floor(t / 260) % 2; c.pose = ph === 'uniform' ? (alt ? 'walk1' : 'walk2') : (alt ? 'c_walk1' : 'c_walk2');
+      c.pose = walkPose(t, ph === 'uniform' ? '' : 'c_');
       return;
     }
     if (t < c.until || c.mode === 'sleep') return;
@@ -427,7 +435,7 @@
       return { hobby: HOBBY_TXT[c.def.id] || '休息中', brush: ORAL_TXT[c.pose] || '刷牙中', sleep: ROOMS[c.def.id].doze ? '坐著打盹' : '睡覺中',
         remote: (c.mood || {}).level === 'fail' ? '半夜起來處理狀況' : '遠端工作中', casual: '起床了', uniform: '準備上班' }[c.ph] || '休息中';
     }
-    return c.room !== c.def.room ? `在${ROOM_NAME[c.room]}串門子` : (MODE_TXT[c.mode] || '');
+    return c.room !== c.def.room ? `在${ROOM_NAME[c.room]}串門子` : (c.mode === 'idle' && POSE_TXT[c.pose]) || MODE_TXT[c.mode] || '';
   }
   function restProgram(t) { // 休息室的對話：嗜好碎念、遠端工作、刷牙小叮嚀、睡前小劇場
     const N = TALK.night || {}, up = chars.filter(awake); if (!up.length) return [];
@@ -519,7 +527,7 @@
       const [fx, fy, fw, fh] = f, face = pose === 'sleepface', x = c.x - fw / 2, y = face ? c.y - fh / 2 : c.y - fh;
       if (!face && pose !== 'doze') { ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.32, 12, 0, 0, Math.PI * 2); ctx.fill(); }
       // 口腔保健的小動作：刷牙時手上下刷（身體跟著微微晃）、牙線慢慢拉、漱口時臉頰咕嚕咕嚕
-      const brushing = /^brush[LRF]$/.test(pose), oy = brushing ? Math.round(Math.sin(t / 42) * 2.2) : pose === 'floss' ? Math.round(Math.sin(t / 110) * 2) : 0;
+      const brushing = /^brush[LRF]$/.test(pose), oy = brushing ? Math.round(Math.sin(t / 42) * 2.2) : pose === 'floss' ? Math.round(Math.sin(t / 110) * 2) : /walkP$/.test(pose) ? -3 : 0;
       const sx = pose === 'rinse' ? 1 + 0.03 * Math.sin(t / 65) : 1;
       ctx.save(); ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.translate(c.x, y + fh + oy);
       if (c.face < 0 && /walk/.test(pose)) ctx.scale(-1, 1);
@@ -718,13 +726,13 @@
       if (c.hidden) { c.box = null; return; }
       const sh = SHEETS[c.def.id]; if (!sh.complete || !sh.naturalWidth) return;
       const pose = drawPose(c, t), [fx, fy, fw, fh] = frameOf(c, pose);
-      const bob = (pose === 'stand' || pose === 'drink' || pose === 'wave') ? Math.round(Math.sin(t / 400 + c.x) * 2) : 0;
+      const bob = /^(stand|drink|wave|phone|read|think|point)$/.test(pose) ? Math.round(Math.sin(t / 400 + c.x) * 2) : pose === 'walkP' ? -3 : 0;
       // 腳下影子
       ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.32, 12, 0, 0, Math.PI * 2); ctx.fill();
       if (c.mood && c.mood.level === 'fail') { ctx.strokeStyle = `rgba(255,70,50,${0.5 + 0.4 * Math.sin(t / 180)})`; ctx.lineWidth = 6;
         ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.45, 22, 0, 0, Math.PI * 2); ctx.stroke(); }
       ctx.save(); ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.translate(c.x, c.y + bob);
-      if (c.face < 0 && (c.pose === 'walk1' || c.pose === 'walk2' || c.pose === 'travel')) ctx.scale(-1, 1);
+      if (c.face < 0 && /walk|travel/.test(c.pose)) ctx.scale(-1, 1);
       ctx.drawImage(sh, fx * SK, fy * SK, fw * SK, fh * SK, -fw / 2, -fh, fw, fh); ctx.restore();
       c.box = [c.x - fw / 2, c.y - fh, fw, fh];
     });
