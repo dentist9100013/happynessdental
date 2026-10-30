@@ -205,9 +205,9 @@
   const IDLE_POSES = [['stand', 20], ['phone', 18], ['read', 18], ['think', 14], ['drink', 16], ['stretch', 14]];
   const idlePose = () => { let r = Math.random() * 100; for (const [p, w] of IDLE_POSES) { if ((r -= w) < 0) return p; } return 'stand'; };
   const POSE_TXT = { phone: '講電話中', read: '看文件', think: '想事情', drink: '喝飲料', stretch: '伸懶腰' };
-  // 走路四格（10/30）：跨步 → 雙腿收攏 → 換腳跨步 → 收攏，收攏那格身體微微抬高（walkP）；c_ 是休息室便服
-  const WALK = ['walk1', 'walkP', 'walk2', 'walkP'];
-  function walkPose(t, pre) { return pre + WALK[Math.floor(t / 150) % 4]; }
+  // 小碎步走路（10/30 院長選定）：並攏 → 一腳在前 → 並攏 → 另一腳在前，每格 0.2 秒；腳幾乎不離地，不另外上下跳；c_ 是休息室便服
+  const WALK = ['walkP', 'walk1', 'walkP', 'walk2'];
+  function walkPose(t, pre) { return pre + WALK[Math.floor(t / 200) % 4]; }
   function frameOf(c, pose) { const f = SP.chars[c.def.id].frames; return f[pose || c.pose] || f.stand; }
   function drawPose(c, t) { // 站著的人剛開口的 1.6 秒揮個手，之後一半機率指著說明（講電話、看文件的人繼續做自己的事）
     if (bubble && bubble.c === c && c.mode === 'idle') {
@@ -277,7 +277,7 @@
       return;
     }
     if (c.mode === 'walk') {
-      const dx = c.tx - c.x, dy = c.ty - c.y, d = Math.hypot(dx, dy), v = 85 * dt;
+      const dx = c.tx - c.x, dy = c.ty - c.y, d = Math.hypot(dx, dy), v = 75 * dt; // 小碎步走慢一點
       if (d <= v) { c.x = c.tx; c.y = c.ty;
         if (c.visit && arriveVisit(c, t)) return;
         const home = SPOTS[c.def.room][c.def.home];
@@ -397,7 +397,7 @@
     const ph = restPhase(c);
     if (ph !== c.ph) return restEnter(c, t, ph, false);
     if (c.mode === 'walk') {
-      const dx = c.tx - c.x, dy = c.ty - c.y, d = Math.hypot(dx, dy), v = 70 * dt;
+      const dx = c.tx - c.x, dy = c.ty - c.y, d = Math.hypot(dx, dy), v = 62 * dt;
       if (d <= v) { c.x = c.tx; c.y = c.ty; c.mode = 'idle'; c.pose = c.arrivePose === 'stand' ? idlePose() : c.arrivePose;
         c.until = t + (c.pose === 'hobby' ? rnd(12000, 22000) : rnd(4000, 7000)); return; }
       c.x += dx / d * v; c.y += dy / d * v; if (Math.abs(dx) > 2) c.face = dx > 0 ? 1 : -1;
@@ -527,7 +527,7 @@
       const [fx, fy, fw, fh] = f, face = pose === 'sleepface', x = c.x - fw / 2, y = face ? c.y - fh / 2 : c.y - fh;
       if (!face && pose !== 'doze') { ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.32, 12, 0, 0, Math.PI * 2); ctx.fill(); }
       // 口腔保健的小動作：刷牙時手上下刷（身體跟著微微晃）、牙線慢慢拉、漱口時臉頰咕嚕咕嚕
-      const brushing = /^brush[LRF]$/.test(pose), oy = brushing ? Math.round(Math.sin(t / 42) * 2.2) : pose === 'floss' ? Math.round(Math.sin(t / 110) * 2) : /walkP$/.test(pose) ? -3 : 0;
+      const brushing = /^brush[LRF]$/.test(pose), oy = brushing ? Math.round(Math.sin(t / 42) * 2.2) : pose === 'floss' ? Math.round(Math.sin(t / 110) * 2) : 0;
       const sx = pose === 'rinse' ? 1 + 0.03 * Math.sin(t / 65) : 1;
       ctx.save(); ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.translate(c.x, y + fh + oy);
       if (c.face < 0 && /walk/.test(pose)) ctx.scale(-1, 1);
@@ -726,7 +726,7 @@
       if (c.hidden) { c.box = null; return; }
       const sh = SHEETS[c.def.id]; if (!sh.complete || !sh.naturalWidth) return;
       const pose = drawPose(c, t), [fx, fy, fw, fh] = frameOf(c, pose);
-      const bob = /^(stand|drink|wave|phone|read|think|point)$/.test(pose) ? Math.round(Math.sin(t / 400 + c.x) * 2) : pose === 'walkP' ? -3 : 0;
+      const bob = /^(stand|drink|wave|phone|read|think|point)$/.test(pose) ? Math.round(Math.sin(t / 400 + c.x) * 2) : 0;
       // 腳下影子
       ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.ellipse(c.x, c.y - 4, fw * 0.32, 12, 0, 0, Math.PI * 2); ctx.fill();
       if (c.mood && c.mood.level === 'fail') { ctx.strokeStyle = `rgba(255,70,50,${0.5 + 0.4 * Math.sin(t / 180)})`; ctx.lineWidth = 6;
