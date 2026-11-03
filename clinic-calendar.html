@@ -1731,6 +1731,15 @@ const DEFAULT_ASSISTANTS = [
 ];
 let ASSISTANTS = DEFAULT_ASSISTANTS.map(a => ({ ...a }));
 
+// 2026-11-03：離職的人「某月以後不顯示」（config/doctors、config/assistants 的 until 欄位）
+// { 顯示名: "YYYY-MM" }＝最後顯示的月份；之後的月份不出現在選單與彙整，之前的月份照常顯示，資料不刪
+let STAFF_UNTIL = { doctor: {}, assistant: {} };
+function ymOf(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`; }
+function shownInMonth(role, name, date = currentDate) {
+  const u = STAFF_UNTIL[role][name];
+  return !u || ymOf(date) <= u;
+}
+
 // 通知 Webhook URL（Google Apps Script 部署網址）
 const NOTIFY_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbymcPZaSe0uaY8iMvvXfm1kQKTmG22URA2g41TGLctvUadDd-cayocWj9Gr0yoxHj43AQ/exec";
 
@@ -1886,14 +1895,14 @@ function populateSelect(role) {
   personSelect.appendChild(placeholder);
 
   if (role === "doctor") {
-    DOCTORS.forEach(name => {
+    DOCTORS.filter(name => shownInMonth("doctor", name)).forEach(name => {
       const opt = document.createElement("option");
       opt.value = name;
       opt.textContent = name;
       personSelect.appendChild(opt);
     });
   } else {
-    ASSISTANTS.forEach(a => {
+    ASSISTANTS.filter(a => shownInMonth("assistant", assistantDisplayName(a))).forEach(a => {
       const opt = document.createElement("option");
       opt.value = assistantDisplayName(a);
       opt.textContent = `${a.en}（${a.zh}）`;
@@ -1982,10 +1991,12 @@ personSelect.addEventListener("change", e => {
 // ----- 月份切換 -----
 document.getElementById("prevMonth").addEventListener("click", () => {
   currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+  refreshPersonSelect();   // 離職的人只在 until 之前的月份出現
   renderCalendar();
 });
 document.getElementById("nextMonth").addEventListener("click", () => {
   currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+  refreshPersonSelect();
   renderCalendar();
 });
 
@@ -2100,7 +2111,7 @@ function buildAssistantLeaveTransferJSON() {
   const month = currentDate.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const astLeave = {};
-  const assistants = ASSISTANTS.map(a => ({
+  const assistants = ASSISTANTS.filter(a => shownInMonth("assistant", assistantDisplayName(a))).map(a => ({
     en: a.en,
     zh: a.zh,
     displayName: assistantDisplayName(a),
@@ -2509,9 +2520,9 @@ function renderSummary() {
   // personMap: { name -> { restDays: [{day, slots}], extraDays: [{day, slots}] } }
   const personMap = {};
 
-  const nameList = isAssistant
+  const nameList = (isAssistant
     ? ASSISTANTS.map(a => assistantDisplayName(a))
-    : DOCTORS;
+    : DOCTORS).filter(n => shownInMonth(isAssistant ? "assistant" : "doctor", n));
 
   // 先把所有人初始化（確保無資料的人也在表格裡）
   nameList.forEach(n => { personMap[n] = { restDays: [], extraDays: [] }; });
@@ -3005,6 +3016,7 @@ function startConfigSync() {
       return;
     }
     const list = snap.data().list;
+    STAFF_UNTIL.doctor = snap.data().until || {};
     if (Array.isArray(list) && list.length) {
       DOCTORS = list.map(n => String(n));
       onStaffListChanged("doctor");
@@ -3018,6 +3030,7 @@ function startConfigSync() {
       return;
     }
     const list = snap.data().list;
+    STAFF_UNTIL.assistant = snap.data().until || {};
     if (Array.isArray(list) && list.length) {
       ASSISTANTS = list.map(a => ({ en: String(a.en || ""), zh: String(a.zh || "") }));
       rebuildAsstMap();
@@ -3081,12 +3094,17 @@ function setStaffRole(role) {
 staffTabDoctor.addEventListener("click", () => setStaffRole("doctor"));
 staffTabAssistant.addEventListener("click", () => setStaffRole("assistant"));
 
+function untilNote(role, name) {
+  const u = name && STAFF_UNTIL[role][name];
+  return u ? `<span style="font-size:11px;color:#999;white-space:nowrap" title="之後的月份不顯示，資料保留">顯示到 ${u}</span>` : "";
+}
 function renderStaffList() {
   let html = "";
   if (staffEditRole === "doctor") {
     staffDoctorDraft.forEach((name, i) => {
       html += `<div class="staff-row">
         <input class="staff-input" data-field="name" data-index="${i}" type="text" value="${escapeAttr(name)}" placeholder="醫師全名">
+        ${untilNote("doctor", staffDoctorOrig[i])}
         <button class="staff-del" data-del="${i}" type="button" title="刪除">✕</button>
       </div>`;
     });
@@ -3095,6 +3113,7 @@ function renderStaffList() {
       html += `<div class="staff-row">
         <input class="staff-input en" data-field="en" data-index="${i}" type="text" value="${escapeAttr(a.en)}" placeholder="英文名">
         <input class="staff-input" data-field="zh" data-index="${i}" type="text" value="${escapeAttr(a.zh)}" placeholder="中文名">
+        ${untilNote("assistant", a.orig)}
         <button class="staff-del" data-del="${i}" type="button" title="刪除">✕</button>
       </div>`;
     });
@@ -3197,8 +3216,13 @@ staffSaveBtn.addEventListener("click", async () => {
 
     let moved = 0;
     const configRef = doc(CONFIG_COL, docId);
-    if (renames.length) moved = await migrateScheduleNames(schedCol, renames, configRef, { list, ts: serverTimestamp() });
-    else await setDoc(configRef, { list, ts: serverTimestamp() });
+    // 「某月以後不顯示」跟著人走（改名時搬到新名字），不然存一次名單就會被清掉
+    const oldUntil = STAFF_UNTIL[staffEditRole] || {};
+    const until = {};
+    rows.forEach(r => { const u = oldUntil[r.orig] || oldUntil[r.name]; if (u) until[r.name] = u; });
+    const configData = { list, until, ts: serverTimestamp() };
+    if (renames.length) moved = await migrateScheduleNames(schedCol, renames, configRef, configData);
+    else await setDoc(configRef, configData);
     await addDoc(HISTORY_COL, {
       date: fmtDate(new Date()),
       role: staffEditRole,
