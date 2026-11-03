@@ -2688,11 +2688,11 @@ var EDU_BG='#fff1dc';
 var EDU_COLOR='#c2410c';
 var EDU_NOTE='教育訓練不算診次。這天到班時間可能不是一般上班時間，和打卡紀錄對照時可能顯示遲到，這是正常的（打卡統計會跳警示，預設不算遲到）。';
 function isEduRole(role){return typeof role==='string'&&role.indexOf(EDU_TYPE)===0;}
-// 左半圓圖示；h 是高度數字、unit 是單位（px／pt），寬度約為高度的 0.6
+// 左半圓圖示；h 是高度數字、unit 是單位（px／pt），寬度＝高度的一半（不留白，太小會看成圓點）
 function eduSymHTML(h,unit){
-  h=h||13;unit=unit||'px';
-  return '<svg viewBox="0 0 7.4 12" style="display:inline-block;vertical-align:middle;width:'+(h*0.62).toFixed(2)+unit+';height:'+h+unit+';flex-shrink:0;" aria-label="教育訓練">'
-    +'<path d="M6.6,1 A5,5 0 0 0 6.6,11 Z" fill="'+EDU_COLOR+'"/></svg>';
+  h=h||16;unit=unit||'px';
+  return '<svg viewBox="0 0 6 12" style="display:inline-block;vertical-align:middle;width:'+(h/2).toFixed(2)+unit+';height:'+h+unit+';flex-shrink:0;" aria-label="教育訓練">'
+    +'<path d="M6,0 A6,6 0 0 0 6,12 Z" fill="'+EDU_COLOR+'"/></svg>';
 }
 
 /* ── 雙職務支援 ──────────────────────────────────────────────
@@ -3134,7 +3134,7 @@ function renderMoLegend(){
     {sym:'',htmlSym:'<b style="color:#1a5fa0;">X</b><span style="color:#c44;">△</span>',bg:'#e8f4ff',color:'#1a5fa0',label:'櫃台學習（X=指導者）'},
     {sym:'',htmlSym:'<b style="color:#1a5fa0;">X</b><span style="color:#0a6;">○</span>',bg:'#e8f4ff',color:'#1a5fa0',label:'門診學習（X=指導者）'},
     {sym:'行',bg:'#eaeaff',color:'#44c',label:'行政診'},
-    {sym:'',htmlSym:eduSymHTML(13),bg:EDU_BG,color:EDU_COLOR,label:'教育訓練（不算診次，到班時間可能不同）'},
+    {sym:'',htmlSym:eduSymHTML(16),bg:EDU_BG,color:EDU_COLOR,label:'教育訓練（不算診次，到班時間可能不同）'},
     {sym:'',bg:'#ececec',color:'#aaa',label:'休診'},
     {leaveSvg:true,label:'助理勾選不可上班'},
   ];
@@ -3451,7 +3451,7 @@ function renderWeekGrid(){
             +dualCellHTML(ex.type,'font-size:10px;','font-size:9px;')
             +(exAst?mkBadge(exAst):'');
         } else if(isEduRole(ex.type)){
-          labelHtml='<span title="'+escHtml(EDU_NOTE)+'" style="display:inline-flex;align-items:center;gap:2px;">'+eduSymHTML(11)
+          labelHtml='<span title="'+escHtml(EDU_NOTE)+'" style="display:inline-flex;align-items:center;gap:2px;">'+eduSymHTML(14)
             +'<span style="color:'+EDU_COLOR+';font-weight:700;">'+escHtml(ex.type)+'</span><span style="font-size:9px;">⚠</span></span>'
             +(exAst?mkBadge(exAst):'');
         } else {
@@ -3598,7 +3598,7 @@ function renderMoGrid(){
     } else if(parseDual(role)){
       v=dualCellHTML(role,'font-size:11px;','font-size:10px;');bg=DUAL_BG;
     } else if(isEduRole(role)){
-      v=eduSymHTML(13);bg=EDU_BG;
+      v=eduSymHTML(17);bg=EDU_BG;
     } else {
       // extra type string
       // 學習類型「櫃台學習（XX帶）」「門診學習（XX帶）」：英文+符號（櫃台學習=△、門診學習=○）
@@ -3801,7 +3801,7 @@ function buildMoGridHTML(){
       // 雙職務：姓氏+符號 橫排（寬度與「顏2」相當，列印不會被裁切）
       v=dualCellHTML(role,'font-size:'+(fpt*0.95)+'pt;','font-size:'+(fpt*0.85)+'pt;');bg=DUAL_BG;
     }
-    else if(isEduRole(role)){v=eduSymHTML(fpt*1.1,'pt');bg=EDU_BG;}
+    else if(isEduRole(role)){v=eduSymHTML(fpt*1.5,'pt');bg=EDU_BG;}
     else{
       // 學習類型：上下兩行（X 在上、△/○ 在下）— 列印格子窄，避免被切到
       var learnMatch=role.match(/^(櫃台學習|門診學習)（(.+)帶）$/);
@@ -4069,7 +4069,7 @@ function buildMoGridHTML(){
     {htmlSym:'<b style="color:#1a5fa0;">X</b><span style="color:#c44;">△</span>',bg:'#e8f4ff',c:'#1a5fa0',lb:'櫃台學習'},
     {htmlSym:'<b style="color:#1a5fa0;">X</b><span style="color:#0a6;">○</span>',bg:'#e8f4ff',c:'#1a5fa0',lb:'門診學習'},
     {sym:'行',bg:'#eaeaff',c:'#44c',lb:'行政診'},
-    {htmlSym:eduSymHTML(7,'pt'),bg:EDU_BG,c:EDU_COLOR,lb:'教育訓練（不算診次）'},
+    {htmlSym:eduSymHTML(9,'pt'),bg:EDU_BG,c:EDU_COLOR,lb:'教育訓練（不算診次）'},
     {leave:true,lb:'不可上班'},
     {sym:'',bg:'#ececec',c:'#aaa',lb:'休診'},
   ];
@@ -4553,7 +4553,7 @@ function _dgGetCellInfo(aid,d,m,si){
           :'<span style="font-size:13px;font-weight:700;color:#0a6;line-height:1;">○</span>';
         v='<b>'+mab+'</b>'+sym;
         bg='#e8f4ff';
-      } else if(isEduRole(role)){v=eduSymHTML(15);bg=EDU_BG;}
+      } else if(isEduRole(role)){v=eduSymHTML(20);bg=EDU_BG;}
       else if(role.indexOf('行政')>=0){v='行';bg='#eaeaff';}
       else{v='<span style="font-size:15px;font-weight:700;color:#0a6;line-height:1;">○</span>';bg='#eafaea';}
     }
@@ -4699,7 +4699,7 @@ function _dgRenderPopover(aid,si,m){
       +' style="background:#eaeaff;color:#44c;"><span class="dg-pop-opt-label">＋ '+t+'</span></div>';
   });
   html+='<div class="dg-pop-opt" onclick="event.stopPropagation();dgAddExtraAndAssign(\''+aid+'\','+si+',EDU_TYPE)"'
-    +' title="'+escHtml(EDU_NOTE)+'" style="background:'+EDU_BG+';color:'+EDU_COLOR+';"><span class="dg-pop-opt-label" style="display:inline-flex;align-items:center;gap:4px;">＋ '+eduSymHTML(11)+' 教育訓練（不算診次）</span></div>';
+    +' title="'+escHtml(EDU_NOTE)+'" style="background:'+EDU_BG+';color:'+EDU_COLOR+';"><span class="dg-pop-opt-label" style="display:inline-flex;align-items:center;gap:4px;">＋ '+eduSymHTML(15)+' 教育訓練（不算診次）</span></div>';
   // 雙職務支援：點下後進入兩段式職務選擇
   html+='<div class="dg-pop-opt" onclick="event.stopPropagation();dgAddDual(\''+aid+'\','+si+')"'
     +' style="background:'+DUAL_BG+';color:#7c3aed;"><span class="dg-pop-opt-label">＋ 雙職務支援（需選兩個職務）</span></div>';
@@ -4740,7 +4740,7 @@ function dgAddExtraAndAssign(aid,si,type){
 }
 // 加入教育訓練崗位後提醒：不算診次、打卡可能顯示遲到是正常的
 function showEduNotice(){
-  showModal('<div class="modal-title" style="display:flex;align-items:center;gap:6px;">'+eduSymHTML(16)+'已加入「教育訓練」崗位</div>'
+  showModal('<div class="modal-title" style="display:flex;align-items:center;gap:6px;">'+eduSymHTML(22)+'已加入「教育訓練」崗位</div>'
     +'<div class="modal-msg" style="font-size:13px;line-height:1.7;">'
     +'• 排在<b>上教育訓練的那一診</b>（例：下午三點來上課 → 排在下午診，晚診照常排跟診）。<br>'
     +'• <b>不算診次</b>（診次、晚班、假日班、診次分布都不算），統計另列「教育訓練」次數。<br>'
