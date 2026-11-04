@@ -7048,7 +7048,8 @@ function showVersionHistory(){
   showModal('<div class="modal-title">🕘 版本紀錄</div>'
     +'<div class="modal-msg">載入中…</div>'
     +'<div class="modal-btns"><button class="btn modal-btn-allow" onclick="closeModal()">關閉</button></div>');
-  fetch(FB_DB_URL+'/versions.json')
+  // 只抓最近 10 筆（key 是發布時間戳，依 key 排序即依時間）；抓全部會隨版本累積越來越慢
+  fetch(FB_DB_URL+'/versions.json?orderBy=%22%24key%22&limitToLast=10')
     .then(function(r){return r.json();})
     .then(function(data){
       if(!data||Object.keys(data).length===0){
@@ -7219,7 +7220,8 @@ function showAutoLoadToast(msg){
 }
 function autoLoadLatestVersion(){
   if(typeof fbReady==='function'&&!fbReady())return;
-  fetch(FB_DB_URL+'/versions.json')
+  // 只抓最新一筆（2026-11 全部 323 版約 57 MB，最新一筆約 0.3 MB）
+  fetch(FB_DB_URL+'/versions.json?orderBy=%22%24key%22&limitToLast=1')
     .then(function(r){return r.json();})
     .then(function(data){
       if(!data||Object.keys(data).length===0)return; // 雲端尚無版本：沿用本機資料
