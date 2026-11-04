@@ -2976,9 +2976,27 @@ function setAsgn(k,aid){
       if(k2!==k&&k2.startsWith(prefix)&&assignments[k2]===aid)delete assignments[k2];
     });
     assignments[k]=aid;
+    _clearLeaveOnAssign(k,aid);
   } else {
     delete assignments[k];
   }
+}
+// 劃休後又被派班（派班優先）：移除該時段劃休，避免「劃休＋已派班」紅框衝突
+function _clearLeaveOnAssign(k,aid){
+  var sk=k;
+  if(k.indexOf('ex')===0){ // 額外崗位 id 不含日期，從 extraSlots 找出所屬時段 Y-d-m-si
+    sk=null;
+    Object.keys(extraSlots).some(function(ek){
+      if((extraSlots[ek]||[]).some(function(e){return e&&e.id===k;})){sk=ek;return true;}
+      return false;
+    });
+    if(!sk)return;
+  }
+  var p=sk.split('-');var lk=p[0]+'-'+p[2]+'-'+p[1];var si=+p[3];
+  var cur=astLeave[aid]&&astLeave[aid][lk];
+  if(!cur||cur[si]!==1)return;
+  cur=cur.slice();cur[si]=0;astLeave[aid][lk]=cur;
+  if(editId===aid&&editMode)startEdit(aid); // 助理管理編輯區正開著這位 → 重畫劃休勾選
 }
 
 function getAllSlotKeys(d,m,si){
