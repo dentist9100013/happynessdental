@@ -5448,7 +5448,62 @@ function _bonusForCounter(d,m,si){
   if(adrs.some(function(dr){return dr.id==='li';}))return 1; // 有李醫師=矯正時
   return 0;
 }
+// 115.10 起（院長 2026-11-05 逐項確認，與 38 薪資系統同一套；每人每診只算一項）：
+//   顏1 主跟 3；李1／黃凱筠／蕭醫師主跟 1；林醫師主跟 0.5；李2 0.5；林△ 不給分
+//   顏2：H/J/I/S 1，其他 0.5
+//   主要櫃台（g-counter）：醫師≥3 位、李醫師有看診（矯櫃）、林醫師有看診（林櫃）1；櫃台流動、雙職務不算櫃台分
+//   同一診兩個工作（含雙職務額外格）：其中一個跟顏醫師就當顏2 算，其餘不算分
+var BONUS_TABLE_1105={'yan-main':[3,'顏1 主跟 顏醫師'],'li-main':[1,'李1 主跟 李醫師'],'huang_f-main':[1,'主跟 黃凱筠'],'hsiao-main':[1,'主跟 蕭醫師'],'lin-main':[0.5,'主跟 林醫師（兒林）'],'li-sub':[0.5,'李2']};
 function calcBonusForMonth(m){
+  if(Y*12+m<2026*12+9)return _calcBonusForMonthOld(m);   // 115.09 以前保留舊算法
+  var totals={},details={};
+  asts.forEach(function(a){if(isPersonActive(a)){totals[a.id]=0;details[a.id]=[];}});
+  var days=getDays(m);
+  var SNS=['早','午','晚'];
+  for(var d=1;d<=days;d++){
+    if(isOff(d,m))continue;
+    [0,1,2].forEach(function(si){
+      if(!getSess(d,m)[si])return;
+      var adrs=activeDrs(d,m,si);
+      var hasLi=adrs.some(function(dr){return dr.id==='li';});
+      var hasLin=adrs.some(function(dr){return dr.id==='lin';});
+      // 每人這一診的工作：[{did, role}]；雙職務一格拆成兩個工作
+      var jobs={};
+      getAllSlotKeys(d,m,si).forEach(function(k){
+        var aid=getAsgn(k);if(!aid||!totals.hasOwnProperty(aid))return;
+        if(!jobs[aid])jobs[aid]=[];
+        if(k.indexOf('ex')===0){
+          var mt=/^雙職務（(.+)）$/.exec(String(getRoleFromKey(k,d,m,si)||''));
+          if(mt)mt[1].split('+').forEach(function(p){jobs[aid].push({did:p,role:'dual'});});
+          return;   // 其他額外格（行政診、流動、學習…）不算特殊加給
+        }
+        var parts=k.split('-');
+        jobs[aid].push({did:parts[4],role:parts.slice(5).join('-')});
+      });
+      Object.keys(jobs).forEach(function(aid){
+        var js=jobs[aid];if(!js.length)return;
+        var yen2=BONUS_FACE_ID_PRIMARY.indexOf(aid)>=0?1:0.5;
+        var pts=0,reason='';
+        if(js.length>=2){
+          if(js.some(function(j){return j.did==='yan';})){pts=yen2;reason='同診兩個工作（含顏醫師）＝顏2';}
+        }else{
+          var j=js[0];
+          if(j.did==='yan'&&j.role==='sub'){pts=yen2;reason=yen2===1?'顏2 (H/J/I/S)':'顏2 (其他)';}
+          else if(BONUS_TABLE_1105[j.did+'-'+j.role]){pts=BONUS_TABLE_1105[j.did+'-'+j.role][0];reason=BONUS_TABLE_1105[j.did+'-'+j.role][1];}
+          else if(j.did==='g'&&j.role==='counter'){
+            if(hasLi){pts=1;reason='矯櫃（李醫師有看診）';}
+            else if(hasLin){pts=1;reason='林櫃（林醫師有看診）';}
+            else if(adrs.length>=3){pts=1;reason='櫃台（醫師≥3位）';}
+          }
+        }
+        if(pts>0){totals[aid]+=pts;details[aid].push({d:d,si:si,siLbl:SNS[si],reason:reason,pts:pts});}
+      });
+    });
+  }
+  return {totals:totals,details:details};
+}
+// 115.09 以前的舊算法：
+function _calcBonusForMonthOld(m){
   // 回傳 { totals: { aid: 分數 }, details: { aid: [ {d,si,reason,pts}, ... ] } }
   var totals={},details={};
   asts.forEach(function(a){if(isPersonActive(a)){totals[a.id]=0;details[a.id]=[];}});
@@ -5738,7 +5793,7 @@ function renderPage5(){
   // === B-2. 乾股紅利特殊加給計算明細（grid 2 欄、每位助理一個摺疊區）===
   html+='<div class="p5-section">';
   html+='<div class="p5-title"><span class="p5-title-icon" style="background:#0d6640;"></span>乾股紅利特殊加給計算明細（點助理可展開）</div>';
-  html+='<div style="font-size:11px;color:#666;margin-bottom:10px;">每位助理當月每一筆得分的逐筆記錄。同一診次有多個加分項時會分開列出。</div>';
+  html+='<div style="font-size:11px;color:#666;margin-bottom:10px;">每位助理當月每一筆得分的逐筆記錄。115.10 起每人每診只算一項（與薪資系統同一套）；115.09 以前同一診次有多個加分項時會分開列出。</div>';
   html+='<div class="p5-det-grid">';
   activeAsts.forEach(function(a){
     var b=bonus[a.id]||0;
