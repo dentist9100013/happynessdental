@@ -290,9 +290,12 @@ select:focus,input[type=text]:focus,input[type=number]:focus{
 .sess-col-hd.e{background:var(--amber-light);color:var(--amber);}
 .sess-col-body{padding:14px;}
 .a-slot-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
-/* 病假 */
-.sick-btn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;border:1px solid #f0b8c8;color:#d6336c;background:#fff;font-size:11px;font-weight:700;cursor:pointer;margin-left:4px;}
-.sick-btn:hover{background:#d6336c;color:#fff;}
+/* 請假（病假／事假／公假） */
+.sick-btn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;border:1px solid #c9d1e3;color:#5c6b8a;background:#fff;cursor:pointer;margin-left:4px;}
+.sick-btn:hover{background:#5c6b8a;color:#fff;border-color:#5c6b8a;}
+.lv-type-opts{display:flex;gap:8px;margin:4px 0 10px;}
+.lv-type-opt{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:8px 0;border:1.5px solid #ddd;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;color:#555;background:#fff;}
+.lv-type-opt input{margin:0;}
 .sick-tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:10px;background:#fde7ef;color:#c2255c;font-size:11px;font-weight:700;cursor:pointer;margin-right:4px;}
 .sick-list{margin:6px 0 10px;padding:8px 10px;border:1px dashed #f0b8c8;border-radius:8px;background:#fff7fa;}
 .sick-list-hd{font-size:12px;font-weight:700;color:#c2255c;margin-bottom:6px;}
@@ -3009,9 +3012,14 @@ function _clearLeaveOnAssign(k,aid){
   if(editId===aid&&editMode)startEdit(aid); // 助理管理編輯區正開著這位 → 重畫劃休勾選
 }
 
-// ── 病假 ──
-// sickOv 結構：{ "Y-d-m-si": { aid: {t:標記時間, roles:[{k,role,drId,sf,lbl}]} } }
-// 標記病假會釋出該助理該時段的派班（可改派他人），原工作內容留在 roles 供顯示，之後連動薪資／打卡
+// ── 請假（病假／事假／公假）──
+// sickOv 結構：{ "Y-d-m-si": { aid: {t:標記時間, type:'病'|'事'|'公', roles:[{k,role,drId,sf,lbl}]} } }
+// 標記請假會釋出該助理該時段的派班（可改派他人），原工作內容留在 roles 供顯示，之後連動薪資／打卡
+// 舊資料沒有 type 一律視為病假
+var LEAVE_TYPES={'病':{name:'病假',c:'#d6336c',bg:'#fde7ef',fg:'#9a6b7b'},'事':{name:'事假',c:'#e8590c',bg:'#fff0e0',fg:'#9a7552'},'公':{name:'公假',c:'#1c7ed6',bg:'#e3f0ff',fg:'#5b7a99'}};
+var LEAVE_ICON='<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 1.5h6l3 3v10h-9z"/><path d="M9.5 1.5v3h3"/><path d="M5.5 7.5h5M5.5 10h5M5.5 12.5h3"/></svg>';
+function leaveTypeKey(rec){return rec&&LEAVE_TYPES[rec.type]?rec.type:'病';}
+function leaveType(rec){return LEAVE_TYPES[leaveTypeKey(rec)];}
 function sickKey(d,m,si){return Y+'-'+d+'-'+m+'-'+si;}
 function getSick(aid,d,m,si){var s=sickOv[sickKey(d,m,si)];return s&&s[aid]||null;}
 function getSickAids(d,m,si){return Object.keys(sickOv[sickKey(d,m,si)]||{});}
@@ -3022,7 +3030,7 @@ function _slotLabel(k,d,m,si){
   var dr=drs.find(function(x){return x.id===did;});
   return (dr?dr.name:did)+(role==='sub'?(dr&&dr.floatSub?' 輔(兼流)':' 輔助'):' 主跟診');
 }
-function markSick(aid,d,m,si){
+function markSick(aid,d,m,si,type){
   var roles=[];
   getAllSlotKeys(d,m,si).forEach(function(k){
     if(getAsgn(k)!==aid)return;
@@ -3034,9 +3042,9 @@ function markSick(aid,d,m,si){
   });
   var sk=sickKey(d,m,si);
   if(!sickOv[sk])sickOv[sk]={};
-  sickOv[sk][aid]={t:Date.now(),roles:roles};
+  sickOv[sk][aid]={t:Date.now(),type:LEAVE_TYPES[type]?type:'病',roles:roles};
 }
-// 取消病假；restore=true 時把原工作派回（崗位還開著且沒被別人接走才派回），回傳未能派回的崗位名稱
+// 取消請假；restore=true 時把原工作派回（崗位還開著且沒被別人接走才派回），回傳未能派回的崗位名稱
 function cancelSick(aid,d,m,si,restore){
   var sk=sickKey(d,m,si);var rec=sickOv[sk]&&sickOv[sk][aid];
   if(!rec)return [];
@@ -3052,7 +3060,7 @@ function cancelSick(aid,d,m,si,restore){
   }
   return failed;
 }
-// 病假格顯示的原工作簡寫（與月總覽符號一致）
+// 請假格顯示的原工作簡寫（與月總覽符號一致）
 function sickShortText(rec){
   var r=rec&&rec.roles&&rec.roles[0];
   if(!r)return '';
@@ -3082,7 +3090,7 @@ function fbFixSick(raw){
     Object.keys(sub).forEach(function(aid){
       var rec=sub[aid];if(!rec||typeof rec!=='object')return;
       if(!out[sk])out[sk]={};
-      out[sk][aid]={t:rec.t||0,roles:fbFixArr(rec.roles).filter(function(r){return r&&r.k;})};
+      out[sk][aid]={t:rec.t||0,type:LEAVE_TYPES[rec.type]?rec.type:'病',roles:fbFixArr(rec.roles).filter(function(r){return r&&r.k;})};
     });
   });
   return out;
@@ -3092,50 +3100,82 @@ function _afterSickChange(){
   if(statsVis)renderStats();
   if(weekStatsVis)renderWeekStats();
 }
-// 標記病假確認窗：可一次勾同一天其他有派班的時段
+// 標記請假確認窗：先選病假／事假／公假，可一次勾同一天其他有派班的時段
 function askMarkSick(aid,d,m,si){
   var ast=asts.find(function(a){return a.id===aid;});if(!ast)return;
   var sess=getSess(d,m);
-  var html='<div class="modal-title">🤒 標記病假</div>'
-    +'<div class="modal-msg"><b style="color:'+ast.color+';">'+escHtml(ast.nick)+'</b> 在 <b>'+MNS[m]+d+'日</b> 病假。<br>'
-    +'<small style="color:#666;">勾選的時段工作會<b>釋出</b>，可改排其他人；原工作內容會保留並在總覽顯示「病」。</small></div>'
+  var html='<div class="modal-title" style="display:flex;align-items:center;gap:6px;">'+LEAVE_ICON+' 請假</div>'
+    +'<div class="modal-msg"><b style="color:'+ast.color+';">'+escHtml(ast.nick)+'</b>　<b>'+MNS[m]+d+'日</b> 沒來的原因：</div>'
+    +'<div class="lv-type-opts">';
+  Object.keys(LEAVE_TYPES).forEach(function(t,i){
+    var lt=LEAVE_TYPES[t];
+    html+='<label class="lv-type-opt" data-c="'+lt.c+'" data-bg="'+lt.bg+'" onclick="_pickLeaveType(this)"'+(i===0?' style="border-color:'+lt.c+';background:'+lt.bg+';color:'+lt.c+';"':'')+'>'
+      +'<input type="radio" name="mi_lv_type" class="modal-input-allow" value="'+t+'"'+(i===0?' checked':'')+'>'+lt.name+'</label>';
+  });
+  html+='</div>'
+    +'<div class="modal-msg"><small style="color:#666;">勾選的時段工作會<b>釋出</b>，可改排其他人；原工作內容會保留並在總覽標示「病／事／公」。</small></div>'
     +'<div class="modal-field">';
   [0,1,2].forEach(function(s){
     if(!sess[s]||getSick(aid,d,m,s))return;
     var keys=getAllSlotKeys(d,m,s).filter(function(k){return getAsgn(k)===aid;});
     var lbl=keys.length?keys.map(function(k){return _slotLabel(k,d,m,s);}).join('、'):'未派班';
     html+='<label style="display:flex;align-items:center;gap:6px;margin:6px 0;font-size:13px;cursor:pointer;">'
-      +'<input type="checkbox" class="modal-input-allow" id="mi_sick_'+s+'"'+(s===si?' checked':'')+'>'
-      +'<b>'+SNS[s]+'</b><span style="color:#666;">'+escHtml(lbl)+'</span></label>';
+      +'<input type="checkbox" class="modal-input-allow" style="width:auto;flex:none;margin:0;" id="mi_sick_'+s+'"'+(s===si?' checked':'')+'>'
+      +'<b style="flex:none;">'+SNS[s]+'</b><span style="color:#666;">'+escHtml(lbl)+'</span></label>';
   });
   html+='</div><div class="modal-btns">'
     +'<button class="btn modal-btn-allow" onclick="closeModal()">取消</button>'
-    +'<button class="btn primary modal-btn-allow" style="background:#d6336c;border-color:#d6336c;" onclick="confirmMarkSick(\''+aid+'\','+d+','+m+')">確認病假</button>'
+    +'<button class="btn primary modal-btn-allow" onclick="confirmMarkSick(\''+aid+'\','+d+','+m+')">確認請假</button>'
     +'</div>';
   showModal(html);
 }
+function _pickLeaveType(lab){
+  lab.parentNode.querySelectorAll('.lv-type-opt').forEach(function(x){
+    var on=x===lab;
+    x.style.borderColor=on?x.dataset.c:'';x.style.background=on?x.dataset.bg:'';x.style.color=on?x.dataset.c:'';
+  });
+}
 function confirmMarkSick(aid,d,m){
+  var tr=document.querySelector('input[name="mi_lv_type"]:checked');
+  var type=tr?tr.value:'病';
   [0,1,2].forEach(function(s){
     var cb=document.getElementById('mi_sick_'+s);
-    if(cb&&cb.checked)markSick(aid,d,m,s);
+    if(cb&&cb.checked)markSick(aid,d,m,s,type);
   });
   closeModal();
   dayGridPopState=null;
   _afterSickChange();
 }
-// 點病假項目：取消病假（可選擇派回原工作）
+// 點請假項目：查看、改假別、取消請假（可選擇派回原工作）
 function askCancelSick(aid,d,m,si){
   var ast=asts.find(function(a){return a.id===aid;});var rec=getSick(aid,d,m,si);
   if(!ast||!rec)return;
-  var tm=rec.t?fmtTime(rec.t):'';
-  showModal('<div class="modal-title">🤒 病假紀錄</div>'
-    +'<div class="modal-msg"><b style="color:'+ast.color+';">'+escHtml(ast.nick)+'</b>　'+MNS[m]+d+'日 '+SNS[si]+'<br>'
-    +'原工作：<b>'+escHtml(sickLabelText(rec))+'</b>'+(tm?'<br><small style="color:#888;">標記時間：'+tm+'</small>':'')+'</div>'
+  var tm=rec.t?fmtTime(rec.t):'';var lt=leaveType(rec);var tk=leaveTypeKey(rec);
+  var chg='';
+  if(editMode){
+    chg='<div style="margin-top:8px;font-size:12px;color:#666;">改為：';
+    Object.keys(LEAVE_TYPES).forEach(function(t){
+      if(t===tk)return;
+      chg+='<button class="btn modal-btn-allow" style="margin-left:6px;padding:3px 10px;color:'+LEAVE_TYPES[t].c+';border-color:'+LEAVE_TYPES[t].c+';" onclick="doChangeLeaveType(\''+aid+'\','+d+','+m+','+si+',\''+t+'\')">'+LEAVE_TYPES[t].name+'</button>';
+    });
+    chg+='</div>';
+  }
+  showModal('<div class="modal-title" style="display:flex;align-items:center;gap:6px;">'+LEAVE_ICON+' 請假紀錄</div>'
+    +'<div class="modal-msg"><b style="color:'+ast.color+';">'+escHtml(ast.nick)+'</b>　'+MNS[m]+d+'日 '+SNS[si]
+    +'　<b style="padding:1px 6px;border-radius:4px;background:'+lt.c+';color:#fff;">'+lt.name+'</b><br>'
+    +'原工作：<b>'+escHtml(sickLabelText(rec))+'</b>'+(tm?'<br><small style="color:#888;">標記時間：'+tm+'</small>':'')+chg+'</div>'
     +'<div class="modal-btns">'
     +'<button class="btn modal-btn-allow" onclick="closeModal()">關閉</button>'
-    +(editMode?'<button class="btn modal-btn-allow" onclick="doCancelSick(\''+aid+'\','+d+','+m+','+si+',false)">取消病假</button>'
-      +(rec.roles.length?'<button class="btn primary modal-btn-allow" onclick="doCancelSick(\''+aid+'\','+d+','+m+','+si+',true)">取消病假並派回原工作</button>':''):'')
+    +(editMode?'<button class="btn modal-btn-allow" onclick="doCancelSick(\''+aid+'\','+d+','+m+','+si+',false)">取消請假</button>'
+      +(rec.roles.length?'<button class="btn primary modal-btn-allow" onclick="doCancelSick(\''+aid+'\','+d+','+m+','+si+',true)">取消請假並派回原工作</button>':''):'')
     +'</div>');
+}
+function doChangeLeaveType(aid,d,m,si,t){
+  var rec=getSick(aid,d,m,si);
+  if(rec&&LEAVE_TYPES[t])rec.type=t;
+  closeModal();
+  dayGridPopState=null;
+  _afterSickChange();
 }
 function doCancelSick(aid,d,m,si,restore){
   var failed=cancelSick(aid,d,m,si,restore);
@@ -3305,7 +3345,7 @@ function renderMoLegend(){
     {sym:'',htmlSym:eduSymHTML(16),bg:EDU_BG,color:EDU_COLOR,label:'教育訓練（不算診次，到班時間可能不同）'},
     {sym:'',bg:'#ececec',color:'#aaa',label:'休診'},
     {leaveSvg:true,label:'助理勾選不可上班'},
-    {sym:'',htmlSym:'<span style="color:#9a6b7b;">顏</span><b style="margin-left:2px;padding:0 2px;border-radius:2px;background:#d6336c;color:#fff;font-size:8px;">病</b>',bg:'#fde7ef',color:'#9a6b7b',label:'病假（淡字＝原工作，已釋出）'},
+    {sym:'',htmlSym:'<span style="color:#9a6b7b;">顏</span>'+Object.keys(LEAVE_TYPES).map(function(t){return '<b style="margin-left:2px;padding:0 2px;border-radius:2px;background:'+LEAVE_TYPES[t].c+';color:#fff;font-size:8px;">'+t+'</b>';}).join(''),bg:'#f6f1f3',color:'#9a6b7b',label:'請假：病假／事假／公假（淡字＝原工作，已釋出）'},
   ];
   leg.innerHTML='';
   var title=document.createElement('span');
@@ -3720,7 +3760,7 @@ function renderMoGrid(){
         }
       });
       dayCache[d][si]={aidRole:aidRole,drNamesArr:drNamesArr};
-      getSickAids(d,m,si).forEach(function(sa){astSeen[sa]=true;}); // 病假助理也要有欄位
+      getSickAids(d,m,si).forEach(function(sa){astSeen[sa]=true;}); // 請假助理也要有欄位
     });
   }
   var cols=asts.filter(function(a){return astSeen[a.id]&&isPersonActive(a);});
@@ -3751,7 +3791,7 @@ function renderMoGrid(){
     var info=dayCache[d][si].aidRole[aid];
     if(!info){
       var sick=getSick(aid,d,m,si);
-      if(sick)return {v:'<span class="sick-orig">'+sickShortText(sick)+'</span>',bg:'#fde7ef',blocked:false,sick:sick};
+      if(sick)return {v:'<span class="sick-orig" style="color:'+leaveType(sick).fg+';">'+sickShortText(sick)+'</span>',bg:leaveType(sick).bg,blocked:false,sick:sick};
       return {v:'',bg:'#fff',blocked:blocked};
     }
     var v='',bg='#fff';
@@ -3888,7 +3928,7 @@ function renderMoGrid(){
             var svgLine='<svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="0" y1="100" x2="100" y2="0" stroke="#666" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>';
             html+='<td onclick="selDay='+d+';renderMoGrid();renderAssignTop();" title="此助理勾選不可上班'+(cv.v?'（且已派班，請檢查）':'')+'" style="'+TD+'background:#d8d8d8;position:relative;'+textStyle+conflictBorder+selOut+';">'+svgLine+'<span style="position:relative;z-index:1;">'+cv.v+'</span></td>';
           }else if(cv.sick){
-            html+='<td onclick="selDay='+d+';renderMoGrid();renderAssignTop();" title="'+escHtml(a.nick)+' 病假（原：'+escHtml(sickLabelText(cv.sick))+'）" style="'+TD+'background:'+cv.bg+';position:relative;'+selOut+';"><span class="sick-badge">病</span>'+cv.v+'</td>';
+            html+='<td onclick="selDay='+d+';renderMoGrid();renderAssignTop();" title="'+escHtml(a.nick)+' '+leaveType(cv.sick).name+'（原：'+escHtml(sickLabelText(cv.sick))+'）" style="'+TD+'background:'+cv.bg+';position:relative;'+selOut+';"><span class="sick-badge" style="background:'+leaveType(cv.sick).c+';">'+leaveTypeKey(cv.sick)+'</span>'+cv.v+'</td>';
           }else{
             html+='<td onclick="selDay='+d+';renderMoGrid();renderAssignTop();" style="'+TD+'background:'+cv.bg+selOut+';">'+cv.v+'</td>';
           }
@@ -3941,11 +3981,11 @@ function buildMoGridHTML(){
       roles.push({role:role,k:k});
     });
     if(!roles.length){
-      // 病假：原工作在上、紅色「病」在下（列印格子窄，垂直堆疊）
+      // 請假：原工作在上、假別（病／事／公）在下（列印格子窄，垂直堆疊）
       var sick=getSick(aid,d,m,si);
       if(sick)return{v:'<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:0.95;">'
-        +'<span style="font-size:'+(fpt*0.85)+'pt;color:#9a6b7b;">'+sickShortText(sick)+'</span>'
-        +'<span style="font-size:'+(fpt*0.85)+'pt;font-weight:700;color:#c2255c;">病</span></div>',bg:'#fde7ef',stack:false};
+        +'<span style="font-size:'+(fpt*0.85)+'pt;color:'+leaveType(sick).fg+';">'+sickShortText(sick)+'</span>'
+        +'<span style="font-size:'+(fpt*0.85)+'pt;font-weight:700;color:'+leaveType(sick).c+';">'+leaveTypeKey(sick)+'</span></div>',bg:leaveType(sick).bg,stack:false};
       // 沒派班：若勾不能上班，顯示灰底+斜線
       if(blocked)return{v:'',bg:'#d8d8d8',stack:false,blocked:true,leaveOnly:true};
       return{v:'',bg:'#fff',stack:false};
@@ -4253,6 +4293,7 @@ function buildMoGridHTML(){
     {sym:'行',bg:'#eaeaff',c:'#44c',lb:'行政診'},
     {htmlSym:eduSymHTML(9,'pt'),bg:EDU_BG,c:EDU_COLOR,lb:'教育訓練（不算診次）'},
     {leave:true,lb:'不可上班'},
+    {htmlSym:Object.keys(LEAVE_TYPES).map(function(t){return '<span style="color:'+LEAVE_TYPES[t].c+';">'+t+'</span>';}).join(''),bg:'#f6f1f3',c:'#555',lb:'請假（病／事／公）'},
     {sym:'',bg:'#ececec',c:'#aaa',lb:'休診'},
   ];
   html+='<div style="margin-top:'+GAP+'mm;height:'+LEG_H+'mm;display:flex;align-items:center;justify-content:center;gap:6pt;font-size:5.5pt;color:#555;">';
@@ -4479,15 +4520,16 @@ function renderAssignTop(){
       var cFn=editMode?'rmExtra('+selDay+','+m+','+si+',\''+ex.id+'\');renderWeekGrid();renderAssignTop();updateStats();':null;
       html+=aRowHtml(ex.id,selDay,m,si,'extra',exDisplayLabel(ex.type),'globl',cFn);
     });
-    // 病假清單：原工作內容與標記時間（點選可取消病假）
+    // 請假清單：假別、原工作內容與標記時間（點選可改假別或取消）
     var sickAids=getSickAids(selDay,m,si);
     if(sickAids.length){
-      html+='<div class="sick-list"><div class="sick-list-hd">🤒 病假</div>';
+      html+='<div class="sick-list"><div class="sick-list-hd" style="display:flex;align-items:center;gap:4px;">'+LEAVE_ICON+' 請假</div>';
       sickAids.forEach(function(sa){
         var sAst=asts.find(function(a){return a.id===sa;});if(!sAst)return;
         var rec=getSick(sa,selDay,m,si);
-        html+='<div class="sick-item" onclick="askCancelSick(\''+sa+'\','+selDay+','+m+','+si+')" title="點選查看或取消病假">'
+        html+='<div class="sick-item" onclick="askCancelSick(\''+sa+'\','+selDay+','+m+','+si+')" title="點選查看、改假別或取消請假">'
           +'<span class="achip" style="background:'+sAst.color+';cursor:pointer;">'+escHtml(sAst.ab)+'</span>'
+          +'<b style="padding:1px 6px;border-radius:4px;background:'+leaveType(rec).c+';color:#fff;font-size:11px;">'+leaveType(rec).name+'</b>'
           +'<span>'+escHtml(sAst.nick)+'｜原：'+escHtml(sickLabelText(rec))+'</span>'
           +(rec.t?'<span class="sick-time">'+fmtTime(rec.t)+' 標記</span>':'')
           +'</div>';
@@ -4653,10 +4695,11 @@ function renderDayGrid(){
       var svgOverlay='';
       var sickRec=!info.v&&getSick(a.id,selDay,m,si);
       if(sickRec){
-        // 病假：顯示原工作（淡色）＋「病」，工作已釋出；點選可查看或取消病假
-        bg='#fde7ef';
-        cellInner='<span style="color:#9a6b7b;">'+sickShortText(sickRec)+'</span><span style="margin-left:3px;padding:1px 4px;border-radius:4px;background:#d6336c;color:#fff;font-size:11px;font-weight:700;">病</span>';
-        titleAttr=' title="'+escHtml(a.nick)+' 病假（原：'+escHtml(sickLabelText(sickRec))+'），點選可查看或取消"';
+        // 請假：顯示原工作（淡色）＋假別「病／事／公」，工作已釋出；點選可查看、改假別或取消
+        var slt=leaveType(sickRec);
+        bg=slt.bg;
+        cellInner='<span style="color:'+slt.fg+';">'+sickShortText(sickRec)+'</span><span style="margin-left:3px;padding:1px 4px;border-radius:4px;background:'+slt.c+';color:#fff;font-size:11px;font-weight:700;">'+leaveTypeKey(sickRec)+'</span>';
+        titleAttr=' title="'+escHtml(a.nick)+' '+slt.name+'（原：'+escHtml(sickLabelText(sickRec))+'），點選可查看、改假別或取消"';
         extraStyle='cursor:pointer;';
         clickHandler='onclick="event.stopPropagation();askCancelSick(\''+a.id+'\','+selDay+','+m+','+si+')"';
       }else if(info.blocked){
@@ -4868,7 +4911,7 @@ function _dgRenderPopover(aid,si,m){
   // 「不指派 / 取消當前派班」選項
   if(optList.some(function(o){return o.isMine;})){
     html+='<div class="dg-pop-opt dg-pop-clear" onclick="event.stopPropagation();dgAssignClear(\''+aid+'\','+si+')">取消'+escHtml(ast.nick)+'目前派班</div>';
-    html+='<div class="dg-pop-opt" style="color:#c2255c;background:#fff7fa;" onclick="event.stopPropagation();askMarkSick(\''+aid+'\','+d+','+m+','+si+')"><span class="dg-pop-opt-label">🤒 標記'+escHtml(ast.nick)+'病假（釋出工作）</span></div>';
+    html+='<div class="dg-pop-opt" style="color:#4a5878;background:#f4f6fb;" onclick="event.stopPropagation();askMarkSick(\''+aid+'\','+d+','+m+','+si+')"><span class="dg-pop-opt-label">📝 標記'+escHtml(ast.nick)+'請假：病／事／公（釋出工作）</span></div>';
   }
   optList.forEach(function(o){
     var disabled='';
@@ -5119,17 +5162,18 @@ function aRowHtml(k,d,m,si,did,lbl,lblCls,cancelFn){
   var aid=getAsgn(k);var ast=aid?asts.find(function(a){return a.id===aid;}):null;
   var cancelBtn=cancelFn?'<span title="取消此崗位" onclick="'+cancelFn+'" style="cursor:pointer;color:#ccc;font-size:10px;margin-right:3px;flex-shrink:0;line-height:1;" onmouseover="this.style.color=\'#e44\'" onmouseout="this.style.color=\'#ccc\'">✕</span>':'';
   var html='<div class="a-slot-row">'+cancelBtn+'<span class="slot-lbl '+lblCls+'">'+lbl+'</span><div class="chips">';
-  // 這個崗位原本是誰、因病假釋出 → 在列上標示「X 病」
+  // 這個崗位原本是誰、因請假釋出 → 在列上標示「X 病／事／公」
   getSickAids(d,m,si).forEach(function(sa){
     var rec=getSick(sa,d,m,si);
     if(!rec.roles.some(function(r){return r.k===k;}))return;
     var sAst=asts.find(function(a){return a.id===sa;});if(!sAst)return;
-    html+='<span class="sick-tag" title="'+escHtml(sAst.nick)+' 病假，此工作已釋出" onclick="askCancelSick(\''+sa+'\','+d+','+m+','+si+')">'+escHtml(sAst.ab)+' 病</span>';
+    var lt=leaveType(rec);
+    html+='<span class="sick-tag" style="background:'+lt.bg+';color:'+lt.c+';" title="'+escHtml(sAst.nick)+' '+lt.name+'，此工作已釋出" onclick="askCancelSick(\''+sa+'\','+d+','+m+','+si+')">'+escHtml(sAst.ab)+' '+leaveTypeKey(rec)+'</span>';
   });
   if(ast){
     if(editMode){
       html+='<span class="achip" style="background:'+ast.color+';" onclick="doAssign(\''+k+'\',null,'+d+','+m+','+si+')">'+ast.ab+' <span class="achip-x">✕</span></span>';
-      html+='<span class="sick-btn" title="標記 '+escHtml(ast.nick)+' 病假（釋出此工作）" onclick="askMarkSick(\''+aid+'\','+d+','+m+','+si+')">病</span>';
+      html+='<span class="sick-btn" title="'+escHtml(ast.nick)+' 請假（病假／事假／公假，釋出此工作）" onclick="askMarkSick(\''+aid+'\','+d+','+m+','+si+')">'+LEAVE_ICON+'</span>';
     } else {
       html+='<span class="achip" style="background:'+ast.color+';cursor:default;">'+ast.ab+'</span>';
     }
@@ -7391,7 +7435,7 @@ function applyVersionData(d){
       if(Object.keys(clean).length)astSpecial[aid]=clean;
     });
   }
-  sickOv=fbFixSick(d.sickOv); // 病假紀錄
+  sickOv=fbFixSick(d.sickOv); // 請假紀錄（病／事／公）
   // Restore year+month if possible
   if(d.Y!==undefined&&d.m!==undefined){
     var sel=document.getElementById('msel');
@@ -7693,7 +7737,7 @@ function doImportMonth(){
           });
         });
       }
-      // 病假紀錄（該月，key 與 extraSlots 同為 Y-d-m-si）
+      // 請假紀錄（該月，key 與 extraSlots 同為 Y-d-m-si）
       if(data.sickOv)mergeObj(sickOv,fbFixSick(data.sickOv));
       // 列印備註（該月）
       if(typeof data.moGridNote==='string'){
