@@ -512,7 +512,7 @@
       if (c.hidden) { c.box = null; return; }
       let pose = c.pose;
       if (pose === 'inbed') { // 躺在床上：畫床的補丁（淡入淡出跟著 alpha）、頭上飄 Z、偶爾做夢夢到亮晶晶的牙齒
-        const b = BEDS[c.def.id], im = BED_IMG[c.def.id];
+        const b = (SP.beds && SP.beds[c.def.id]) || BEDS[c.def.id], im = BED_IMG[c.def.id]; // SP.beds：對齊像素格後的位置（build_web_assets.py）
         if (b && im && im.complete && im.naturalWidth) {
           ctx.globalAlpha = c.alpha == null ? 1 : c.alpha; ctx.drawImage(im, b[0], b[1], b[2], b[3]); ctx.globalAlpha = 1;
           c.box = b.slice();
