@@ -3166,8 +3166,7 @@ function askCancelSick(aid,d,m,si){
     +'原工作：<b>'+escHtml(sickLabelText(rec))+'</b>'+(tm?'<br><small style="color:#888;">標記時間：'+tm+'</small>':'')+chg+'</div>'
     +'<div class="modal-btns">'
     +'<button class="btn modal-btn-allow" onclick="closeModal()">關閉</button>'
-    +(editMode?'<button class="btn modal-btn-allow" onclick="doCancelSick(\''+aid+'\','+d+','+m+','+si+',false)">取消請假</button>'
-      +(rec.roles.length?'<button class="btn primary modal-btn-allow" onclick="doCancelSick(\''+aid+'\','+d+','+m+','+si+',true)">取消請假並派回原工作</button>':''):'')
+    +(editMode?'<button class="btn primary modal-btn-allow" onclick="doCancelSick(\''+aid+'\','+d+','+m+','+si+',true)">取消請假並派回原工作</button>':'')
     +'</div>');
 }
 function doChangeLeaveType(aid,d,m,si,t){
