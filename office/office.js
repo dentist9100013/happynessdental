@@ -709,10 +709,10 @@
       if (d.fu) { ctx.save(); ctx.translate(d.x, y + h / 2); ctx.fillStyle = '#1f130c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.font = `900 ${Math.round(h * 0.42)}px "PingFang TC","Noto Sans TC","Microsoft JhengHei",serif`; ctx.fillText('福', 0, h * 0.02); ctx.restore(); }
       if (d.notice && d.ev && d.ev.notice) { // 公告紙：先蓋掉紙上的雜線，再寫活動文字
-        ctx.fillStyle = '#f6f1e6'; ctx.fillRect(x + w * 0.12, y + h * 0.18, w * 0.7, h * 0.62);
-        ctx.fillStyle = '#2b2420'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#edddca'; ctx.fillRect(x + w * 0.12, y + h * 0.18, w * 0.7, h * 0.62); // 11/6：紙色改成暖色調後的公告紙主色（style_props.warm）
+        ctx.fillStyle = '#3a241c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         d.ev.notice.forEach((line, i) => { ctx.font = `${i === 1 ? 800 : 600} ${Math.round(h * (i === 1 ? 0.105 : 0.085))}px "PingFang TC","Noto Sans TC",sans-serif`;
-          ctx.fillStyle = i === 2 ? '#b3261e' : '#2b2420'; ctx.fillText(line, d.x - w * 0.03, y + h * (0.32 + i * 0.17), w * 0.66); }); // 最後一個參數：太長就壓窄，不超出紙
+          ctx.fillStyle = i === 2 ? '#9a3a22' : '#3a241c'; ctx.fillText(line, d.x - w * 0.03, y + h * (0.32 + i * 0.17), w * 0.66); }); // 最後一個參數：太長就壓窄，不超出紙
       }
     }
     places.filter(d => d.hang).forEach(drawDecor);
@@ -777,15 +777,16 @@
     const r = boardRect(); ctx.drawImage(BOARD_IMG, r.x, r.y, r.w, r.h);
     const l = lessonAt(lesson && lessonBusy() ? lesson.slot : slotNow()); if (!l) return;
     ctx.save(); ctx.transform(...faceMatrix());
-    ctx.fillStyle = '#6b2e8f'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    // 11/6：字色改成白板上的「白板筆」暖色（深紫標題、深褐內文、磚紅提示），不用網頁感的亮藍連結；分隔線改成虛線筆跡
+    ctx.fillStyle = '#4f2463'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
     ctx.font = '800 64px "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif'; ctx.fillText('器械小教室', 230, 40, 720);
-    ctx.fillStyle = 'rgba(107,46,143,.35)'; ctx.fillRect(230, 118, 720, 6);
+    ctx.fillStyle = 'rgba(79,36,99,.45)'; for (let i = 0; i < 720; i += 36) ctx.fillRect(230 + i, 118, 24, 6);
     const im = lessonImg(l); if (im.complete && im.naturalWidth) { ctx.imageSmoothingEnabled = false; ctx.drawImage(im, 210, 160, 330, 330); ctx.imageSmoothingEnabled = true; }
-    ctx.fillStyle = '#2b2420'; ctx.font = '800 62px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillText(l.zh, 570, 180, 410);
-    ctx.font = '500 40px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillStyle = '#5a4a3e';
+    ctx.fillStyle = '#3a241c'; ctx.font = '800 62px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillText(l.zh, 570, 180, 410);
+    ctx.font = '500 40px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillStyle = '#5e4636';
     if (l.alias && l.alias !== l.zh) ctx.fillText('院內叫：' + l.alias, 570, 265, 410);
     ctx.fillText(l.cat, 570, 330, 410);
-    ctx.fillStyle = '#1f6fb2'; ctx.font = '700 38px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillText('點我看介紹 ▶', 570, 430, 410);
+    ctx.fillStyle = '#9a3a22'; ctx.font = '700 38px "PingFang TC","Noto Sans TC",sans-serif'; ctx.fillText('點我看介紹 ▶', 570, 430, 410);
     ctx.restore();
   }
   const WEEKLY_IMG = {};
@@ -794,17 +795,20 @@
   function drawPin(t) { // 每週話題播放時：布告欄釘一張拍立得（有圖）或便條（沒圖），寫上標題
     if (!pinned || t > pinned.until) { pinned = null; return; }
     const ev = pinned.ev, im = weeklyImg(ev), { x, y, w, h } = PIN;
-    ctx.save(); ctx.translate(x, y + h / 2); ctx.rotate(-0.04);
-    ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(-w / 2 + 6, -h / 2 + 8, w, h);
-    ctx.fillStyle = im ? '#fbfaf5' : '#fff3a8'; ctx.fillRect(-w / 2, -h / 2, w, h);
+    // 11/6 院長：配圖太突兀 → 卡片改成布告欄紙張的暖米色（不用純白拍立得、冷藍底）、深褐一格外框、方塊像素圖釘、不旋轉（像素格才對得齊）
+    ctx.save(); ctx.translate(Math.round(x), Math.round(y + h / 2));
+    ctx.fillStyle = 'rgba(70,40,20,.28)'; ctx.fillRect(-w / 2 + 4, -h / 2 + 4, w, h);
+    ctx.fillStyle = '#3a241c'; ctx.fillRect(-w / 2 - 4, -h / 2 - 4, w + 8, h + 8);
+    ctx.fillStyle = im ? '#edddca' : '#efd98f'; ctx.fillRect(-w / 2, -h / 2, w, h);
     if (im && im.complete && im.naturalWidth) { const s = Math.min((w - 20) / im.naturalWidth, (h - 66) / im.naturalHeight), iw = im.naturalWidth * s, ih = im.naturalHeight * s;
-      ctx.fillStyle = ev.kind === 'dental' ? '#dff0f7' : '#f3e8f7'; ctx.fillRect(-w / 2 + 10, -h / 2 + 10, w - 20, h - 66);
-      ctx.drawImage(im, -iw / 2, -h / 2 + 10 + (h - 66 - ih) / 2, iw, ih); }
-    ctx.fillStyle = '#2b2420'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = ev.kind === 'dental' ? '#dccfb4' : '#e3cfbc'; ctx.fillRect(-w / 2 + 10, -h / 2 + 10, w - 20, h - 66);
+      ctx.imageSmoothingEnabled = false; ctx.drawImage(im, Math.round(-iw / 2), Math.round(-h / 2 + 10 + (h - 66 - ih) / 2), iw, ih); ctx.imageSmoothingEnabled = true; }
+    ctx.fillStyle = '#3a241c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.font = `700 ${im ? 22 : 26}px "PingFang TC","Noto Sans TC",sans-serif`;
     const lines = wrapText(ev.title, w - 24).slice(0, im ? 2 : 5);
     lines.forEach((l, i) => ctx.fillText(l, 0, (im ? h / 2 - 44 : -h / 2 + 44) + i * (im ? 24 : 32), w - 16));
-    ctx.fillStyle = ev.kind === 'dental' ? '#1f6fb2' : '#6b2e8f'; ctx.beginPath(); ctx.arc(0, -h / 2 + 4, 9, 0, Math.PI * 2); ctx.fill(); // 圖釘
+    ctx.fillStyle = '#3a241c'; ctx.fillRect(-10, -h / 2 - 10, 20, 20); // 圖釘（方塊像素：深褐外框＋紅／紫芯）
+    ctx.fillStyle = ev.kind === 'dental' ? '#b8432a' : '#7a3f8f'; ctx.fillRect(-6, -h / 2 - 6, 12, 12);
     ctx.restore();
   }
   let view = { S: 1, ox: 0, oy: 0 };
