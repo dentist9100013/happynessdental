@@ -3845,7 +3845,7 @@ function importData(evt) {
 }
 
 // ─── DATA VERSION（每次 LINE 同步更新資料時請更新此值）───
-const DATA_VERSION = '20261112233233';
+const DATA_VERSION = '20261112233823';
 
 // ─── LINE 週報摘要資料（每週更新）───
 // 僅使用資料來源：
@@ -4234,12 +4234,68 @@ let announcements = [
     "id": 209901010001,
     "title": "🗓️ 臨時班表異動日曆",
     "type": "info",
-    "body": "<strong>近 7 天：11/12 顏醫師加診（早診）、11/13 員工旅遊休診（全天）、11/14 員工旅遊休診（全天）、11/14 邱醫師休診、11/16 班表調班（詳見最新班表）、11/18 顏醫師休診（午診）</strong><br><span style=\"font-size:12px;color:#888\">由 LINE 公告自動彙整，每日更新；正式班表仍以排班表為準。點開看完整日曆（可切換月份）。</span><div style=\"font-size:12px;margin:6px 0\">⛔ 診所休診　🔴 請假／休診　🟢 加診／加班／代班　🔵 蕭／林醫師看診　🎌 國定假日　（黃底＝今天）</div><div style=\"font-weight:800;margin:10px 0 4px\">📅 2026 年 11 月</div><table style=\"border-collapse:collapse;width:100%;table-layout:fixed\"><tr><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">日</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">一</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">二</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">三</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">四</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">五</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">六</th></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">1</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">2</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蔡醫師調班（午診提早 13:30 開始手術）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">3</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蔡醫師加診（早診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">4</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（15:00）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（16:00）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">5</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">班表調班（詳見最新班表）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">6</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">男黃醫師休診（午診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">7</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師加診（早診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（早診）</div><div style=\"background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蕭醫師看診日</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">8</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">9</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">10</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蔡醫師加診（早診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">Yuki加班（早診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">11</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#FFF8E1\"><div style=\"font-weight:700;font-size:12px;color:#555\">12</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（早診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">13</div><div style=\"background:#5D4037;color:#fff;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">員工旅遊休診（全天）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">14</div><div style=\"background:#5D4037;color:#fff;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">員工旅遊休診（全天）</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師休診</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">15</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">16</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">班表調班（詳見最新班表）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">17</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">18</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師休診（午診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">19</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">20</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">21</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師休診（午診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師加診（早診）</div><div style=\"background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蕭醫師看診日</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">22</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">23</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（午診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">24</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">班表調班（詳見最新班表）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">25</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">26</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">27</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">28</div><div style=\"background:#5D4037;color:#fff;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">投票日休診（午診、晚診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">洪醫師加診（早診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（早診）</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">29</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">30</div></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td></tr></table><div style=\"font-weight:800;margin:10px 0 4px\">📅 2026 年 12 月</div><table style=\"border-collapse:collapse;width:100%;table-layout:fixed\"><tr><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">日</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">一</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">二</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">三</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">四</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">五</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">六</th></tr><tr><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">1</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">2</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師請假</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">3</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">4</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師請假</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">5</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師請假</div><div style=\"background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蕭醫師看診日</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">6</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">7</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">8</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">9</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">10</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">11</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">12</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">13</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">14</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師休診（晚診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">15</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">16</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">17</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">18</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">19</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師調班（早診）</div><div style=\"background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蕭醫師看診日</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">20</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">21</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">22</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">23</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">24</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">25</div><div style=\"background:#F2F2F2;color:#888;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">行憲紀念日</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">26</div><div style=\"background:#F2F2F2;color:#888;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">行憲紀念日連假</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師調班（早診）</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">27</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">28</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">29</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">30</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">31</div></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td></tr></table>",
+    "body": "<strong>近 7 天：11/12 顏醫師加診（早診）、11/13 員工旅遊休診（全天）、11/14 員工旅遊休診（全天）、11/14 邱醫師休診、11/16 班表調班（詳見最新班表）、11/18 顏醫師休診（午診）</strong><br><span style=\"font-size:12px;color:#888\">由 LINE 公告自動彙整，每日更新；正式班表仍以排班表為準。點開看完整日曆（可切換月份）。</span><div style=\"font-size:12px;margin:6px 0\">⛔ 診所休診　🔴 請假／休診　🟢 加診／加班／代班　🔵 蕭／林醫師看診　🎌 國定假日　（黃底＝今天）</div><div style=\"font-weight:800;margin:10px 0 4px\">📅 2026 年 11 月</div><table style=\"border-collapse:collapse;width:100%;table-layout:fixed\"><tr><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">日</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">一</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">二</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">三</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">四</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">五</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">六</th></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">1</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">2</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蔡醫師調班（午診提早 13:30 開始手術）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">3</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蔡醫師加診（早診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">4</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（15:00）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（16:00）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">5</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">班表調班（詳見最新班表）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">6</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">男黃醫師休診（午診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">7</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師加診（早診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（早診）</div><div style=\"background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蕭醫師看診日</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">8</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">9</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">10</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蔡醫師加診（早診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">Yuki加班（早診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">11</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#FFF8E1\"><div style=\"font-weight:700;font-size:12px;color:#555\">12</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（早診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">13</div><div style=\"background:#5D4037;color:#fff;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">員工旅遊休診（全天）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">14</div><div style=\"background:#5D4037;color:#fff;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">員工旅遊休診（全天）</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師休診</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">15</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">16</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">班表調班（詳見最新班表）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">17</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">18</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師休診（午診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">19</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">20</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">21</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師休診（午診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師加診（早診）</div><div style=\"background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蕭醫師看診日</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">22</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">23</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（午診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">24</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">班表調班（詳見最新班表）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">25</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">26</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">27</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">28</div><div style=\"background:#5D4037;color:#fff;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">投票日休診（午診、晚診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">洪醫師加診（早診）</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">顏醫師加診（早診）</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">29</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">30</div></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td></tr></table><div style=\"font-weight:800;margin:10px 0 4px\">📅 2026 年 12 月</div><table style=\"border-collapse:collapse;width:100%;table-layout:fixed\"><tr><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">日</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">一</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">二</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">三</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">四</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">五</th><th style=\"padding:3px;border:1px solid #EDE8E0;background:#F7F3EE;font-size:12px\">六</th></tr><tr><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">1</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">2</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師請假</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">3</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">4</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師請假</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">5</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師請假</div><div style=\"background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蕭醫師看診日</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">6</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">7</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">8</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">9</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">10</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">11</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">12</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">13</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">14</div><div style=\"background:#FDECEA;color:#C0392B;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師休診（晚診）</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">15</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">16</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">17</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">18</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">19</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師調班（早診）</div><div style=\"background:#E3F2FD;color:#1565C0;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">蕭醫師看診日</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">20</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">21</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">22</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">23</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">24</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">25</div><div style=\"background:#5D4037;color:#fff;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">行憲紀念日休診（全天）</div><div style=\"background:#F2F2F2;color:#888;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">行憲紀念日</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">26</div><div style=\"background:#F2F2F2;color:#888;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">行憲紀念日連假</div><div style=\"background:#E8F5E9;color:#2E7D32;border-radius:4px;padding:1px 3px;margin-top:2px;font-size:11px;line-height:1.3\">邱醫師調班（早診）</div></td></tr><tr><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#C0392B\">27</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">28</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">29</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">30</div></td><td style=\"border:1px solid #EDE8E0;padding:3px;vertical-align:top;height:52px;background:#fff\"><div style=\"font-weight:700;font-size:12px;color:#555\">31</div></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td><td style=\"border:1px solid #EDE8E0;background:#FAFAFA\"></td></tr></table>",
     "author": "LINE 同步（自動彙整）",
     "time": "2026/11/12",
     "pinned": true,
     "summary": "近 7 天：11/12 顏醫師加診（早診）、11/13 員工旅遊休診（全天）、11/14 員工旅遊休診（全天）、11/14 邱醫師休診、11/16 班表調班（詳見最新班表）、11/18 顏醫師休診（午診）",
     "calItems": {
+      "2026-01-01": [
+        [
+          "closed",
+          "元旦休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ]
+      ],
+      "2026-02-16": [
+        [
+          "closed",
+          "春節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ]
+      ],
+      "2026-02-17": [
+        [
+          "closed",
+          "春節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ]
+      ],
+      "2026-02-18": [
+        [
+          "closed",
+          "春節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ]
+      ],
+      "2026-02-19": [
+        [
+          "closed",
+          "春節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ]
+      ],
+      "2026-02-20": [
+        [
+          "closed",
+          "春節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ]
+      ],
+      "2026-02-21": [
+        [
+          "closed",
+          "春節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ]
+      ],
+      "2026-02-28": [
+        [
+          "closed",
+          "和平紀念日休診（全天）",
+          "北昕就診紀錄當天只有 3 筆（國定假日診所休診）"
+        ]
+      ],
       "2026-03-11": [
         [
           "extra",
@@ -4262,6 +4318,11 @@ let announcements = [
         ]
       ],
       "2026-04-04": [
+        [
+          "closed",
+          "兒童節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ],
         [
           "holiday",
           "兒童節",
@@ -4304,6 +4365,11 @@ let announcements = [
         ]
       ],
       "2026-05-01": [
+        [
+          "closed",
+          "勞動節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ],
         [
           "holiday",
           "勞動節",
@@ -4436,6 +4502,11 @@ let announcements = [
         ]
       ],
       "2026-06-19": [
+        [
+          "closed",
+          "端午節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ],
         [
           "holiday",
           "端午節",
@@ -4807,12 +4878,22 @@ let announcements = [
       ],
       "2026-09-25": [
         [
+          "closed",
+          "中秋節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ],
+        [
           "holiday",
           "中秋節",
           ""
         ]
       ],
       "2026-09-28": [
+        [
+          "closed",
+          "教師節休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ],
         [
           "holiday",
           "教師節",
@@ -4922,6 +5003,11 @@ let announcements = [
       ],
       "2026-10-10": [
         [
+          "closed",
+          "國慶日休診（早診、晚診）",
+          "8/30 LINE：診所基本休診，只有李醫師下午特殊國定假日門診"
+        ],
+        [
           "holiday",
           "國慶日",
           ""
@@ -4978,6 +5064,11 @@ let announcements = [
         ]
       ],
       "2026-10-24": [
+        [
+          "closed",
+          "光復節連假休診（全天）",
+          "北昕就診紀錄當天 0 筆（國定假日診所休診）"
+        ],
         [
           "holiday",
           "光復節連假",
@@ -5214,6 +5305,11 @@ let announcements = [
       ],
       "2026-12-25": [
         [
+          "closed",
+          "行憲紀念日休診（全天）",
+          "北昕約診表當天全部是「勿約診」、沒有病人"
+        ],
+        [
           "holiday",
           "行憲紀念日",
           ""
@@ -5233,6 +5329,11 @@ let announcements = [
       ],
       "2027-01-01": [
         [
+          "closed",
+          "元旦休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
+        [
           "holiday",
           "元旦",
           ""
@@ -5247,12 +5348,22 @@ let announcements = [
       ],
       "2027-02-04": [
         [
+          "closed",
+          "春節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
+        [
           "holiday",
           "春節連假（除夕前一日）",
           ""
         ]
       ],
       "2027-02-05": [
+        [
+          "closed",
+          "春節（除夕）休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
         [
           "holiday",
           "除夕",
@@ -5261,6 +5372,11 @@ let announcements = [
       ],
       "2027-02-06": [
         [
+          "closed",
+          "春節（初一）休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
+        [
           "holiday",
           "春節（初一）",
           ""
@@ -5268,12 +5384,22 @@ let announcements = [
       ],
       "2027-02-08": [
         [
+          "closed",
+          "春節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
+        [
           "holiday",
           "春節（初三）",
           ""
         ]
       ],
       "2027-02-09": [
+        [
+          "closed",
+          "春節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
         [
           "holiday",
           "春節補假",
@@ -5310,6 +5436,11 @@ let announcements = [
       ],
       "2027-04-05": [
         [
+          "closed",
+          "清明節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
+        [
           "holiday",
           "清明節",
           ""
@@ -5331,12 +5462,22 @@ let announcements = [
       ],
       "2027-05-01": [
         [
+          "closed",
+          "勞動節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
+        [
           "holiday",
           "勞動節",
           ""
         ]
       ],
       "2027-06-09": [
+        [
+          "closed",
+          "端午節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
         [
           "holiday",
           "端午節",
@@ -5345,12 +5486,22 @@ let announcements = [
       ],
       "2027-09-15": [
         [
+          "closed",
+          "中秋節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
+        [
           "holiday",
           "中秋節",
           ""
         ]
       ],
       "2027-09-28": [
+        [
+          "closed",
+          "教師節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
         [
           "holiday",
           "教師節",
@@ -5380,6 +5531,11 @@ let announcements = [
       ],
       "2027-10-25": [
         [
+          "closed",
+          "光復節休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
+        [
           "holiday",
           "臺灣光復暨金門古寧頭大捷紀念日",
           ""
@@ -5393,6 +5549,11 @@ let announcements = [
         ]
       ],
       "2027-12-25": [
+        [
+          "closed",
+          "行憲紀念日休診（全天）",
+          "北昕約診表已用「國定假日」擋掉全部診次"
+        ],
         [
           "holiday",
           "行憲紀念日",
