@@ -1741,7 +1741,8 @@ function shownInMonth(role, name, date = currentDate) {
 }
 
 // 通知 Webhook URL（Google Apps Script 部署網址）
-const NOTIFY_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbymcPZaSe0uaY8iMvvXfm1kQKTmG22URA2g41TGLctvUadDd-cayocWj9Gr0yoxHj43AQ/exec";
+// 2026-11-18 停用排班異動 Telegram 通知（Apps Script「Clinic Notify」已封存部署）；要恢復再填回原網址（見 備份/clinic-calendar 20261118_停Telegram通知前.html）
+const NOTIFY_WEBHOOK_URL = "";
 
 // 台灣國定假日
 const HOLIDAYS = {
