@@ -507,6 +507,80 @@ select:focus,input[type=text]:focus,input[type=number]:focus{
 .lc-sc.blk{color:var(--red);}
 .lc-sc.ok{color:var(--text-light);}
 
+/* ── 助理管理（2026-11-18 改版：上方橫排名單＋一張卡看完一位助理） ── */
+.astbar{display:flex;align-items:flex-start;gap:8px;background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:8px 10px;margin-bottom:10px;box-shadow:var(--shadow-xs);}
+.astbar-chips{flex:1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.astchip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 3px;border-radius:999px;border:1.5px solid var(--border-light);background:#fff;cursor:pointer;font-size:12px;line-height:1;transition:all var(--transition);user-select:none;}
+.astchip:hover{border-color:var(--c);background:#fafbff;}
+.astchip.sel{border:2px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#fff);box-shadow:0 1px 4px rgba(0,0,0,.12);}
+.astchip.off{opacity:.55;}
+.astchip.off .astchip-nick{text-decoration:line-through;color:#999;}
+.astchip-av{width:22px;height:22px;border-radius:50%;background:var(--c);color:#fff;font-weight:700;font-size:11px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+.astchip-nick{font-weight:700;color:#222;}
+.astchip-tag{font-size:9px;padding:2px 5px;border-radius:8px;}
+.astchip-tag.ft{background:#d4f5e5;color:#0d6640;}
+.astchip-tag.pt{background:#fff0d0;color:#7a4d00;}
+.astchip-mv{font-size:10px;color:#666;padding:2px 3px;border-radius:4px;background:#eef1f6;}
+.astchip-mv:hover{background:#dde3ee;}
+.astchip-mv.dis{opacity:.25;pointer-events:none;}
+.astbar-toggle{font-size:11px;color:#888;cursor:pointer;padding:4px 8px;border-radius:999px;border:1px dashed #ccc;background:#fafafa;white-space:nowrap;}
+.astcard{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden;}
+.astcard-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-left:6px solid var(--c);background:color-mix(in srgb,var(--c) 7%,#fff);border-bottom:1px solid var(--border-light);}
+.astcard-av{width:40px;height:40px;border-radius:50%;background:var(--c);color:#fff;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.astcard-name{font-size:18px;font-weight:800;color:#1f2937;line-height:1.1;}
+.astcard-name small{font-size:12px;font-weight:500;color:#777;margin-left:6px;}
+.astcard-stats{display:flex;gap:6px;flex-wrap:wrap;margin-left:6px;}
+.astcard-stat{font-size:11px;color:#555;background:#fff;border:1px solid var(--border-light);border-radius:8px;padding:3px 8px;white-space:nowrap;}
+.astcard-stat b{font-size:13px;color:#111;}
+.astcard-btns{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap;}
+.astcard-btns .btn{font-size:12px;padding:5px 10px;}
+.astcard-body{display:grid;grid-template-columns:290px 1fr;gap:0;}
+.astcard-side{padding:10px 12px;border-right:1px solid var(--border-light);display:flex;flex-direction:column;gap:8px;background:#fcfcfd;}
+.astcard-main{padding:8px 10px;min-width:0;}
+.astf-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;}
+.astf{display:flex;flex-direction:column;gap:3px;}
+.astf-l{font-size:11px;font-weight:700;color:var(--text-muted);}
+.astf input[type=text],.astf input[type=number]{font-size:13px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;width:100%;box-sizing:border-box;}
+.astf-seg{display:flex;gap:4px;}
+.astf-seg .btn{font-size:12px;padding:3px 10px;}
+.astchips-dr{display:flex;flex-wrap:wrap;gap:3px;}
+.astchips-dr .dr-chip{font-size:11px;padding:2px 8px;margin:0;}
+.astcolor-row{display:flex;flex-wrap:wrap;gap:4px;}
+.astcolor-row .c-opt{width:18px;height:18px;border-width:2px;}
+.astcal-bar{display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:12px;font-weight:700;color:var(--text-muted);flex-wrap:wrap;}
+.astcal-bar .btn{font-size:10px;padding:2px 8px;border-radius:4px;}
+.astcal-legend{margin-left:auto;font-weight:400;font-size:10px;color:#888;display:flex;gap:8px;align-items:center;}
+.lcx{width:100%;table-layout:fixed;border-collapse:collapse;}
+.lcx th{font-size:11px;padding:3px 0;background:var(--surface-raised);color:var(--text-muted);border:1px solid var(--border-light);}
+.lcx th.lcx-sun,.lcx th.lcx-sat{color:#b45309;}
+.lcx td{border:1px solid var(--border-light);padding:2px 3px;vertical-align:top;background:#fff;height:62px;}
+.lcx td.lcx-off{background:#f3f4f6;}
+.lcx td.lcx-empty{background:#f9fafb;}
+.lcx td.lcx-today{box-shadow:inset 0 0 0 2px #2563eb;}
+.lcx-top{display:flex;align-items:center;justify-content:space-between;line-height:1;margin-bottom:1px;}
+.lcx-d{font-size:12px;font-weight:800;color:#374151;}
+.lcx-all{font-size:9px;color:#c33;display:inline-flex;align-items:center;gap:1px;cursor:pointer;}
+.lcx-all input{width:11px;height:11px;margin:0;}
+.lcx-s{display:flex;align-items:center;gap:3px;font-size:10px;line-height:15px;border-radius:3px;padding:0 2px;}
+.lcx-s label{display:inline-flex;align-items:center;gap:1px;cursor:pointer;font-weight:700;flex-shrink:0;}
+.lcx-s input{width:11px;height:11px;margin:0;}
+.lcx-s.blk{background:#fde2e2;}
+.lcx-s.blk label{color:#c33!important;}
+.lcx-s.closed{opacity:.35;}
+.lcx-job{font-weight:800;font-size:11px;color:#111;white-space:nowrap;overflow:hidden;display:inline-flex;align-items:center;gap:1px;}
+.lcx-offtxt{font-size:10px;color:#bbb;text-align:center;padding-top:10px;}
+@media(max-width:900px){
+  .astcard-body{grid-template-columns:1fr;}
+  .astcard-side{border-right:none;border-bottom:1px solid var(--border-light);}
+  .astf-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(max-width:600px){
+  .astf-grid{grid-template-columns:1fr 1fr;}
+  .lcx td{height:auto;padding:1px;}
+  .lcx-s{font-size:9px;gap:1px;}
+  .lcx-job{font-size:9px;}
+}
+
 /* ── FEEDBACK SECTION ── */
 .fb-section{
   margin-top:28px;padding-top:20px;
@@ -911,16 +985,12 @@ body.locked .no-edit{pointer-events:none;opacity:0.3;cursor:default;}
 </div>
 
 <div class="page" id="page4">
-  <div id="astDelRow" style="display: flex; justify-content: flex-end; margin-bottom: 6px;">
-    <button id="astDelBtn" class="btn" style="background:var(--red-light);color:var(--red);border-color:#fca5a5;font-size:12px;">刪除此助理</button>
+  <div class="astbar">
+    <div id="astListArea" class="astbar-chips"></div>
+    <button class="btn primary" id="addAstBtn" style="font-size:12px;padding:6px 14px;white-space:nowrap;">＋ 新增助理</button>
   </div>
-  <div id="astEditArea"><div class="ast-edit"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-size:12px;font-weight:700;">編輯：Leo (陳宇鴻)</span><div style="display:flex;gap:4px;"><button class="btn primary" onclick="saveEdit()">儲存</button><button class="btn" onclick="cancelEdit()">取消</button><button class="btn" onclick="showAstMonthSchedule('ast_1784179682706')" style="font-size:12px;">📅 月班表</button><button class="btn" onclick="confirmLeaveAst('ast_1784179682706')" style="font-size:11px;background:#fde0e0;color:#a32d2d;border-color:#f0c0c0;">離職</button></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div><div class="form-row"><div class="form-lbl">縮寫</div><input id="e-ab" type="text" value="L" maxlength="2" style="width:44px;"></div><div class="form-row"><div class="form-lbl">職務類型</div><div style="display:flex;gap:6px;margin-top:4px;"><button class="btn" onclick="toggleFt('ast_1784179682706',true)" style="font-size:12px;padding:4px 14px;">正職</button><button class="btn primary" onclick="toggleFt('ast_1784179682706',false)" style="font-size:12px;padding:4px 14px;">兼職</button></div></div><div class="form-row"><div class="form-lbl">診次目標</div><input id="e-target" type="number" value="15" style="width:60px;"></div><div class="form-row"><div class="form-lbl">本月特休（9月）</div><div style="display:flex;align-items:center;gap:6px;"><input id="e-special" type="number" min="0" max="60" value="0" style="width:60px;"> <span style="font-size:11px;color:#888;">診</span></div></div><div class="form-row"><div class="form-lbl">備註</div><input id="e-note" type="text" value="" placeholder="例：避免晚診" style="width:100%;"></div><div class="form-lbl">主跟醫師白名單（★優先）</div><div style="margin-bottom:6px;"><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','yan')">顏嘉珍</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','hong')">洪秉琁</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','li')">李渘崴</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','hsu')">許宗英</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','tsai')">蔡學亞</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','lin')">林昭秀</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','huang_m')">黃柏鈞</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','huang_f')">黃凱筠</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','lee')">利采穎</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','hsiao')">蕭子皓</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','chen')">陳卓毅</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','dr_1776304513920')">邱柏智</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','white','dr_1776576664612')">王韻婷</span></div><div class="form-lbl">黑名單（硬性阻擋）</div><div><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','yan')">顏嘉珍</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','hong')">洪秉琁</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','li')">李渘崴</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','hsu')">許宗英</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','tsai')">蔡學亞</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','lin')">林昭秀</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','huang_m')">黃柏鈞</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','huang_f')">黃凱筠</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','lee')">利采穎</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','hsiao')">蕭子皓</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','chen')">陳卓毅</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','dr_1776304513920')">邱柏智</span><span class="dr-chip" onclick="toggleList('ast_1784179682706','black','dr_1776576664612')">王韻婷</span></div></div><div><div class="form-lbl">顏色（灰色已被使用）</div><div class="color-row"><div class="c-opt used" style="background:#E24B4A;" onclick="pickColor('ast_1784179682706','#E24B4A')"></div><div class="c-opt sel" style="background:#378ADD;" onclick="pickColor('ast_1784179682706','#378ADD')"></div><div class="c-opt used" style="background:#1D9E75;" onclick="pickColor('ast_1784179682706','#1D9E75')"></div><div class="c-opt used" style="background:#BA7517;" onclick="pickColor('ast_1784179682706','#BA7517')"></div><div class="c-opt used" style="background:#7F77DD;" onclick="pickColor('ast_1784179682706','#7F77DD')"></div><div class="c-opt used" style="background:#D85A30;" onclick="pickColor('ast_1784179682706','#D85A30')"></div><div class="c-opt used" style="background:#D4537E;" onclick="pickColor('ast_1784179682706','#D4537E')"></div><div class="c-opt used" style="background:#639922;" onclick="pickColor('ast_1784179682706','#639922')"></div><div class="c-opt used" style="background:#5F5E5A;" onclick="pickColor('ast_1784179682706','#5F5E5A')"></div><div class="c-opt" style="background:#0F6E56;" onclick="pickColor('ast_1784179682706','#0F6E56')"></div><div class="c-opt used" style="background:#993C1D;" onclick="pickColor('ast_1784179682706','#993C1D')"></div><div class="c-opt used" style="background:#534AB7;" onclick="pickColor('ast_1784179682706','#534AB7')"></div><div class="c-opt used" style="background:#3B6D11;" onclick="pickColor('ast_1784179682706','#3B6D11')"></div><div class="c-opt used" style="background:#854F0B;" onclick="pickColor('ast_1784179682706','#854F0B')"></div><div class="c-opt" style="background:#185FA5;" onclick="pickColor('ast_1784179682706','#185FA5')"></div><div class="c-opt used" style="background:#993556;" onclick="pickColor('ast_1784179682706','#993556')"></div><div class="c-opt" style="background:#C0392B;" onclick="pickColor('ast_1784179682706','#C0392B')"></div><div class="c-opt" style="background:#2980B9;" onclick="pickColor('ast_1784179682706','#2980B9')"></div><div class="c-opt" style="background:#27AE60;" onclick="pickColor('ast_1784179682706','#27AE60')"></div><div class="c-opt" style="background:#F39C12;" onclick="pickColor('ast_1784179682706','#F39C12')"></div><div class="c-opt" style="background:#8E44AD;" onclick="pickColor('ast_1784179682706','#8E44AD')"></div><div class="c-opt" style="background:#D35400;" onclick="pickColor('ast_1784179682706','#D35400')"></div><div class="c-opt" style="background:#16A085;" onclick="pickColor('ast_1784179682706','#16A085')"></div><div class="c-opt" style="background:#2C3E50;" onclick="pickColor('ast_1784179682706','#2C3E50')"></div><div class="c-opt" style="background:#E74C3C;" onclick="pickColor('ast_1784179682706','#E74C3C')"></div><div class="c-opt" style="background:#3498DB;" onclick="pickColor('ast_1784179682706','#3498DB')"></div><div class="c-opt" style="background:#1ABC9C;" onclick="pickColor('ast_1784179682706','#1ABC9C')"></div><div class="c-opt" style="background:#E67E22;" onclick="pickColor('ast_1784179682706','#E67E22')"></div><div class="c-opt" style="background:#9B59B6;" onclick="pickColor('ast_1784179682706','#9B59B6')"></div><div class="c-opt" style="background:#34495E;" onclick="pickColor('ast_1784179682706','#34495E')"></div><div class="c-opt" style="background:#F1C40F;" onclick="pickColor('ast_1784179682706','#F1C40F')"></div><div class="c-opt" style="background:#E91E63;" onclick="pickColor('ast_1784179682706','#E91E63')"></div></div></div></div><div class="form-row" style="margin-top:8px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="form-lbl" style="margin:0;">當月不可上班時間</div><button class="btn" onclick="toggleLeaveMonth('ast_1784179682706',8)" style="font-size:10px;padding:2px 8px;border-radius:4px;">全月請假</button><button class="btn" onclick="clearLeaveMonth('ast_1784179682706',8)" style="font-size:10px;padding:2px 8px;border-radius:4px;">全月清除</button></div><div class="lc-outer"><table class="lc-table"><thead><tr><th>週日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody><tr><td class="lc-empty"></td><td class="lc-empty"></td><td class=""><div class="lc-date">1</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',1,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',1,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',1,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',1,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">2</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',2,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',2,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',2,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',2,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">3</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',3,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',3,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',3,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',3,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">4</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',4,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',4,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',4,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',4,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">5</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',5,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',5,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',5,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',5,8,2,this.checked)">晚</label></td></tr><tr><td class="lc-off"><div class="lc-date">6</div><div style="font-size:10px;color:#ccc;text-align:center;padding:2px 0;">休診</div></td><td class=""><div class="lc-date">7</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',7,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',7,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',7,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',7,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">8</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',8,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',8,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',8,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',8,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">9</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',9,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',9,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',9,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',9,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">10</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',10,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',10,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',10,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',10,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">11</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',11,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',11,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',11,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',11,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">12</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',12,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',12,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',12,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',12,8,2,this.checked)">晚</label></td></tr><tr><td class="lc-off"><div class="lc-date">13</div><div style="font-size:10px;color:#ccc;text-align:center;padding:2px 0;">休診</div></td><td class=""><div class="lc-date">14</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',14,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',14,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',14,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',14,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">15</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',15,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',15,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',15,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',15,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">16</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',16,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',16,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',16,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',16,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">17</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',17,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',17,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',17,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',17,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">18</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',18,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',18,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',18,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',18,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">19</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',19,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',19,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',19,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',19,8,2,this.checked)">晚</label></td></tr><tr><td class="lc-off"><div class="lc-date">20</div><div style="font-size:10px;color:#ccc;text-align:center;padding:2px 0;">休診</div></td><td class=""><div class="lc-date">21</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',21,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',21,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',21,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',21,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">22</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',22,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',22,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',22,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',22,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">23</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',23,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',23,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',23,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',23,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">24</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',24,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',24,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',24,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',24,8,2,this.checked)">晚</label></td><td class="lc-off"><div class="lc-date">25</div><div style="font-size:10px;color:#ccc;text-align:center;padding:2px 0;">休診</div></td><td class=""><div class="lc-date">26</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',26,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',26,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',26,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',26,8,2,this.checked)">晚</label></td></tr><tr><td class="lc-off"><div class="lc-date">27</div><div style="font-size:10px;color:#ccc;text-align:center;padding:2px 0;">休診</div></td><td class="lc-off"><div class="lc-date">28</div><div style="font-size:10px;color:#ccc;text-align:center;padding:2px 0;">休診</div></td><td class=""><div class="lc-date">29</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',29,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',29,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',29,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',29,8,2,this.checked)">晚</label></td><td class=""><div class="lc-date">30</div><label class="lc-allday"><input type="checkbox" onchange="toggleLeaveAll('ast_1784179682706',30,8,this.checked)">全</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',30,8,0,this.checked)">早</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',30,8,1,this.checked)">午</label><label class="lc-sc ok"><input type="checkbox" onchange="toggleLeaveSess('ast_1784179682706',30,8,2,this.checked)">晚</label></td><td class="lc-empty"></td><td class="lc-empty"></td><td class="lc-empty"></td></tr></tbody></table></div></div></div></div>
-  <div style="background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:12px 14px;box-shadow:var(--shadow-xs);">
-    <div id="astListArea"><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('ivy',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;opacity:0.25;pointer-events:none;">▲</button><button class="btn" onclick="moveAst('ivy',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('ivy')"><div class="ast-av" style="background:#7F77DD">I</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Ivy</span><span style="font-size:10px;color:#888;">黃思敏</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('josey',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('josey',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('josey')"><div class="ast-av" style="background:#D4537E">J</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Josey</span><span style="font-size:10px;color:#888;">林璟妤</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('hadassa',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('hadassa',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('hadassa')"><div class="ast-av" style="background:#BA7517">H</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Hadassa</span><span style="font-size:10px;color:#888;">林芷晴</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('sharon',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('sharon',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('sharon')"><div class="ast-av" style="background:#993C1D">S</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Sharon</span><span style="font-size:10px;color:#888;">郭穎襄</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#d4f5e5;color:#0d6640;">正職 42診</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('tina',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('tina',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('tina')"><div class="ast-av" style="background:#534AB7">T</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Tina</span><span style="font-size:10px;color:#888;">楊雅惠</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('mina',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('mina',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('mina')"><div class="ast-av" style="background:#2196A0">M</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Mina</span><span style="font-size:10px;color:#888;"></span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#d4f5e5;color:#0d6640;">正職 45診</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('yuki',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('yuki',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('yuki')"><div class="ast-av" style="background:#3B6D11">Y</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Yuki</span><span style="font-size:10px;color:#888;">吳玉善</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('gigi',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('gigi',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('gigi')"><div class="ast-av" style="background:#1D9E75">G</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">GiGi</span><span style="font-size:10px;color:#888;">雷玉琦</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#d4f5e5;color:#0d6640;">正職 42診</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('zoe',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('zoe',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('zoe')"><div class="ast-av" style="background:#854F0B">Z</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Zoe</span><span style="font-size:10px;color:#888;">邱柔慈</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#d4f5e5;color:#0d6640;">正職 42診</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('chicken',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('chicken',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('chicken')"><div class="ast-av" style="background:#E24B4A">C</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Chicken</span><span style="font-size:10px;color:#888;">陳韻倢</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#d4f5e5;color:#0d6640;">正職 42診</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('kevin',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('kevin',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('kevin')"><div class="ast-av" style="background:#639922">K</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Kevin</span><span style="font-size:10px;color:#888;">柯偉立</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('ast_1779351449934',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('ast_1779351449934',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('ast_1779351449934')"><div class="ast-av" style="background:#D85A30">A</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Ann</span><span style="font-size:10px;color:#888;">陳芃安</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('ast_1784179682706',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('ast_1784179682706',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('ast_1784179682706')"><div class="ast-av" style="background:#378ADD">L</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Leo</span><span style="font-size:10px;color:#888;">陳宇鴻</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('ast_1784179727871',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('ast_1784179727871',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('ast_1784179727871')"><div class="ast-av" style="background:#5F5E5A">R</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Rose</span><span style="font-size:10px;color:#888;">莊凱婷</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#d4f5e5;color:#0d6640;">正職 45診</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('xuan',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('xuan',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('xuan')"><div class="ast-av" style="background:#0F6E56">X</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Xuan</span><span style="font-size:10px;color:#888;">李冠萱</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('bella',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('bella',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;opacity:0.25;pointer-events:none;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('bella')"><div class="ast-av" style="background:#185FA5">B</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;">Bella</span><span style="font-size:10px;color:#888;">余欣柔</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#fff0d0;color:#7a4d00;">兼職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('elena',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;opacity:0.25;pointer-events:none;">▲</button><button class="btn" onclick="moveAst('elena',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('elena')"><div class="ast-av" style="background:#bbb">E</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Elena</span><span style="font-size:10px;color:#888;">陳詩雅</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('lena',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('lena',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('lena')"><div class="ast-av" style="background:#bbb">L</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Lena</span><span style="font-size:10px;color:#888;">邱美惠</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('nora',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('nora',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('nora')"><div class="ast-av" style="background:#bbb">N</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Nora</span><span style="font-size:10px;color:#888;">馬寶妍</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('veta',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('veta',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('veta')"><div class="ast-av" style="background:#bbb">V</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Veta</span><span style="font-size:10px;color:#888;">周子婷</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('fatty',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('fatty',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('fatty')"><div class="ast-av" style="background:#bbb">F</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Fatty</span><span style="font-size:10px;color:#888;">高國榮</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('ast_1777275559256',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('ast_1777275559256',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('ast_1777275559256')"><div class="ast-av" style="background:#bbb">L</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Lena</span><span style="font-size:10px;color:#888;">邱美惠</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('winnine',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('winnine',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('winnine')"><div class="ast-av" style="background:#bbb">W</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Winnine</span><span style="font-size:10px;color:#888;">沈韻文</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('ast_1779774133113',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('ast_1779774133113',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('ast_1779774133113')"><div class="ast-av" style="background:#bbb">N</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Naomi</span><span style="font-size:10px;color:#888;">鄭凱荺</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div><div class="ast-row" style="display:flex;align-items:center;gap:8px;opacity:0.5;"><div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();"><button class="btn" onclick="moveAst('ast_1782306429468',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;">▲</button><button class="btn" onclick="moveAst('ast_1782306429468',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;opacity:0.25;pointer-events:none;">▼</button></div><div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit('ast_1782306429468')"><div class="ast-av" style="background:#bbb">U</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span style="font-size:12px;font-weight:700;text-decoration:line-through;color:#999;">Una</span><span style="font-size:10px;color:#888;">XXX</span><span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span></div></div></div></div></div>
-    <div style="text-align:center;padding:12px 0;border-top:1px solid var(--border-light);margin-top:4px;">
-      <button class="btn primary" id="addAstBtn" style="font-size:13px;padding:8px 24px;">+ 新增助理</button>
-    </div>
-  </div>
+  <div id="astDelRow" style="display:none;"><button id="astDelBtn" class="btn">刪除此助理</button></div>
+  <div id="astEditArea"></div>
 </div>
 
 <!-- ⑥ 統計資料 -->
@@ -2688,7 +2758,7 @@ function dayEventTextColor(type){
 var selDr=null,selDay=null,curWeekStart=null,editId=null;
 
 var HOLS=['2026-04-04','2026-04-05','2026-05-01','2026-06-19','2026-07-01'];
-var EXTRA_TYPES=['雙職務支援','櫃台學習','門診學習','行政診','教育訓練','流動','櫃台流動','其他'];
+var EXTRA_TYPES=['雙職務支援','櫃台學習','門診學習','行政診','教育訓練','局部加班','流動','櫃台流動','其他'];
 
 /* ── 教育訓練 ──────────────────────────────────────────────
    診所有教育訓練時，助理會提早來（例：下午三點來上教育訓練，接著上晚診）。
@@ -2706,6 +2776,118 @@ function eduSymHTML(h,unit){
   h=h||16;unit=unit||'px';
   return '<svg viewBox="0 0 6 12" style="display:inline-block;vertical-align:middle;width:'+(h/2).toFixed(2)+unit+';height:'+h+unit+';flex-shrink:0;" aria-label="教育訓練">'
     +'<path d="M6,0 A6,6 0 0 0 6,12 Z" fill="'+EDU_COLOR+'"/></svg>';
+}
+
+/* ── 局部加班（2026-11-18）────────────────────────────────────
+   不到一診的加班：排在早／午／晚其中一診，記實際時間與工作內容。
+   type 字串存「局部加班（工作｜HH:MM-HH:MM）」，工作＝醫師 id／counter／flow／cflow／admin。
+   格子：和教育訓練同款左半圓（同顏色）＋工作符號（醫師姓氏、櫃台△、流動○、櫃台流動△○、行政「行」）。
+   不算診次、不算獎勵診次（診次／晚班／假日班／診次分布／特殊加給都不算），統計另列次數與時數。
+   一般／超時：當天其他有算診次的診照 36 每診固定時數（早 3.5、午 3.75、晚 3.75）加總，再加上局部加班時間，
+   超過 8 小時的部分＝超時加班，其餘＝一般加班（和 38 薪資算法一致）。
+   加班費目前仍走 36 加班申報（使用者 11/18 決定先做排班端，確認好用再連動薪資）。
+   36 的 lib/schedule.mjs 有同一套判斷，改這裡要一起改。 */
+var POT_TYPE='局部加班';
+var POT_RE=/^局部加班（([^｜）]+)｜(\d{1,2}:\d{2})-(\d{1,2}:\d{2})）$/;
+var POT_SESS_HOURS=[3.5,3.75,3.75];
+var POT_DAY_LIMIT_H=8;
+var POT_NOTE='局部加班不算診次、也不算獎勵診次。當天總時數（其他診固定時數＋局部加班）超過 8 小時的部分算超時加班，其餘算一般加班；加班費目前照舊送加班申報。';
+function isPotRole(role){return typeof role==='string'&&role.indexOf(POT_TYPE)===0;}
+// 不算診次的崗位（教育訓練、局部加班）
+function isNoCountRole(role){return isEduRole(role)||isPotRole(role);}
+function parsePot(role){
+  var mm=(typeof role==='string')?role.match(POT_RE):null;
+  return mm?{work:mm[1],from:mm[2],to:mm[3]}:null;
+}
+function makePotType(work,from,to){return POT_TYPE+'（'+work+'｜'+from+'-'+to+'）';}
+function potHM(t){var p=String(t).split(':');return (+p[0])*60+(+p[1]);}
+function potMinutes(p){return p?Math.max(0,potHM(p.to)-potHM(p.from)):0;}
+function potHrs(min){var h=Math.round(min/60*100)/100;return h+' 小時';}
+function potWorkName(t){
+  if(t==='cflow')return '櫃台流動';
+  if(t==='admin')return '行政';
+  var n=dualTokenName(t);
+  return (t==='counter'||t==='flow')?n:('跟 '+n+' 醫師');
+}
+function potWorkCell(t,triCss,circCss){
+  if(t==='cflow')return dualTokenCell('counter',triCss,circCss)+dualTokenCell('flow',triCss,circCss);
+  if(t==='admin')return '<span style="font-weight:700;color:#44c;line-height:1;'+triCss+'">行</span>';
+  return dualTokenCell(t,triCss,circCss);
+}
+// 格子內容：左半圓＋工作符號（兩個符號）
+function potCellHTML(role,h,unit,triCss,circCss){
+  var p=parsePot(role);
+  var t=escHtml(potLabel(role));
+  return '<span title="'+t+'" style="display:inline-flex;align-items:center;gap:1px;line-height:1;">'+eduSymHTML(h,unit)
+    +(p?potWorkCell(p.work,triCss,circCss):'')+'</span>';
+}
+// 人看的說明，例：「局部加班 15:00–17:30（跟 顏嘉珍 醫師）」
+function potLabel(role){
+  var p=parsePot(role);
+  return p?(POT_TYPE+' '+p.from+'–'+p.to+'（'+potWorkName(p.work)+'）'):String(role||'');
+}
+// 某助理某天的局部加班：依當天其他診固定時數判斷一般／超時（分鐘）
+function potDaySplit(aid,d,m){
+  var fixed=0,pots=[];
+  [0,1,2].forEach(function(si){
+    var counted=false;
+    getAllSlotKeys(d,m,si).forEach(function(k){
+      if(getAsgn(k)!==aid)return;
+      var role=getRoleFromKey(k,d,m,si);
+      var p=parsePot(role);
+      if(p)pots.push({si:si,k:k,p:p,min:potMinutes(p)});
+      else if(!isNoCountRole(role))counted=true;
+    });
+    if(counted)fixed+=POT_SESS_HOURS[si]*60;
+  });
+  pots.sort(function(a,b){return potHM(a.p.from)-potHM(b.p.from);});
+  var acc=fixed,lim=POT_DAY_LIMIT_H*60;
+  pots.forEach(function(x){x.normal=Math.max(0,Math.min(x.min,lim-acc));x.ot=x.min-x.normal;acc+=x.min;});
+  return {fixedMin:fixed,pots:pots};
+}
+function potSplitOfKey(aid,d,m,k){
+  var r=potDaySplit(aid,d,m).pots.filter(function(x){return x.k===k;})[0];
+  return r||{min:0,normal:0,ot:0};
+}
+// 新增局部加班：選工作內容＋時間。aid 有值就直接派給該助理；mode：'w' 週表、'a' 排班頁、'dg' 當日格
+function showPotForm(d,m,si,aid,mode){
+  var SN=['早','午','晚'];
+  var ast=aid?asts.find(function(a){return a.id===aid;}):null;
+  var opts='<option value="">選工作內容</option>';
+  activeDrs(d,m,si).forEach(function(dr){opts+='<option value="'+escHtml(dr.id)+'">跟 '+escHtml(dr.name)+' 醫師</option>';});
+  opts+='<option value="counter">櫃台 △</option><option value="flow">流動 ○</option><option value="cflow">櫃台流動 △○</option><option value="admin">行政</option>';
+  var IS='width:100%;font-size:15px;padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;box-sizing:border-box;font-family:inherit;';
+  window._potCtx={d:d,m:m,si:si,aid:aid||null,mode:mode};
+  showModal('<div class="modal-title" style="display:flex;align-items:center;gap:6px;">'+eduSymHTML(22)+'新增局部加班</div>'
+    +'<div class="modal-msg" style="font-size:12px;color:#666;margin-bottom:10px;">'+(m+1)+'/'+d+' '+SN[si]+'診'+(ast?'　助理：<b>'+escHtml(ast.nick)+'</b>':'')+'</div>'
+    +'<div class="modal-field"><label>工作內容</label><select id="pot_work" style="'+IS+'">'+opts+'</select></div>'
+    +'<div class="modal-field"><label>加班時間（幾點到幾點）</label>'
+    +'<div style="display:flex;align-items:center;gap:6px;"><input id="pot_from" class="modal-input-allow" type="time" step="300" style="'+IS+'flex:1;">'
+    +'<span style="color:#888;">到</span><input id="pot_to" class="modal-input-allow" type="time" step="300" style="'+IS+'flex:1;"></div></div>'
+    +'<div id="pot_err" style="color:#c33;font-size:12px;min-height:16px;"></div>'
+    +'<div class="modal-msg" style="font-size:12px;line-height:1.7;color:'+EDU_COLOR+';background:'+EDU_BG+';padding:8px 10px;border-radius:6px;">'+escHtml(POT_NOTE)+'</div>'
+    +'<div class="modal-btns"><button class="btn modal-btn-allow" onclick="closeModal()">取消</button>'
+    +'<button class="btn primary modal-btn-allow" onclick="confirmPotForm()">加入</button></div>');
+}
+function confirmPotForm(){
+  var c=window._potCtx;if(!c)return;
+  var w=document.getElementById('pot_work'),f=document.getElementById('pot_from'),t=document.getElementById('pot_to');
+  var err=document.getElementById('pot_err');
+  if(!w.value){err.textContent='請選工作內容';w.focus();return;}
+  if(!f.value||!t.value){err.textContent='請填加班時間（幾點到幾點）';(f.value?t:f).focus();return;}
+  if(potHM(t.value)<=potHM(f.value)){err.textContent='結束時間要比開始時間晚';t.focus();return;}
+  var k=extraKey(c.d,c.m,c.si);
+  if(!extraSlots[k])extraSlots[k]=[];
+  var uid='ex'+Date.now()+(Math.random()*999|0);
+  extraSlots[k].push({type:makePotType(w.value,f.value,t.value),id:uid});
+  if(c.aid)setAsgn(uid,c.aid);
+  window._potCtx=null;
+  closeModal();
+  if(c.mode==='dg')dayGridPopState=null;
+  if(c.mode==='w'){renderWeekGrid();renderMoGrid();updateStats();}
+  else{renderAssignTop();renderMoGrid();updateStats();}
+  if(statsVis)renderStats();
+  if(weekStatsVis)renderWeekStats();
 }
 
 /* ── 雙職務支援 ──────────────────────────────────────────────
@@ -2759,6 +2941,7 @@ function dualLabel(role){
 // 額外崗位在清單/列上的顯示名（雙職務要翻譯，其他照原樣）
 function exDisplayLabel(type){
   if(isEduRole(type))return type+'（不算診次・到班時間可能不同）';
+  if(isPotRole(type))return potLabel(type)+'（不算診次）';
   return parseDual(type)?('雙職務 '+dualLabel(type)):type;
 }
 var ALL_COLORS=['#E24B4A','#378ADD','#1D9E75','#BA7517','#7F77DD','#D85A30','#D4537E','#639922','#5F5E5A','#0F6E56','#993C1D','#534AB7','#3B6D11','#854F0B','#185FA5','#993556',
@@ -3076,6 +3259,7 @@ function sickShortText(rec){
   if(role==='cflow'||role==='櫃台流動')return '△○';
   if(parseDual(role))return '雙';
   if(isEduRole(role))return '教';
+  if(isPotRole(role))return '加';
   if(role.indexOf('學習')>=0)return '學';
   if(role.indexOf('行政')>=0)return '行';
   return '○';
@@ -3354,6 +3538,7 @@ function renderMoLegend(){
     {sym:'',htmlSym:'<b style="color:#1a5fa0;">X</b><span style="color:#0a6;">○</span>',bg:'#e8f4ff',color:'#1a5fa0',label:'門診學習（X=指導者）'},
     {sym:'行',bg:'#eaeaff',color:'#44c',label:'行政診'},
     {sym:'',htmlSym:eduSymHTML(16),bg:EDU_BG,color:EDU_COLOR,label:'教育訓練（不算診次，到班時間可能不同）'},
+    {sym:'',htmlSym:eduSymHTML(16)+'<b style="color:#444;">顏</b>',bg:EDU_BG,color:EDU_COLOR,label:'局部加班（半圓＋工作：姓氏／△／○；不算診次）'},
     {sym:'',bg:'#ececec',color:'#aaa',label:'休診'},
     {leaveSvg:true,label:'助理勾選不可上班'},
     {sym:'',htmlSym:'<span style="color:#9a6b7b;">顏</span>'+Object.keys(LEAVE_TYPES).map(function(t){return '<b style="margin-left:2px;padding:0 2px;border-radius:2px;background:'+LEAVE_TYPES[t].c+';color:#fff;font-size:8px;">'+t+'</b>';}).join(''),bg:'#f6f1f3',color:'#9a6b7b',label:'請假：病假／事假／公假／其他（淡字＝原工作，已釋出）'},
@@ -3670,6 +3855,10 @@ function renderWeekGrid(){
             +'<span style="font-size:9px;color:#555;">'+escHtml(dualLabel(ex.type))+'</span>'
             +dualCellHTML(ex.type,'font-size:10px;','font-size:9px;')
             +(exAst?mkBadge(exAst):'');
+        } else if(isPotRole(ex.type)){
+          labelHtml='<span title="'+escHtml(POT_NOTE)+'" style="display:inline-flex;align-items:center;gap:2px;">'+potCellHTML(ex.type,14,'px','font-size:11px;','font-size:10px;')
+            +'<span style="color:'+EDU_COLOR+';font-weight:700;font-size:10px;">'+escHtml(potLabel(ex.type))+'</span></span>'
+            +(exAst?mkBadge(exAst):'');
         } else if(isEduRole(ex.type)){
           labelHtml='<span title="'+escHtml(EDU_NOTE)+'" style="display:inline-flex;align-items:center;gap:2px;">'+eduSymHTML(14)
             +'<span style="color:'+EDU_COLOR+';font-weight:700;">'+escHtml(ex.type)+'</span><span style="font-size:9px;">⚠</span></span>'
@@ -3822,6 +4011,8 @@ function renderMoGrid(){
       v='<span style="font-size:13px;font-weight:700;color:#c44;line-height:1;">△</span><span style="font-size:12px;font-weight:700;color:#0a6;line-height:1;">○</span>';bg='#fff0e8';
     } else if(parseDual(role)){
       v=dualCellHTML(role,'font-size:11px;','font-size:10px;');bg=DUAL_BG;
+    } else if(isPotRole(role)){
+      v=potCellHTML(role,17,'px','font-size:13px;','font-size:12px;');bg=EDU_BG;
     } else if(isEduRole(role)){
       v=eduSymHTML(17);bg=EDU_BG;
     } else {
@@ -4034,6 +4225,7 @@ function buildMoGridHTML(){
       // 雙職務：姓氏+符號 橫排（寬度與「顏2」相當，列印不會被裁切）
       v=dualCellHTML(role,'font-size:'+(fpt*0.95)+'pt;','font-size:'+(fpt*0.85)+'pt;');bg=DUAL_BG;
     }
+    else if(isPotRole(role)){v=potCellHTML(role,fpt*1.3,'pt','font-size:'+(fpt*0.85)+'pt;','font-size:'+(fpt*0.8)+'pt;');bg=EDU_BG;}
     else if(isEduRole(role)){v=eduSymHTML(fpt*1.5,'pt');bg=EDU_BG;}
     else{
       // 學習類型：上下兩行（X 在上、△/○ 在下）— 列印格子窄，避免被切到
@@ -4201,7 +4393,7 @@ function buildMoGridHTML(){
       [0,1,2].forEach(function(si){
         getAllSlotKeys(d,m,si).forEach(function(k){
           if(getAsgn(k)!==a.id)return;
-          if(isEduRole(getRoleFromKey(k,d,m,si)))return; // 教育訓練不算診次
+          if(isNoCountRole(getRoleFromKey(k,d,m,si)))return; // 教育訓練、局部加班不算診次
           total++;
           if(si===2&&!isHolBan(d,m))eve++;
           if(isHolBan(d,m))hol++;
@@ -4303,6 +4495,7 @@ function buildMoGridHTML(){
     {htmlSym:'<b style="color:#1a5fa0;">X</b><span style="color:#0a6;">○</span>',bg:'#e8f4ff',c:'#1a5fa0',lb:'門診學習'},
     {sym:'行',bg:'#eaeaff',c:'#44c',lb:'行政診'},
     {htmlSym:eduSymHTML(9,'pt'),bg:EDU_BG,c:EDU_COLOR,lb:'教育訓練（不算診次）'},
+    {htmlSym:eduSymHTML(9,'pt')+'<b style="color:#444;">顏</b>',bg:EDU_BG,c:EDU_COLOR,lb:'局部加班（不算診次）'},
     {leave:true,lb:'不可上班'},
     {htmlSym:Object.keys(LEAVE_TYPES).map(function(t){return '<span style="color:'+LEAVE_TYPES[t].c+';">'+t+'</span>';}).join(''),bg:'#f6f1f3',c:'#555',lb:'請假（病／事／公／其）'},
     {sym:'',bg:'#ececec',c:'#aaa',lb:'休診'},
@@ -4812,7 +5005,8 @@ function _dgGetCellInfo(aid,d,m,si){
           :'<span style="font-size:13px;font-weight:700;color:#0a6;line-height:1;">○</span>';
         v='<b>'+mab+'</b>'+sym;
         bg='#e8f4ff';
-      } else if(isEduRole(role)){v=eduSymHTML(20);bg=EDU_BG;}
+      } else if(isPotRole(role)){v=potCellHTML(role,20,'px','font-size:15px;','font-size:14px;');bg=EDU_BG;}
+      else if(isEduRole(role)){v=eduSymHTML(20);bg=EDU_BG;}
       else if(role.indexOf('行政')>=0){v='行';bg='#eaeaff';}
       else{v='<span style="font-size:15px;font-weight:700;color:#0a6;line-height:1;">○</span>';bg='#eafaea';}
     }
@@ -4960,6 +5154,8 @@ function _dgRenderPopover(aid,si,m){
   });
   html+='<div class="dg-pop-opt" onclick="event.stopPropagation();dgAddExtraAndAssign(\''+aid+'\','+si+',EDU_TYPE)"'
     +' title="'+escHtml(EDU_NOTE)+'" style="background:'+EDU_BG+';color:'+EDU_COLOR+';"><span class="dg-pop-opt-label" style="display:inline-flex;align-items:center;gap:4px;">＋ '+eduSymHTML(15)+' 教育訓練（不算診次）</span></div>';
+  html+='<div class="dg-pop-opt" onclick="event.stopPropagation();showPotForm(selDay,getM(),'+si+',\''+aid+'\',\'dg\')"'
+    +' title="'+escHtml(POT_NOTE)+'" style="background:'+EDU_BG+';color:'+EDU_COLOR+';"><span class="dg-pop-opt-label" style="display:inline-flex;align-items:center;gap:4px;">＋ '+eduSymHTML(15)+' 局部加班（填時間＋工作，不算診次）</span></div>';
   // 雙職務支援：點下後進入兩段式職務選擇
   html+='<div class="dg-pop-opt" onclick="event.stopPropagation();dgAddDual(\''+aid+'\','+si+')"'
     +' style="background:'+DUAL_BG+';color:#7c3aed;"><span class="dg-pop-opt-label">＋ 雙職務支援（需選兩個職務）</span></div>';
@@ -5228,6 +5424,9 @@ function handleAddExSelect(d,m,si,sel,mode){
       +'<button onclick="'+(mode==='w'?'renderWeekGrid()':'renderAssignTop();renderMoGrid();')+'" style="font-size:10px;padding:2px 4px;border:1px solid #bbb;background:#fff;border-radius:3px;cursor:pointer;">✕</button>'
       +'</span>';
     setTimeout(function(){var el=document.getElementById('cstEx_'+d+'_'+m+'_'+si);if(el)el.focus();},50);
+  } else if(sel.value==='局部加班'){
+    sel.value='';
+    showPotForm(d,m,si,null,mode);
   } else if(sel.value==='雙職務支援'){
     showDualSelect(d,m,si,sel,mode);
   } else if(sel.value==='櫃台學習'||sel.value==='門診學習'){
@@ -5378,6 +5577,8 @@ function _accStat(acc,d,m){
       var ex=getExtra(d,m,si).find(function(e){return e.id===k;});
       // 教育訓練不算診次（也不算晚班／假日班），只另計次數
       if(ex&&isEduRole(ex.type)){s.edu=(s.edu||0)+1;return;}
+      // 局部加班不算診次，另計次數與一般／超時分鐘
+      if(ex&&isPotRole(ex.type)){var ps=potSplitOfKey(aid,d,m,k);s.pot=(s.pot||0)+1;s.potNormal=(s.potNormal||0)+ps.normal;s.potOt=(s.potOt||0)+ps.ot;return;}
       s.total++;
       if(si===2&&!isHolBan(d,m))s.eve++;
       if(isHolBan(d,m))s.hol++;
@@ -5407,6 +5608,8 @@ function _renderStatsCards(acc,targetEl,scope){
     html+='<div class="asc-row"><span>櫃台</span><span class="asc-v">'+s.counter+'</span></div>';
     if(s.admin)html+='<div class="asc-row"><span>行政診</span><span class="asc-v">'+s.admin+'</span></div>';
     if(s.edu)html+='<div class="asc-row" title="'+escHtml(EDU_NOTE)+'"><span style="color:'+EDU_COLOR+';">教育訓練</span><span class="asc-v" style="color:'+EDU_COLOR+';">'+s.edu+'</span></div>';
+    if(s.pot){html+='<div class="asc-row" title="'+escHtml(POT_NOTE)+'"><span style="color:'+EDU_COLOR+';">局部加班</span><span class="asc-v" style="color:'+EDU_COLOR+';">'+s.pot+' 次</span></div>';
+      html+='<div class="asc-row" style="font-size:9px;"><span style="color:'+EDU_COLOR+';">一般／超時</span><span class="asc-v" style="color:'+EDU_COLOR+';">'+(Math.round((s.potNormal||0)/60*100)/100)+'／'+(Math.round((s.potOt||0)/60*100)/100)+'h</span></div>';}
     html+='<div class="asc-row"><span style="color:#0d6640;">可上班</span><span class="asc-v" style="color:#0d6640;">'+s.avail+'</span></div>';
     html+='</div>';
   });
@@ -5630,7 +5833,7 @@ function _scanDistRange(yFrom,mFrom,yTo,mTo){
       y=+p[0];mo=+p[2];drid=p[4];role=p.slice(5).join('-');
     }
     if(!inRange(y,mo))return;
-    if(isEduRole(role))return; // 教育訓練不算診次
+    if(isNoCountRole(role))return; // 教育訓練、局部加班不算診次
     var b=_e(aid);
     // 雙職務支援：與當月版同規則（含醫師只記跟診 +1；櫃台+流動 併入櫃流）
     if(parseDual(role)){
@@ -5725,6 +5928,7 @@ function renderPage5(){
   html+='<th>櫃台</th>';
   html+='<th>行政診</th>';
   html+='<th title="'+escHtml(EDU_NOTE)+'">教育訓練</th>';
+  html+='<th title="'+escHtml(POT_NOTE)+'">局部加班<br><span style="font-weight:400;font-size:9px;">一般／超時</span></th>';
   html+='<th>可上班</th>';
   html+='</tr></thead><tbody>';
   activeAsts.forEach(function(a){
@@ -5753,6 +5957,7 @@ function renderPage5(){
     html+='<td>'+s.counter+'</td>';
     html+='<td>'+(s.admin||'—')+'</td>';
     html+='<td style="color:'+EDU_COLOR+';">'+(s.edu||'—')+'</td>';
+    html+='<td style="color:'+EDU_COLOR+';">'+(s.pot?s.pot+' 次<br><span style="font-size:9px;">'+potHrs(s.potNormal||0)+'／'+potHrs(s.potOt||0)+'</span>':'—')+'</td>';
     html+='<td style="color:#0d6640;">'+s.avail+'</td>';
     html+='</tr>';
   });
@@ -5761,7 +5966,7 @@ function renderPage5(){
   html+='<td class="p5-name" style="color:#1a5fa0;">當月總和</td>';
   html+='<td colspan="2" style="font-size:10px;color:#888;">'+activeAsts.length+' 位在職</td>';
   html+='<td class="p5-total">'+totalSlots+'</td>';
-  html+='<td colspan="7" style="font-size:10px;color:#888;">總開診次次數</td>';
+  html+='<td colspan="8" style="font-size:10px;color:#888;">總開診次次數</td>';
   html+='<td style="color:#0d6640;">'+totalAvail+'</td>';
   html+='</tr>';
   html+='</tbody></table></div></div>';
@@ -5857,7 +6062,7 @@ function renderPage5(){
         var aid=getAsgn(k);if(!aid)return;
         if(!isPersonActive(asts.find(function(x){return x.id===aid;})||{history:[]}))return;
         var role=getRoleFromKey(k,d,m,si);
-        if(isEduRole(role))return; // 教育訓練不算診次
+        if(isNoCountRole(role))return; // 教育訓練、局部加班不算診次
         var b=_ensureBucket(aid);
         // 雙職務支援：含醫師 → 只記跟診 +1（歸第一位醫師，避免總數膨脹）；櫃台+流動 → 併入櫃流
         var dualDrs=dualDrIds(role);
@@ -6137,7 +6342,7 @@ function renderPage5(){
   html+='• <span class="p5-r-key">+0.5 分</span> 李 2 輔助跟診<br>• <span class="p5-r-key">+1 分</span> 林 △ 輔助跟診<br>';
   html+='• <span class="p5-r-key">+1 分</span> 櫃台：當診醫師 ≥ 3 位 或 當診有李醫師（矯正時）<br>';
   html+='&nbsp;&nbsp;&nbsp;<span style="color:#888;">注：櫃台流動（cflow）不算櫃台分數</span><br>';
-  html+='• <span class="p5-r-key">0 分</span> 其他崗位（流動、行政、學習、第二櫃台、櫃台流動 等）；教育訓練不算診次也不加分<br>';
+  html+='• <span class="p5-r-key">0 分</span> 其他崗位（流動、行政、學習、第二櫃台、櫃台流動 等）；教育訓練、局部加班不算診次也不加分<br>';
   html+='</div></div>';
 
   area.innerHTML=html;
@@ -6201,48 +6406,40 @@ function _afterWeekStatsChange(){
 function moveAst(id,dir){
   var idx=asts.findIndex(function(a){return a.id===id;});
   if(idx<0)return;
+  // 只跟同一組（在職／離職）的鄰居交換，免得跟看不到的人換位置
+  var act=isPersonActive(asts[idx]);
   var tgt=idx+dir;
+  while(tgt>=0&&tgt<asts.length&&isPersonActive(asts[tgt])!==act)tgt+=dir;
   if(tgt<0||tgt>=asts.length)return;
   var tmp=asts[idx];asts[idx]=asts[tgt];asts[tgt]=tmp;
   renderAstList();renderMoGrid();if(statsVis)renderStats();if(weekStatsVis)renderWeekStats();
 }
+var _astShowDeparted=false;
+// 助理名單：上方橫排小卡（在職在前，離職的收在「已離職」裡）
 function renderAstList(){
-  var html='';
-  // Show active assistants first, then departed — preserve manual order within each group
-  var sorted=asts.slice().sort(function(a,b){var aa=isPersonActive(a)?0:1,bb=isPersonActive(b)?0:1;return aa-bb;});
-  var activeGroup=sorted.filter(function(x){return isPersonActive(x);});
-  var departedGroup=sorted.filter(function(x){return !isPersonActive(x);});
-  sorted.forEach(function(a,vi){
-    var active=isPersonActive(a);
-    var group=active?activeGroup:departedGroup;
-    var gIdx=group.indexOf(a);
-    var isFirst=gIdx===0;
-    var isLast=gIdx===group.length-1;
-    html+='<div class="ast-row" style="display:flex;align-items:center;gap:8px;'+(active?'':'opacity:0.5;')+'">';
-    // Arrow buttons (edit mode only)
-    if(editMode){
-      html+='<div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;" onclick="event.stopPropagation();">';
-      html+='<button class="btn" onclick="moveAst(\''+a.id+'\',-1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;'+(isFirst?'opacity:0.25;pointer-events:none;':'')+'">▲</button>';
-      html+='<button class="btn" onclick="moveAst(\''+a.id+'\',1)" style="padding:1px 4px;font-size:10px;line-height:1;border-radius:3px;min-width:0;'+(isLast?'opacity:0.25;pointer-events:none;':'')+'">▼</button>';
-      html+='</div>';
-    }
-    html+='<div style="flex:1;display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="startEdit(\''+a.id+'\')">';
-    html+='<div class="ast-av" style="background:'+(active?a.color:'#bbb')+'">'+a.ab+'</div>';
-    html+='<div style="flex:1;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">';
-    html+='<span style="font-size:12px;font-weight:700;'+(active?'':'text-decoration:line-through;color:#999;')+'">'+a.nick+'</span><span style="font-size:10px;color:#888;">'+a.name+'</span>';
-    if(!active){
-      html+='<span style="font-size:9px;padding:2px 6px;border-radius:12px;background:#f0f0f0;color:#999;">已離職</span>';
-    } else {
-      html+='<span style="font-size:9px;padding:2px 6px;border-radius:12px;background:'+(a.ft?'#d4f5e5':'#fff0d0')+';color:'+(a.ft?'#0d6640':'#7a4d00')+';">'+(a.ft?'正職 '+a.target+'診':'兼職')+'</span>';
-    }
-    if(a.white.length)html+='<span style="font-size:9px;padding:1px 5px;border-radius:10px;background:#d4f5e5;color:#0d6640;">白×'+a.white.length+'</span>';
-    if(a.black.length)html+='<span style="font-size:9px;padding:1px 5px;border-radius:10px;background:#fde0e0;color:#a32d2d;">黑×'+a.black.length+'</span>';
-    html+='</div>';
-    if(a.note)html+='<div style="font-size:10px;color:#BA7517;margin-top:1px;">'+a.note+'</div>';
-    html+='</div></div></div>';
-  });
-  document.getElementById('astListArea').innerHTML=html;
+  var el=document.getElementById('astListArea');if(!el)return;
+  var act=asts.filter(function(x){return isPersonActive(x);});
+  var dep=asts.filter(function(x){return !isPersonActive(x);});
+  var selDep=dep.some(function(x){return x.id===editId;});
+  function chip(a,i,group){
+    var on=isPersonActive(a),sel=a.id===editId;
+    var h='<div class="astchip'+(sel?' sel':'')+(on?'':' off')+'" style="--c:'+(on?a.color:'#aaa')+';" title="'+escHtml(a.name||'')+(a.note?'｜'+escHtml(a.note):'')+'" onclick="startEdit(\''+a.id+'\')">';
+    if(sel&&editMode)h+='<span class="astchip-mv'+(i===0?' dis':'')+'" title="往前移" onclick="event.stopPropagation();moveAst(\''+a.id+'\',-1)">◀</span>';
+    h+='<span class="astchip-av">'+escHtml(a.ab)+'</span><span class="astchip-nick">'+escHtml(a.nick)+'</span>';
+    if(on)h+='<span class="astchip-tag '+(a.ft?'ft':'pt')+'">'+(a.ft?'正':'兼')+'</span>';
+    else h+='<span class="astchip-tag" style="background:#eee;color:#999;">離職</span>';
+    if(sel&&editMode)h+='<span class="astchip-mv'+(i===group.length-1?' dis':'')+'" title="往後移" onclick="event.stopPropagation();moveAst(\''+a.id+'\',1)">▶</span>';
+    return h+'</div>';
+  }
+  var html=act.map(function(a,i){return chip(a,i,act);}).join('');
+  if(dep.length){
+    var open=_astShowDeparted||selDep;
+    html+='<span class="astbar-toggle" onclick="_astShowDeparted=!_astShowDeparted;renderAstList();">'+(open?'▾':'▸')+' 已離職 '+dep.length+' 位</span>';
+    if(open)html+=dep.map(function(a,i){return chip(a,i,dep);}).join('');
+  }
+  el.innerHTML=html;
 }
+
 function addAst(){
   showModal('<div class="modal-title">新增助理</div>'
     +'<div class="modal-field"><label>姓名</label><input id="mi_astname" placeholder="例：王小明" maxlength="20"></div>'
@@ -6314,58 +6511,72 @@ function toggleFt(id,val){
   a.ft=val;if(!val)a.target=0;
   startEdit(id);
 }
+// 月曆格子裡的工作標記（和月總覽同一套：顏1＝主跟、顏2＝輔助、△櫃台、○流動）
+function lcxJobHTML(k,role){
+  if(!k.startsWith('ex')){
+    var p=k.split('-'),did=p[4],r=p.slice(5).join('-');
+    var dr=drs.find(function(x){return x.id===did;});var sn=dr?dr.name.charAt(0):'?';
+    if(r==='main')return escHtml(sn)+'1';
+    if(r==='sub')return escHtml(sn)+(did==='lin'?'<span style="color:#c44;">△</span>':'2');
+    if(r==='counter')return '<span style="color:#c44;">△</span>';
+    if(r==='flow1'||r==='flow2')return '<span style="color:#0a6;">○</span>';
+    if(r==='cflow')return '<span style="color:#c44;">△</span><span style="color:#0a6;">○</span>';
+    return escHtml(r);
+  }
+  if(isPotRole(role))return potCellHTML(role,11,'px','font-size:11px;','font-size:10px;');
+  if(isEduRole(role))return eduSymHTML(11)+'<span style="color:'+EDU_COLOR+';">訓</span>';
+  if(parseDual(role))return '<span style="color:#7c3aed;">雙</span>'+dualCellHTML(role,'font-size:10px;','font-size:10px;');
+  if(role==='櫃台流動')return '<span style="color:#c44;">△</span><span style="color:#0a6;">○</span>';
+  if(role==='流動')return '<span style="color:#0a6;">○</span>';
+  if(role.indexOf('學習')>=0)return '<span style="color:#1a5fa0;">學</span>';
+  if(role.indexOf('行政')>=0)return '<span style="color:#44c;">行</span>';
+  return escHtml(role.replace(/（.*$/,'').slice(0,2));
+}
+// 助理月曆（緊縮版）：每格＝日期＋早午晚三行，每行是「不可上班勾選」＋當診工作
 function buildLeaveCal(id,a,m,days,first,editable){
   var sessColors=['#1a5fa0','#0d6640','#7a4d00'];
-  var roleShortMap={'main':'主','sub':'輔','counter':'櫃','flow1':'流','flow2':'流2','cflow':'櫃流','櫃台流動':'櫃流','櫃台學習':'學','門診學習':'學','行政診':'行','教育訓練':'訓','其他':'其'};
-  var h='<table class="lc-table"><thead><tr>';
-  ['週日','一','二','三','四','五','六'].forEach(function(n){h+='<th>'+n+'</th>';});
+  var SN=['早','午','晚'];
+  var now=new Date();var todayD=(now.getFullYear()===Y&&now.getMonth()===m)?now.getDate():-1;
+  var h='<table class="lcx"><thead><tr>';
+  ['日','一','二','三','四','五','六'].forEach(function(n,i){h+='<th class="'+(i===0?'lcx-sun':i===6?'lcx-sat':'')+'">'+n+'</th>';});
   h+='</tr></thead><tbody><tr>';
-  for(var i=0;i<first;i++)h+='<td class="lc-empty"></td>';
+  for(var i=0;i<first;i++)h+='<td class="lcx-empty"></td>';
   var col=first;
   for(var d=1;d<=days;d++){
     if(col===7){h+='</tr><tr>';col=0;}
     var iO=isOff(d,m);var lv=getLeave(id,d,m);var all=lv[0]&&lv[1]&&lv[2];
-    h+='<td class="'+(iO?'lc-off':'')+'">';
-    h+='<div class="lc-date">'+d+'</div>';
-    if(iO){
-      h+='<div style="font-size:10px;color:#ccc;text-align:center;padding:2px 0;">休診</div>';
-    } else if(editable){
-      h+='<label class="lc-allday"><input type="checkbox" '+(all?'checked':'')+' onchange="toggleLeaveAll(\''+id+'\','+d+','+m+',this.checked)">全</label>';
-      ['早','午','晚'].forEach(function(lbl,si){
-        var bl=lv[si];h+='<label class="lc-sc '+(bl?'blk':'ok')+'"><input type="checkbox" '+(bl?'checked':'')+' onchange="toggleLeaveSess(\''+id+'\','+d+','+m+','+si+',this.checked)">'+lbl+'</label>';
+    h+='<td class="'+(iO?'lcx-off':'')+(d===todayD?' lcx-today':'')+'">';
+    h+='<div class="lcx-top"><span class="lcx-d">'+d+'</span>';
+    if(!iO&&editable)h+='<label class="lcx-all" title="整天不能上班"><input type="checkbox" '+(all?'checked':'')+' onchange="toggleLeaveAll(\''+id+'\','+d+','+m+',this.checked)">全</label>';
+    h+='</div>';
+    if(iO){h+='<div class="lcx-offtxt">休診</div>';}
+    else{
+      var sess=getSess(d,m);
+      [0,1,2].forEach(function(si){
+        var bl=lv[si];
+        var jobs=[];
+        if(sess[si])getAllSlotKeys(d,m,si).forEach(function(k){if(getAsgn(k)===id)jobs.push(lcxJobHTML(k,getRoleFromKey(k,d,m,si)));});
+        h+='<div class="lcx-s'+(bl?' blk':'')+(!sess[si]&&!bl?' closed':'')+'">';
+        if(editable)h+='<label style="color:'+sessColors[si]+';"><input type="checkbox" '+(bl?'checked':'')+' onchange="toggleLeaveSess(\''+id+'\','+d+','+m+','+si+',this.checked)">'+SN[si]+'</label>';
+        else h+='<label style="color:'+sessColors[si]+';">'+SN[si]+'</label>';
+        if(jobs.length)h+='<span class="lcx-job">'+jobs.join(' ')+'</span>';
+        else if(bl)h+='<span style="font-size:9px;color:#c33;">不可</span>';
+        h+='</div>';
       });
-    } else {
-      var anyLeave=lv[0]||lv[1]||lv[2];
-      if(all){h+='<div style="font-size:10px;color:#c44;text-align:center;font-weight:700;">全天請假</div>';}
-      else if(anyLeave){['早','午','晚'].forEach(function(lbl,si){if(lv[si])h+='<div style="font-size:10px;color:#c44;">'+lbl+' 請假</div>';});}
     }
-    // shift assignments
-    var anyShift=false;
-    var sh='<div style="margin-top:2px;padding-top:2px;border-top:1px dashed #e8e8e8;display:flex;flex-direction:column;gap:1px;">';
-    [0,1,2].forEach(function(si){
-      if(isOff(d,m)||!getSess(d,m)[si])return;
-      getAllSlotKeys(d,m,si).forEach(function(k){
-        if(getAsgn(k)!==id)return;
-        anyShift=true;
-        var role=getRoleFromKey(k,d,m,si);
-        var short=roleShortMap[role]||(role.startsWith('其他')?'其':role.charAt(0));
-        sh+='<div style="display:flex;align-items:center;gap:1px;"><span style="font-size:8px;font-weight:700;color:'+sessColors[si]+';width:10px;">'+['早','午','晚'][si]+'</span><span style="font-size:8px;font-weight:700;color:'+a.color+';">'+short+'</span></div>';
-      });
-    });
-    sh+='</div>';
-    if(anyShift)h+=sh;
     h+='</td>';
     col++;
   }
-  while(col<7){h+='<td class="lc-empty"></td>';col++;}
+  while(col<7){h+='<td class="lcx-empty"></td>';col++;}
   h+='</tr></tbody></table>';
   return h;
 }
+
 function showAstViewPanel(id){
   var a=asts.find(function(x){return x.id===id;});if(!a)return;
   var m=getM();var days=getDays(m);var first=getFirst(m);
   var total=0,eve=0,hol=0,counter=0;
-  for(var d=1;d<=days;d++){[0,1,2].forEach(function(si){getAllSlotKeys(d,m,si).forEach(function(k){if(getAsgn(k)===id&&!isEduRole(getRoleFromKey(k,d,m,si))){total++;if(si===2&&!isHolBan(d,m))eve++;if(isHolBan(d,m))hol++;if(k.endsWith('-g-counter'))counter++;}});});}
+  for(var d=1;d<=days;d++){[0,1,2].forEach(function(si){getAllSlotKeys(d,m,si).forEach(function(k){if(getAsgn(k)===id&&!isNoCountRole(getRoleFromKey(k,d,m,si))){total++;if(si===2&&!isHolBan(d,m))eve++;if(isHolBan(d,m))hol++;if(k.endsWith('-g-counter'))counter++;}});});}
   var html='<div class="ast-edit">';
   html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">';
   html+='<div style="display:flex;align-items:center;gap:10px;">';
@@ -6400,56 +6611,88 @@ function showAstViewPanel(id){
   document.getElementById('astEditArea').innerHTML=html;
 }
 
+// 一位助理一張卡：上面名字＋本月統計＋按鈕，左邊基本資料，右邊當月排班與不可上班
+function _astMonthStat(id,m){
+  var days=getDays(m),s={total:0,eve:0,hol:0,counter:0,edu:0,pot:0};
+  for(var d=1;d<=days;d++){[0,1,2].forEach(function(si){getAllSlotKeys(d,m,si).forEach(function(k){
+    if(getAsgn(k)!==id)return;
+    var role=getRoleFromKey(k,d,m,si);
+    if(isEduRole(role)){s.edu++;return;}
+    if(isPotRole(role)){s.pot++;return;}
+    s.total++;if(si===2&&!isHolBan(d,m))s.eve++;if(isHolBan(d,m))s.hol++;if(k.endsWith('-g-counter'))s.counter++;
+  });});}
+  return s;
+}
 function startEdit(id){
-  if(!editMode){showAstViewPanel(id);return;}
-  editId=id;var a=asts.find(function(x){return x.id===id;});
+  var a=asts.find(function(x){return x.id===id;});if(!a)return;
+  editId=id;
+  var ed=!!editMode;
   var usedC=asts.filter(function(x){return x.id!==id&&isPersonActive(x);}).map(function(x){return x.color;});
   var m=getM();var days=getDays(m);var first=getFirst(m);
-  var html='<div class="ast-edit">';
-  html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">';
-  html+='<span style="font-size:12px;font-weight:700;">編輯：'+a.nick+' ('+a.name+')</span>';
-  html+='<div style="display:flex;gap:4px;">';
-  html+='<button class="btn primary" onclick="saveEdit()">儲存</button><button class="btn" onclick="cancelEdit()">取消</button><button class="btn" onclick="showAstMonthSchedule(\''+id+'\')" style="font-size:12px;">📅 月班表</button>';
   var isAct=isPersonActive(a);
-  if(isAct){
-    html+='<button class="btn" onclick="confirmLeaveAst(\''+id+'\')" style="font-size:11px;background:#fde0e0;color:#a32d2d;border-color:#f0c0c0;">離職</button>';
-  } else {
-    html+='<button class="btn" onclick="confirmRejoinAst(\''+id+'\')" style="font-size:11px;background:#d4f5e5;color:#0d6640;border-color:#b8e6d0;">復職</button>';
+  var st=_astMonthStat(id,m);
+  var sp=getAstSpecial(id,Y,m);
+  var c=isAct?a.color:'#9ca3af';
+  var html='<div class="astcard" style="--c:'+c+';">';
+  // 標題列
+  html+='<div class="astcard-head"><div class="astcard-av">'+escHtml(a.ab)+'</div>';
+  html+='<div><div class="astcard-name">'+escHtml(a.nick)+'<small>'+escHtml(a.name||'')+'</small></div>';
+  html+='<span class="astchip-tag '+(isAct?(a.ft?'ft':'pt'):'')+'" style="font-size:11px;'+(isAct?'':'background:#eee;color:#888;')+'">'+(isAct?(a.ft?'正職':'兼職'):'已離職')+'</span></div>';
+  html+='<div class="astcard-stats">';
+  html+='<span class="astcard-stat">'+(m+1)+'月診次 <b style="color:'+c+';">'+st.total+'</b>'+(a.target>0?' / '+a.target:'')+(sp?' <span style="color:#9a3412;">+特休'+sp+'</span>':'')+'</span>';
+  html+='<span class="astcard-stat">晚班 <b>'+st.eve+'</b></span>';
+  html+='<span class="astcard-stat">假日 <b>'+st.hol+'</b></span>';
+  html+='<span class="astcard-stat">櫃台 <b>'+st.counter+'</b></span>';
+  if(st.edu)html+='<span class="astcard-stat" style="color:'+EDU_COLOR+';">教育訓練 <b style="color:'+EDU_COLOR+';">'+st.edu+'</b></span>';
+  if(st.pot)html+='<span class="astcard-stat" style="color:'+EDU_COLOR+';">局部加班 <b style="color:'+EDU_COLOR+';">'+st.pot+'</b></span>';
+  html+='</div>';
+  html+='<div class="astcard-btns">';
+  html+='<button class="btn view-btn" onclick="showAstMonthSchedule(\''+id+'\')">📅 月班表</button>';
+  if(ed){
+    html+='<button class="btn primary" onclick="saveEdit()">儲存</button><button class="btn" onclick="cancelEdit()">取消</button>';
+    if(isAct)html+='<button class="btn" onclick="confirmLeaveAst(\''+id+'\')" style="background:#fde0e0;color:#a32d2d;border-color:#f0c0c0;">離職</button>';
+    else html+='<button class="btn" onclick="confirmRejoinAst(\''+id+'\')" style="background:#d4f5e5;color:#0d6640;border-color:#b8e6d0;">復職</button>';
+    html+='<button class="btn" onclick="deleteAst(\''+id+'\')" style="background:var(--red-light);color:var(--red);border-color:#fca5a5;">刪除</button>';
   }
   html+='</div></div>';
-  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
-  html+='<div>';
-  html+='<div class="form-row"><div class="form-lbl">縮寫</div><input id="e-ab" type="text" value="'+a.ab+'" maxlength="2" style="width:44px;"></div>';
-  html+='<div class="form-row"><div class="form-lbl">職務類型</div><div style="display:flex;gap:6px;margin-top:4px;">';
-  html+='<button class="btn'+(a.ft?' primary':'')+'" onclick="toggleFt(\''+id+'\',true)" style="font-size:12px;padding:4px 14px;">正職</button>';
-  html+='<button class="btn'+(!a.ft?' primary':'')+'" onclick="toggleFt(\''+id+'\',false)" style="font-size:12px;padding:4px 14px;">兼職</button>';
-  html+='</div></div>';
-  html+='<div class="form-row"><div class="form-lbl">診次目標</div><input id="e-target" type="number" value="'+a.target+'" style="width:60px;"></div>';
-  html+='<div class="form-row"><div class="form-lbl">本月特休（'+(m+1)+'月）</div>';
-  html+='<div style="display:flex;align-items:center;gap:6px;">';
-  html+='<input id="e-special" type="number" min="0" max="60" value="'+getAstSpecial(id,Y,m)+'" style="width:60px;"> <span style="font-size:11px;color:#888;">診</span>';
-  html+='</div></div>';
-  html+='<div class="form-row"><div class="form-lbl">備註</div><input id="e-note" type="text" value="'+a.note+'" placeholder="例：避免晚診" style="width:100%;"></div>';
-  html+='<div class="form-lbl">主跟醫師白名單（★優先）</div><div style="margin-bottom:6px;">';
-  drs.forEach(function(dr){var on=a.white.includes(dr.id);html+='<span class="dr-chip'+(on?' wl':'')+'" onclick="toggleList(\''+id+'\',\'white\',\''+dr.id+'\')">'+dr.name+(on?' ★':'')+'</span>';});
-  html+='</div><div class="form-lbl">黑名單（硬性阻擋）</div><div>';
-  drs.forEach(function(dr){var on=a.black.includes(dr.id);html+='<span class="dr-chip'+(on?' bl':'')+'" onclick="toggleList(\''+id+'\',\'black\',\''+dr.id+'\')">'+dr.name+(on?' ✗':'')+'</span>';});
-  html+='</div></div>';
-  html+='<div><div class="form-lbl">顏色（灰色已被使用）</div><div class="color-row">';
-  ALL_COLORS.forEach(function(c){html+='<div class="c-opt'+(a.color===c?' sel':'')+(usedC.includes(c)?' used':'')+'" style="background:'+c+';" onclick="pickColor(\''+id+'\',\''+c+'\')"></div>';});
-  html+='</div></div></div>';
-  // Leave calendar
-  html+='<div class="form-row" style="margin-top:8px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">';
-  html+='<div class="form-lbl" style="margin:0;">當月不可上班時間</div>';
-  html+='<button class="btn" onclick="toggleLeaveMonth(\''+id+'\','+m+')" style="font-size:10px;padding:2px 8px;border-radius:4px;">全月請假</button>';
-  html+='<button class="btn" onclick="clearLeaveMonth(\''+id+'\','+m+')" style="font-size:10px;padding:2px 8px;border-radius:4px;">全月清除</button>';
+  // 內容
+  html+='<div class="astcard-body"><div class="astcard-side">';
+  var dis=ed?'':' disabled';
+  html+='<div class="astf-grid">';
+  html+='<div class="astf"><span class="astf-l">縮寫</span><input id="e-ab" type="text" value="'+escHtml(a.ab)+'" maxlength="2"'+dis+'></div>';
+  html+='<div class="astf"><span class="astf-l">職務類型</span><div class="astf-seg">'
+    +'<button class="btn'+(a.ft?' primary':'')+'" onclick="toggleFt(\''+id+'\',true)"'+dis+'>正職</button>'
+    +'<button class="btn'+(!a.ft?' primary':'')+'" onclick="toggleFt(\''+id+'\',false)"'+dis+'>兼職</button></div></div>';
+  html+='<div class="astf"><span class="astf-l">診次目標</span><input id="e-target" type="number" value="'+a.target+'"'+dis+'></div>';
+  html+='<div class="astf"><span class="astf-l">'+(m+1)+'月特休（診）</span><input id="e-special" type="number" min="0" max="60" value="'+sp+'"'+dis+'></div>';
   html+='</div>';
-  html+='<div class="lc-outer">';
-  html+=buildLeaveCal(id,a,m,days,first,true);
+  html+='<div class="astf"><span class="astf-l">備註</span><input id="e-note" type="text" value="'+escHtml(a.note||'')+'" placeholder="例：避免晚診"'+dis+'></div>';
+  var drShow=drs.filter(function(dr){return isPersonActive(dr)||a.white.includes(dr.id)||a.black.includes(dr.id);});
+  function drChips(list,cls,mark){
+    return '<div class="astchips-dr">'+drShow.map(function(dr){var on=a[list].includes(dr.id);
+      return '<span class="dr-chip'+(on?' '+cls:'')+'"'+(ed?' onclick="toggleList(\''+id+'\',\''+list+'\',\''+dr.id+'\')"':' style="cursor:default;"')+'>'+escHtml(dr.name)+(on?' '+mark:'')+'</span>';}).join('')+'</div>';
+  }
+  html+='<div class="astf"><span class="astf-l">主跟醫師白名單（★優先）</span>'+drChips('white','wl','★')+'</div>';
+  html+='<div class="astf"><span class="astf-l">黑名單（硬性阻擋）</span>'+drChips('black','bl','✗')+'</div>';
+  if(ed){
+    html+='<div class="astf"><span class="astf-l">顏色（淡的已被使用）</span><div class="astcolor-row">';
+    ALL_COLORS.forEach(function(cc){html+='<div class="c-opt'+(a.color===cc?' sel':'')+(usedC.includes(cc)?' used':'')+'" style="background:'+cc+';" onclick="pickColor(\''+id+'\',\''+cc+'\')"></div>';});
+    html+='</div></div>';
+  }
+  html+='</div>';
+  // 月曆
+  html+='<div class="astcard-main"><div class="astcal-bar"><span>'+(m+1)+'月排班與不可上班</span>';
+  if(ed){
+    html+='<button class="btn" onclick="toggleLeaveMonth(\''+id+'\','+m+')">全月不可上班</button>';
+    html+='<button class="btn" onclick="clearLeaveMonth(\''+id+'\','+m+')">全月清除</button>';
+  }
+  html+='<span class="astcal-legend"><span><span style="display:inline-block;width:10px;height:10px;background:#fde2e2;border-radius:2px;vertical-align:-1px;"></span> 勾選＝不能上班</span><span>顏1 主跟・顏2 輔助・<span style="color:#c44;">△</span>櫃台・<span style="color:#0a6;">○</span>流動</span></span></div>';
+  html+=buildLeaveCal(id,a,m,days,first,ed);
   html+='</div></div></div>';
   document.getElementById('astEditArea').innerHTML=html;
   renderAstList();
 }
+
 // 助理「不可上班」變更後的同步刷新（月排班總覽、月/週統計、放大表格）
 function _afterLeaveChange(aid){
   startEdit(aid); // 重畫編輯區
@@ -6472,19 +6715,29 @@ function saveEdit(){
   // 儲存本月特休
   var spEl=document.getElementById('e-special');
   if(spEl){var sp=parseInt(spEl.value)||0;if(sp<0)sp=0;setAstSpecial(editId,Y,getM(),sp);}
-  editId=null;
-  document.getElementById('astEditArea').innerHTML='';
-  renderAstList();renderMoGrid();
+  var keep=editId;
+  renderMoGrid();
   if(statsVis)renderStats();if(weekStatsVis)renderWeekStats();
+  startEdit(keep);
+  showToastSaved();
 }
-function cancelEdit(){editId=null;document.getElementById('astEditArea').innerHTML='';renderAstList();}
+// 取消：放棄還沒儲存的縮寫／目標／特休／備註，留在同一位
+function cancelEdit(){if(editId)startEdit(editId);}
+function showToastSaved(){
+  var t=document.createElement('div');t.textContent='已儲存（記得按「發布班表」才會上雲端）';
+  t.style.cssText='position:fixed;left:50%;top:70px;transform:translateX(-50%);background:#0d6640;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2);';
+  document.body.appendChild(t);setTimeout(function(){t.remove();},1800);
+}
 
 function go(n){
   for(var i=0;i<7;i++){document.getElementById('page'+i).classList.toggle('active',i===n);document.getElementById('s'+i).classList.toggle('active',i===n);}
   if(n===1){renderDrList();if(p1Mode==='all')renderDrOverview();}
   if(n===2){if(!curWeekStart)initWeek();renderWeekGrid();}
   if(n===3){renderMoGrid();renderMoLegend();renderAssignTop();updateStats();}
-  if(n===4)renderAstList();
+  if(n===4){
+    if(!editId||!asts.some(function(a){return a.id===editId;})){var f0=asts.find(function(a){return isPersonActive(a);});if(f0)startEdit(f0.id);else renderAstList();}
+    else startEdit(editId);
+  }
   if(n===5)renderPage5();
   if(n===6)sendBeautifierPayload();
 }
@@ -6685,9 +6938,9 @@ document.getElementById('modalOv').addEventListener('click', function(e){ if(e.t
 var _origStartEdit=startEdit;
 startEdit=function(id){
   _origStartEdit(id);
-  // 在 astEditArea 頂部插入靜態刪除按鈕列
+  // 刪除鈕已移到卡片標題列（2026-11-18），舊的刪除列一律隱藏
   var delRow=document.getElementById('astDelRow');
-  if(delRow){delRow.style.display='flex';}
+  if(delRow){delRow.style.display='none';}
 };
 var _origCancelEdit=cancelEdit;
 cancelEdit=function(){
@@ -6771,6 +7024,7 @@ function roleDisplayLabel(role){
     'cflow':'櫃台流動','g-cflow':'櫃台流動'
   };
   if(isEduRole(role))return role+'（到班時間依通知，不算診次）';
+  if(isPotRole(role)){var pp=parsePot(role);return pp?POT_TYPE+'（'+potWorkName(pp.work)+'，不算診次）':role;}
   return map[role]||role;
 }
 
@@ -6894,10 +7148,16 @@ function generateAstCalHTML(astId,forPrint){
       // 計算上班時段
       var seenSi={};var activeSessArr=[];
       details.forEach(function(det){
+        if(parsePot(det.role))return; // 局部加班用自己填的時間
         if(!seenSi[det.si]){seenSi[det.si]=true;activeSessArr.push(det.si);}
       });
       activeSessArr.sort();
-      var timeSlots=calcAstTimes(activeSessArr);
+      var timeSlots=activeSessArr.length?calcAstTimes(activeSessArr):[];
+      details.forEach(function(det){
+        var pp=parsePot(det.role);
+        if(pp)timeSlots.push({si:det.si,start:pp.from,end:pp.to,pot:det});
+      });
+      timeSlots.sort(function(a,b){return timeToMin(a.start)-timeToMin(b.start);});
 
       // 全天最早到/最晚離（用於標色）
       var startMins=timeSlots.map(function(ts){return timeToMin(ts.start);});
@@ -6914,8 +7174,8 @@ function generateAstCalHTML(astId,forPrint){
       t+='<td><div class="ci"><div class="cd">'+dateLabel+'</div>';
       timeSlots.forEach(function(ts){
         var si=ts.si;
-        var sessDetails=details.filter(function(d){return d.si===si;});
-        t+='<div class="sb" style="background:'+SESS_BG[si]+';">';
+        var sessDetails=ts.pot?[ts.pot]:details.filter(function(d){return d.si===si&&!parsePot(d.role);});
+        t+='<div class="sb" style="background:'+(ts.pot?EDU_BG:SESS_BG[si])+';">';
         // 診別標籤＋時間
         t+='<div class="sl" style="color:'+SESS_TC[si]+';"><span>'+SESS_NAME[si]+'</span>'
           +'<span class="tl">'
