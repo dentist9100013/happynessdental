@@ -2791,6 +2791,8 @@ var POT_TYPE='局部加班';
 var POT_RE=/^局部加班（([^｜）]+)｜(\d{1,2}:\d{2})-(\d{1,2}:\d{2})）$/;
 var POT_SESS_HOURS=[3.5,3.75,3.75];
 var POT_DAY_LIMIT_H=8;
+var HEALTH_FULL_MAX=6;
+var HEALTH_NOTE='健康考慮（115/12 公告）：正職整天班（早午晚三診都排，教育訓練、局部加班不算）每月最多 6 天，當天加班不可超過 30 分鐘；只提醒，不擋排班。';
 var POT_NOTE='局部加班不算診次、也不算獎勵診次。當天總時數（其他診固定時數＋局部加班）超過 8 小時的部分算超時加班，其餘算一般加班；加班費目前照舊送加班申報。';
 function isPotRole(role){return typeof role==='string'&&role.indexOf(POT_TYPE)===0;}
 // 不算診次的崗位（教育訓練、局部加班）
@@ -5557,6 +5559,7 @@ function _accStat(acc,d,m){
   });
   // 該日休診則不累計
   if(isOff(d,m))return;
+  var daySi={}; // 健康考慮：這天每位助理排了哪幾診（不含教育訓練、局部加班）
   [0,1,2].forEach(function(si){
     if(!getSess(d,m)[si])return; // 該時段沒開診
     // 累計「可上班」次數（所有在職助理；此時段有開診且該助理沒勾不能上班 → +1）
@@ -5580,11 +5583,16 @@ function _accStat(acc,d,m){
       // 局部加班不算診次，另計次數與一般／超時分鐘
       if(ex&&isPotRole(ex.type)){var ps=potSplitOfKey(aid,d,m,k);s.pot=(s.pot||0)+1;s.potNormal=(s.potNormal||0)+ps.normal;s.potOt=(s.potOt||0)+ps.ot;return;}
       s.total++;
+      (daySi[aid]=daySi[aid]||{})[si]=1;
       if(si===2&&!isHolBan(d,m))s.eve++;
       if(isHolBan(d,m))s.hol++;
       if(k.endsWith('-g-counter'))s.counter++;
       if(ex&&ex.type==='行政診')s.admin++;
     });
+  });
+  Object.keys(daySi).forEach(function(aid){
+    var o=daySi[aid];if(!(o[0]&&o[1]&&o[2]))return;
+    var s=acc[aid];s.full=(s.full||0)+1;(s.fullDays=s.fullDays||[]).push((m+1)+'/'+d);
   });
 }
 function _renderStatsCards(acc,targetEl,scope){
@@ -5610,6 +5618,8 @@ function _renderStatsCards(acc,targetEl,scope){
     if(s.edu)html+='<div class="asc-row" title="'+escHtml(EDU_NOTE)+'"><span style="color:'+EDU_COLOR+';">教育訓練</span><span class="asc-v" style="color:'+EDU_COLOR+';">'+s.edu+'</span></div>';
     if(s.pot){html+='<div class="asc-row" title="'+escHtml(POT_NOTE)+'"><span style="color:'+EDU_COLOR+';">局部加班</span><span class="asc-v" style="color:'+EDU_COLOR+';">'+s.pot+' 次</span></div>';
       html+='<div class="asc-row" style="font-size:9px;"><span style="color:'+EDU_COLOR+';">一般／超時</span><span class="asc-v" style="color:'+EDU_COLOR+';">'+(Math.round((s.potNormal||0)/60*100)/100)+'／'+(Math.round((s.potOt||0)/60*100)/100)+'h</span></div>';}
+    if(scope==='month'&&a.ft){var fo=(s.full||0)>HEALTH_FULL_MAX;
+      html+='<div class="asc-row" title="'+escHtml(HEALTH_NOTE+(s.fullDays?'\n整天班：'+s.fullDays.join('、'):''))+'"><span'+(fo?' style="color:#c33;"':'')+'>整天班</span><span class="asc-v'+(fo?' asc-warn':'')+'">'+(s.full||0)+'/'+HEALTH_FULL_MAX+(fo?' ⚠':'')+'</span></div>';}
     html+='<div class="asc-row"><span style="color:#0d6640;">可上班</span><span class="asc-v" style="color:#0d6640;">'+s.avail+'</span></div>';
     html+='</div>';
   });
@@ -5929,6 +5939,7 @@ function renderPage5(){
   html+='<th>行政診</th>';
   html+='<th title="'+escHtml(EDU_NOTE)+'">教育訓練</th>';
   html+='<th title="'+escHtml(POT_NOTE)+'">局部加班<br><span style="font-weight:400;font-size:9px;">一般／超時</span></th>';
+  html+='<th title="'+escHtml(HEALTH_NOTE)+'">整天班<br><span style="font-weight:400;font-size:9px;">正職上限 '+HEALTH_FULL_MAX+' 天</span></th>';
   html+='<th>可上班</th>';
   html+='</tr></thead><tbody>';
   activeAsts.forEach(function(a){
@@ -5958,6 +5969,8 @@ function renderPage5(){
     html+='<td>'+(s.admin||'—')+'</td>';
     html+='<td style="color:'+EDU_COLOR+';">'+(s.edu||'—')+'</td>';
     html+='<td style="color:'+EDU_COLOR+';">'+(s.pot?s.pot+' 次<br><span style="font-size:9px;">'+potHrs(s.potNormal||0)+'／'+potHrs(s.potOt||0)+'</span>':'—')+'</td>';
+    var fOver=a.ft&&(s.full||0)>HEALTH_FULL_MAX;
+    html+='<td style="'+(fOver?'color:#c33;font-weight:700;':'')+'" title="'+escHtml(s.fullDays?'整天班：'+s.fullDays.join('、'):'')+'">'+(s.full?s.full+' 天'+(fOver?' ⚠':''):'—')+'</td>';
     html+='<td style="color:#0d6640;">'+s.avail+'</td>';
     html+='</tr>';
   });
@@ -5966,7 +5979,7 @@ function renderPage5(){
   html+='<td class="p5-name" style="color:#1a5fa0;">當月總和</td>';
   html+='<td colspan="2" style="font-size:10px;color:#888;">'+activeAsts.length+' 位在職</td>';
   html+='<td class="p5-total">'+totalSlots+'</td>';
-  html+='<td colspan="8" style="font-size:10px;color:#888;">總開診次次數</td>';
+  html+='<td colspan="9" style="font-size:10px;color:#888;">總開診次次數</td>';
   html+='<td style="color:#0d6640;">'+totalAvail+'</td>';
   html+='</tr>';
   html+='</tbody></table></div></div>';
