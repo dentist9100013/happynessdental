@@ -7586,8 +7586,101 @@ function publishVersion(){
   );
 }
 
+// 多人同時編輯防互蓋（2026-11-18）：
+// _cloudBaseTs = 這個畫面「看過」的雲端最新版本 key（開網頁自動載入、載入最新版、自己發布成功時更新）。
+// 發布前先查雲端最新 key；比 _cloudBaseTs 新，代表別人（或同步程式）在你打開之後發布過，
+// 直接發布會把對方的修改蓋掉 → 先警告。
+var _cloudBaseTs=null;      // null = 還沒成功讀過雲端；'0' = 雲端原本沒有版本
+var _pendingPublishLabel='';
+function _fetchLatestVersionInfo(){
+  return fetch(FB_DB_URL+'/versions.json?orderBy=%22%24key%22&limitToLast=1')
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(function(data){
+      if(!data||!Object.keys(data).length)return null;
+      var ts=Object.keys(data).sort(function(a,b){return Number(a)-Number(b);}).pop();
+      var v=data[ts]||{};
+      return {ts:ts,time:v.time||Number(ts)||0,label:v.label||'',ver:v};
+    });
+}
+function _isNewerThanBase(info){
+  if(!info)return false;
+  if(_cloudBaseTs===null)return true; // 開網頁時沒讀到雲端，無法確定 → 當作有新版
+  return Number(info.ts)>Number(_cloudBaseTs);
+}
 function confirmPublish(){
   var label=document.getElementById('mi_verlabel').value.trim();
+  _pendingPublishLabel=label;
+  showModal('<div class="modal-title">📤 發布班表</div>'
+    +'<div class="modal-msg">正在確認雲端是否有別人剛發布的版本…</div>'
+    +'<div class="modal-btns"><button class="btn modal-btn-allow" onclick="closeModal()">取消</button></div>');
+  _fetchLatestVersionInfo().then(function(info){
+    if(_isNewerThanBase(info)){
+      showModal('<div class="modal-title">⚠️ 有人比你早一步發布了</div>'
+        +'<div class="modal-msg">你打開這個網頁之後，雲端已經有新的版本：<br>'
+        +'<b>「'+escHtml(info.label||'未命名')+'」</b>　'+fmtTime(info.time)+'<br><br>'
+        +'現在發布，會用<b>你畫面上的整份班表</b>取代它，<b style="color:#c00;">對方改的內容會不見</b>。<br><br>'
+        +'建議：先記下你剛改了哪些地方，按「載入最新版」，再把你的修改重新做一次後發布。</div>'
+        +'<div class="modal-btns" style="flex-wrap:wrap;gap:8px;">'
+        +'<button class="btn modal-btn-allow" onclick="closeModal()">取消</button>'
+        +'<button class="btn primary modal-btn-allow" onclick="_reloadLatestFromCloud()">載入最新版（我的修改會不見）</button>'
+        +'<button class="btn modal-btn-allow" style="color:#E24B4A;border-color:#E24B4A;" onclick="_forcePublish()">仍然發布（蓋掉對方的）</button>'
+        +'</div>');
+      return;
+    }
+    _doPublish(_pendingPublishLabel);
+  }).catch(function(err){
+    showModal('<div class="modal-title">⚠️ 無法確認雲端版本</div>'
+      +'<div class="modal-msg">連不到雲端，無法確認有沒有別人剛發布過。<br>建議確認網路後再發布一次。<br><small>'+escHtml(err.message)+'</small></div>'
+      +'<div class="modal-btns"><button class="btn modal-btn-allow" onclick="closeModal()">取消</button>'
+      +'<button class="btn modal-btn-allow" style="color:#E24B4A;border-color:#E24B4A;" onclick="_forcePublish()">仍然發布</button></div>');
+  });
+}
+function _forcePublish(){_doPublish(_pendingPublishLabel);}
+function _reloadLatestFromCloud(){
+  showModal('<div class="modal-title">🔄 載入最新版</div><div class="modal-msg">載入中…</div>');
+  _fetchLatestVersionInfo().then(function(info){
+    if(!info||!info.ver||!info.ver.data)throw new Error('雲端沒有可用的版本');
+    applyVersionData(info.ver.data);
+    _cloudBaseTs=info.ts;
+    _hideNewerVersionBar();
+    selDay=null;curWeekStart=null;
+    buildAll();
+    showModal('<div class="modal-title">✅ 已載入最新版</div>'
+      +'<div class="modal-msg">目前畫面是「'+escHtml(info.label||'未命名')+'」（'+fmtTime(info.time)+'）。<br>請在這一版上重新修改，改完再發布。</div>'
+      +'<div class="modal-btns"><button class="btn primary modal-btn-allow" onclick="closeModal()">確定</button></div>');
+  }).catch(function(err){
+    showModal('<div class="modal-title">❌ 載入失敗</div>'
+      +'<div class="modal-msg">'+escHtml(err.message)+'</div>'
+      +'<div class="modal-btns"><button class="btn modal-btn-allow" onclick="closeModal()">關閉</button></div>');
+  });
+}
+// 切回這個分頁時，順便看雲端有沒有別人發布的新版本（最多每 60 秒查一次），有就在畫面上方提醒
+var _lastNewerCheck=0;
+function _checkNewerVersionQuietly(){
+  if(typeof fbReady==='function'&&!fbReady())return;
+  if(_cloudBaseTs===null)return;
+  var t=Date.now();if(t-_lastNewerCheck<60000)return;_lastNewerCheck=t;
+  _fetchLatestVersionInfo().then(function(info){
+    if(_isNewerThanBase(info))_showNewerVersionBar(info);
+  }).catch(function(){/* 靜默 */});
+}
+function _showNewerVersionBar(info){
+  var bar=document.getElementById('newerVerBar');
+  if(!bar){
+    bar=document.createElement('div');
+    bar.id='newerVerBar';
+    bar.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99998;background:#FEF3C7;color:#7C2D12;border-bottom:2px solid #F59E0B;padding:8px 14px;font-size:13px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(0,0,0,0.12);';
+    document.body.appendChild(bar);
+  }
+  bar.innerHTML='<span style="flex:1;min-width:220px;">⚠️ 有人在 <b>'+fmtTime(info.time)+'</b> 發布了新版本「'+escHtml(info.label||'未命名')+'」。還沒改的話請先載入最新版；已經改了，發布時會再提醒你。</span>'
+    +'<button class="btn primary modal-btn-allow" style="font-size:12px;padding:4px 12px;" onclick="_reloadLatestFromCloud()">載入最新版</button>'
+    +'<button class="btn modal-btn-allow" style="font-size:12px;padding:4px 10px;" onclick="_hideNewerVersionBar()">先不要</button>';
+}
+function _hideNewerVersionBar(){var b=document.getElementById('newerVerBar');if(b&&b.parentNode)b.parentNode.removeChild(b);}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')_checkNewerVersionQuietly();});
+window.addEventListener('focus',_checkNewerVersionQuietly);
+
+function _doPublish(label){
   var now=Date.now();
   var d=new Date(now);
   var autoLabel=d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()+' '+(d.getHours()<10?'0':'')+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();
@@ -7622,6 +7715,8 @@ function confirmPublish(){
     body:JSON.stringify(payload)
   }).then(function(r){
     if(!r.ok)throw new Error('HTTP '+r.status);
+    _cloudBaseTs=String(now);
+    _hideNewerVersionBar();
     showModal('<div class="modal-title">✅ 發布成功</div>'
       +'<div class="modal-msg">版本「'+escHtml(label)+'」已儲存至雲端。</div>'
       +'<div class="modal-btns"><button class="btn primary modal-btn-allow" onclick="closeModal()">確定</button></div>');
@@ -7813,7 +7908,7 @@ function autoLoadLatestVersion(){
   fetch(FB_DB_URL+'/versions.json?orderBy=%22%24key%22&limitToLast=1')
     .then(function(r){return r.json();})
     .then(function(data){
-      if(!data||Object.keys(data).length===0)return; // 雲端尚無版本：沿用本機資料
+      if(!data||Object.keys(data).length===0){_cloudBaseTs='0';return;} // 雲端尚無版本：沿用本機資料
       var latest=null;
       Object.keys(data).forEach(function(ts){
         var v=data[ts];if(!v)return;
@@ -7822,6 +7917,7 @@ function autoLoadLatestVersion(){
       });
       if(!latest||!latest.ver||!latest.ver.data)return;
       applyVersionData(latest.ver.data);
+      _cloudBaseTs=latest.ts;
       selDay=null;curWeekStart=null;
       buildAll();
       showAutoLoadToast('✅ 已自動載入最新版本：'+(latest.label||fmtTime(latest.time)));
