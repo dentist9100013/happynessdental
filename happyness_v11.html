@@ -5694,12 +5694,12 @@ function _bonusForCounter(d,m,si){
   return 0;
 }
 // 115.10 起（院長 2026-11-05 逐項確認，與 38 薪資系統同一套；每人每診只算一項）：
-//   顏1 主跟 3；李1／黃凱筠／蕭醫師主跟 1；林醫師主跟 0.5；李2 0.5；林△ 不給分
+//   顏1 主跟 3；李1／黃凱筠／蕭醫師主跟 1；林醫師主跟 0.5；李2 0.5；林△ 不給分〔11/27 院長更正：林櫃＝林昭秀輔助（林△）1 分〕
 //   顏2：H/J/I/S 1，其他 0.5
 //   主要櫃台（g-counter）：醫師≥3 位、李醫師有看診（矯櫃）1；櫃台流動、雙職務不算櫃台分
 //   同一診兩個工作（含雙職務額外格）：其中一個跟顏醫師就當顏2 算，其餘不算分
 //   院長 2026-11-27：林醫師當診的櫃台不算林櫃（不加分）；3 位以上醫師櫃台照算
-var BONUS_TABLE_1105={'yan-main':[3,'顏1 主跟 顏醫師'],'li-main':[1,'李1 主跟 李醫師'],'huang_f-main':[1,'主跟 黃凱筠'],'hsiao-main':[1,'主跟 蕭醫師'],'lin-main':[0.5,'主跟 林醫師（兒林）'],'li-sub':[0.5,'李2']};
+var BONUS_TABLE_1105={'yan-main':[3,'顏1 主跟 顏醫師'],'li-main':[1,'李1 主跟 李醫師'],'huang_f-main':[1,'主跟 黃凱筠'],'hsiao-main':[1,'主跟 蕭醫師'],'lin-main':[0.5,'主跟 林醫師（兒林）'],'li-sub':[0.5,'李2'],'lin-sub':[1,'林櫃（林昭秀輔助）']};
 function calcBonusForMonth(m){
   if(Y*12+m<2026*12+9)return _calcBonusForMonthOld(m);   // 115.09 以前保留舊算法
   var totals={},details={};
@@ -5737,7 +5737,7 @@ function calcBonusForMonth(m){
           else if(BONUS_TABLE_1105[j.did+'-'+j.role]){pts=BONUS_TABLE_1105[j.did+'-'+j.role][0];reason=BONUS_TABLE_1105[j.did+'-'+j.role][1];}
           else if(j.did==='g'&&j.role==='counter'){
             if(hasLi){pts=1;reason='矯櫃（李醫師有看診）';}
-            // 院長 2026-11-27：林醫師當診的櫃台人員不加分（只有「林櫃」才 1 分，班表沒有標林櫃，由 38 會計手填）
+            // 院長 2026-11-27：林醫師當診的櫃台人員不加分；林櫃＝林昭秀輔助（lin-sub，見 BONUS_TABLE_1105）
             else if(adrs.length>=3){pts=1;reason='櫃台（醫師≥3位）';}
           }
         }
