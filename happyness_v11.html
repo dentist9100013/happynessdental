@@ -4272,9 +4272,26 @@ function buildMoGridHTML(){
   var STAT_H=22;    // mm — stats table (6 列：診次/晚班/假日/櫃台/行政/休假)
   var LEG_H=4;      // mm — legend line
   var GAP=1;        // mm — gaps between sections
-  var TABLE_H=PH-TITLE_H-STAT_H-LEG_H-GAP*3; // ~168mm for main table
+  // 統計表兩行標題實際約 24mm、圖例圖示約 8mm，比預估高；多留 8mm，避免圖例被擠到第二頁（2026-11-27）
+  var TABLE_H=PH-TITLE_H-STAT_H-LEG_H-GAP*3-8; // ~157mm（內容會再撐高 2–4mm）
   // Column widths: drCol = 1.8 × astCol
-  var astWmm=PW/(6*(nc+1.8));
+  // 每天要列的助理：整天劃休且沒派班、沒請假的不列（2026-11-27）
+  function pDayCols(d){
+    if(d===null||isOff(d,m))return[];
+    var open=[0,1,2].filter(function(si){return getSess(d,m)[si];});
+    return cols.filter(function(a){
+      var busy=open.some(function(si){
+        return getAllSlotKeys(d,m,si).some(function(k){return getAsgn(k)===a.id;})||getSickAids(d,m,si).indexOf(a.id)>=0;
+      });
+      if(busy)return true;
+      return !open.every(function(si){return isBlocked(a.id,d,m,si);});
+    });
+  }
+  // 欄寬以「最多人那天」計算；人少的那天助理格自動變寬
+  var ncMax=0;
+  for(var dd2=1;dd2<=days;dd2++){var nn=pDayCols(dd2).length;if(nn>ncMax)ncMax=nn;}
+  if(ncMax<1)ncMax=1;
+  var astWmm=PW/(6*(ncMax+1.8));
   var drWmm=astWmm*1.8;
   // Row heights: each week = 1 date hdr (×1.1) + 1 asst hdr (×0.75) + 3 session rows
   // total units per week = 1.1 + 0.75 + 3 = 4.85, × 6 = 29.1
@@ -4294,6 +4311,9 @@ function buildMoGridHTML(){
   html+='.ttl{text-align:center;font-weight:700;font-size:9pt;height:'+TITLE_H+'mm;line-height:'+TITLE_H+'mm;}';
   html+='table.main{border-collapse:collapse;width:'+PW+'mm;height:'+TABLE_H+'mm;table-layout:fixed;}';
   html+='td{border:0.3pt solid #bbb;text-align:center;overflow:hidden;white-space:nowrap;padding:0;vertical-align:middle;}';
+  html+='td.wk{border:0;padding:0;vertical-align:top;}';
+  html+='table.day{border-collapse:collapse;width:100%;table-layout:fixed;border:0.6pt solid #888;}';
+  html+='table.day td{border:0.3pt solid #bbb;}';
   html+='.hd{font-weight:700;font-size:'+fptHd+'pt;}';
   html+='.ha{font-weight:700;font-size:'+(fpt*0.82)+'pt;}';
   html+='.dr{font-weight:700;font-size:'+(fpt*0.88)+'pt;white-space:normal;line-height:1.1;}';
@@ -4303,18 +4323,17 @@ function buildMoGridHTML(){
   html+='</style></head><body>';
   var mname=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'][m];
   html+='<div class="ttl">'+Y+'年'+mname+'排班總覽</div>';
-  // Colgroup: 6 slots × (1 dr + nc asst) cols
+  // 每天只列當天要顯示的助理：整天劃休（當天開診時段全勾不能上班）且沒派班、沒請假的人不列（2026-11-27）
+  // 每天一個小表格（欄數各自不同），欄位仍照助理名單順序
+  var weekH=dateHdrH+astHdrH+sessHmm*3;
+  var dayWmm=PW/6;
   html+='<table class="main"><colgroup>';
-  for(var i=0;i<6;i++){
-    html+='<col style="width:'+drWmm.toFixed(2)+'mm;">';
-    for(var j=0;j<nc;j++) html+='<col style="width:'+astWmm.toFixed(2)+'mm;">';
-  }
+  for(var i=0;i<6;i++) html+='<col style="width:'+dayWmm.toFixed(2)+'mm;">';
   html+='</colgroup>';
   groups.forEach(function(g){
-    // Date header row
-    html+='<tr style="height:'+dateHdrH.toFixed(2)+'mm;">';
+    html+='<tr style="height:'+weekH.toFixed(2)+'mm;">';
     g.forEach(function(d){
-      if(d===null){html+='<td colspan="'+(nc+1)+'" style="'+EMPTY_S+'"></td>';return;}
+      if(d===null){html+='<td class="wk" style="'+EMPTY_S+'"></td>';return;}
       var dow=(first+d-1)%7,off=isOff(d,m);
       var isSun=dow===0,isSat=dow===6;
       // 週日紅、週六藍、平日深色；休診一律灰
@@ -4326,36 +4345,35 @@ function buildMoGridHTML(){
         var ebg=dayEventBgColor(ev.type),efg=dayEventTextColor(ev.type);
         evHtml+='<span style="display:inline-block;font-size:'+(fptHd*0.95)+'pt;font-weight:700;padding:0 3pt;margin-left:2pt;border-radius:2pt;background:'+ebg+';color:'+efg+';">'+escHtml(dayEventLabel(ev))+'</span>';
       });
-      html+='<td colspan="'+(nc+1)+'" class="hd" style="background:'+dateBg+';color:'+dateColor+';text-align:left;padding-left:2pt;">'+(m+1)+'/'+d+'('+WL[dow]+')'+( off?' 休':'')+evHtml+'</td>';
-    });
-    html+='</tr>';
-    // Assistant header row (shorter)
-    html+='<tr style="height:'+astHdrH.toFixed(2)+'mm;">';
-    g.forEach(function(d){
-      if(d===null){
-        html+='<td style="'+EMPTY_S+'"></td>';
-        for(var j=0;j<nc;j++) html+='<td style="'+EMPTY_S+'"></td>';
+      var dc=pDayCols(d);
+      html+='<td class="wk"><table class="day" style="height:'+weekH.toFixed(2)+'mm;"><colgroup>';
+      if(off||!dc.length){
+        html+='<col></colgroup>';
+      }else{
+        html+='<col style="width:'+drWmm.toFixed(2)+'mm;">';
+        dc.forEach(function(){html+='<col>';});
+        html+='</colgroup>';
+      }
+      var span=(off||!dc.length)?1:dc.length+1;
+      html+='<tr style="height:'+dateHdrH.toFixed(2)+'mm;"><td colspan="'+span+'" class="hd" style="background:'+dateBg+';color:'+dateColor+';text-align:left;padding-left:2pt;">'+(m+1)+'/'+d+'('+WL[dow]+')'+(off?' 休':'')+evHtml+'</td></tr>';
+      if(off){
+        html+='<tr style="height:'+(astHdrH+sessHmm*3).toFixed(2)+'mm;"><td style="background:#f0f0f0;color:#888;font-weight:700;font-size:'+fptHd+'pt;">休診</td></tr>';
+        html+='</table></td>';
         return;
       }
-      var off=isOff(d,m),bg=off?'#ebebeb':'#eef3fa';
-      html+='<td class="ha" style="background:'+bg+';">醫師</td>';
-      cols.forEach(function(a){html+='<td class="ha" style="background:'+bg+';color:'+a.color+';">'+a.ab+'</td>';});
-    });
-    html+='</tr>';
-    // Always render all 3 session rows (fixed grid height)
-    [0,1,2].forEach(function(si){
-      html+='<tr style="height:'+sessHmm.toFixed(2)+'mm;">';
-      g.forEach(function(d){
-        if(d===null){
-          html+='<td style="'+EMPTY_S+'"></td>';
-          for(var j=0;j<nc;j++) html+='<td style="'+EMPTY_S+'"></td>';
-          return;
-        }
-        var off=isOff(d,m),hasSess=!off&&getSess(d,m)[si];
+      var bg='#eef3fa';
+      // 助理標題列
+      html+='<tr style="height:'+astHdrH.toFixed(2)+'mm;"><td class="ha" style="background:'+bg+';">醫師</td>';
+      dc.forEach(function(a){html+='<td class="ha" style="background:'+bg+';color:'+a.color+';">'+a.ab+'</td>';});
+      html+='</tr>';
+      // 早／午／晚（固定三列，格子高度一致）
+      [0,1,2].forEach(function(si){
+        html+='<tr style="height:'+sessHmm.toFixed(2)+'mm;">';
+        var hasSess=getSess(d,m)[si];
         var drBg=hasSess?'#fffbf0':'#f0f0f0';
         html+='<td class="dr" style="background:'+drBg+';color:'+SI_COLOR[si]+';font-size:'+(fpt*0.82)+'pt;">'+
-          (off?'休':(hasSess?pDrNames(d,si):'—'))+'</td>';
-        cols.forEach(function(a){
+          (hasSess?pDrNames(d,si):'—')+'</td>';
+        dc.forEach(function(a){
           var cv=pCellVal(a.id,d,si);
           // 「不能上班」且未派班：灰底 + 清晰 SVG 對角線
           if(cv.leaveOnly){
@@ -4380,9 +4398,11 @@ function buildMoGridHTML(){
             html+='<td'+cellCls+' style="background:'+cv.bg+';'+conflictBorder+'">'+cellHtml+'</td>';
           }
         });
+        html+='</tr>';
       });
-      html+='</tr>';
+      html+='</table></td>';
     });
+    html+='</tr>';
   });
   html+='</table>';
 
@@ -4507,15 +4527,15 @@ function buildMoGridHTML(){
   legItems.forEach(function(it,idx){
     html+='<span style="display:inline-flex;align-items:center;gap:1.5pt;">';
     if(it.stack){
-      html+='<span style="display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:10pt;height:14pt;border:0.3pt solid #bbb;border-radius:1.5pt;background:linear-gradient(to bottom,#ffeaea 50%,#eafaea 50%);line-height:0.9;">'
-        +'<span style="font-size:6pt;font-weight:700;color:#c44;">△</span>'
-        +'<span style="font-size:5.5pt;font-weight:700;color:#0a6;">○</span></span>';
+      html+='<span style="display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:10pt;height:10pt;border:0.3pt solid #bbb;border-radius:1.5pt;background:linear-gradient(to bottom,#ffeaea 50%,#eafaea 50%);line-height:0.8;">'
+        +'<span style="font-size:4.5pt;font-weight:700;color:#c44;">△</span>'
+        +'<span style="font-size:4.5pt;font-weight:700;color:#0a6;">○</span></span>';
     } else if(it.leave){
       html+='<span style="display:inline-block;width:10pt;height:10pt;border:0.3pt solid #bbb;border-radius:1.5pt;background:#d8d8d8;position:relative;vertical-align:middle;"><svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 10 10"><line x1="0" y1="10" x2="10" y2="0" stroke="#888" stroke-width="0.8"/></svg></span>';
     } else {
       var content=it.htmlSym||it.sym;
-      var minW=it.htmlSym?'min-width:13pt':'width:10pt';
-      html+='<span style="display:inline-block;'+minW+';height:10pt;border:0.3pt solid #bbb;border-radius:1.5pt;background:'+it.bg+';text-align:center;line-height:10pt;font-size:5pt;font-weight:700;color:'+it.c+';padding:0 1pt;">'+content+'</span>';
+      var minW=it.htmlSym?'min-width:13pt':'min-width:10pt';
+      html+='<span style="display:inline-block;white-space:nowrap;'+minW+';height:10pt;border:0.3pt solid #bbb;border-radius:1.5pt;background:'+it.bg+';text-align:center;line-height:10pt;font-size:5pt;font-weight:700;color:'+it.c+';padding:0 1pt;">'+content+'</span>';
     }
     html+='<span>'+it.lb+'</span></span>';
     if(idx<legItems.length-1)html+='<span style="color:#ccc;">|</span>';
